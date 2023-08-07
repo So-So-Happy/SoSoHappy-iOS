@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        //window.rootViewController = ViewController() // 시작 VC 작성해주기
+        window.rootViewController = LoginViewController() // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }
