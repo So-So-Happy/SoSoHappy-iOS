@@ -16,6 +16,9 @@
 		800F427A2A794A6E00ACD6C1 /* SoSoHappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42792A794A6E00ACD6C1 /* SoSoHappyTests.swift */; };
 		800F42842A794A6E00ACD6C1 /* SoSoHappyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */; };
 		800F42862A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */; };
+		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
+		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
+		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0221220CF2CBAF485AFDD068 /* Pods-SoSoHappyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy_SoSoHappyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
+		53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
 		800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoSoHappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		800F42612A794A6D00ACD6C1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +58,9 @@
 		800F427F2A794A6E00ACD6C1 /* SoSoHappyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoSoHappyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITests.swift; sourceTree = "<group>"; };
 		800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +84,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		403C88CF55CF0D2A33042714 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */,
+				6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */,
+				3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */,
+				C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */,
+				0221220CF2CBAF485AFDD068 /* Pods-SoSoHappyTests.debug.xcconfig */,
+				DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		800F42532A794A6D00ACD6C1 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +112,8 @@
 				800F42782A794A6E00ACD6C1 /* SoSoHappyTests */,
 				800F42822A794A6E00ACD6C1 /* SoSoHappyUITests */,
 				800F425D2A794A6D00ACD6C1 /* Products */,
+				403C88CF55CF0D2A33042714 /* Pods */,
+				C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +158,16 @@
 			path = SoSoHappyUITests;
 			sourceTree = "<group>";
 		};
+		C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */,
+				156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */,
+				B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -134,9 +175,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F42892A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappy" */;
 			buildPhases = (
+				08EDBA7B8440C687AB6BFBAF /* [CP] Check Pods Manifest.lock */,
 				800F42582A794A6D00ACD6C1 /* Sources */,
 				800F42592A794A6D00ACD6C1 /* Frameworks */,
 				800F425A2A794A6D00ACD6C1 /* Resources */,
+				EC9E898B64AF22049FD863DF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -151,6 +194,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F428C2A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappyTests" */;
 			buildPhases = (
+				440849112F542DB7915FD0CD /* [CP] Check Pods Manifest.lock */,
 				800F42712A794A6E00ACD6C1 /* Sources */,
 				800F42722A794A6E00ACD6C1 /* Frameworks */,
 				800F42732A794A6E00ACD6C1 /* Resources */,
@@ -169,9 +213,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F428F2A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappyUITests" */;
 			buildPhases = (
+				B0D923359684CB5DE33B8966 /* [CP] Check Pods Manifest.lock */,
 				800F427B2A794A6E00ACD6C1 /* Sources */,
 				800F427C2A794A6E00ACD6C1 /* Frameworks */,
 				800F427D2A794A6E00ACD6C1 /* Resources */,
+				D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -251,6 +297,109 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08EDBA7B8440C687AB6BFBAF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SoSoHappy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		440849112F542DB7915FD0CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SoSoHappyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0D923359684CB5DE33B8966 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SoSoHappy-SoSoHappyUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC9E898B64AF22049FD863DF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		800F42582A794A6D00ACD6C1 /* Sources */ = {
@@ -424,6 +573,7 @@
 		};
 		800F428A2A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -453,6 +603,7 @@
 		};
 		800F428B2A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -482,6 +633,7 @@
 		};
 		800F428D2A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0221220CF2CBAF485AFDD068 /* Pods-SoSoHappyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -501,6 +653,7 @@
 		};
 		800F428E2A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -520,6 +673,7 @@
 		};
 		800F42902A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -537,6 +691,7 @@
 		};
 		800F42912A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
