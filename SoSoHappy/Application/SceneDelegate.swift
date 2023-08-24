@@ -20,11 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = CalendarViewController() // 시작 VC 작성해주기
+        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
+        window.rootViewController = mainVC // 시작 VC 작성해주기
+        // window.rootViewController = CalendarViewController() // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }
-
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.
