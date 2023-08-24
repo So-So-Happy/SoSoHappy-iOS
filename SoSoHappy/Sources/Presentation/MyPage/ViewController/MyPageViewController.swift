@@ -7,23 +7,45 @@
 
 import UIKit
 
-class MyPageViewController: UIViewController {
+final class MyPageViewController: UIViewController {
+    
+    private lazy var profileView = ProfileView()
+    private lazy var stackView = SettingStackView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
+    }
+}
 
-        // Do any additional setup after loading the view.
+extension MyPageViewController {
+    
+    func setup() {
+        setLayout()
+        setAttribute()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func setLayout() {
+        self.view.addSubviews(profileView, stackView)
+        self.view.backgroundColor = .white
+        
+        profileView.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.height.equalToSuperview().multipliedBy(0.35)
+        }
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(profileView.snp.bottom).offset(30)
+            $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(25)
+//            $0.height.equalToSuperview().multipliedBy(0.3)
+        }
+        
     }
-    */
-
+    
+    
+    func setAttribute() {
+        
+    }
 }

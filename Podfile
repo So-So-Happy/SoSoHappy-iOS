@@ -9,6 +9,9 @@ target 'SoSoHappy' do
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'DGCharts'
+  pod 'ImageSlideshow', '~> 1.9.0'
+  pod 'FSCalendar'
+  pod 'Then' 
 
   # Pods for SoSoHappy
 
@@ -20,5 +23,13 @@ target 'SoSoHappy' do
   target 'SoSoHappyUITests' do
     # Pods for testing
   end
-
+post_install do |installer|
+    installer.generated_projects.each do |project|
+          project.targets.each do |target|
+              target.build_configurations.each do |config|
+                  config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+               end
+          end
+   end
+end
 end
