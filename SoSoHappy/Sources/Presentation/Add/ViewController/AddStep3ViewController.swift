@@ -35,7 +35,6 @@ class AddStep3ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "BGgrayColor")
-        ㅌ
         setUpValue()
         setUpView()
         setConstraints()

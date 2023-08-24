@@ -7,13 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
-		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
-		67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */; };
-		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
-		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
-		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
-		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
 		060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060002A12A8CED1F0071E98C /* Ex+UIColor.swift */; };
 		060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE1982A83CFE000C60392 /* HappyListCell.swift */; };
 		060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE19C2A850A6500C60392 /* CategoryStackView.swift */; };
@@ -29,6 +22,13 @@
 		06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */; };
 		06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */; };
 		06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3F2A8FBED400A6765A /* PreviewView.swift */; };
+		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
+		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
+		67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */; };
+		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
+		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
+		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
+		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
 		67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4C2A8134D800C33988 /* Fonts.swift */; };
 		67E7DB512A81356A00C33988 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB502A81356A00C33988 /* Repository.swift */; };
@@ -53,7 +53,6 @@
 		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
 		67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 67E7DB972A81420400C33988 /* .swiftlint.yml */; };
-		67F92E2A2A8A0DA60087B2C5 /* TempViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67F92E292A8A0DA60087B2C5 /* TempViewController.swift */; };
 		800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */; };
 		800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42612A794A6D00ACD6C1 /* SceneDelegate.swift */; };
 		800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */; };
@@ -136,7 +135,6 @@
 		67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		67E7DB912A8138EB00C33988 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		67E7DB972A81420400C33988 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		67F92E292A8A0DA60087B2C5 /* TempViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempViewController.swift; sourceTree = "<group>"; };
 		6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
 		800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoSoHappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -242,7 +240,6 @@
 				67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */,
 				67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */,
 				6759875B2A892BA400910DCF /* AddStep3ViewController.swift */,
-				67F92E292A8A0DA60087B2C5 /* TempViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -954,8 +951,6 @@
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
-				67F92E2A2A8A0DA60087B2C5 /* TempViewController.swift in Sources */,
-				67E7DB4B2A8134CE00C33988 /* Extensions.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,

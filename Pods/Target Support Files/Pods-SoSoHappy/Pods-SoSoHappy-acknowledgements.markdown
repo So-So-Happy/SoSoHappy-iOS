@@ -1,7 +1,6 @@
 # Acknowledgements
 This application makes use of the following third party libraries:
 
-
 ## DGCharts
 
 Apache License
@@ -205,6 +204,7 @@ Apache License
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
 
 
 ## FSCalendar

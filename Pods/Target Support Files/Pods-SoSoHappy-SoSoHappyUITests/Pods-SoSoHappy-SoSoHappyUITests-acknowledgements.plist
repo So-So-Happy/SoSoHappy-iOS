@@ -221,6 +221,11 @@
 			<string>Apache License, Version 2.0</string>
 			<key>Title</key>
 			<string>DGCharts</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
 			<string>Copyright (c) 2013-2016 FSCalendar (https://github.com/WenchaoD/FSCalendar)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
