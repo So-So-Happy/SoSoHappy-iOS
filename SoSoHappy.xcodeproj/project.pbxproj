@@ -14,8 +14,22 @@
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
 		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
 		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
+		060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060002A12A8CED1F0071E98C /* Ex+UIColor.swift */; };
+		060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE1982A83CFE000C60392 /* HappyListCell.swift */; };
+		060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE19C2A850A6500C60392 /* CategoryStackView.swift */; };
+		060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE19E2A8540F000C60392 /* HappyListViewController .swift */; };
+		0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B32A90A9B10075B5A3 /* ProfileVIew.swift */; };
+		0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B52A90C88D0075B5A3 /* SettingCellView.swift */; };
+		0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B72A90CDCC0075B5A3 /* SettingStackView.swift */; };
+		0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9BB2A92654C0075B5A3 /* SetAppThemeViewController.swift */; };
+		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
+		06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */; };
+		06F6BA382A8DE85300A6765A /* Happy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA372A8DE85300A6765A /* Happy.swift */; };
+		06F6BA3A2A8E43E200A6765A /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA392A8E43E200A6765A /* CalendarView.swift */; };
+		06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */; };
+		06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */; };
+		06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3F2A8FBED400A6765A /* PreviewView.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
-		67E7DB4B2A8134CE00C33988 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4A2A8134CE00C33988 /* Extensions.swift */; };
 		67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4C2A8134D800C33988 /* Fonts.swift */; };
 		67E7DB512A81356A00C33988 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB502A81356A00C33988 /* Repository.swift */; };
 		67E7DB532A81357100C33988 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB522A81357100C33988 /* Network.swift */; };
@@ -72,6 +86,21 @@
 
 /* Begin PBXFileReference section */
 		0221220CF2CBAF485AFDD068 /* Pods-SoSoHappyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		060002A12A8CED1F0071E98C /* Ex+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
+		060DE1982A83CFE000C60392 /* HappyListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCell.swift; sourceTree = "<group>"; };
+		060DE19C2A850A6500C60392 /* CategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
+		060DE19E2A8540F000C60392 /* HappyListViewController .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HappyListViewController .swift"; sourceTree = "<group>"; };
+		0661C9B32A90A9B10075B5A3 /* ProfileVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVIew.swift; sourceTree = "<group>"; };
+		0661C9B52A90C88D0075B5A3 /* SettingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellView.swift; sourceTree = "<group>"; };
+		0661C9B72A90CDCC0075B5A3 /* SettingStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingStackView.swift; sourceTree = "<group>"; };
+		0661C9BB2A92654C0075B5A3 /* SetAppThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAppThemeViewController.swift; sourceTree = "<group>"; };
+		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
+		06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideView.swift; sourceTree = "<group>"; };
+		06F6BA372A8DE85300A6765A /* Happy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Happy.swift; sourceTree = "<group>"; };
+		06F6BA392A8E43E200A6765A /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
+		06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
+		06F6BA3F2A8FBED400A6765A /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy_SoSoHappyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,7 +113,6 @@
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		67E7DB4A2A8134CE00C33988 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		67E7DB4C2A8134D800C33988 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		67E7DB502A81356A00C33988 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		67E7DB522A81357100C33988 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -155,6 +183,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060DE1972A83CFA100C60392 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				060DE1982A83CFE000C60392 /* HappyListCell.swift */,
+				060DE19C2A850A6500C60392 /* CategoryStackView.swift */,
+				06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */,
+				06F6BA392A8E43E200A6765A /* CalendarView.swift */,
+				06F6BA3F2A8FBED400A6765A /* PreviewView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0661C9B22A90A81A0075B5A3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				0661C9B32A90A9B10075B5A3 /* ProfileVIew.swift */,
+				0661C9B52A90C88D0075B5A3 /* SettingCellView.swift */,
+				0661C9B72A90CDCC0075B5A3 /* SettingStackView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		403C88CF55CF0D2A33042714 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -280,7 +330,6 @@
 				67E7DB432A8131EA00C33988 /* Login */,
 				67E7DB3F2A8130F600C33988 /* Calender */,
 				67E7DB402A81318F00C33988 /* Chart */,
-				67E7DB412A81319900C33988 /* Feed */,
 				67E7DB422A8131A100C33988 /* MyPage */,
 			);
 			path = Presentation;
@@ -289,6 +338,7 @@
 		67E7DB3F2A8130F600C33988 /* Calender */ = {
 			isa = PBXGroup;
 			children = (
+				060DE1972A83CFA100C60392 /* View */,
 				67E7DB712A8137AA00C33988 /* Coordinator */,
 				67E7DB742A8137BB00C33988 /* ViewController */,
 				67E7DB852A81385C00C33988 /* ViewModel */,
@@ -320,6 +370,7 @@
 		67E7DB422A8131A100C33988 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				0661C9B22A90A81A0075B5A3 /* View */,
 				67E7DB782A8137D200C33988 /* Coordinator */,
 				67E7DB772A8137CF00C33988 /* ViewController */,
 				67E7DB8E2A8138C500C33988 /* ViewModel */,
@@ -340,7 +391,10 @@
 		67E7DB442A8133A500C33988 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				67E7DB4A2A8134CE00C33988 /* Extensions.swift */,
+				06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */,
+				060002A12A8CED1F0071E98C /* Ex+UIColor.swift */,
+				06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */,
+				06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -390,6 +444,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB592A8135FB00C33988 /* Entity.swift */,
+				06F6BA372A8DE85300A6765A /* Happy.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -470,6 +525,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB632A8136DF00C33988 /* CalenderViewController.swift */,
+				060DE19E2A8540F000C60392 /* HappyListViewController .swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -494,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB912A8138EB00C33988 /* MyPageViewController.swift */,
+				0661C9BB2A92654C0075B5A3 /* SetAppThemeViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -541,6 +598,7 @@
 		67E7DB852A81385C00C33988 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				67E7DB412A81319900C33988 /* Feed */,
 				67E7DB862A81386B00C33988 /* CalenderViewModel.swift */,
 			);
 			path = ViewModel;
@@ -889,7 +947,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
 				67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */,
+				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
@@ -898,31 +958,44 @@
 				67E7DB4B2A8134CE00C33988 /* Extensions.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
+				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
+				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */,
+				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
+				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
 				67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */,
 				67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */,
+				06F6BA3A2A8E43E200A6765A /* CalendarView.swift in Sources */,
+				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
 				67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
+				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
+				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* Entity.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* Interface.swift in Sources */,
+				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
+				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
+				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,
+				06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */,
+				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1099,6 +1172,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1129,6 +1203,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
