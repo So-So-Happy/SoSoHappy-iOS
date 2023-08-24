@@ -1,4 +1,7 @@
 PODS:
+  - DGCharts (5.0.0):
+    - DGCharts/Core (= 5.0.0)
+  - DGCharts/Core (5.0.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -9,6 +12,7 @@ PODS:
   - SwiftLint (0.52.4)
 
 DEPENDENCIES:
+  - DGCharts
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
   - SnapKit (~> 5.6.0)
@@ -16,6 +20,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - DGCharts
     - RxCocoa
     - RxRelay
     - RxSwift
@@ -23,12 +28,13 @@ SPEC REPOS:
     - SwiftLint
 
 SPEC CHECKSUMS:
+  DGCharts: 6e0cf2644e8f81ad13f04caa8bc18502870a1c54
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: 1cc5cd61ba9bacb2194e340aeb47a2a37fda00b3
 
-PODFILE CHECKSUM: 12fa88fffb3def7dababc03be2a7ff3db35b3d5e
+PODFILE CHECKSUM: 69d8f3cac346caadbbc8696154e4c2a87db4835d
 
 COCOAPODS: 1.11.3
