@@ -8,6 +8,8 @@ target 'SoSoHappy' do
   pod 'SwiftLint'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
+  pod 'ImageSlideshow', '~> 1.9.0'
+
   # Pods for SoSoHappy
 
   target 'SoSoHappyTests' do
