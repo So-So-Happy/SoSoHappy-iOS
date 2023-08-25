@@ -61,6 +61,13 @@
 		800F427A2A794A6E00ACD6C1 /* SoSoHappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42792A794A6E00ACD6C1 /* SoSoHappyTests.swift */; };
 		800F42842A794A6E00ACD6C1 /* SoSoHappyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */; };
 		800F42862A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */; };
+		80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFA2A989F850077048D /* LogInButtonStackView.swift */; };
+		80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */; };
+		80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFE2A98A0690077048D /* SignUpViewController.swift */; };
+		80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */; };
+		80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C032A98A1130077048D /* ImageEditButtonView.swift */; };
+		80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C052A98A14C0077048D /* NickNameStackView.swift */; };
+		80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C072A98A1780077048D /* SelfIntroductionStackView.swift */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -148,6 +155,13 @@
 		800F427F2A794A6E00ACD6C1 /* SoSoHappyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoSoHappyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITests.swift; sourceTree = "<group>"; };
 		800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		80380BFA2A989F850077048D /* LogInButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInButtonStackView.swift; sourceTree = "<group>"; };
+		80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDescriptionStackView.swift; sourceTree = "<group>"; };
+		80380BFE2A98A0690077048D /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpDescriptionStackView.swift; sourceTree = "<group>"; };
+		80380C032A98A1130077048D /* ImageEditButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditButtonView.swift; sourceTree = "<group>"; };
+		80380C052A98A14C0077048D /* NickNameStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameStackView.swift; sourceTree = "<group>"; };
+		80380C072A98A1780077048D /* SelfIntroductionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIntroductionStackView.swift; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -379,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB692A81370D00C33988 /* Coordinator */,
+				80380BF92A989F710077048D /* View */,
 				67E7DB6A2A81372100C33988 /* ViewController */,
 				67E7DB6B2A81373500C33988 /* ViewModel */,
 			);
@@ -474,6 +489,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB612A8136CF00C33988 /* LoginViewController.swift */,
+				80380BFE2A98A0690077048D /* SignUpViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -674,6 +690,27 @@
 				800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */,
 			);
 			path = SoSoHappyUITests;
+			sourceTree = "<group>";
+		};
+		80380BF92A989F710077048D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */,
+				80380BFA2A989F850077048D /* LogInButtonStackView.swift */,
+				80380C002A98A0BC0077048D /* SignUp */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		80380C002A98A0BC0077048D /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */,
+				80380C032A98A1130077048D /* ImageEditButtonView.swift */,
+				80380C052A98A14C0077048D /* NickNameStackView.swift */,
+				80380C072A98A1780077048D /* SelfIntroductionStackView.swift */,
+			);
+			path = SignUp;
 			sourceTree = "<group>";
 		};
 		C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */ = {
@@ -944,6 +981,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
 				67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
@@ -952,6 +990,7 @@
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
@@ -975,12 +1014,17 @@
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
+				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
+				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* Entity.swift in Sources */,
+				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* Interface.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
+				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
+				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
