@@ -6,6 +6,9 @@ PODS:
   - ImageSlideshow (1.9.2):
     - ImageSlideshow/Core (= 1.9.2)
   - ImageSlideshow/Core (1.9.2)
+  - ReactorKit (3.2.0):
+    - RxSwift (~> 6.0)
+    - WeakMapTable (~> 1.1)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
@@ -15,11 +18,13 @@ PODS:
   - SnapKit (5.6.0)
   - SwiftLint (0.52.4)
   - Then (3.0.0)
+  - WeakMapTable (1.2.0)
 
 DEPENDENCIES:
   - DGCharts
   - FSCalendar
   - ImageSlideshow (~> 1.9.0)
+  - ReactorKit
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
   - SnapKit (~> 5.6.0)
@@ -31,24 +36,28 @@ SPEC REPOS:
     - DGCharts
     - FSCalendar
     - ImageSlideshow
+    - ReactorKit
     - RxCocoa
     - RxRelay
     - RxSwift
     - SnapKit
     - SwiftLint
     - Then
+    - WeakMapTable
 
 SPEC CHECKSUMS:
   DGCharts: 6e0cf2644e8f81ad13f04caa8bc18502870a1c54
   FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
   ImageSlideshow: be305b54eaf2b2cfc7a7141c7c734605d44dc07d
+  ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SwiftLint: 1cc5cd61ba9bacb2194e340aeb47a2a37fda00b3
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
+  WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 3be498bba55b0f76ca3d99716b4e8da4259b3baa
+PODFILE CHECKSUM: 7a3dc2ff0507cf22eca83a85795d1b61f8ada1d9
 
 COCOAPODS: 1.11.3

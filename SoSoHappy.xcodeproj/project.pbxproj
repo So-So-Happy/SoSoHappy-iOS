@@ -40,16 +40,13 @@
 		67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB612A8136CF00C33988 /* LoginViewController.swift */; };
 		67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB632A8136DF00C33988 /* CalenderViewController.swift */; };
 		67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB652A8136EA00C33988 /* ChartViewController.swift */; };
-		67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB672A81370600C33988 /* FeedViewController.swift */; };
 		67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */; };
 		67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6F2A81379F00C33988 /* LoginViewModel.swift */; };
 		67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */; };
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
-		67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB812A81382100C33988 /* FeedCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
 		67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB862A81386B00C33988 /* CalenderViewModel.swift */; };
 		67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB892A81389C00C33988 /* ChartViewModel.swift */; };
-		67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8C2A8138BD00C33988 /* FeedViewModel.swift */; };
 		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
 		67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 67E7DB972A81420400C33988 /* .swiftlint.yml */; };
@@ -84,6 +81,7 @@
 		80380C352A98DFF00077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C342A98DFF00077048D /* DMListViewController.swift */; };
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
+		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -205,6 +203,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */,
+				80380C3F2A98ED780077048D /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +869,9 @@
 			dependencies = (
 			);
 			name = SoSoHappy;
+			packageProductDependencies = (
+				80380C3E2A98ED780077048D /* MessageKit */,
+			);
 			productName = SoSoHappy;
 			productReference = 800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */;
 			productType = "com.apple.product-type.application";
@@ -945,6 +947,9 @@
 				Base,
 			);
 			mainGroup = 800F42532A794A6D00ACD6C1;
+			packageReferences = (
+				80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			productRefGroup = 800F425D2A794A6D00ACD6C1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1111,7 +1116,6 @@
 			files = (
 				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
-				67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
@@ -1129,7 +1133,6 @@
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
-				67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
@@ -1138,7 +1141,6 @@
 				06F6BA3A2A8E43E200A6765A /* CalendarView.swift in Sources */,
 				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
 				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
-				67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
@@ -1519,6 +1521,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80380C3E2A98ED780077048D /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */ = {
