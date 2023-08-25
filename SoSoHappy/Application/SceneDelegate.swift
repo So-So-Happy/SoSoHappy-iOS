@@ -20,7 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = LoginViewController() // 시작 VC 작성해주기
+//        window.rootViewController = Test() // 시작 VC 작성해주기
+        let mainVC = UINavigationController(rootViewController: DMChattingViewController())
+        window.rootViewController = mainVC// 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }
