@@ -13,7 +13,9 @@ import Then
 // uipageViewController 사용?
 final class CalendarViewController: UIViewController {
     
-    // dummy data
+    
+    // MARK: - Properties
+    
     let happyListData: [Happy] = [
         Happy(date: "2023-08-06", happinessRate: 20),
         Happy(date: "2023-08-01", happinessRate: 40),
@@ -23,12 +25,17 @@ final class CalendarViewController: UIViewController {
     ]
     
     private lazy var calendar = FSCalendar()
-    private lazy var previousButton = UIButton()
     
-    private lazy var nextButton = UIButton().then({
+    private lazy var previousButton = UIButton().then({
         let image = UIImage(named: "previousButton")
         $0.setImage(image, for: .normal)
         $0.addTarget(self, action: #selector(prevCurrentPage), for: .touchUpInside)
+    })
+    
+    private lazy var nextButton = UIButton().then({
+        let image = UIImage(named: "nextButton")
+        $0.setImage(image, for: .normal)
+        $0.addTarget(self, action: #selector(nextCurrentPage), for: .touchUpInside)
     })
 
     private lazy var alarmButton = UIButton().then {
@@ -188,17 +195,6 @@ private extension CalendarViewController {
         preview.backgroundColor = .white
         preview.layer.cornerRadius = 10
         
-        previousButton = previousButton.then({
-            let image = UIImage(named: "previousButton")
-            $0.setImage(image, for: .normal)
-            $0.addTarget(self, action: #selector(prevCurrentPage), for: .touchUpInside)
-        })
-        
-        nextButton = nextButton.then({
-            let image = UIImage(named: "nextButton")
-            $0.setImage(image, for: .normal)
-            $0.addTarget(self, action: #selector(nextCurrentPage), for: .touchUpInside)
-        })
     }
 }
 
