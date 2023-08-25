@@ -9,7 +9,9 @@ target 'SoSoHappy' do
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
   pod 'ImageSlideshow', '~> 1.9.0'
-
+  pod 'FSCalendar'
+  pod 'Then' 
+  pod 'ReactorKit'
   # Pods for SoSoHappy
 
   target 'SoSoHappyTests' do
