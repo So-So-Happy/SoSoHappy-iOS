@@ -40,6 +40,21 @@
 		800F427A2A794A6E00ACD6C1 /* SoSoHappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42792A794A6E00ACD6C1 /* SoSoHappyTests.swift */; };
 		800F42842A794A6E00ACD6C1 /* SoSoHappyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */; };
 		800F42862A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */; };
+		80380BD52A9894C10077048D /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BD42A9894C10077048D /* FeedHeaderView.swift */; };
+		80380BD72A9895BA0077048D /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BD62A9895BA0077048D /* FeedCell.swift */; };
+		80380BD92A98960D0077048D /* ProfileImageWithBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BD82A98960D0077048D /* ProfileImageWithBackgroundView.swift */; };
+		80380BDD2A9897D30077048D /* OwnerFeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BDC2A9897D30077048D /* OwnerFeedHeaderView.swift */; };
+		80380BDF2A98981F0077048D /* OwnerFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BDE2A98981F0077048D /* OwnerFeedCell.swift */; };
+		80380BE12A9898670077048D /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BE02A9898670077048D /* FeedDetailViewController.swift */; };
+		80380BE32A9898A00077048D /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BE22A9898A00077048D /* Ex+UILabel.swift */; };
+		80380BE72A98995D0077048D /* OwnerFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BE62A98995D0077048D /* OwnerFeedViewController.swift */; };
+		80380BE92A989A200077048D /* NickNameRecentMessageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BE82A989A200077048D /* NickNameRecentMessageStackView.swift */; };
+		80380BEB2A989A830077048D /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BEA2A989A830077048D /* Ex+UIStackView.swift */; };
+		80380BED2A989AE10077048D /* RecentTimeMessageCountStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BEC2A989AE10077048D /* RecentTimeMessageCountStackView.swift */; };
+		80380BEF2A989B100077048D /* DMListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BEE2A989B100077048D /* DMListCell.swift */; };
+		80380BF32A989B9C0077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BF22A989B9C0077048D /* DMListViewController.swift */; };
+		80380BF52A989BEC0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BF42A989BEC0077048D /* DMChattingViewController.swift */; };
+		80380BF82A989C360077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380BF72A989C360077048D /* MessageKit */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -106,6 +121,20 @@
 		800F427F2A794A6E00ACD6C1 /* SoSoHappyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoSoHappyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITests.swift; sourceTree = "<group>"; };
 		800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		80380BD42A9894C10077048D /* FeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderView.swift; sourceTree = "<group>"; };
+		80380BD62A9895BA0077048D /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		80380BD82A98960D0077048D /* ProfileImageWithBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageWithBackgroundView.swift; sourceTree = "<group>"; };
+		80380BDC2A9897D30077048D /* OwnerFeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedHeaderView.swift; sourceTree = "<group>"; };
+		80380BDE2A98981F0077048D /* OwnerFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedCell.swift; sourceTree = "<group>"; };
+		80380BE02A9898670077048D /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
+		80380BE22A9898A00077048D /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
+		80380BE62A98995D0077048D /* OwnerFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedViewController.swift; sourceTree = "<group>"; };
+		80380BE82A989A200077048D /* NickNameRecentMessageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameRecentMessageStackView.swift; sourceTree = "<group>"; };
+		80380BEA2A989A830077048D /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
+		80380BEC2A989AE10077048D /* RecentTimeMessageCountStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTimeMessageCountStackView.swift; sourceTree = "<group>"; };
+		80380BEE2A989B100077048D /* DMListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListCell.swift; sourceTree = "<group>"; };
+		80380BF22A989B9C0077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
+		80380BF42A989BEC0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */,
+				80380BF82A989C360077048D /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +269,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB732A8137B500C33988 /* Coordinator */,
+				80380BD32A9894A60077048D /* View */,
 				67E7DB762A8137C800C33988 /* ViewController */,
 				67E7DB8B2A8138A700C33988 /* ViewModel */,
 			);
@@ -269,6 +300,8 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB4A2A8134CE00C33988 /* Extensions.swift */,
+				80380BE22A9898A00077048D /* Ex+UILabel.swift */,
+				80380BEA2A989A830077048D /* Ex+UIStackView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -414,6 +447,9 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB672A81370600C33988 /* FeedViewController.swift */,
+				80380BE02A9898670077048D /* FeedDetailViewController.swift */,
+				80380BE42A9899180077048D /* OwnerFeed */,
+				80380BE52A9899360077048D /* DM */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -549,6 +585,54 @@
 			path = SoSoHappyUITests;
 			sourceTree = "<group>";
 		};
+		80380BD32A9894A60077048D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				80380BD42A9894C10077048D /* FeedHeaderView.swift */,
+				80380BD62A9895BA0077048D /* FeedCell.swift */,
+				80380BD82A98960D0077048D /* ProfileImageWithBackgroundView.swift */,
+				80380BDA2A9897790077048D /* OwnerFeed */,
+				80380BDB2A98979B0077048D /* DM */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		80380BDA2A9897790077048D /* OwnerFeed */ = {
+			isa = PBXGroup;
+			children = (
+				80380BDC2A9897D30077048D /* OwnerFeedHeaderView.swift */,
+				80380BDE2A98981F0077048D /* OwnerFeedCell.swift */,
+			);
+			path = OwnerFeed;
+			sourceTree = "<group>";
+		};
+		80380BDB2A98979B0077048D /* DM */ = {
+			isa = PBXGroup;
+			children = (
+				80380BE82A989A200077048D /* NickNameRecentMessageStackView.swift */,
+				80380BEC2A989AE10077048D /* RecentTimeMessageCountStackView.swift */,
+				80380BEE2A989B100077048D /* DMListCell.swift */,
+			);
+			path = DM;
+			sourceTree = "<group>";
+		};
+		80380BE42A9899180077048D /* OwnerFeed */ = {
+			isa = PBXGroup;
+			children = (
+				80380BE62A98995D0077048D /* OwnerFeedViewController.swift */,
+			);
+			path = OwnerFeed;
+			sourceTree = "<group>";
+		};
+		80380BE52A9899360077048D /* DM */ = {
+			isa = PBXGroup;
+			children = (
+				80380BF22A989B9C0077048D /* DMListViewController.swift */,
+				80380BF42A989BEC0077048D /* DMChattingViewController.swift */,
+			);
+			path = DM;
+			sourceTree = "<group>";
+		};
 		C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,6 +662,9 @@
 			dependencies = (
 			);
 			name = SoSoHappy;
+			packageProductDependencies = (
+				80380BF72A989C360077048D /* MessageKit */,
+			);
 			productName = SoSoHappy;
 			productReference = 800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */;
 			productType = "com.apple.product-type.application";
@@ -653,6 +740,9 @@
 				Base,
 			);
 			mainGroup = 800F42532A794A6D00ACD6C1;
+			packageReferences = (
+				80380BF62A989C360077048D /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			productRefGroup = 800F425D2A794A6D00ACD6C1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -817,17 +907,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80380BDD2A9897D30077048D /* OwnerFeedHeaderView.swift in Sources */,
 				67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
+				80380BE92A989A200077048D /* NickNameRecentMessageStackView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
 				67E7DB4B2A8134CE00C33988 /* Extensions.swift in Sources */,
+				80380BD72A9895BA0077048D /* FeedCell.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				80380BF32A989B9C0077048D /* DMListViewController.swift in Sources */,
+				80380BEF2A989B100077048D /* DMListCell.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
+				80380BD92A98960D0077048D /* ProfileImageWithBackgroundView.swift in Sources */,
+				80380BD52A9894C10077048D /* FeedHeaderView.swift in Sources */,
+				80380BEB2A989A830077048D /* Ex+UIStackView.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
+				80380BDF2A98981F0077048D /* OwnerFeedCell.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
+				80380BE12A9898670077048D /* FeedDetailViewController.swift in Sources */,
 				67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
 				67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */,
@@ -836,12 +936,16 @@
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* Entity.swift in Sources */,
+				80380BF52A989BEC0077048D /* DMChattingViewController.swift in Sources */,
+				80380BED2A989AE10077048D /* RecentTimeMessageCountStackView.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* Interface.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
+				80380BE72A98995D0077048D /* OwnerFeedViewController.swift in Sources */,
 				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
+				80380BE32A9898A00077048D /* Ex+UILabel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 			);
@@ -1181,6 +1285,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80380BF62A989C360077048D /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80380BF72A989C360077048D /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80380BF62A989C360077048D /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */ = {
