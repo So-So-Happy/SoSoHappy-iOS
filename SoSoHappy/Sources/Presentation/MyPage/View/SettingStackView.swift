@@ -10,6 +10,7 @@ import SnapKit
 
 final class SettingStackView: UIView {
     
+    // MARK: - Properties 
     private lazy var alarmCell = SettingCellView()
     private lazy var darkmodeCell = SettingCellView()
     private lazy var languageCell = SettingCellView()
@@ -43,9 +44,10 @@ final class SettingStackView: UIView {
 
 extension SettingStackView {
     
+    // MARK: - Update UI & Layout
+    
     func setup() {
         setLayout()
-        setAttribute()
         setUI()
     }
     
@@ -62,9 +64,6 @@ extension SettingStackView {
         addCells(views: views)
     }
     
-    func setAttribute() {
-        
-    }
     
     func setUI() {
         alarmCell.setUI(imageName: "alarm", text: "알림")
