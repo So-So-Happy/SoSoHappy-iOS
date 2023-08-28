@@ -8,48 +8,31 @@
 import UIKit
 import SnapKit
 import AuthenticationServices
+import Then
 
 final class LogInButtonStackView: UIView {
-    private lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(axis: .vertical,
-                                    alignment: .fill,
-                                    distribution: .fillEqually,
-                                    spacing: 10
-        )
-        return stackView
-    }()
+    private lazy var buttonStackView = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fillEqually,
+        spacing: 10
+    )
     
-    private lazy var googleLoginButton: UIButton = {
-        let button = UIButton()
+    private lazy var googleLoginButton = UIButton().then {
         let image = UIImage(named: "googlelogin")
-        button.setImage(image, for: .normal)
-        button.snp.makeConstraints { make in
-            make.height.equalTo(46)
-        }
-        return button
-    }()
+        $0.setImage(image, for: .normal)
+    }
     
-    private lazy var kakaoLoginButton: UIButton = {
-        let button = UIButton()
+    private lazy var kakaoLoginButton = UIButton().then {
         let image = UIImage(named: "kakotalklogin")
-        button.setImage(image, for: .normal)
-        button.snp.makeConstraints { make in
-            make.height.equalTo(46)
-        }
-        return button
-    }()
+        $0.setImage(image, for: .normal)
+    }
     
-    private lazy var appleLoginButton: ASAuthorizationAppleIDButton = {
-        let button = ASAuthorizationAppleIDButton(type: .continue, style: .black)
-        button.snp.makeConstraints { make in
-            make.height.equalTo(46)
-        }
-        return button
-    }()
+    private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setLogInStackView()
+        setupStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -58,10 +41,16 @@ final class LogInButtonStackView: UIView {
 }
 
 extension LogInButtonStackView {
-    private func setLogInStackView() {
+    private func setupStackView() {
         addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        // 각 버튼의 높이 46 고정
+        for button in [googleLoginButton, kakaoLoginButton, appleLoginButton] {
+            button.snp.makeConstraints { make in
+                make.height.equalTo(46)
+            }
         }
         
         buttonStackView.addArrangedSubview(googleLoginButton)
