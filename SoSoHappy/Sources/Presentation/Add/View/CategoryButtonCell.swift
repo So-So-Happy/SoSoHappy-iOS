@@ -7,10 +7,15 @@
 
 import UIKit
 import SnapKit
+import Then
 
-class CategoryButtonCell: UICollectionViewCell {
+final class CategoryButtonCell: UICollectionViewCell {
     
-    let button = UIButton()
+    private lazy var button = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.contentMode = .scaleAspectFit
+        $0.addTarget(self, action: #selector(categoryButtonTapped(_:)), for: .touchUpInside)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,10 +27,7 @@ class CategoryButtonCell: UICollectionViewCell {
     }
     
     private func setUpButton() {
-        button.backgroundColor = .clear
-        button.contentMode = .scaleAspectFit
         contentView.addSubview(button)
-        button.addTarget(self, action: #selector(categoryButtonTapped(_:)), for: .touchUpInside)
         
         button.snp.makeConstraints { make in
             make.edges.equalToSuperview()
