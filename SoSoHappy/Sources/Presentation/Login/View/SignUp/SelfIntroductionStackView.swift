@@ -7,47 +7,48 @@
 
 import UIKit
 import SnapKit
+import Then
 
-class SelfIntroductionStackView: UIView {
-    private lazy var selfIntroductionView: UIStackView = {
-        let view = UIStackView(axis: .vertical, alignment: .fill, distribution: .fill, spacing: 4)
-        return view
-    }()
+/*
+ 1. textfield 입력 처리
+    - 최대 60자
+ */
+
+final class SelfIntroductionStackView: UIView {
+    private lazy var selfIntroductionView = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 4
+    )
     
-    private lazy var selfIntroductionGuideLabel: UILabel = {
-        let label = UILabel()
-        label.text = "한 줄 소개를 입력해주세요."
-        label.textColor = .darkGray
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 15, weight: .light)
-        return label
-    }()
+    private lazy var selfIntroductionGuideLabel = UILabel().then {
+        $0.text = "한 줄 소개를 입력해주세요."
+        $0.textColor = .darkGray
+        $0.textAlignment = .left
+        $0.font = .systemFont(ofSize: 15, weight: .light)
+    }
 
-    private lazy var selfIntroductionTextField: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .white
+    private lazy var selfIntroductionTextField = UITextView().then {
+        $0.backgroundColor = .white
         // clear button?
-        textView.font = UIFont.systemFont(ofSize: 14)
-        textView.layer.cornerRadius = 8
-        textView.snp.makeConstraints { make in
+        $0.font = UIFont.systemFont(ofSize: 14)
+        $0.layer.cornerRadius = 8
+        $0.snp.makeConstraints { make in
             make.height.equalTo(90)
         }
-        return textView
-    }()
+    }
     
-    private var textCountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "0 / 60"
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .lightGray
-        label.textAlignment = .right
-        return label
-    }()
+    private var textCountLabel = UILabel().then {
+        $0.text = "0 / 60"
+        $0.font = UIFont.systemFont(ofSize: 13)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+    }
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setSelfIntroductionView()
+        setupStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -55,7 +56,7 @@ class SelfIntroductionStackView: UIView {
     }
 }
 extension SelfIntroductionStackView {
-    private func setSelfIntroductionView() {
+    private func setupStackView() {
         addSubview(selfIntroductionView)
         selfIntroductionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

@@ -7,55 +7,53 @@
 
 import UIKit
 import SnapKit
+import Then
 
-class AppDescriptionStackView: UIView {
-    lazy var appDescriptionStackView: UIStackView = {
-        let stackView = UIStackView(axis: .vertical,
-                                    alignment: .center,
-                                    distribution: .fill,
-                                    spacing: 28
-        )
-        return stackView
-    }()
+/*
+ 1.appDescriptionStackView layout 준거 한번만 더 고민해보기 (intrinsicContentSize)
+ */
+
+final class AppDescriptionStackView: UIView {
+    // MARK: - UI Components
+    lazy var appDescriptionStackView = UIStackView(
+        axis: .vertical,
+        alignment: .center,
+        distribution: .fill,
+        spacing: 28
+    )
     
-    private lazy var appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "소소해피"
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 36, weight: .bold)
-        label.setLineSpacing(kernValue: 9, alignment: .center)
-        return label
-    }()
+    private lazy var appNameLabel = UILabel().then {
+        $0.text = "소소해피"
+        $0.textColor = .darkGray
+        $0.font = .systemFont(ofSize: 36, weight: .bold)
+        $0.setLineSpacing(kernValue: 9, alignment: .center)
+    }
     
-    private lazy var appDescription: UILabel = {
-        let label = UILabel()
-        label.text = "소확행을 모아 대확행을 만든다.\n하루하루 소소한 행복을 찾아 기록해보세요 :)"
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 15, weight: .light)
-        label.numberOfLines = 2
-        label.setLineSpacing(lineSpacing: 8, alignment: .center)
-        return label
-    }()
+    private lazy var appDescription = UILabel().then {
+        $0.text = "소확행을 모아 대확행을 만든다.\n하루하루 소소한 행복을 찾아 기록해보세요 :)"
+        $0.textColor = .darkGray
+        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.numberOfLines = 2
+        $0.setLineSpacing(lineSpacing: 8, alignment: .center)
+    }
     
-    private lazy var circleView: UIView = {
-        let view = UIView()
+    private lazy var circleView = UIView().then {
         for i in 0...2 {
             let layer: CALayer = CALayer()
             layer.frame = .init(x: 26 * i, y: 0, width: 3, height: 3)
             layer.backgroundColor = UIColor.orange.cgColor
             layer.cornerRadius = 1.5
-            view.layer.addSublayer(layer)
+            $0.layer.addSublayer(layer)
         }
-        view.snp.makeConstraints { make in
+        $0.snp.makeConstraints { make in
             make.height.equalTo(3)
             make.width.equalTo(55)
         }
-        return view
-    }()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setAppDescriptionStackView()
+        setupStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -64,7 +62,7 @@ class AppDescriptionStackView: UIView {
 }
 
 extension AppDescriptionStackView {
-    private func setAppDescriptionStackView() {
+    private func setupStackView() {
         addSubview(appDescriptionStackView)
         appDescriptionStackView.snp.makeConstraints { make in
             make.width.equalTo(appDescription.intrinsicContentSize.width)

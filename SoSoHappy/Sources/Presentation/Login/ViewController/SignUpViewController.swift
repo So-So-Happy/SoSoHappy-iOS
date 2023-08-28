@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import Then
 
 /*
  1. 프로플 이미지 설정 (갤러리 연결)
@@ -23,45 +24,37 @@ final class SignUpViewController: UIViewController {
     private lazy var profileImageEditButton = ImageEditButtonView()
     private lazy var nickNameSection = NickNameStackView()
     private lazy var selfIntroductionSection = SelfIntroductionStackView()
-    private lazy var signUpButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("시작하기", for: .normal)
-        button.titleLabel?.textColor = .white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.backgroundColor = UIColor(named: "buttonColor")
-        button.layer.cornerRadius = 8
-        
-        return button
-    }()
+    private lazy var signUpButton = UIButton().then {
+        $0.setTitle("시작하기", for: .normal)
+        $0.titleLabel?.textColor = .white
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        $0.backgroundColor = UIColor(named: "buttonColor")
+        $0.layer.cornerRadius = 8
+    }
     
-    private lazy var imagePickerController: UIImagePickerController = {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.sourceType = .photoLibrary
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-        return imagePickerController
-    }()
+    private lazy var imagePickerController = UIImagePickerController().then {
+        $0.sourceType = .photoLibrary
+        $0.delegate = self
+        $0.allowsEditing = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "backgroundColor")
-        addSubViews()
-        setConstraints()
+        setup()
         bindUI()
     }
 }
 
-//MARK: - Add Subviews & Constraints
+//MARK: -  Layout( Add Subviews, Constraints) & Attribute
 extension SignUpViewController {
-    private func addSubViews() {
-        self.view.addSubview(signUpDescriptionStackView)
-        self.view.addSubview(profileImageEditButton)
-        self.view.addSubview(nickNameSection)
-        self.view.addSubview(selfIntroductionSection)
-        self.view.addSubview(signUpButton)
+    private func setup() {
+        setLayout()
+        setAttribute()
     }
-    
-    private func setConstraints() {
+    // Add SubViews & Contstraints
+    private func setLayout() {
+        self.view.addSubviews(signUpDescriptionStackView, profileImageEditButton, nickNameSection, selfIntroductionSection, signUpButton)
+        
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(view.safeAreaLayoutGuide).inset(36)
@@ -91,6 +84,11 @@ extension SignUpViewController {
             make.width.equalTo(selfIntroductionSection)
             make.height.equalTo(44)
         }
+    }
+    
+    // ViewController의 전체적인 속성 설정
+    private func setAttribute() {
+        self.view.backgroundColor = UIColor(named: "backgroundColor")
     }
 }
 
