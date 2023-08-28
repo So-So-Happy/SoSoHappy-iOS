@@ -10,6 +10,7 @@ import SnapKit
 import Then
 
 final class AddStep1ViewController: UIViewController {
+    
     // MARK: - Properties
     private lazy var statusBarStack = UIStackView().then {
         $0.axis = .horizontal
