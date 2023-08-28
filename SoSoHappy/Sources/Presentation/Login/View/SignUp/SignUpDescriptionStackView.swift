@@ -6,39 +6,34 @@
 //
 
 import UIKit
+import Then
 
-class SignUpDescriptionStackView: UIView {
-    lazy var signUpDescriptionStackView: UIStackView = {
-        let stackView = UIStackView(axis: .vertical,
-                                    alignment: .center,
-                                    distribution: .fill,
-                                    spacing: 18
-        )
-        return stackView
-    }()
+final class SignUpDescriptionStackView: UIView {
+    private lazy var signUpDescriptionStackView = UIStackView(
+        axis: .vertical,
+        alignment: .center,
+        distribution: .fill,
+        spacing: 18
+    )
     
-    private lazy var appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "소소해피"
-        label.textColor = .darkGray
-        label.font = .systemFont(ofSize: 36, weight: .bold)
-        label.setLineSpacing(kernValue: 9, alignment: .center)
-        return label
-    }()
+    private lazy var appNameLabel = UILabel().then {
+        $0.text = "소소해피"
+        $0.textColor = .darkGray
+        $0.font = .systemFont(ofSize: 36, weight: .bold)
+        $0.setLineSpacing(kernValue: 9, alignment: .center)
+    }
     
-    private lazy var setProfileGuideLabel: UILabel = {
-        let label = UILabel()
-        label.text = "서비스 이용을 위해 프로필을 설정해주세요."
-        label.textColor = .darkGray
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15, weight: .light)
-        label.numberOfLines = 2
-        return label
-    }()
+    private lazy var setProfileGuideLabel = UILabel().then {
+        $0.text = "서비스 이용을 위해 프로필을 설정해주세요."
+        $0.textColor = .darkGray
+        $0.textAlignment = .center
+        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.numberOfLines = 2
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setSignUpDescriptionStackView()
+        setupStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +42,7 @@ class SignUpDescriptionStackView: UIView {
 }
 
 extension SignUpDescriptionStackView {
-    private func setSignUpDescriptionStackView() {
+    private func setupStackView() {
         addSubview(signUpDescriptionStackView)
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
