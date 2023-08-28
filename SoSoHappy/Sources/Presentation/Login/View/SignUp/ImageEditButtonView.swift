@@ -7,34 +7,33 @@
 
 import UIKit
 import SnapKit
+import Then
+
+/*
+ 1. private(set)이 적합한지 한번 더 고민해보기 - profileImageView
+ */
 
 final class ImageEditButtonView: UIView {
-    private lazy var backgroundCircleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 80
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        view.layer.borderWidth = 0.4
-        return view
-    }()
+    private lazy var backgroundCircleView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 80
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderWidth = 0.4
+    }
     
-    private(set) lazy var profileImageView: UIImageView = {
-        let imageView = UIImageView()
-//        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "profile")
-        imageView.layer.cornerRadius = 55
-        
-        return imageView
-    }()
+    private(set) lazy var profileImageView = UIImageView().then {
+//        $0.clipsToBounds = true
+        $0.contentMode = .scaleAspectFit
+        $0.image = UIImage(named: "profile")
+        $0.layer.cornerRadius = 55
+    }
     
-    private lazy var cameraIconView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "cameraColor")
-        view.layer.cornerRadius = 20
-        view.layer.borderColor = UIColor.white.cgColor
-        view.layer.borderWidth = 2
-        view.snp.makeConstraints { make in
+    private lazy var cameraIconView = UIView().then {
+        $0.backgroundColor = UIColor(named: "cameraColor")
+        $0.layer.cornerRadius = 20
+        $0.layer.borderColor = UIColor.white.cgColor
+        $0.layer.borderWidth = 2
+        $0.snp.makeConstraints { make in
             make.width.height.equalTo(40)
         }
         
@@ -45,17 +44,15 @@ final class ImageEditButtonView: UIView {
             make.width.height.equalTo(20)
         }
         
-        view.addSubview(imageView)
+        $0.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.centerX.centerY.equalToSuperview()
         }
-        return view
-    }()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubViews()
-        setConstraints()
+        setupStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -64,13 +61,11 @@ final class ImageEditButtonView: UIView {
 }
 
 private extension ImageEditButtonView {
-    private func addSubViews() {
+    private func setupStackView() {
         self.addSubview(backgroundCircleView)
         backgroundCircleView.addSubview(profileImageView)
         self.addSubview(cameraIconView)
-    }
     
-    private func setConstraints() {
         backgroundCircleView.snp.makeConstraints { make in
             make.size.equalTo(160)
             make.center.equalToSuperview()
