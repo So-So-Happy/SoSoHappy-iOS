@@ -53,7 +53,7 @@ final class AppDescriptionStackView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -62,7 +62,7 @@ final class AppDescriptionStackView: UIView {
 }
 
 extension AppDescriptionStackView {
-    private func setupStackView() {
+    private func setStackView() {
         addSubview(appDescriptionStackView)
         appDescriptionStackView.snp.makeConstraints { make in
             make.width.equalTo(appDescription.intrinsicContentSize.width)

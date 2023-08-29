@@ -52,7 +52,7 @@ final class ImageEditButtonView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setView()
     }
     
     required init?(coder: NSCoder) {
@@ -61,7 +61,7 @@ final class ImageEditButtonView: UIView {
 }
 
 private extension ImageEditButtonView {
-    private func setupStackView() {
+    private func setView() {
         self.addSubview(backgroundCircleView)
         backgroundCircleView.addSubview(profileImageView)
         self.addSubview(cameraIconView)
