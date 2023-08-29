@@ -32,7 +32,7 @@ final class LogInButtonStackView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +41,7 @@ final class LogInButtonStackView: UIView {
 }
 
 extension LogInButtonStackView {
-    private func setupStackView() {
+    private func setStackView() {
         addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
