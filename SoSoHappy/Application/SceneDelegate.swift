@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
 //        window.rootViewController = mainVC // 시작 VC 작성해주기
-        window.rootViewController = mainVC // 시작 VC 작성해주기
+        window.rootViewController = ChartViewController() // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }
