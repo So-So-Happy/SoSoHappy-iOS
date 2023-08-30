@@ -11,19 +11,19 @@ import SnapKit
 
 
 final class CategoryStackView: UIView {
+    var imageSize: CGFloat
     private var images: [String] = ["sohappy", "coffe", "donut"]
     private lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(imageSize: CGFloat = 30) {
+        self.imageSize = imageSize
+        super.init(frame: .zero)
         setupStackView()
         addImageViews(images: images)
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupStackView()
-        addImageViews(images: images)
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupStackView() {
@@ -41,7 +41,7 @@ extension CategoryStackView {
             let imageView = UIImageView(image: UIImage(named: imageName))
             imageView.contentMode = .scaleAspectFit
             imageView.snp.makeConstraints {
-                $0.width.height.equalTo(30)
+                $0.width.height.equalTo(imageSize) // 30
             }
             return imageView
         }
