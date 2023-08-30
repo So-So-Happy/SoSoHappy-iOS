@@ -14,19 +14,7 @@ import Then
  */
 
 final class ImageEditButtonView: UIView {
-    private lazy var backgroundCircleView = UIView().then {
-        $0.backgroundColor = .white
-        $0.layer.cornerRadius = 80
-        $0.layer.borderColor = UIColor.lightGray.cgColor
-        $0.layer.borderWidth = 0.4
-    }
-    
-    private(set) lazy var profileImageView = UIImageView().then {
-//        $0.clipsToBounds = true
-        $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(named: "profile")
-        $0.layer.cornerRadius = 55
-    }
+    private lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 160, profileImageViewwSize: 110)
     
     private lazy var cameraIconView = UIView().then {
         $0.backgroundColor = UIColor(named: "cameraColor")
@@ -60,19 +48,19 @@ final class ImageEditButtonView: UIView {
     }
 }
 
-private extension ImageEditButtonView {
+extension ImageEditButtonView {
     private func setView() {
-        self.addSubview(backgroundCircleView)
-        backgroundCircleView.addSubview(profileImageView)
-        self.addSubview(cameraIconView)
+        addSubviews()
+        setLayout()
+    }
     
-        backgroundCircleView.snp.makeConstraints { make in
-            make.size.equalTo(160)
-            make.center.equalToSuperview()
-        }
- 
-        profileImageView.snp.makeConstraints { make in
-            make.size.equalTo(110)
+    private func addSubviews() {
+        self.addSubview(profileImageWithBackgroundView)
+        self.addSubview(cameraIconView)
+    }
+    
+    private func setLayout() {
+        profileImageWithBackgroundView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         

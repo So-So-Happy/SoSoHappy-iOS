@@ -7,144 +7,104 @@
 
 import UIKit
 import SnapKit
-
-
-/*
- 1. tableView.tableHeaderView?.frame.size.height를 어떻게 설정해줄 것인지?
- 2. autolayout error 해결 필요
- */
+import Then
 
 final class OwnerFeedHeaderView: UIView {
     // MARK: - Properties
     // MARK: - UI Components
-    // 1. 프로필 이미지
-    private lazy var backgroundCircleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 60
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        view.layer.borderWidth = 0.4
-        return view
-    }()
-
-    private lazy var profileImageView: UIImageView = {
-        let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFit     //
-        imageview.image = UIImage(named: "profile")
-        imageview.layer.cornerRadius = 45
-
-        return imageview
-    }()
+    private lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 120, profileImageViewwSize: 90)
+    // 닉네임
+    private lazy var profileNickNameLabel = UILabel().then {
+        $0.textAlignment = .left
+        $0.font = .systemFont(ofSize: 22, weight: .bold)
+        $0.text = "소해피456789"
+    }
     
-//    private lazy var profileImagView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 120, profileImageViewwSize: 90)
+    // 자기소개
+    private lazy var profileSelfIntroduction = UILabel().then {
+        $0.font = .systemFont(ofSize: 14, weight: .light)
+        $0.textColor = .gray
+        $0.numberOfLines = 0
+        $0.text = "나는야 소해피. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !"
+//        $0.text = "나는야 소해피. !"
+        $0.setLineSpacing(lineSpacing: 4, alignment: .center)
+    }
     
-    // 2. 닉네임
-    private lazy var profileNickNameLabel: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "소해피456789"
-        return label
-    }()
+    // 3. DM 버튼 (2차 배포 보류)
+//    private lazy var dmButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("메시지", for: .normal)
+//        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+//        button.setTitleColor(.orange, for: .normal)
+//        button.layer.borderColor = UIColor.orange.cgColor
+//        button.layer.borderWidth = 1
+//        button.backgroundColor = .white
+//        button.layer.cornerRadius = 8
+//
+//        return button
+//    }()
     
-    // 2. 자기소개
-    private lazy var profileSelfIntroduction: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .light)
-        label.textColor = .gray
-        label.numberOfLines = 0
-        label.text = "나는야 소해피. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !"
-        label.setLineSpacing(lineSpacing: 4, alignment: .center)
-        
-        return label
-    }()
+    private lazy var dashImageView = UIImageView().then {
+        $0.image = UIImage(named: "line")
+    }
     
-    // 3. DM 버튼
-    private lazy var dmButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("메시지", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitleColor(.orange, for: .normal)
-        button.layer.borderColor = UIColor.orange.cgColor
-        button.layer.borderWidth = 1
-        button.backgroundColor = .white
-        button.layer.cornerRadius = 8
-
-        return button
-    }()
-    
-    // 4. 점선
-    private lazy var dashImageView: UIImageView = {
-        let image = UIImage(named: "line")
-        let imageView = UIImageView(image: image)
-        
-        return imageView
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("init ")
-//        backgroundColor = .green
-        addSubViews()
-        setConstraints()
+        setup()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 //MARK: - Add Subviews & Constraints
 extension OwnerFeedHeaderView {
+    private func setup() {
+        addSubViews()
+        setConstraints()
+    }
+    
     private func addSubViews() {
-        print("addSubViews")
-        addSubview(backgroundCircleView)
-        backgroundCircleView.addSubview(profileImageView)
+        addSubview(profileImageWithBackgroundView)
         addSubview(profileNickNameLabel)
         addSubview(profileSelfIntroduction)
-        addSubview(dmButton)
         addSubview(dashImageView)
+//        addSubview(dmButton)
     }
     
     private func setConstraints() {
-        print("setConstraints")
-        backgroundCircleView.snp.makeConstraints { make in
-            make.size.equalTo(120)
+        profileImageWithBackgroundView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalToSuperview().inset(20)
         }
-
-        profileImageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.height.width.equalTo(90)
-        }
-
+        
         profileNickNameLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(backgroundCircleView.snp.bottom).offset(24)
+            make.top.equalTo(profileImageWithBackgroundView.snp.bottom).offset(24)
         }
 
         profileSelfIntroduction.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(profileNickNameLabel.snp.bottom).offset(18)
-            make.width.equalTo(profileImageView.intrinsicContentSize.width)
+            make.width.equalTo(profileImageWithBackgroundView).multipliedBy(2)
         }
 
-        dmButton.snp.makeConstraints { make in
-            make.top.equalTo(profileSelfIntroduction.snp.bottom).offset(30)
-            make.centerX.equalToSuperview()
-            make.width.equalTo(160)
-            make.height.equalTo(34)
-        }
 
         dashImageView.snp.makeConstraints { make in
-            make.top.equalTo(dmButton.snp.bottom).offset(20)
+            make.top.equalTo(profileSelfIntroduction.snp.bottom).offset(20)
             make.height.equalTo(1.4)
-            make.leading.equalTo(safeAreaLayoutGuide).offset(16)
-            make.trailing.equalTo(safeAreaLayoutGuide).offset(-16)
-            make.bottom.equalToSuperview()
+            make.width.equalToSuperview().multipliedBy(0.85)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
         }
+        
+//        dmButton.snp.makeConstraints { make in
+//            make.top.equalTo(profileSelfIntroduction.snp.bottom).offset(30)
+//            make.centerX.equalToSuperview()
+//            make.width.equalTo(160)
+//            make.height.equalTo(34)
+//        }
     }
 }
 

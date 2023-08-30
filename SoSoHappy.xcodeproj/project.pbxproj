@@ -84,6 +84,8 @@
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
 		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
+		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
+		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -196,6 +198,8 @@
 		80380C342A98DFF00077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C382A98E0160077048D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
+		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -796,6 +800,8 @@
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
 				80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */,
+				80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */,
+				80380C422A9E2B610077048D /* WeatherDateStackView.swift */,
 				80380C152A98DD750077048D /* OwnerFeed */,
 				80380C162A98DD7E0077048D /* DM */,
 			);
@@ -1133,6 +1139,7 @@
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
+				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
@@ -1145,6 +1152,7 @@
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
+				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
