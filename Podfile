@@ -12,6 +12,7 @@ target 'SoSoHappy' do
   pod 'ImageSlideshow', '~> 1.9.0'
   pod 'FSCalendar'
   pod 'Then' 
+  pod 'ReactorKit'
 
   # Pods for SoSoHappy
 

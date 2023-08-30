@@ -9,6 +9,7 @@ import UIKit
 
 final class MyPageViewController: UIViewController {
     
+    // MARK: - Properties
     private lazy var profileView = ProfileView()
     private lazy var stackView = SettingStackView()
 
@@ -20,9 +21,9 @@ final class MyPageViewController: UIViewController {
 
 extension MyPageViewController {
     
+    // MARK: - Layout
     func setup() {
         setLayout()
-        setAttribute()
     }
     
     func setLayout() {
@@ -43,9 +44,5 @@ extension MyPageViewController {
         }
         
     }
-    
-    
-    func setAttribute() {
-        
-    }
+
 }

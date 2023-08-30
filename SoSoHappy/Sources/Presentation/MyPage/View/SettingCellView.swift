@@ -9,8 +9,12 @@ import UIKit
 
 final class SettingCellView: UIView {
     
+    // MARK: - Properties
     private lazy var imageView = UIImageView()
-    private lazy var textLabel = UILabel()
+    private lazy var textLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 18)
+        $0.textColor = UIColor(rgb: 0x626262)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,9 +30,9 @@ final class SettingCellView: UIView {
 
 extension SettingCellView {
     
+    // MARK: - Layout
     func setup() {
         setLayout()
-        setAttribute()
     }
     
     func setLayout() {
@@ -44,12 +48,6 @@ extension SettingCellView {
             $0.left.equalTo(imageView.snp.right).offset(15)
             $0.centerY.equalTo(imageView)
         }
-        
-    }
-    
-    func setAttribute() {
-        self.textLabel.font = .systemFont(ofSize: 18)
-        self.textLabel.textColor = UIColor(rgb: 0x626262)
     }
     
     func setUI(imageName: String, text: String) {

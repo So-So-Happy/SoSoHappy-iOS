@@ -12,6 +12,7 @@ import RxCocoa
 
 final class SetAppThemeController: UIViewController {
     
+    // MARK: - Properties
     private lazy var stackView = UIStackView(axis: .vertical,
                                              alignment: .fill,
                                              distribution: .fillEqually,
@@ -34,6 +35,7 @@ final class SetAppThemeController: UIViewController {
 
 extension SetAppThemeController {
     
+    // MARK: - Layout & Attribute
     func setup() {
         setLayout()
         setAttribute()

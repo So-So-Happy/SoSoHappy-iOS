@@ -42,16 +42,13 @@
 		67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB612A8136CF00C33988 /* LoginViewController.swift */; };
 		67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB632A8136DF00C33988 /* CalenderViewController.swift */; };
 		67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB652A8136EA00C33988 /* ChartViewController.swift */; };
-		67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB672A81370600C33988 /* FeedViewController.swift */; };
 		67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */; };
 		67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6F2A81379F00C33988 /* LoginViewModel.swift */; };
 		67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */; };
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
-		67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB812A81382100C33988 /* FeedCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
 		67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB862A81386B00C33988 /* CalenderViewModel.swift */; };
 		67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB892A81389C00C33988 /* ChartViewModel.swift */; };
-		67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8C2A8138BD00C33988 /* FeedViewModel.swift */; };
 		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
 		67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 67E7DB972A81420400C33988 /* .swiftlint.yml */; };
@@ -63,6 +60,30 @@
 		800F427A2A794A6E00ACD6C1 /* SoSoHappyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42792A794A6E00ACD6C1 /* SoSoHappyTests.swift */; };
 		800F42842A794A6E00ACD6C1 /* SoSoHappyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */; };
 		800F42862A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */; };
+		80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFA2A989F850077048D /* LogInButtonStackView.swift */; };
+		80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */; };
+		80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFE2A98A0690077048D /* SignUpViewController.swift */; };
+		80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */; };
+		80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C032A98A1130077048D /* ImageEditButtonView.swift */; };
+		80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C052A98A14C0077048D /* NickNameStackView.swift */; };
+		80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C072A98A1780077048D /* SelfIntroductionStackView.swift */; };
+		80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C092A98DA120077048D /* Ex+UILabel.swift */; };
+		80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C112A98DCBC0077048D /* FeedCoordinator.swift */; };
+		80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C172A98DD950077048D /* FeedHeaderView.swift */; };
+		80380C1A2A98DDA40077048D /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C192A98DDA40077048D /* FeedCell.swift */; };
+		80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */; };
+		80380C1E2A98DE0E0077048D /* OwnerFeedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C1D2A98DE0E0077048D /* OwnerFeedHeaderView.swift */; };
+		80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C1F2A98DE220077048D /* OwnerFeedCell.swift */; };
+		80380C222A98DE7C0077048D /* NickNameRecentMessageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C212A98DE7C0077048D /* NickNameRecentMessageStackView.swift */; };
+		80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C232A98DE900077048D /* RecentTimeMessageCountStackView.swift */; };
+		80380C262A98DEA00077048D /* DMListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C252A98DEA00077048D /* DMListCell.swift */; };
+		80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C2E2A98DF7F0077048D /* FeedViewController.swift */; };
+		80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C302A98DFAB0077048D /* FeedDetailViewController.swift */; };
+		80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */; };
+		80380C352A98DFF00077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C342A98DFF00077048D /* DMListViewController.swift */; };
+		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
+		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
+		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -152,6 +173,29 @@
 		800F427F2A794A6E00ACD6C1 /* SoSoHappyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoSoHappyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F42832A794A6E00ACD6C1 /* SoSoHappyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITests.swift; sourceTree = "<group>"; };
 		800F42852A794A6E00ACD6C1 /* SoSoHappyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoSoHappyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		80380BFA2A989F850077048D /* LogInButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInButtonStackView.swift; sourceTree = "<group>"; };
+		80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDescriptionStackView.swift; sourceTree = "<group>"; };
+		80380BFE2A98A0690077048D /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpDescriptionStackView.swift; sourceTree = "<group>"; };
+		80380C032A98A1130077048D /* ImageEditButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEditButtonView.swift; sourceTree = "<group>"; };
+		80380C052A98A14C0077048D /* NickNameStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameStackView.swift; sourceTree = "<group>"; };
+		80380C072A98A1780077048D /* SelfIntroductionStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIntroductionStackView.swift; sourceTree = "<group>"; };
+		80380C092A98DA120077048D /* Ex+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UILabel.swift"; sourceTree = "<group>"; };
+		80380C112A98DCBC0077048D /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
+		80380C172A98DD950077048D /* FeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHeaderView.swift; sourceTree = "<group>"; };
+		80380C192A98DDA40077048D /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageWithBackgroundView.swift; sourceTree = "<group>"; };
+		80380C1D2A98DE0E0077048D /* OwnerFeedHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedHeaderView.swift; sourceTree = "<group>"; };
+		80380C1F2A98DE220077048D /* OwnerFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedCell.swift; sourceTree = "<group>"; };
+		80380C212A98DE7C0077048D /* NickNameRecentMessageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameRecentMessageStackView.swift; sourceTree = "<group>"; };
+		80380C232A98DE900077048D /* RecentTimeMessageCountStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentTimeMessageCountStackView.swift; sourceTree = "<group>"; };
+		80380C252A98DEA00077048D /* DMListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListCell.swift; sourceTree = "<group>"; };
+		80380C2E2A98DF7F0077048D /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		80380C302A98DFAB0077048D /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
+		80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedViewController.swift; sourceTree = "<group>"; };
+		80380C342A98DFF00077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
+		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
+		80380C382A98E0160077048D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +207,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */,
+				80380C3F2A98ED780077048D /* MessageKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +268,7 @@
 		67021E5F2A83CB3200B47A6B /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				672898642A9C849B001FB8A3 /* View */,
 				67021E602A83CB3B00B47A6B /* Coordinator */,
 				67021E612A83CB4E00B47A6B /* ViewController */,
 				67021E622A83CB5B00B47A6B /* ViewModel */,
@@ -252,7 +298,6 @@
 			isa = PBXGroup;
 			children = (
 				67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */,
-				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -263,6 +308,14 @@
 				67021E642A83CBB100B47A6B /* AddCoordinator.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		672898642A9C849B001FB8A3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		6780252F2A950856004123AA /* View */ = {
@@ -329,11 +382,12 @@
 		67E7DB3E2A81303900C33988 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				67021E5F2A83CB3200B47A6B /* Add */,
 				67E7DB432A8131EA00C33988 /* Login */,
 				67E7DB3F2A8130F600C33988 /* Calender */,
-				67E7DB402A81318F00C33988 /* Chart */,
+				67021E5F2A83CB3200B47A6B /* Add */,
+				80380C0B2A98DA560077048D /* Feed */,
 				67E7DB422A8131A100C33988 /* MyPage */,
+				67E7DB402A81318F00C33988 /* Chart */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -385,6 +439,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB692A81370D00C33988 /* Coordinator */,
+				80380BF92A989F710077048D /* View */,
 				67E7DB6A2A81372100C33988 /* ViewController */,
 				67E7DB6B2A81373500C33988 /* ViewModel */,
 			);
@@ -398,6 +453,7 @@
 				060002A12A8CED1F0071E98C /* Ex+UIColor.swift */,
 				06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */,
 				06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */,
+				80380C092A98DA120077048D /* Ex+UILabel.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -480,6 +536,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB612A8136CF00C33988 /* LoginViewController.swift */,
+				80380BFE2A98A0690077048D /* SignUpViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -682,6 +739,121 @@
 			path = SoSoHappyUITests;
 			sourceTree = "<group>";
 		};
+		80380BF92A989F710077048D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				80380BFC2A989FE40077048D /* AppDescriptionStackView.swift */,
+				80380BFA2A989F850077048D /* LogInButtonStackView.swift */,
+				80380C002A98A0BC0077048D /* SignUp */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		80380C002A98A0BC0077048D /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				80380C012A98A0D10077048D /* SignUpDescriptionStackView.swift */,
+				80380C032A98A1130077048D /* ImageEditButtonView.swift */,
+				80380C052A98A14C0077048D /* NickNameStackView.swift */,
+				80380C072A98A1780077048D /* SelfIntroductionStackView.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		80380C0B2A98DA560077048D /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				80380C0F2A98DC4C0077048D /* Coordinator */,
+				80380C0E2A98DC400077048D /* View */,
+				80380C0D2A98DC330077048D /* ViewController */,
+				80380C0C2A98DC2B0077048D /* ViewModel */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		80380C0C2A98DC2B0077048D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				80380C382A98E0160077048D /* FeedViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		80380C0D2A98DC330077048D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				80380C2E2A98DF7F0077048D /* FeedViewController.swift */,
+				80380C302A98DFAB0077048D /* FeedDetailViewController.swift */,
+				80380C2C2A98DF650077048D /* OwnerFeed */,
+				80380C2D2A98DF700077048D /* DM */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		80380C0E2A98DC400077048D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				80380C172A98DD950077048D /* FeedHeaderView.swift */,
+				80380C192A98DDA40077048D /* FeedCell.swift */,
+				80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */,
+				80380C152A98DD750077048D /* OwnerFeed */,
+				80380C162A98DD7E0077048D /* DM */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		80380C0F2A98DC4C0077048D /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				80380C102A98DC960077048D /* Protocol */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		80380C102A98DC960077048D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				80380C112A98DCBC0077048D /* FeedCoordinator.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		80380C152A98DD750077048D /* OwnerFeed */ = {
+			isa = PBXGroup;
+			children = (
+				80380C1D2A98DE0E0077048D /* OwnerFeedHeaderView.swift */,
+				80380C1F2A98DE220077048D /* OwnerFeedCell.swift */,
+			);
+			path = OwnerFeed;
+			sourceTree = "<group>";
+		};
+		80380C162A98DD7E0077048D /* DM */ = {
+			isa = PBXGroup;
+			children = (
+				80380C212A98DE7C0077048D /* NickNameRecentMessageStackView.swift */,
+				80380C232A98DE900077048D /* RecentTimeMessageCountStackView.swift */,
+				80380C252A98DEA00077048D /* DMListCell.swift */,
+			);
+			path = DM;
+			sourceTree = "<group>";
+		};
+		80380C2C2A98DF650077048D /* OwnerFeed */ = {
+			isa = PBXGroup;
+			children = (
+				80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */,
+			);
+			path = OwnerFeed;
+			sourceTree = "<group>";
+		};
+		80380C2D2A98DF700077048D /* DM */ = {
+			isa = PBXGroup;
+			children = (
+				80380C342A98DFF00077048D /* DMListViewController.swift */,
+				80380C362A98DFFE0077048D /* DMChattingViewController.swift */,
+			);
+			path = DM;
+			sourceTree = "<group>";
+		};
 		C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -711,6 +883,9 @@
 			dependencies = (
 			);
 			name = SoSoHappy;
+			packageProductDependencies = (
+				80380C3E2A98ED780077048D /* MessageKit */,
+			);
 			productName = SoSoHappy;
 			productReference = 800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */;
 			productType = "com.apple.product-type.application";
@@ -786,6 +961,9 @@
 				Base,
 			);
 			mainGroup = 800F42532A794A6D00ACD6C1;
+			packageReferences = (
+				80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */,
+			);
 			productRefGroup = 800F425D2A794A6D00ACD6C1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -950,14 +1128,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
-				67E7DB8D2A8138BD00C33988 /* FeedViewModel.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
+				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
+				80380C392A98E0160077048D /* FeedViewModel.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
+				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
@@ -965,7 +1147,6 @@
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
-				67E7DB682A81370600C33988 /* FeedViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
@@ -973,24 +1154,41 @@
 				67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */,
 				06F6BA3A2A8E43E200A6765A /* CalendarView.swift in Sources */,
 				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
-				67E7DB822A81382100C33988 /* FeedCoordinator.swift in Sources */,
+				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */,
+				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
+				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
+				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
+				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
+				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
+				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
+				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
+				80380C1A2A98DDA40077048D /* FeedCell.swift in Sources */,
+				80380C222A98DE7C0077048D /* NickNameRecentMessageStackView.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
+				80380C1E2A98DE0E0077048D /* OwnerFeedHeaderView.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* Entity.swift in Sources */,
+				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */,
+				80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */,
+				80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* Interface.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
+				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
+				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
+				80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
+				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
 				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
@@ -1339,6 +1537,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80380C3E2A98ED780077048D /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */ = {

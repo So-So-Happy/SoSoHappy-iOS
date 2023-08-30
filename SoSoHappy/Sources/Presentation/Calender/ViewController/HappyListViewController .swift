@@ -13,6 +13,7 @@ import ImageSlideshow
 
 final class HappyListViewController : UIViewController {
         
+    // MARK: - Properties
     private lazy var happyTableView = UITableView().then {
         $0.register(HappyListCell.self, forCellReuseIdentifier: HappyListCell.identifier)
         $0.separatorStyle = .none

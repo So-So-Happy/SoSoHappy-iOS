@@ -10,6 +10,7 @@ import SnapKit
 
 final class ProfileView: UIView {
     
+    // MARK: - Properties
     private lazy var profileImage: UIImageView = {
         // UIImageView 생성
         let imageView = UIImageView()
@@ -70,6 +71,7 @@ final class ProfileView: UIView {
 
 extension ProfileView {
     
+    // MARK: - Layout & Attribute
     func setup() {
         setLayout()
         setAttribute()
@@ -123,6 +125,7 @@ extension ProfileView {
 }
 
 
+// MARK: - AutoAddPaddingButton 
 class AutoAddPaddingButtton : UIButton
 {
     override var intrinsicContentSize: CGSize {
