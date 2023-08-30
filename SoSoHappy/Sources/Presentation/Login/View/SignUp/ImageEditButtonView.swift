@@ -48,7 +48,7 @@ final class ImageEditButtonView: UIView {
     }
 }
 
-private extension ImageEditButtonView {
+extension ImageEditButtonView {
     private func setView() {
         addSubviews()
         setLayout()

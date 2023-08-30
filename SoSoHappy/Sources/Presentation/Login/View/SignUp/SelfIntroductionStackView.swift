@@ -48,7 +48,7 @@ final class SelfIntroductionStackView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -56,7 +56,7 @@ final class SelfIntroductionStackView: UIView {
     }
 }
 extension SelfIntroductionStackView {
-    private func setupStackView() {
+    private func setStackView() {
         addSubview(selfIntroductionView)
         selfIntroductionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
