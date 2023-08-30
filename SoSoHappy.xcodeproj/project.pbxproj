@@ -264,6 +264,7 @@
 		67021E5F2A83CB3200B47A6B /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				672898642A9C849B001FB8A3 /* View */,
 				67021E602A83CB3B00B47A6B /* Coordinator */,
 				67021E612A83CB4E00B47A6B /* ViewController */,
 				67021E622A83CB5B00B47A6B /* ViewModel */,
@@ -293,7 +294,6 @@
 			isa = PBXGroup;
 			children = (
 				67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */,
-				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -304,6 +304,14 @@
 				67021E642A83CBB100B47A6B /* AddCoordinator.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		672898642A9C849B001FB8A3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		6780252F2A950856004123AA /* View */ = {
