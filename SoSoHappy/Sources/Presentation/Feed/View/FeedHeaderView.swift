@@ -8,46 +8,44 @@
 
 import UIKit
 import SnapKit
+import Then
 
 final class FeedHeaderView: UIView {
-    // MARK: - Properties
     // MARK: - UI Components
-    private lazy var feedSubtitle: UILabel = {
-        let label = UILabel()
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
-        label.text = "소피들, 서로의 행복을 응원해보아요! 🫶🏻"
-        label.textColor = .darkGray
-        
-        return label
-    }()
+    private lazy var feedSubtitle = UILabel().then {
+        $0.textAlignment = .left
+        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.text = "소피들, 서로의 행복을 응원해보아요! 🫶🏻"
+        $0.textColor = .darkGray
+    }
     
-    private lazy var sortTodayButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setTitle("오늘", for: .normal)
-        btn.setTitleColor(.black, for: .normal)
-        return btn
-    }()
+    private lazy var sortTodayTotalStackView = UIStackView(
+        axis: .horizontal,
+        alignment: .fill,
+        distribution: .fill,
+        spacing: 8
+    )
     
-    private lazy var divider: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14, weight: .regular)
-        label.text = "|"
-        return label
-    }()
+    private lazy var sortTodayButton = UIButton().then {
+        $0.setTitle("오늘", for: .normal)
+        $0.setTitleColor(.black, for: .normal)
+        $0.titleLabel?.font =  UIFont.systemFont(ofSize: 15)
+    }
     
-    private lazy var sortTotalButton: UIButton = {
-        let btn = UIButton(type: .system)
-        btn.setTitle("전체", for: .normal)
-        btn.setTitleColor(.gray, for: .normal)
-        
-        return btn
-    }()
+    private lazy var divider = UILabel().then {
+        $0.font = .systemFont(ofSize: 12, weight: .regular)
+        $0.text = "|"
+    }
+    
+    private lazy var sortTotalButton = UIButton().then {
+        $0.setTitle("전체", for: .normal)
+        $0.setTitleColor(.gray, for: .normal)
+        $0.titleLabel?.font =  UIFont.systemFont(ofSize: 15)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubviews()
-        setConstraints()
+        setView()
     }
     
     required init?(coder: NSCoder) {
@@ -57,33 +55,55 @@ final class FeedHeaderView: UIView {
 
 //MARK: - Add Subviews & Constraints
 extension FeedHeaderView {
-    private func addSubviews() {
-        addSubview(feedSubtitle)
-        addSubview(sortTotalButton)
-        addSubview(divider)
-        addSubview(sortTodayButton)
+    private func setView() {
+        addSubviews()
+        setLayout()
     }
     
-    private func setConstraints() {
+    private func addSubviews() {
+        sortTodayTotalStackView.addArrangedSubview(sortTodayButton)
+        sortTodayTotalStackView.addArrangedSubview(divider)
+        sortTodayTotalStackView.addArrangedSubview(sortTotalButton)
+        
+        addSubview(feedSubtitle)
+        addSubview(sortTodayTotalStackView)
+    }
+    
+    private func setLayout() {
         feedSubtitle.snp.makeConstraints { make in
             make.left.equalTo(safeAreaLayoutGuide).inset(16)
-            make.top.equalToSuperview()
+            make.top.equalToSuperview().inset(3)
         }
-
-        sortTotalButton.snp.makeConstraints { make in
+        
+        sortTodayTotalStackView.snp.makeConstraints { make in
             make.right.equalTo(safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(feedSubtitle.snp.bottom).offset(12)
-            make.bottom.equalToSuperview().inset(10)
-        }
-        
-        divider.snp.makeConstraints { make in
-            make.right.equalTo(sortTotalButton.snp.left).offset(-8)
-            make.left.equalTo(sortTodayButton.snp.right).offset(8)
-            make.centerY.equalTo(sortTotalButton)
-        }
-        
-        sortTodayButton.snp.makeConstraints { make in
-            make.centerY.equalTo(sortTotalButton)
+            make.top.equalTo(feedSubtitle.snp.bottom).offset(40)
         }
     }
 }
+
+
+//#if DEBUG
+//import SwiftUI
+//struct FeedViewControllerRepresentable: UIViewControllerRepresentable {
+//
+//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
+//        // leave this empty
+//    }
+//    @available(iOS 13.0.0, *)
+//    func makeUIViewController(context: Context) -> UIViewController{
+//        FeedViewController()
+//    }
+//}
+//@available(iOS 13.0, *)
+//struct FeedViewControllerRepresentable_PreviewProvider: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            FeedViewControllerRepresentable()
+//                .ignoresSafeArea()
+//                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
+//                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+//        }
+//
+//    }
+//} #endif
