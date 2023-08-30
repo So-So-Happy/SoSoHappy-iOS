@@ -7,72 +7,45 @@
 
 import UIKit
 import SnapKit
-
+import Then
 /*
- 1. tableView.tableHeaderView?.frame.size.height 설정 어떻게 해줄 것인지 (동적으로)
- 2. private lazy var refreshControl = UIRefreshControl()
+ 1. heartButton 토글 적용
  */
-
+ 
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     // MARK: - UI Components
-    private lazy var refreshControl = UIRefreshControl()
-    private lazy var ownerFeedHeaderView = OwnerFeedHeaderView()
+    private lazy var refreshControl = UIRefreshControl().then {
+        $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+    }
+    var imageSlideView = ImageSlideView()
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(OwnerFeedCell.self, forCellReuseIdentifier: OwnerFeedCell.cellIdentifer)
-        tableView.separatorStyle = .none
-//        tableView.refreshControl = self.refreshControl
-        
-        tableView.tableHeaderView = ownerFeedHeaderView
-        tableView.tableHeaderView?.frame.size.height = 400
-        tableView.sectionHeaderHeight = UITableView.automaticDimension
-        
-        tableView.backgroundColor = UIColor(named: "backgroundColor")
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 300
-        return tableView
-    }()
+    private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.register(OwnerFeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
+        $0.separatorStyle = .none
+        $0.refreshControl = self.refreshControl
+        $0.sectionHeaderHeight = UITableView.automaticDimension
+        $0.backgroundColor = UIColor(named: "backgroundColor")
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 300
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
-        setConstraints()
+        setup()
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-//        sizeHeaderToFit()
-    }
-    
-//    func sizeHeaderToFit() {
-//        let headerView = tableView.tableHeaderView!
-//
-//        headerView.setNeedsLayout()
-//        headerView.layoutIfNeeded()
-//
-//        let height = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-//        var frame = headerView.frame
-//        frame.size.height = height
-//        headerView.frame = frame
-//
-//        tableView.tableHeaderView = headerView
-//    }
-
-
 }
 
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension OwnerFeedViewController {
-    
-    private func addSubViews() {
-        view.addSubview(tableView)
+    private func setup() {
+        setLayout()
     }
-    
-    private func setConstraints() {
+
+    private func setLayout() {
+        view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -82,17 +55,43 @@ extension OwnerFeedViewController {
 // MARK: - UITableView DataSource
 extension OwnerFeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 2
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell: OwnerFeedCell = tableView.dequeueReusableCell(withIdentifier: OwnerFeedCell.cellIdentifer , for: indexPath) as? OwnerFeedCell else { fatalError("The tableView could not dequeue OwnerFeedCell in OwnerFeedViewController.") }
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+        cell.imageSlideView.slideShowView.addGestureRecognizer(tapGesture)
         return cell
     }
 }
 
 // MARK: - UITableView Delegate
 extension OwnerFeedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
+        return 200
+    }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return OwnerFeedHeaderView()
+    }
+}
+
+// MARK: - Action
+extension OwnerFeedViewController {
+    @objc func didTap(sender: UITapGestureRecognizer? = nil) {
+        print("OwnerFeedViewController images - didTap() called")
+        imageSlideView.slideShowView.presentFullScreenController(from: self)
+    }
+    
+    // 실제로 서버로부터 다시 데이터를 받아오는 작업을 해보면서 수정하면 될 것 같음
+    @objc func handleRefreshControl() {
+        print("refreshTable")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // .main ? .global?
+            self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing() // Refresh 작업이 끝났음을 control에 알림 (이 타이밍도 다시 한번 확인 필요할 듯)
+        }
+    }
 }
 
