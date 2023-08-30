@@ -7,49 +7,30 @@
 
 import UIKit
 import SnapKit
-/*
- 1. 리팩토링 필요 - 클래스 init 함수 공부
- */
+import Then
 
-class ProfileImageWithBackgroundView: UIView {
+final class ProfileImageWithBackgroundView: UIView {
     // MARK: - Properties
-    var backgroundCircleViewSize: CGFloat!
-    var profileImageViewwSize: CGFloat!
+    var backgroundCircleViewSize: CGFloat
+    var profileImageViewwSize: CGFloat
     
     // MARK: - UI Components
-    // 1. 프로필 이미지
-    private lazy var backgroundCircleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-//        view.layer.cornerRadius = 60
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        view.layer.borderWidth = 0.4
-        return view
-    }()
+    private lazy var backgroundCircleView = UIView().then {     // 프로필 이미지 백그라운드
+        $0.backgroundColor = .white
+        $0.layer.borderColor = UIColor.lightGray.cgColor
+        $0.layer.borderWidth = 0.4
+    }
     
-    private lazy var profileImageView: UIImageView = {
-        let imageview = UIImageView()
-        imageview.contentMode = .scaleAspectFit     //
-        imageview.image = UIImage(named: "profile")
-//        imageview.layer.cornerRadius = 45
-        
-        return imageview
-    }()
+    lazy var profileImageView = UIImageView().then {            // 프로필 이미지
+        $0.contentMode = .scaleAspectFit     //
+        $0.image = UIImage(named: "profile")
+    }
     
-    convenience init(backgroundCircleViewSize: CGFloat, profileImageViewwSize: CGFloat) {
-        print("convenience")
-            self.init(frame: .zero)  // Call the designated initializer
-            self.backgroundCircleViewSize = backgroundCircleViewSize
-            self.profileImageViewwSize = profileImageViewwSize
-        }
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        print("init ")
-//        backgroundColor = .green
-        setCornerRadius()
-//        addSubViews()
-//        setConstraints()
+    init(backgroundCircleViewSize: CGFloat, profileImageViewwSize: CGFloat) {
+        self.backgroundCircleViewSize = backgroundCircleViewSize
+        self.profileImageViewwSize = profileImageViewwSize
+        super.init(frame: .zero) // super class의 프로퍼티도 초기화
+        setView()
     }
     
     required init?(coder: NSCoder) {
@@ -59,18 +40,20 @@ class ProfileImageWithBackgroundView: UIView {
 
 //MARK: - Add Subviews & Constraints
 extension ProfileImageWithBackgroundView {
-    private func setCornerRadius() {
-        print("backgroundCircleViewSize : \(backgroundCircleViewSize)")
-//        backgroundCircleView.layer.cornerRadius = backgroundCircleViewSize / 2
-//        profileImageView.layer.cornerRadius = profileImageViewwSize / 2
+    private func setView() {
+        setCornerRadius()
+        setLayout()
     }
     
-    private func addSubViews() {
+    private func setCornerRadius() {
+        backgroundCircleView.layer.cornerRadius = backgroundCircleViewSize / 2
+        profileImageView.layer.cornerRadius = profileImageViewwSize / 2
+    }
+    
+    private func setLayout() {
         addSubview(backgroundCircleView)
         backgroundCircleView.addSubview(profileImageView)
-    }
-    
-    private func setConstraints() {
+        
         backgroundCircleView.snp.makeConstraints { make in
             make.size.equalTo(backgroundCircleViewSize)
             make.edges.equalToSuperview()
