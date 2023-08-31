@@ -10,6 +10,12 @@ import SnapKit
 import AuthenticationServices
 import Then
 
+import RxKakaoSDKAuth
+import KakaoSDKAuth
+import RxKakaoSDKUser
+import KakaoSDKUser
+import RxSwift
+
 final class LogInButtonStackView: UIView {
     private lazy var buttonStackView = UIStackView(
         axis: .vertical,
@@ -26,9 +32,12 @@ final class LogInButtonStackView: UIView {
     private lazy var kakaoLoginButton = UIButton().then {
         let image = UIImage(named: "kakotalklogin")
         $0.setImage(image, for: .normal)
+        $0.addTarget(self, action: #selector(kakaoLoginButtonTapped), for: .touchUpInside)
     }
     
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
+    
+    private lazy var loginVM = LoginViewModel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,5 +65,14 @@ extension LogInButtonStackView {
         buttonStackView.addArrangedSubview(googleLoginButton)
         buttonStackView.addArrangedSubview(kakaoLoginButton)
         buttonStackView.addArrangedSubview(appleLoginButton)
+    }
+}
+
+// MARK: - Actions
+extension LogInButtonStackView {
+    @objc private func kakaoLoginButtonTapped() {
+        // Button tapped action
+        print("kakaoLoginButton tapped!")
+        loginVM.handleKakaoLogin()
     }
 }

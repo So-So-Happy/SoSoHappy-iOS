@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.7.1)
   - DGCharts (5.0.0):
     - DGCharts/Core (= 5.0.0)
   - DGCharts/Core (5.0.0)
@@ -6,12 +7,84 @@ PODS:
   - ImageSlideshow (1.9.2):
     - ImageSlideshow/Core (= 1.9.2)
   - ImageSlideshow/Core (1.9.2)
+  - KakaoSDKAuth (2.16.0):
+    - KakaoSDKCommon (= 2.16.0)
+  - KakaoSDKCommon (2.16.0):
+    - KakaoSDKCommon/Common (= 2.16.0)
+    - KakaoSDKCommon/Network (= 2.16.0)
+  - KakaoSDKCommon/Common (2.16.0)
+  - KakaoSDKCommon/Network (2.16.0):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.16.0)
+  - KakaoSDKFriend (2.16.0):
+    - KakaoSDKFriendCore (= 2.16.0)
+    - KakaoSDKUser (= 2.16.0)
+  - KakaoSDKFriendCore (2.16.0)
+  - KakaoSDKNavi (2.16.0):
+    - KakaoSDKCommon/Common (= 2.16.0)
+  - KakaoSDKShare (2.16.0):
+    - KakaoSDKCommon (= 2.16.0)
+    - KakaoSDKTemplate (= 2.16.0)
+  - KakaoSDKStory (2.16.0):
+    - KakaoSDKUser (= 2.16.0)
+  - KakaoSDKTalk (2.16.0):
+    - KakaoSDKTemplate (= 2.16.0)
+    - KakaoSDKUser (= 2.16.0)
+  - KakaoSDKTemplate (2.16.0):
+    - KakaoSDKCommon/Common (= 2.16.0)
+  - KakaoSDKUser (2.16.0):
+    - KakaoSDKAuth (= 2.16.0)
   - ReactorKit (3.2.0):
     - RxSwift (~> 6.0)
     - WeakMapTable (~> 1.1)
+  - RxAlamofire (6.1.1):
+    - RxAlamofire/Core (= 6.1.1)
+  - RxAlamofire/Core (6.1.1):
+    - Alamofire (~> 5.4)
+    - RxSwift (~> 6.0)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
+  - RxKakaoSDK (2.16.0):
+    - KakaoSDKNavi (= 2.16.0)
+    - KakaoSDKTemplate (= 2.16.0)
+    - RxKakaoSDKAuth (= 2.16.0)
+    - RxKakaoSDKCommon (= 2.16.0)
+    - RxKakaoSDKFriend (= 2.16.0)
+    - RxKakaoSDKShare (= 2.16.0)
+    - RxKakaoSDKStory (= 2.16.0)
+    - RxKakaoSDKTalk (= 2.16.0)
+    - RxKakaoSDKUser (= 2.16.0)
+  - RxKakaoSDKAuth (2.16.0):
+    - KakaoSDKAuth (= 2.16.0)
+    - RxKakaoSDKCommon (= 2.16.0)
+  - RxKakaoSDKCommon (2.16.0):
+    - RxKakaoSDKCommon/Common (= 2.16.0)
+    - RxKakaoSDKCommon/Network (= 2.16.0)
+  - RxKakaoSDKCommon/Common (2.16.0):
+    - KakaoSDKCommon/Common (= 2.16.0)
+    - RxCocoa
+    - RxSwift (~> 6.0)
+  - RxKakaoSDKCommon/Network (2.16.0):
+    - KakaoSDKCommon/Network (= 2.16.0)
+    - RxAlamofire (~> 6.0)
+    - RxKakaoSDKCommon/Common (= 2.16.0)
+  - RxKakaoSDKFriend (2.16.0):
+    - KakaoSDKFriend (= 2.16.0)
+    - RxKakaoSDKUser (= 2.16.0)
+  - RxKakaoSDKShare (2.16.0):
+    - KakaoSDKShare (= 2.16.0)
+    - RxKakaoSDKCommon (= 2.16.0)
+  - RxKakaoSDKStory (2.16.0):
+    - KakaoSDKStory (= 2.16.0)
+    - RxKakaoSDKUser (= 2.16.0)
+  - RxKakaoSDKTalk (2.16.0):
+    - KakaoSDKTalk (= 2.16.0)
+    - KakaoSDKTemplate (= 2.16.0)
+    - RxKakaoSDKUser (= 2.16.0)
+  - RxKakaoSDKUser (2.16.0):
+    - KakaoSDKUser (= 2.16.0)
+    - RxKakaoSDKAuth (= 2.16.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -26,6 +99,7 @@ DEPENDENCIES:
   - ImageSlideshow (~> 1.9.0)
   - ReactorKit
   - RxCocoa (= 6.5.0)
+  - RxKakaoSDK
   - RxSwift (= 6.5.0)
   - SnapKit (~> 5.6.0)
   - SwiftLint
@@ -33,11 +107,31 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - DGCharts
     - FSCalendar
     - ImageSlideshow
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKFriendCore
+    - KakaoSDKNavi
+    - KakaoSDKShare
+    - KakaoSDKStory
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
+    - KakaoSDKUser
     - ReactorKit
+    - RxAlamofire
     - RxCocoa
+    - RxKakaoSDK
+    - RxKakaoSDKAuth
+    - RxKakaoSDKCommon
+    - RxKakaoSDKFriend
+    - RxKakaoSDKShare
+    - RxKakaoSDKStory
+    - RxKakaoSDKTalk
+    - RxKakaoSDKUser
     - RxRelay
     - RxSwift
     - SnapKit
@@ -46,11 +140,31 @@ SPEC REPOS:
     - WeakMapTable
 
 SPEC CHECKSUMS:
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
   DGCharts: 6e0cf2644e8f81ad13f04caa8bc18502870a1c54
   FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
   ImageSlideshow: be305b54eaf2b2cfc7a7141c7c734605d44dc07d
+  KakaoSDKAuth: 1b85ed7c41b0517bfd1fc9dc46c292c75b8cb610
+  KakaoSDKCommon: d6579aa2e9d963d74e13d741cbf1cce48b8b0c17
+  KakaoSDKFriend: da5a10cdbe33a4502a6841cacf2d5e4ff5a34a36
+  KakaoSDKFriendCore: 67679bbbfa4f23ff7589c7a56f48d72f48fc1da2
+  KakaoSDKNavi: 928ff5b9118e8ca6f2489625013c1c5f1306be41
+  KakaoSDKShare: efc0415c4f33274232604eeaf96fb03641facdca
+  KakaoSDKStory: 4d0b7fd7ddaba5fe002764fb4d80a4e78e7466ab
+  KakaoSDKTalk: 44545bd9a1ebc144795eb6e927960b10cf8252f5
+  KakaoSDKTemplate: 7e478a3cda6f5879b475546bfcd667b464fbb6d0
+  KakaoSDKUser: 427e5b3884abd19ee6d9a7bd6e3f3029eb2968b8
   ReactorKit: e8b11d6b9c415405f381669b095c154a05b59eca
+  RxAlamofire: beb75a1c452d0de225651db4903f5d29d034a620
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
+  RxKakaoSDK: 53621794473704ca12c50b6c93e730759ba72db2
+  RxKakaoSDKAuth: dc2659bcc17e4f837a113c818c61b3d9b13c599d
+  RxKakaoSDKCommon: 96b8d374d6d4eaed8ae2e415f061ba085362a9cf
+  RxKakaoSDKFriend: 26d1b2f2b75589f563fb51ac9b589743e265d764
+  RxKakaoSDKShare: 141ff45c6ad565371882111a66082d9725b26a52
+  RxKakaoSDKStory: f46a90eaf292fa04818996a0b45c8d2fa2081c13
+  RxKakaoSDKTalk: e00157057cdb956ed16e3e393355d07958c05a36
+  RxKakaoSDKUser: 7d053ed2d523107e39442faf623fc5ce0efac8a3
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
@@ -58,6 +172,6 @@ SPEC CHECKSUMS:
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: 7a3dc2ff0507cf22eca83a85795d1b61f8ada1d9
+PODFILE CHECKSUM: c0d69a9733604fe5f9d9503c90185db7de3a133e
 
 COCOAPODS: 1.11.3

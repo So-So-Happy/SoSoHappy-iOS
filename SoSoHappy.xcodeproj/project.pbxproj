@@ -136,6 +136,7 @@
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		67B1F51C2AA08B67000DA458 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -474,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
+				67B1F51C2AA08B67000DA458 /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -883,6 +885,7 @@
 				800F42592A794A6D00ACD6C1 /* Frameworks */,
 				800F425A2A794A6D00ACD6C1 /* Resources */,
 				EC9E898B64AF22049FD863DF /* [CP] Embed Pods Frameworks */,
+				9DE5F4EB3ECB4F9307467D71 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -924,6 +927,7 @@
 				800F427C2A794A6E00ACD6C1 /* Frameworks */,
 				800F427D2A794A6E00ACD6C1 /* Resources */,
 				D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */,
+				D17781CEB7B9A59054DBC742 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1071,6 +1075,23 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		9DE5F4EB3ECB4F9307467D71 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B0D923359684CB5DE33B8966 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1091,6 +1112,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D17781CEB7B9A59054DBC742 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */ = {
@@ -1255,6 +1293,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1315,6 +1354,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1369,7 +1409,7 @@
 		};
 		800F428A2A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */;
+			baseConfigurationReference = 3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1400,7 +1440,7 @@
 		};
 		800F428B2A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */;
+			baseConfigurationReference = C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -13,6 +13,7 @@ target 'SoSoHappy' do
   pod 'FSCalendar'
   pod 'Then' 
   pod 'ReactorKit'
+  pod 'RxKakaoSDK'
 
   # Pods for SoSoHappy
 
