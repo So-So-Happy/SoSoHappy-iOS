@@ -20,18 +20,20 @@ final class LogInButtonStackView: UIView {
     private lazy var buttonStackView = UIStackView(
         axis: .vertical,
         alignment: .fill,
-        distribution: .fillEqually,
+        distribution: .fill,
         spacing: 10
     )
     
     private lazy var googleLoginButton = UIButton().then {
         let image = UIImage(named: "googlelogin")
         $0.setImage(image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
     }
     
     private lazy var kakaoLoginButton = UIButton().then {
-        let image = UIImage(named: "kakotalklogin")
+        let image = UIImage(named: "kakaoLoginLargeWide")
         $0.setImage(image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
         $0.addTarget(self, action: #selector(kakaoLoginButtonTapped), for: .touchUpInside)
     }
     
