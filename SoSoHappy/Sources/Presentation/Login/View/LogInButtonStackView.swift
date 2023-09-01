@@ -15,6 +15,8 @@ import KakaoSDKAuth
 import RxKakaoSDKUser
 import KakaoSDKUser
 import RxSwift
+import AuthenticationServices
+import RxCocoa
 
 final class LogInButtonStackView: UIView {
     private lazy var buttonStackView = UIStackView(
@@ -39,7 +41,7 @@ final class LogInButtonStackView: UIView {
     
     private lazy var appleLoginButton = ASAuthorizationAppleIDButton(type: .continue, style: .black)
     
-    private lazy var loginVM = LoginViewModel()
+    private lazy var kakaoLoginVM = KakaoLoginViewModel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -75,6 +77,6 @@ extension LogInButtonStackView {
     @objc private func kakaoLoginButtonTapped() {
         // Button tapped action
         print("kakaoLoginButton tapped!")
-        loginVM.handleKakaoLogin()
+        kakaoLoginVM.handleKakaoLogin()
     }
 }
