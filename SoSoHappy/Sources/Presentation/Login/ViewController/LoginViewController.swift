@@ -14,6 +14,8 @@ import Then
  */
 
 final class LoginViewController: UIViewController {
+    private let coordinator: LoginCoordinatorProtocol
+    
     // MARK: - Properties
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
@@ -27,6 +29,16 @@ final class LoginViewController: UIViewController {
         super.viewDidLoad()
         setup()
     }
+    
+    public init(coordinator: LoginCoordinatorProtocol) {
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
 //MARK: -  Layout( Add Subviews, Constraints) & Attribute
@@ -34,6 +46,7 @@ extension LoginViewController {
     private func setup() {
         setLayout()
         setAttribute()
+        configureButtonTarget()
     }
     
     // Add SubViews & Contstraints
@@ -62,30 +75,23 @@ extension LoginViewController {
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "loginColor")
     }
-}
-
-
-#if DEBUG
-import SwiftUI
-struct LoginViewControllerRepresentable: UIViewControllerRepresentable {
     
-    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-        // leave this empty
-    }
-    @available(iOS 13.0.0, *)
-    func makeUIViewController(context: Context) -> UIViewController{
-        LoginViewController()
+    private func configureButtonTarget() {
+        logInButtonStackView.setKakaoButtonTarget(target: self, action: #selector(didTapKakaoButton))
+        logInButtonStackView.setAppleButtonTarget(target: self, action: #selector(didTapAppleButton))
     }
 }
-@available(iOS 13.0, *)
-struct LoginViewControllerRepresentable_PreviewProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            LoginViewControllerRepresentable()
-                .ignoresSafeArea()
-                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
-        }
-        
+
+extension LoginViewController {
+    
+    @objc private func didTapKakaoButton() {
+        coordinator.pushMainView()
+        print("카카오 눌림")
     }
-} #endif
+    
+    @objc private func didTapAppleButton() {
+        coordinator.pushMainView()
+        print("애플 눌림")
+    }
+    
+}
