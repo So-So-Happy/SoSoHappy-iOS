@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  SoSoHappy
+//
+//  Created by 박민주 on 2023/08/31.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+KAKAO_NATIVE_APP_KEY = 6ac59beb532154440b6e1e18f8a11206

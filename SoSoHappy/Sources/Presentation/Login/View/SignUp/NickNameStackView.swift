@@ -72,7 +72,7 @@ final class NickNameStackView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupStackView()
+        setStackView()
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +81,7 @@ final class NickNameStackView: UIView {
 }
 
 extension NickNameStackView {
-    private func setupStackView() {
+    private func setStackView() {
         addSubview(nickNameStackView)
         nickNameStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

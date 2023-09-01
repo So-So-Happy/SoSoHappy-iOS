@@ -7,35 +7,67 @@
 
 import UIKit
 import SnapKit
+import Then
 
-class AddStep1ViewController: UIViewController {
+final class AddStep1ViewController: UIViewController {
+    
     // MARK: - Properties
-    let statusBarStack = UIStackView()
-    let statusBarStep1 = UIView()
-    let statusBarStep2 = UIView()
-    let statusBarStep3 = UIView()
+    private lazy var statusBarStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.distribution = .fillEqually // 뷰를 동일한 크기로 분배
+    }
     
-    let weatherLabel = UILabel()
-    let weatherButtonStack = UIStackView()
-    var weatherButtons = [UIButton]()
-    let sunnyButton = UIButton()
-    let partlyCloudyButton = UIButton()
-    let cloudyButton = UIButton()
-    let rainyButton = UIButton()
-    let snowyButton = UIButton()
+    private lazy var statusBarStep1 = UIView().then {
+        $0.backgroundColor = UIColor(named: "AccentColor")
+    }
     
-    let happinessLabel = UILabel()
-    let happinessButtonStack = UIStackView()
-    var happinessButtons = [UIButton]()
-    let happiness20Button = UIButton()
-    let happiness40Button = UIButton()
-    let happiness60Button = UIButton()
-    let happiness80Button = UIButton()
-    let happiness100Button = UIButton()
+    private lazy var statusBarStep2 = UIView().then {
+        $0.backgroundColor = .white
+    }
     
-    let nextButton = UIButton()
-    let arrowImage = UIImage(systemName: "arrow.right")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-    var arrowImageView = UIImageView()
+    private lazy var statusBarStep3 = UIView().then {
+        $0.backgroundColor = .white
+    }
+    
+    private lazy var weatherLabel = UILabel().then {
+        $0.text = "오늘의 날씨는 어땠나요?"
+        $0.textColor = .darkGray
+    }
+    
+    private lazy var weatherButtonStack = UIStackView().then {
+        $0.axis = .horizontal
+        $0.spacing = 30 // 원하는 가로 간격으로 설정
+    }
+    
+    private lazy var weatherButtons = [UIButton]()
+    private lazy var sunnyButton = UIButton()
+    private lazy var partlyCloudyButton = UIButton()
+    private lazy var cloudyButton = UIButton()
+    private lazy var rainyButton = UIButton()
+    private lazy var snowyButton = UIButton()
+    
+    private lazy var happinessLabel = UILabel().then {
+        $0.text = "OO님, 오늘 얼마나 행복하셨나요?"
+        $0.textColor = .darkGray
+    }
+    
+    private lazy var happinessButtonStack = UIStackView().then {
+        $0.axis = .horizontal
+    }
+    private lazy var happinessButtons = [UIButton]()
+    private lazy var happiness20Button = UIButton()
+    private lazy var happiness40Button = UIButton()
+    private lazy var happiness60Button = UIButton()
+    private lazy var happiness80Button = UIButton()
+    private lazy var happiness100Button = UIButton()
+    
+    private lazy var nextButton = UIButton().then {
+        $0.backgroundColor = UIColor(named: "AccentColor")
+        $0.layer.cornerRadius = 40
+    }
+    
+    private lazy var arrowImage = UIImage(systemName: "arrow.right")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+    private lazy var arrowImageView = UIImageView()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -49,39 +81,25 @@ class AddStep1ViewController: UIViewController {
     
     // MARK: - 요소 내용 설정
     func setUpValue() {
-        statusBarStack.axis = .horizontal
-        statusBarStep1.backgroundColor = UIColor(named: "AccentColor")
-        statusBarStep2.backgroundColor = .white
-        statusBarStep3.backgroundColor = .white
-        
-        weatherLabel.text = "오늘의 날씨는 어땠나요?"
-        weatherLabel.textColor = .darkGray
-        weatherButtonStack.axis = .horizontal
         weatherButtons = [sunnyButton, partlyCloudyButton, cloudyButton, rainyButton, snowyButton]
         
-        happinessLabel.text = "OO님, 오늘 얼마나 행복하셨나요?"
-        happinessLabel.textColor = .darkGray
-        happinessButtonStack.axis = .horizontal
         happinessButtons = [happiness20Button, happiness40Button, happiness60Button, happiness80Button, happiness100Button]
-        
-        nextButton.backgroundColor = UIColor(named: "AccentColor")
-        nextButton.layer.cornerRadius = 40
-        
     }
+}
+
+// MARK: - Layout & Attribute
+private extension AddStep1ViewController {
     
-    //  MARK: - 뷰 구성요소 세팅
-    func setUpView() {
+    //  MARK: 뷰 구성요소 세팅
+    private func setUpView() {
         statusBarStack.addArrangedSubview(statusBarStep1)
         statusBarStack.addArrangedSubview(statusBarStep2)
         statusBarStack.addArrangedSubview(statusBarStep3)
-        statusBarStack.distribution = .fillEqually // 뷰를 동일한 크기로 분배
         view.addSubview(statusBarStack)
         
         view.addSubview(weatherLabel)
         view.addSubview(happinessLabel)
-        
-        weatherButtonStack.spacing = 30 // 원하는 가로 간격으로 설정
-        
+
         for button in weatherButtons {
             weatherButtonStack.addArrangedSubview(button) // 스택에 추가
             button.addTarget(self, action: #selector(weatherButtonTapped(_:)), for: .touchUpInside) // 이미지 버튼 액션 설정
@@ -124,8 +142,8 @@ class AddStep1ViewController: UIViewController {
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
-    //  MARK: - 뷰 구성요소 제약 설정
-    func setConstraints() {
+    //  MARK: 뷰 구성요소 제약 설정
+    private func setConstraints() {
         statusBarStack.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -189,9 +207,13 @@ class AddStep1ViewController: UIViewController {
         }
         
     }
+}
+
+// MARK: - Action
+private extension AddStep1ViewController {
     
-    // MARK: - 버튼이 클릭될 때 호출되는 메서드
-    @objc func weatherButtonTapped(_ sender: UIButton) {
+    // MARK: 버튼이 클릭될 때 호출되는 메서드
+    @objc private func weatherButtonTapped(_ sender: UIButton) {
         if sender == sunnyButton {
             // Sunny Button 클릭 시 동작
             print("Sunny Button is clicked...")
@@ -210,8 +232,8 @@ class AddStep1ViewController: UIViewController {
         }
     }
     
-    // MARK: - 버튼이 클릭될 때 호출되는 메서드
-    @objc func happinessButtonTapped(_ sender: UIButton) {
+    // MARK: 버튼이 클릭될 때 호출되는 메서드
+    @objc private func happinessButtonTapped(_ sender: UIButton) {
         if sender == happiness20Button {
             // Sunny Button 클릭 시 동작
             print("happiness20Button is clicked...")
@@ -230,36 +252,11 @@ class AddStep1ViewController: UIViewController {
         }
     }
     
-    // MARK: - 다음 버튼 클릭될 때 호출되는 메서드
-    @objc func nextButtonTapped() {
+    // MARK: 다음 버튼 클릭될 때 호출되는 메서드
+    @objc private func nextButtonTapped() {
         // Button tapped action
         print("NextButton tapped!")
         let addStep2VC = AddStep2ViewController(collectionViewLayout: UICollectionViewFlowLayout())
         navigationController?.pushViewController(addStep2VC, animated: true)
     }
 }
-
-#if DEBUG
-import SwiftUI
-struct AddStep1ViewControllerRepresentable: UIViewControllerRepresentable {
-    
-    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-        // leave this empty
-    }
-    @available(iOS 13.0.0, *)
-    func makeUIViewController(context: Context) -> UIViewController{
-        AddStep1ViewController()
-    }
-}
-@available(iOS 13.0, *)
-struct AddStep1ViewControllerRepresentable_PreviewProvider: PreviewProvider {
-    static var previews: some View {
-        Group {
-            AddStep1ViewControllerRepresentable()
-                .ignoresSafeArea()
-                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11"))
-        }
-        
-    }
-} #endif

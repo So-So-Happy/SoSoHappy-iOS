@@ -29,8 +29,12 @@
 		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
 		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
 		67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */; };
+		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
+		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
+		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
+		67B1F52F2AA0BF34000DA458 /* AppleLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */; };
 		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
 		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
@@ -45,7 +49,7 @@
 		67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB632A8136DF00C33988 /* CalenderViewController.swift */; };
 		67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB652A8136EA00C33988 /* ChartViewController.swift */; };
 		67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */; };
-		67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6F2A81379F00C33988 /* LoginViewModel.swift */; };
+		67E7DB702A81379F00C33988 /* KakaoLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */; };
 		67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */; };
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
@@ -86,6 +90,8 @@
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
 		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
+		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
+		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -136,8 +142,13 @@
 		67021E642A83CBB100B47A6B /* AddCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoordinator.swift; sourceTree = "<group>"; };
 		67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep1ViewController.swift; sourceTree = "<group>"; };
 		67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep1ViewModel.swift; sourceTree = "<group>"; };
+		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
+		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		67B1F51C2AA08B67000DA458 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
+		67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginViewModel.swift; sourceTree = "<group>"; };
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -153,7 +164,7 @@
 		67E7DB652A8136EA00C33988 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		67E7DB672A81370600C33988 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
-		67E7DB6F2A81379F00C33988 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginViewModel.swift; sourceTree = "<group>"; };
 		67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB812A81382100C33988 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
@@ -200,6 +211,8 @@
 		80380C342A98DFF00077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C382A98E0160077048D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
+		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -290,6 +303,7 @@
 		67021E5F2A83CB3200B47A6B /* Add */ = {
 			isa = PBXGroup;
 			children = (
+				672898642A9C849B001FB8A3 /* View */,
 				67021E602A83CB3B00B47A6B /* Coordinator */,
 				67021E612A83CB4E00B47A6B /* ViewController */,
 				67021E622A83CB5B00B47A6B /* ViewModel */,
@@ -319,7 +333,6 @@
 			isa = PBXGroup;
 			children = (
 				67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */,
-				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -332,12 +345,30 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		672898642A9C849B001FB8A3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		6780252F2A950856004123AA /* View */ = {
 			isa = PBXGroup;
 			children = (
 				678025302A95086A004123AA /* ChartView.swift */,
+				672898652A9C9F5F001FB8A3 /* AwardsView.swift */,
+				672898672A9C9F77001FB8A3 /* RecommendView.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		67B1F5292AA0BD38000DA458 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				67B1F52A2AA0BD49000DA458 /* AppleUser.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		67E7DB392A812FF600C33988 /* Sources */ = {
@@ -452,6 +483,7 @@
 		67E7DB432A8131EA00C33988 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				67B1F5292AA0BD38000DA458 /* Model */,
 				67E7DB692A81370D00C33988 /* Coordinator */,
 				80380BF92A989F710077048D /* View */,
 				67E7DB6A2A81372100C33988 /* ViewController */,
@@ -484,6 +516,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
+				67B1F51C2AA08B67000DA458 /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -558,7 +591,8 @@
 		67E7DB6B2A81373500C33988 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				67E7DB6F2A81379F00C33988 /* LoginViewModel.swift */,
+				67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */,
+				67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -810,6 +844,8 @@
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
 				80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */,
+				80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */,
+				80380C422A9E2B610077048D /* WeatherDateStackView.swift */,
 				80380C152A98DD750077048D /* OwnerFeed */,
 				80380C162A98DD7E0077048D /* DM */,
 			);
@@ -891,6 +927,7 @@
 				800F42592A794A6D00ACD6C1 /* Frameworks */,
 				800F425A2A794A6D00ACD6C1 /* Resources */,
 				EC9E898B64AF22049FD863DF /* [CP] Embed Pods Frameworks */,
+				9DE5F4EB3ECB4F9307467D71 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -932,6 +969,7 @@
 				800F427C2A794A6E00ACD6C1 /* Frameworks */,
 				800F427D2A794A6E00ACD6C1 /* Resources */,
 				D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */,
+				D17781CEB7B9A59054DBC742 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1079,6 +1117,23 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		9DE5F4EB3ECB4F9307467D71 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		B0D923359684CB5DE33B8966 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1099,6 +1154,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D17781CEB7B9A59054DBC742 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D426278AD7D549A7D0BF0AF7 /* [CP] Embed Pods Frameworks */ = {
@@ -1147,6 +1219,7 @@
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
+				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
@@ -1159,6 +1232,7 @@
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
+				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
@@ -1170,11 +1244,12 @@
 				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
 				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
-				67E7DB702A81379F00C33988 /* LoginViewModel.swift in Sources */,
+				67E7DB702A81379F00C33988 /* KakaoLoginViewModel.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
+				67B1F52F2AA0BF34000DA458 /* AppleLoginViewModel.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
@@ -1203,10 +1278,13 @@
 				80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
+				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
 				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
 				06FD73F12A9C890400328DF9 /* AppCoordinator.swift in Sources */,
+				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
+				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
@@ -1263,6 +1341,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1323,6 +1402,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
