@@ -14,6 +14,7 @@ target 'SoSoHappy' do
   pod 'Then' 
   pod 'ReactorKit'
   pod 'RxKakaoSDK'
+  pod 'GoogleSignIn'
 
   # Pods for SoSoHappy
 
