@@ -12,10 +12,10 @@ import RxCocoa
 import ReactorKit
 import Then
 import RxKeyboard
+import RxGesture
 /*
- 1.  ReactorKit 작성한 코드 리팩토링
+ 1.  ReactorKit 작성한 코드 리팩토링 - 버튼에 throttle, debouce 적용해보기2
  */
-
 
 /*
  1. 사진 접근 권한 확인  -> 딱히 확인을 안하는 것 같음
@@ -28,6 +28,10 @@ import RxKeyboard
         - 사진 1개만 select하면 되니깐 UIImagePickerViewController해도 될 것 같음
  1-2. 카메라로 찍기 (추가해볼까 생각중)
  
+ 
+ 
+ 
+ 스크롤뷰를 꼭 사용하지 않아도 될 것 같은 느낌이 들기도 함
  2. textField에 입력할 때 키보드 위치 조정 필요 (scrollView) -> RxKeyboard 사용
     - scrollview 먼저 적용 (완료)
     - 첫번째 textfield부터 시작
@@ -42,11 +46,14 @@ import RxKeyboard
 final class SignUpViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    // Layout Constraints
+    private(set) var didSetupConstraints = false
+
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView()
         .then {
-            $0.keyboardDismissMode = .interactive // 스크롤시 키보드 내리기
+            $0.keyboardDismissMode = .onDrag // 스크롤시 키보드 내리기
     }
     
     private lazy var contentView = UIView()
@@ -67,7 +74,6 @@ final class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-
     }
     
     // MARK: Binding
@@ -86,8 +92,10 @@ extension SignUpViewController {
     private func setup() {
         setLayout()
         setAttribute()
+//        setupKeyboardHiding()
 //        bindUI()
 //        setUpKeyboardHiding()
+        print("original contentOffset: \(self.scrollView.contentOffset)")
     }
     // Add SubViews & Contstraints
     private func setLayout() {
@@ -103,7 +111,7 @@ extension SignUpViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.bottom.equalTo(signUpButton).offset(100)
+            make.bottom.equalTo(signUpButton).offset(40) // 40
         }
         
         signUpDescriptionStackView.snp.makeConstraints { make in
@@ -149,34 +157,11 @@ extension SignUpViewController {
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) } // 구독
     }
     
-//    private func setUpKeyboardHiding() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//
-//    private func bindUI() {
-//        profileImageEditButton.cameraButton.rx.tap
-//            .flatMapLatest { [weak self] _ in
-//                return UIImagePickerController.rx.createWithParent(self) { (picker) in
-//                    picker.allowsEditing = true
-//                    picker.sourceType = .photoLibrary
-//                }
-//                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
-//                .take(1)
-//            }
-//            .map{ info in
-//                return info[.editedImage] as? UIImage
-//            }
-//            .bind(to: profileImageEditButton.profileImageWithBackgroundView.profileImageView.rx.image)
-//            .disposed(by: disposeBag) // // UIImagePickerController가 메모리에서 해제되면 같이 해제
-//    }
+    private func setupKeyboardHiding() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
 
-}
-
-// MARK: Actions
-extension SignUpViewController {
-    
 }
 
 // MARK: - ReactorKit - bind func
@@ -191,17 +176,17 @@ extension SignUpViewController: View {
                     picker.sourceType = .photoLibrary
                 }
                 .flatMap { $0.rx.didFinishPickingMediaWithInfo } // 사진 다 골랐다
-                .take(1)
+                .take(1) // 단 1개의 아이템(사진)만 내보내는 것을 보장
             }
             .map{ info in
-                let img = info[.editedImage] as? UIImage
-                print("img ---------------")
+                let img = info[.editedImage] as? UIImage // UIImage 옵셔널 type
                 return Reactor.Action.selectImage(img)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         nickNameSection.nickNameTextField.rx.text.orEmpty
+            .skip(1)
             .map { Reactor.Action.nickNameTextChanged($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -212,6 +197,7 @@ extension SignUpViewController: View {
             .disposed(by: disposeBag)
         
         selfIntroductionSection.selfIntroductionTextView.rx.text.orEmpty
+            .skip(1)
             .map { Reactor.Action.selfIntroTextChanged($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -241,15 +227,14 @@ extension SignUpViewController: View {
             .map { $0.duplicateMessage }
             .bind(to: nickNameSection.warningMessageLabel.rx.text)
             .disposed(by: disposeBag)
-        
+    
         reactor.state
             .map { $0.selfIntroText }
             .bind(to: selfIntroductionSection.selfIntroductionTextView.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.selfIntroText.count }
-            .map { "\($0) / 60"}
+            .map { "\($0.selfIntroText.count) / 60" }
             .bind(to: selfIntroductionSection.textCountLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -258,37 +243,118 @@ extension SignUpViewController: View {
             .bind(to: signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        // Keyboard
+//           RxKeyboard.instance.visibleHeight
+//             .drive(onNext: { [weak self] keyboardVisibleHeight in
+//               guard let `self` = self, self.didSetupConstraints else { return }
+//               self.messageInputBar.snp.updateConstraints { make in
+//                 var offset: CGFloat = -keyboardVisibleHeight
+//                 if keyboardVisibleHeight > 0 {
+//                   offset += self.view.safeAreaInsets.bottom
+//                 }
+//                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(offset)
+//               }
+//               self.view.setNeedsLayout()
+//               UIView.animate(withDuration: 0) {
+//                 self.collectionView.contentInset.bottom = keyboardVisibleHeight + self.messageInputBar.height
+//                 self.collectionView.scrollIndicatorInsets.bottom = self.collectionView.contentInset.bottom
+//                 self.view.layoutIfNeeded()
+//               }
+//             })
+//             .disposed(by: self.disposeBag)
+//
+//           RxKeyboard.instance.willShowVisibleHeight
+//             .drive(onNext: { [weak self] keyboardVisibleHeight in
+//               self?.collectionView.scrollToBottom(animated: true)
+//             })
+//             .disposed(by: self.disposeBag)
+        
+        
         // Adjust the content inset of scrollView when the keyboard is shown
         // 나타날 때 (호출 1)
-        RxKeyboard.instance.willShowVisibleHeight
-          .drive(onNext: { [scrollView] keyboardVisibleHeight in
-              
-
-          })
-          .disposed(by: disposeBag)
+//        RxKeyboard.instance.willShowVisibleHeight
+//          .drive(onNext: { [scrollView] keyboardVisibleHeight in
+//              print("RxKeyboard.instance.willShowVisibleHeight")
+//
+//          })
+//          .disposed(by: disposeBag)
         
+
         // 호출 2
-        RxKeyboard.instance.visibleHeight
-            .drive (onNext: { [scrollView] keyboardVisibleHeight in
-            })
-            .disposed(by: disposeBag)
-        
-        // 호출 3 - 보일 때(false), 안보일 때 (true)
-        RxKeyboard.instance.isHidden
-            .drive(onNext: { [weak self] isHidden in
+        // 안보일 때: 0.0
+        // 보일 때 336
+//        RxKeyboard.instance.visibleHeight
+//            .drive (onNext: { [scrollView] keyboardVisibleHeight in
+//                print("RxKeyboard.instance.visibleHeight : \(keyboardVisibleHeight)")
+//            })
+//            .disposed(by: disposeBag)
 
-            })
-            .disposed(by: disposeBag)
-        
-        
+        // 호출 3 - 보일 때(false), 안보일 때 (true)
+//        RxKeyboard.instance.isHidden
+//            .drive(onNext: { [weak self] isHidden in
+//                print("RxKeyboard.instance.isHidden : \(isHidden)")
+//
+//            })
+//            .disposed(by: disposeBag)
+
+
         // 호출 4
         // Adjust the content inset of scrollView when the keyboard is shown
-        RxKeyboard.instance.frame
-            .drive(onNext: { [weak self] keyboardFrame in
-            })
-            .disposed(by: disposeBag)
+        // 안보일 때 (0.0, 852.0, 393.0, 0.0)
+        // 보일 때 (0.0, 516.0, 393.0, 336.0)
+//        RxKeyboard.instance.frame
+//            .drive(onNext: { [weak self] keyboardFrame in
+//
+//                print("RxKeyboard.instance.frame : \(keyboardFrame)")
+//            })
+//            .disposed(by: disposeBag)
+    }
+    
+}
+
+// MARK: Actions
+extension SignUpViewController {
+    @objc func keyboardWillShow(sender: NSNotification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let currentTextField = UIResponder.currentFirst() as? UITextField else { return }
+        
+        
+        let keyboardTopY = keyboardFrame.cgRectValue.origin.y
+        // currentTextField의 frame을 뷰 기준으로 frame을 잡아줌
+        let convertedTextFieldFrame = view.convert(currentTextField.frame, from: currentTextField.superview)
+        let textFieldBottomY = convertedTextFieldFrame.origin.y + convertedTextFieldFrame.size.height
+
+        // if textField bottom is below keyboard bottom - bump the frame up
+        if textFieldBottomY > keyboardTopY {
+            print("textfield bottom Y : \(textFieldBottomY)")
+            print("keyboardTopY Top Y : \(keyboardTopY)")
+            print("키보드가 textfield 가림")
+            let textBoxY = convertedTextFieldFrame.origin.y
+            let newFrameY = (textBoxY - keyboardTopY / 2) * -1
+            let shift = (textFieldBottomY - keyboardTopY) / 2 + 7
+            //  . setContentOffset: UIScrollView에서 특정위치로 스크롤할때
+//            scrollView.setContentOffset(CGPoint(x: 0.0, y: 100), animated: true) //textview
+//            scrollView.setContentOffset(CGPoint(x: 0.0, y: -50), animated: true) // textfield
+
+        }
+        
+        
+        /*
+         contentOffset : 스크롤된 정도를 나타낼 수 있음
+         */
+        print("foo - currentTextFieldFrame: \(currentTextField.frame)")
+        print("foo - convertedTextFieldFrame: \(convertedTextFieldFrame)")
+        
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        scrollView.setContentOffset(CGPoint(x: 0.0, y: -86), animated: true)
+//        self.scrollView.contentInset.bottom = -100
+//        scrollView.setContentOffset(.zero, animated: true)
     }
 }
+
 
 // MARK: - Action (Keyboard)
 //extension SignUpViewController {
