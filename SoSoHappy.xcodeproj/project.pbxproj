@@ -29,8 +29,8 @@
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
+		67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */; };
 		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
-		67B1F52F2AA0BF34000DA458 /* AppleLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */; };
 		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
 		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
@@ -45,7 +45,6 @@
 		67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB632A8136DF00C33988 /* CalenderViewController.swift */; };
 		67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB652A8136EA00C33988 /* ChartViewController.swift */; };
 		67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */; };
-		67E7DB702A81379F00C33988 /* KakaoLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */; };
 		67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */; };
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
@@ -138,9 +137,9 @@
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReactor.swift; sourceTree = "<group>"; };
 		67B1F51C2AA08B67000DA458 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
-		67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginViewModel.swift; sourceTree = "<group>"; };
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -156,7 +155,6 @@
 		67E7DB652A8136EA00C33988 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		67E7DB672A81370600C33988 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
-		67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoLoginViewModel.swift; sourceTree = "<group>"; };
 		67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB812A81382100C33988 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
@@ -337,6 +335,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		67A48D202AA21B75003B18F0 /* ViewReactor */ = {
+			isa = PBXGroup;
+			children = (
+				67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */,
+			);
+			path = ViewReactor;
+			sourceTree = "<group>";
+		};
 		67B1F5292AA0BD38000DA458 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -455,11 +461,11 @@
 		67E7DB432A8131EA00C33988 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				67A48D202AA21B75003B18F0 /* ViewReactor */,
 				67B1F5292AA0BD38000DA458 /* Model */,
 				67E7DB692A81370D00C33988 /* Coordinator */,
 				80380BF92A989F710077048D /* View */,
 				67E7DB6A2A81372100C33988 /* ViewController */,
-				67E7DB6B2A81373500C33988 /* ViewModel */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -558,15 +564,6 @@
 				80380BFE2A98A0690077048D /* SignUpViewController.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		67E7DB6B2A81373500C33988 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB6F2A81379F00C33988 /* KakaoLoginViewModel.swift */,
-				67B1F52E2AA0BF34000DA458 /* AppleLoginViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		67E7DB6C2A81374800C33988 /* Protocol */ = {
@@ -1206,6 +1203,7 @@
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
+				67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
@@ -1216,12 +1214,10 @@
 				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
 				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
-				67E7DB702A81379F00C33988 /* KakaoLoginViewModel.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
-				67B1F52F2AA0BF34000DA458 /* AppleLoginViewModel.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,

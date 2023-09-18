@@ -12,7 +12,17 @@
 				<string>kakao${KAKAO_NATIVE_APP_KEY}</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>${GOOGLE_NATIVE_APP_KEY}</string>
+			</array>
+		</dict>
 	</array>
+	<key>GIDClientID</key>
+	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
