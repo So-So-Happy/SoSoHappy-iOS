@@ -62,7 +62,7 @@
 		67E7DB532A81357100C33988 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB522A81357100C33988 /* Network.swift */; };
 		67E7DB5A2A8135FB00C33988 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB592A8135FB00C33988 /* User.swift */; };
 		67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB5B2A81360400C33988 /* UseCase.swift */; };
-		67E7DB5E2A81360A00C33988 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB5D2A81360A00C33988 /* UserRepository.swift */; };
+		67E7DB5E2A81360A00C33988 /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB5D2A81360A00C33988 /* UserRepositoryProtocol.swift */; };
 		67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB612A8136CF00C33988 /* LoginViewController.swift */; };
 		67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB632A8136DF00C33988 /* CalenderViewController.swift */; };
 		67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB652A8136EA00C33988 /* ChartViewController.swift */; };
@@ -193,7 +193,7 @@
 		67E7DB522A81357100C33988 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		67E7DB592A8135FB00C33988 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		67E7DB5B2A81360400C33988 /* UseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCase.swift; sourceTree = "<group>"; };
-		67E7DB5D2A81360A00C33988 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		67E7DB5D2A81360A00C33988 /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
 		67E7DB612A8136CF00C33988 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		67E7DB632A8136DF00C33988 /* CalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewController.swift; sourceTree = "<group>"; };
 		67E7DB652A8136EA00C33988 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
@@ -674,7 +674,7 @@
 		67E7DB582A8135EB00C33988 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				67E7DB5D2A81360A00C33988 /* UserRepository.swift */,
+				67E7DB5D2A81360A00C33988 /* UserRepositoryProtocol.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -1350,12 +1350,10 @@
 				0613BCD82AA89B2100E2B97F /* UserAPIError.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				0668712C2AB1E3B0009B3E71 /* Resign.swift in Sources */,
-				67E7DB702A81379F00C33988 /* KakaoLoginViewModel.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
-				67B1F52F2AA0BF34000DA458 /* AppleLoginViewModel.swift in Sources */,
 				0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				0613BCF52AAE17BF00E2B97F /* HttpNetwork.swift in Sources */,
@@ -1379,7 +1377,7 @@
 				80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */,
 				0613BCCD2AA5EBFC00E2B97F /* UserRepository.swift in Sources */,
 				80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */,
-				67E7DB5E2A81360A00C33988 /* UserRepository.swift in Sources */,
+				67E7DB5E2A81360A00C33988 /* UserRepositoryProtocol.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
 				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
