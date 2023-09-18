@@ -20,7 +20,6 @@ final class WeatherDateStackView: UIView {
     // 날씨 이미지
     private lazy var weatherImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFit
-        $0.image = UIImage(named: "cloudy")
         $0.snp.makeConstraints { make in
             make.size.equalTo(32)
         }
@@ -29,8 +28,7 @@ final class WeatherDateStackView: UIView {
     private lazy var dateLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 12, weight: .light)
-        $0.textColor = .gray
-        $0.text = "2023.07.18 화요일"
+        $0.textColor = .darkGray // .gray -> .darkGray
     }
     
     override init(frame: CGRect) {
@@ -54,3 +52,12 @@ extension WeatherDateStackView {
         weatherDateStackView.addArrangedSubview(dateLabel)
     }
 }
+
+// MARK: Setting할 수 있는 functions
+extension WeatherDateStackView {
+    func setContents(feed: Feed) {
+        weatherImageView.image = UIImage(named: feed.weather)
+        dateLabel.text = feed.date
+    }
+}
+
