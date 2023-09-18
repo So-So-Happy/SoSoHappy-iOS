@@ -13,6 +13,9 @@ target 'SoSoHappy' do
   pod 'FSCalendar'
   pod 'Then' 
   pod 'ReactorKit'
+  pod 'RxKeyboard'
+  pod "RxGesture"
+  pod 'RxDataSources', '~> 5.0'
 
   # Pods for SoSoHappy
 

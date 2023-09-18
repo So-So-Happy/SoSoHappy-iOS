@@ -52,6 +52,18 @@
 		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
 		67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 67E7DB972A81420400C33988 /* .swiftlint.yml */; };
+		800D641A2AA841DC00B83D87 /* FeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64192AA841DC00B83D87 /* FeedViewReactor.swift */; };
+		800D641C2AA8444000B83D87 /* FeedReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D641B2AA8444000B83D87 /* FeedReactor.swift */; };
+		800D64202AA8A61900B83D87 /* FeedDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D641F2AA8A61900B83D87 /* FeedDataSection.swift */; };
+		800D64222AA8A67900B83D87 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64212AA8A67900B83D87 /* Feed.swift */; };
+		800D64242AA8A7BC00B83D87 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64232AA8A7BC00B83D87 /* FeedViewModel.swift */; };
+		800D64262AA995C600B83D87 /* Rx+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64252AA995C600B83D87 /* Rx+UIViewController.swift */; };
+		800D64282AA9962D00B83D87 /* Rx+ UIImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64272AA9962D00B83D87 /* Rx+ UIImagePickerController.swift */; };
+		800D642A2AABA09B00B83D87 /* Rx+ UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D64292AABA09B00B83D87 /* Rx+ UIImageView.swift */; };
+		800D642C2AAF364600B83D87 /* OwnFeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D642B2AAF364500B83D87 /* OwnFeedViewReactor.swift */; };
+		800D642E2AAF3A6200B83D87 /* OwnerFeedCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D642D2AAF3A6200B83D87 /* OwnerFeedCellReactor.swift */; };
+		800D64302AAF4EF500B83D87 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D642F2AAF4EF500B83D87 /* Profile.swift */; };
+		800D643C2AB22A7600B83D87 /* Ex+ String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800D643B2AB22A7600B83D87 /* Ex+ String.swift */; };
 		800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */; };
 		800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F42612A794A6D00ACD6C1 /* SceneDelegate.swift */; };
 		800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */; };
@@ -82,10 +94,13 @@
 		80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */; };
 		80380C352A98DFF00077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C342A98DFF00077048D /* DMListViewController.swift */; };
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
-		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
 		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		80380C462A9F6E7B0077048D /* SignUpViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C452A9F6E7B0077048D /* SignUpViewReactor.swift */; };
+		8096EA5A2AA0D72300432B1C /* HappyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8096EA592AA0D72300432B1C /* HappyButton.swift */; };
+		8096EA6B2AA1A91400432B1C /* RxImagePickerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8096EA6A2AA1A91400432B1C /* RxImagePickerDelegateProxy.swift */; };
+		8096EA6F2AA5B4E800432B1C /* Ex+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8096EA6E2AA5B4E800432B1C /* Ex+UIResponder.swift */; };
 		95CD8F452C84AA68F6A39CB1 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53A070A28B2E12994EC2AD3B /* Pods_SoSoHappy.framework */; };
 		BC4F75E815ED2034B08C4A3D /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		ED895826FBFB47C3CFCC8DEB /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */; };
@@ -163,6 +178,18 @@
 		67E7DB912A8138EB00C33988 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		67E7DB972A81420400C33988 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		6DC1BDE15A0D4BC10A1AB242 /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
+		800D64192AA841DC00B83D87 /* FeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewReactor.swift; sourceTree = "<group>"; };
+		800D641B2AA8444000B83D87 /* FeedReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedReactor.swift; sourceTree = "<group>"; };
+		800D641F2AA8A61900B83D87 /* FeedDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSection.swift; sourceTree = "<group>"; };
+		800D64212AA8A67900B83D87 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		800D64232AA8A7BC00B83D87 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		800D64252AA995C600B83D87 /* Rx+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+UIViewController.swift"; sourceTree = "<group>"; };
+		800D64272AA9962D00B83D87 /* Rx+ UIImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+ UIImagePickerController.swift"; sourceTree = "<group>"; };
+		800D64292AABA09B00B83D87 /* Rx+ UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+ UIImageView.swift"; sourceTree = "<group>"; };
+		800D642B2AAF364500B83D87 /* OwnFeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnFeedViewReactor.swift; sourceTree = "<group>"; };
+		800D642D2AAF3A6200B83D87 /* OwnerFeedCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedCellReactor.swift; sourceTree = "<group>"; };
+		800D642F2AAF4EF500B83D87 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		800D643B2AB22A7600B83D87 /* Ex+ String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+ String.swift"; sourceTree = "<group>"; };
 		800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoSoHappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		800F42612A794A6D00ACD6C1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -197,9 +224,12 @@
 		80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedViewController.swift; sourceTree = "<group>"; };
 		80380C342A98DFF00077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
-		80380C382A98E0160077048D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		80380C452A9F6E7B0077048D /* SignUpViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewReactor.swift; sourceTree = "<group>"; };
+		8096EA592AA0D72300432B1C /* HappyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyButton.swift; sourceTree = "<group>"; };
+		8096EA6A2AA1A91400432B1C /* RxImagePickerDelegateProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxImagePickerDelegateProxy.swift; sourceTree = "<group>"; };
+		8096EA6E2AA5B4E800432B1C /* Ex+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIResponder.swift"; sourceTree = "<group>"; };
 		B5DC235D55E769BC9680AB7B /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1A10A6A8627C888A1452131 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		DFFE590A085245A37A280AE1 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -445,6 +475,7 @@
 				67E7DB692A81370D00C33988 /* Coordinator */,
 				80380BF92A989F710077048D /* View */,
 				67E7DB6A2A81372100C33988 /* ViewController */,
+				80380C442A9F6CC30077048D /* Reactor */,
 				67E7DB6B2A81373500C33988 /* ViewModel */,
 			);
 			path = Login;
@@ -458,6 +489,11 @@
 				06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */,
 				06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */,
 				80380C092A98DA120077048D /* Ex+UILabel.swift */,
+				8096EA6E2AA5B4E800432B1C /* Ex+UIResponder.swift */,
+				800D64252AA995C600B83D87 /* Rx+UIViewController.swift */,
+				800D64272AA9962D00B83D87 /* Rx+ UIImagePickerController.swift */,
+				800D64292AABA09B00B83D87 /* Rx+ UIImageView.swift */,
+				800D643B2AB22A7600B83D87 /* Ex+ String.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -508,6 +544,8 @@
 			children = (
 				67E7DB592A8135FB00C33988 /* Entity.swift */,
 				06F6BA372A8DE85300A6765A /* Happy.swift */,
+				800D64212AA8A67900B83D87 /* Feed.swift */,
+				800D642F2AAF4EF500B83D87 /* Profile.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -760,6 +798,7 @@
 				80380C032A98A1130077048D /* ImageEditButtonView.swift */,
 				80380C052A98A14C0077048D /* NickNameStackView.swift */,
 				80380C072A98A1780077048D /* SelfIntroductionStackView.swift */,
+				8096EA592AA0D72300432B1C /* HappyButton.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -770,6 +809,7 @@
 				80380C0F2A98DC4C0077048D /* Coordinator */,
 				80380C0E2A98DC400077048D /* View */,
 				80380C0D2A98DC330077048D /* ViewController */,
+				80380C472A9F6FA00077048D /* Reactor */,
 				80380C0C2A98DC2B0077048D /* ViewModel */,
 			);
 			path = Feed;
@@ -778,7 +818,7 @@
 		80380C0C2A98DC2B0077048D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				80380C382A98E0160077048D /* FeedViewModel.swift */,
+				800D64232AA8A7BC00B83D87 /* FeedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -797,6 +837,7 @@
 		80380C0E2A98DC400077048D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				800D641F2AA8A61900B83D87 /* FeedDataSection.swift */,
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
 				80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */,
@@ -858,6 +899,26 @@
 				80380C362A98DFFE0077048D /* DMChattingViewController.swift */,
 			);
 			path = DM;
+			sourceTree = "<group>";
+		};
+		80380C442A9F6CC30077048D /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				80380C452A9F6E7B0077048D /* SignUpViewReactor.swift */,
+				8096EA6A2AA1A91400432B1C /* RxImagePickerDelegateProxy.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
+		80380C472A9F6FA00077048D /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				800D64192AA841DC00B83D87 /* FeedViewReactor.swift */,
+				800D641B2AA8444000B83D87 /* FeedReactor.swift */,
+				800D642B2AAF364500B83D87 /* OwnFeedViewReactor.swift */,
+				800D642D2AAF3A6200B83D87 /* OwnerFeedCellReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		C6F07C2DC6DFDED59AD1C5B0 /* Frameworks */ = {
@@ -1136,15 +1197,18 @@
 			files = (
 				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
+				800D64242AA8A7BC00B83D87 /* FeedViewModel.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
 				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
 				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
+				800D642E2AAF3A6200B83D87 /* OwnerFeedCellReactor.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* Repository.swift in Sources */,
-				80380C392A98E0160077048D /* FeedViewModel.swift in Sources */,
+				8096EA6F2AA5B4E800432B1C /* Ex+UIResponder.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				800D642C2AAF364600B83D87 /* OwnFeedViewReactor.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
@@ -1154,6 +1218,7 @@
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
+				8096EA6B2AA1A91400432B1C /* RxImagePickerDelegateProxy.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
@@ -1170,42 +1235,53 @@
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
+				800D64302AAF4EF500B83D87 /* Profile.swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
+				8096EA5A2AA0D72300432B1C /* HappyButton.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
+				80380C462A9F6E7B0077048D /* SignUpViewReactor.swift in Sources */,
 				80380C1A2A98DDA40077048D /* FeedCell.swift in Sources */,
 				80380C222A98DE7C0077048D /* NickNameRecentMessageStackView.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
 				80380C1E2A98DE0E0077048D /* OwnerFeedHeaderView.swift in Sources */,
+				800D642A2AABA09B00B83D87 /* Rx+ UIImageView.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* Entity.swift in Sources */,
 				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */,
 				80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */,
 				80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */,
+				800D64282AA9962D00B83D87 /* Rx+ UIImagePickerController.swift in Sources */,
+				800D64262AA995C600B83D87 /* Rx+UIViewController.swift in Sources */,
+				800D641C2AA8444000B83D87 /* FeedReactor.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* Interface.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
 				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
 				80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
+				800D64202AA8A61900B83D87 /* FeedDataSection.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
 				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
+				800D64222AA8A67900B83D87 /* Feed.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
+				800D643C2AB22A7600B83D87 /* Ex+ String.swift in Sources */,
 				6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,
 				06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */,
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
+				800D641A2AA841DC00B83D87 /* FeedViewReactor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
