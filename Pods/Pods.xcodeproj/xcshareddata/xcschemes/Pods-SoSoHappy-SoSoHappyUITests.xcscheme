@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "800F425B2A794A6D00ACD6C1"
-               BuildableName = "SoSoHappy.app"
-               BlueprintName = "SoSoHappy"
-               ReferencedContainer = "container:SoSoHappy.xcodeproj">
+               BlueprintIdentifier = "A895BC00A50B70A68B93485A53F1125D"
+               BuildableName = "Pods_SoSoHappy_SoSoHappyUITests.framework"
+               BlueprintName = "Pods-SoSoHappy-SoSoHappyUITests"
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,30 +28,6 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
-      <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "800F42742A794A6E00ACD6C1"
-               BuildableName = "SoSoHappyTests.xctest"
-               BlueprintName = "SoSoHappyTests"
-               ReferencedContainer = "container:SoSoHappy.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "800F427E2A794A6E00ACD6C1"
-               BuildableName = "SoSoHappyUITests.xctest"
-               BlueprintName = "SoSoHappyUITests"
-               ReferencedContainer = "container:SoSoHappy.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -70,7 +46,7 @@
             BlueprintIdentifier = "800F425B2A794A6D00ACD6C1"
             BuildableName = "SoSoHappy.app"
             BlueprintName = "SoSoHappy"
-            ReferencedContainer = "container:SoSoHappy.xcodeproj">
+            ReferencedContainer = "container:../SoSoHappy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -80,16 +56,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "800F425B2A794A6D00ACD6C1"
-            BuildableName = "SoSoHappy.app"
-            BlueprintName = "SoSoHappy"
-            ReferencedContainer = "container:SoSoHappy.xcodeproj">
+            BlueprintIdentifier = "A895BC00A50B70A68B93485A53F1125D"
+            BuildableName = "Pods_SoSoHappy_SoSoHappyUITests.framework"
+            BlueprintName = "Pods-SoSoHappy-SoSoHappyUITests"
+            ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
