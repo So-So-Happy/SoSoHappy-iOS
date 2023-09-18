@@ -45,6 +45,10 @@
 		06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */; };
 		06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */; };
 		06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3F2A8FBED400A6765A /* PreviewView.swift */; };
+		06FD73ED2A9C848F00328DF9 /* Coordinator .swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FD73EC2A9C848F00328DF9 /* Coordinator .swift */; };
+		06FD73F12A9C890400328DF9 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FD73F02A9C890400328DF9 /* AppCoordinator.swift */; };
+		06FD73F32A9C8CAD00328DF9 /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FD73F22A9C8CAD00328DF9 /* TabCoordinator.swift */; };
+		06FD73F62A9C92D300328DF9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FD73F52A9C92D300328DF9 /* TabBarController.swift */; };
 		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
 		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
 		67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E682A83CBDE00B47A6B /* AddStep1ViewModel.swift */; };
@@ -171,6 +175,10 @@
 		06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		06F6BA3F2A8FBED400A6765A /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		06FD73EC2A9C848F00328DF9 /* Coordinator .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Coordinator .swift"; sourceTree = "<group>"; };
+		06FD73F02A9C890400328DF9 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		06FD73F22A9C8CAD00328DF9 /* TabCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
+		06FD73F52A9C92D300328DF9 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		156D7DDF0B930D4B4C610CF5 /* Pods_SoSoHappy_SoSoHappyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy_SoSoHappyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3624E46CDE91D314776E6354 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		428FE8BD01B9608136F32DAF /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -358,6 +366,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		06FD73EF2A9C88E000328DF9 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				06FD73EC2A9C848F00328DF9 /* Coordinator .swift */,
+				06FD73F02A9C890400328DF9 /* AppCoordinator.swift */,
+				06FD73F22A9C8CAD00328DF9 /* TabCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		06FD73F42A9C929300328DF9 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				06FD73F52A9C92D300328DF9 /* TabBarController.swift */,
+			);
+			path = Common;
 		066871282AAF61EF009B3E71 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
@@ -474,6 +498,7 @@
 		67E7DB392A812FF600C33988 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				06FD73EF2A9C88E000328DF9 /* Coordinator */,
 				066871282AAF61EF009B3E71 /* Storage */,
 				67E7DB3B2A81300E00C33988 /* Data */,
 				67E7DB3C2A81302300C33988 /* Domain */,
@@ -532,6 +557,7 @@
 		67E7DB3E2A81303900C33988 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				06FD73F42A9C929300328DF9 /* Common */,
 				67E7DB432A8131EA00C33988 /* Login */,
 				67E7DB3F2A8130F600C33988 /* Calender */,
 				67021E5F2A83CB3200B47A6B /* Add */,
@@ -1381,8 +1407,11 @@
 				80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* UserRepository.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
+				06FD73ED2A9C848F00328DF9 /* Coordinator .swift in Sources */,
+				06FD73F32A9C8CAD00328DF9 /* TabCoordinator.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
 				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
+				06FD73F62A9C92D300328DF9 /* TabBarController.swift in Sources */,
 				066871312AB1F3E9009B3E71 /* SetProfileResponse.swift in Sources */,
 				066871352AB20720009B3E71 /* ResignResponse.swift in Sources */,
 				0613BCCF2AA5F1A800E2B97F /* Moya+NetworkError.swift in Sources */,
@@ -1395,6 +1424,8 @@
 				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
+				67E7DB602A81363200C33988 /* NetworkService.swift in Sources */,
+				06FD73F12A9C890400328DF9 /* AppCoordinator.swift in Sources */,
 				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
 				0668712A2AB1DF91009B3E71 /* Profile.swift in Sources */,
