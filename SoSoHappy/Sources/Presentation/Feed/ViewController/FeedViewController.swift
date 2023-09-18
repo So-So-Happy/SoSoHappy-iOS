@@ -8,24 +8,35 @@
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
+
 /*
- 1. heartButton 토글 적용
+ 리팩토링
+ 1. 버튼을 여러번 클릭했을 때 API 중복 호출을 막아주는 조치 (하트, 오늘, 전체 버튼) - throttle, debouce
+ 2. refresh control 한번 더 확인해보기
+ 
+ 3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
+ cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
+ 
+ 4.  operator들 좀 더 찾아보고 적용해보면서 리팩토링
+    (rxswift: asDriver, drive, distinctUntilChanged, subscribe, do 공부해보기)
+ 
+ 5. RxDataSource로 리팩토링할지 고민
  */
+
 
 final class FeedViewController: UIViewController {
     // MARK: - Properties
+    var disposeBag = DisposeBag()
+    
     // MARK: - UI Components
-    private lazy var refreshControl = UIRefreshControl().then {
-        $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-    }
     private lazy var feedHeaderView = FeedHeaderView()
-    var imageSlideView = ImageSlideView()
+    private lazy var refreshControl = UIRefreshControl()
     
     private lazy var tableView = UITableView().then {
-        $0.delegate = self
-        $0.dataSource = self
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
-        
         $0.refreshControl = refreshControl
         $0.tableHeaderView = feedHeaderView
         $0.tableHeaderView?.frame.size.height = 94   // 고정된 값으로 줘도 됨.
@@ -35,19 +46,18 @@ final class FeedViewController: UIViewController {
         $0.estimatedRowHeight = 30
     }
     
-    // MARK: 이미지 크기에 대해서 고민해볼 것 - DM 보류
-    private lazy var dmBarButton = UIBarButtonItem(
-        image: UIImage(named: "dm"),
-        style: .plain,
-        target: self,
-        action: nil).then {
-            
-        $0.tintColor = .red
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    init(reactor: FeedViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -61,7 +71,6 @@ extension FeedViewController {
     func configureNavigation() {
         self.navigationItem.title = "소피들의 소소해피"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.rightBarButtonItem = dmBarButton
     }
     
     private func setLayout() {
@@ -71,68 +80,89 @@ extension FeedViewController {
         }
     }
 }
-// MARK: - UITableView DataSource
-extension FeedViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+
+// MARK: - ReactorKit - bind func
+extension FeedViewController: View {
+    // MARK: bind
+    func bind(reactor: FeedViewReactor) {
+        // MARK: Action (View -> Reactor) 인풋
+        self.rx.viewDidLoad
+            .map { Reactor.Action.fetchTodayFeeds } // default today
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .map { Reactor.Action.refresh }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // sortTodayButton, feedHeaderView에 연타방지 연산 필요
+        // debouce :
+        // throttle :
+        feedHeaderView.sortTodayButton.rx.tap
+//            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
+            .map { Reactor.Action.fetchTodayFeeds }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        feedHeaderView.sortTotalButton.rx.tap
+            .map { Reactor.Action.fetchTotalFeeds }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: State (Reactor -> State) 아웃풋
+        reactor.state
+            .skip(1)
+            .map { $0.feeds }
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifer, cellType: FeedCell.self)) { (row,  feed, cell) in
+                // MARK: FeedReactor에 feed 넣어주는 방법1
+//                let initialState = FeedReactor.State(feed: feed)
+//                let cellReactor = FeedReactor(state: initialState)
+                                
+                // MARK: FeedReactor에 feed 넣어주는 방법2
+                let cellReactor = FeedReactor(feed: feed)
+                cell.reactor = cellReactor
+                
+                // - 여기에 코드를 작성한 이유
+                // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
+                cell.imageSlideView.tapObservable
+                    .subscribe(onNext: { [weak self] in
+                        guard let self = self else { return }
+                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+                    })
+                    .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .skip(1)
+            .map { $0.isRefreshing }
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .skip(1)
+            .map { $0.sortOption }
+            .subscribe(onNext: { [weak self] sortOption in
+                guard let self = self else { return }
+                updateButtonState(sortOption)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: FeedCell = tableView.dequeueReusableCell(withIdentifier: FeedCell.cellIdentifer , for: indexPath) as? FeedCell else { fatalError("The tableView could not dequeue FeedCell in FeedViewController.") }
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
-        cell.imageSlideView.slideShowView.addGestureRecognizer(tapGesture)
-        return cell
-    }
-}
-
-// MARK: - UITableView Delegate
-extension FeedViewController: UITableViewDelegate {
-    
-}
-
-
-// MARK: - Action
-extension FeedViewController {
-    @objc func didTap(sender: UITapGestureRecognizer? = nil) {
-        print("FeedViewController images - didTap() called")
-        imageSlideView.slideShowView.presentFullScreenController(from: self)
-    }
-    
-    // 실제로 서버로부터 다시 데이터를 받아오는 작업을 해보면서 수정하면 될 것 같음
-    @objc func handleRefreshControl() {
-        print("refreshTable")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // .main ? .global?
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing() // Refresh 작업이 끝났음을 control에 알림 (이 타이밍도 다시 한번 확인 필요할 듯)
+    func updateButtonState(_ sortOption: SortOption) {
+        switch sortOption {
+        case .today:
+            setSortTextColorAttribute(feedHeaderView.sortTodayButton, feedHeaderView.sortTotalButton)
+        case .total:
+            setSortTextColorAttribute(feedHeaderView.sortTotalButton, feedHeaderView.sortTodayButton)
         }
     }
+    
+    private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
+        selected.setTitleColor(.black, for: .normal)
+        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
+        notSelected.setTitleColor(.gray, for: .normal)
+        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
+    }
 }
-
-
-
-
-//#if DEBUG
-//import SwiftUI
-//struct FeedViewControllerRepresentable: UIViewControllerRepresentable {
-//    
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//        // leave this empty
-//    }
-//    @available(iOS 13.0.0, *)
-//    func makeUIViewController(context: Context) -> UIViewController{
-//        FeedViewController()
-//    }
-//}
-//@available(iOS 13.0, *)
-//struct FeedViewControllerRepresentable_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            FeedViewControllerRepresentable()
-//                .ignoresSafeArea()
-//                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
-//                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
-//        }
-//        
-//    }
-//} #endif
-

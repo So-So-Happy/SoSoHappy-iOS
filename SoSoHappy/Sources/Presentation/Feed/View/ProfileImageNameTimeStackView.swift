@@ -18,11 +18,11 @@ final class ProfileImageNameTimeStackView: UIView {
         distribution: .fill,
         spacing: 10
     )
+    
     // 피드 작성한 사람의 프로필 이미지
     private lazy var profileImageView =  UIImageView().then {
-        $0.image = UIImage(named: "profile")
-//        $0.contentMode = .scaleAspectFit
-//        $0.clipsToBounds = true
+        $0.contentMode = .scaleToFill
+        $0.clipsToBounds = true
     }
     
     private lazy var nickNameAndTimeStackView = UIStackView(
@@ -36,7 +36,6 @@ final class ProfileImageNameTimeStackView: UIView {
     private lazy var profileNickNameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
-        $0.text = "소해피"
     }
     
     // 피드 올라온 시간
@@ -44,7 +43,6 @@ final class ProfileImageNameTimeStackView: UIView {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 11, weight: .light)
         $0.textColor = .gray
-        $0.text = "5분 전"
     }
     
     init(imageSize: CGFloat) {
@@ -58,6 +56,7 @@ final class ProfileImageNameTimeStackView: UIView {
     }
 }
 
+//MARK: - Add Subviews & Layout
 extension ProfileImageNameTimeStackView {
     private func setStackView() {
         setProfileImageSize()
@@ -68,6 +67,7 @@ extension ProfileImageNameTimeStackView {
         profileImageView.snp.makeConstraints { make in
             make.size.equalTo(imageSize) //38
         }
+        profileImageView.layer.cornerRadius = imageSize / 2
     }
     
     private func setLayout() {
@@ -81,5 +81,14 @@ extension ProfileImageNameTimeStackView {
         
         profileImageNameTimeStackView.addArrangedSubview(profileImageView)
         profileImageNameTimeStackView.addArrangedSubview(nickNameAndTimeStackView)
+    }
+}
+
+// MARK: Setting할 수 있는 function
+extension ProfileImageNameTimeStackView {
+    func setContents(feed: Feed) {
+        profileImageView.image = feed.profileImage
+        profileNickNameLabel.text = feed.profileNickName
+        timeLabel.text = feed.time
     }
 }

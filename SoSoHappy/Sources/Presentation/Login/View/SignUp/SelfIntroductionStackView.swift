@@ -10,8 +10,7 @@ import SnapKit
 import Then
 
 /*
- 1. textfield 입력 처리
-    - 최대 60자
+ 1. TextView에 clear button 추가
  */
 
 final class SelfIntroductionStackView: UIView {
@@ -29,7 +28,7 @@ final class SelfIntroductionStackView: UIView {
         $0.font = .systemFont(ofSize: 15, weight: .light)
     }
 
-    private lazy var selfIntroductionTextField = UITextView().then {
+    lazy var selfIntroductionTextView = UITextView().then {
         $0.backgroundColor = .white
         // clear button?
         $0.font = UIFont.systemFont(ofSize: 14)
@@ -39,8 +38,7 @@ final class SelfIntroductionStackView: UIView {
         }
     }
     
-    private var textCountLabel = UILabel().then {
-        $0.text = "0 / 60"
+    lazy var textCountLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 13)
         $0.textColor = .lightGray
         $0.textAlignment = .right
@@ -63,22 +61,8 @@ extension SelfIntroductionStackView {
         }
         
         selfIntroductionView.addArrangedSubview(selfIntroductionGuideLabel)
-        selfIntroductionView.addArrangedSubview(selfIntroductionTextField)
+        selfIntroductionView.addArrangedSubview(selfIntroductionTextView)
         selfIntroductionView.addArrangedSubview(textCountLabel)
 
     }
 }
-
-//extension SelfIntroductionStackView: UITextFieldDelegate {
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        if let char = string.cString(using: String.Encoding.utf8) {
-//            let isBackSpace = strcmp(char, "\\b")
-//            if isBackSpace == -92 {
-//                return true
-//            }
-//        }
-//        guard textField.text!.count < 60 else { return false }
-//        return true
-//    }
-//}
-
