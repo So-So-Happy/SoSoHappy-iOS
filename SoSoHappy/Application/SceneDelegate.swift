@@ -8,6 +8,7 @@
 import UIKit
 import RxKakaoSDKAuth
 import KakaoSDKAuth
+import GoogleSignIn
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
@@ -21,9 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-//        window.rootViewController = mainVC // 시작 VC 작성해주기
-        window.rootViewController = LoginViewController() // 시작 VC 작성해주기
+//        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
+        let mainVC = LoginViewController()
+        mainVC.reactor = LoginViewReactor()
+        window.rootViewController = mainVC // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }
@@ -32,6 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let url = URLContexts.first?.url {
             if (AuthApi.isKakaoTalkLoginUrl(url)) {
                 _ = AuthController.rx.handleOpenUrl(url: url)
+            } else {
+                GIDSignIn.sharedInstance.handle(url)
             }
         }
     }
