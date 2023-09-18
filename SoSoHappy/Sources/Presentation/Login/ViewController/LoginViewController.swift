@@ -19,9 +19,7 @@ import GoogleSignIn
  */
 
 final class LoginViewController: UIViewController, View {
-  
-    private let coordinator: LoginCoordinatorProtocol
-  
+    
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
@@ -78,16 +76,6 @@ final class LoginViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
     }
-    
-    public init(coordinator: LoginCoordinatorProtocol) {
-        self.coordinator = coordinator
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
 }
 
 // MARK: -  Layout( Add Subviews, Constraints) & Attribute
@@ -95,7 +83,6 @@ extension LoginViewController {
     private func setup() {
         setLayout()
         setAttribute()
-        configureButtonTarget()
     }
     
     // Add SubViews & Contstraints
@@ -126,24 +113,4 @@ extension LoginViewController {
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "loginColor")
     }
-    
-    private func configureButtonTarget() {
-        logInButtonStackView.setKakaoButtonTarget(target: self, action: #selector(didTapKakaoButton))
-        logInButtonStackView.setAppleButtonTarget(target: self, action: #selector(didTapAppleButton))
-    }
 }
-
-extension LoginViewController {
-    
-    @objc private func didTapKakaoButton() {
-        coordinator.pushMainView()
-        print("카카오 눌림")
-    }
-    
-    @objc private func didTapAppleButton() {
-        coordinator.pushMainView()
-        print("애플 눌림")
-    }
-    
-}
-
