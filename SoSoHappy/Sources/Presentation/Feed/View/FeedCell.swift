@@ -58,8 +58,11 @@ final class FeedCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Category StackView에 이미지가 계속 쌓이는 문제 해결
+    // stackView안의 subview를 제거해주는 것보다 초기화해주는게 더 좋을 것 같아서
     override func prepareForReuse() {
         super.prepareForReuse()
+        categoryStackView = CategoryStackView(imageSize: 45)
     }
 }
 
@@ -152,10 +155,11 @@ extension FeedCell: View {
     }
     
     private func setFeedCell(_ feed: Feed) {
+        print("setCells")
         profileImageNameTimeStackView.setContents(feed: feed)
         setHeartButton(feed.isLike)
         weatherDateStackView.setContents(feed: feed)
-        categoryStackView.setContents(feed: feed)
+        categoryStackView.addImageViews(images: feed.categories)
         contentLabel.text = feed.content
         imageSlideView.setContents(feed: feed)
     }
