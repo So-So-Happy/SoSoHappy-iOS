@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 
+// MARK: - CategoryStackView에 이미지가 계속 쌓이는 문제 해결 필요
 
 final class CategoryStackView: UIView {
     var imageSize: CGFloat
