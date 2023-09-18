@@ -8,15 +8,13 @@
 import UIKit
 import SnapKit
 import Then
-
-/*
- 1. private(set)이 적합한지 한번 더 고민해보기 - profileImageView
- */
+import ReactorKit
+import RxCocoa
 
 final class ImageEditButtonView: UIView {
-    private lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 160, profileImageViewwSize: 110)
+    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 160, profileImageViewwSize: 110)
     
-    private lazy var cameraIconView = UIView().then {
+    lazy var cameraButton = UIButton().then {
         $0.backgroundColor = UIColor(named: "cameraColor")
         $0.layer.cornerRadius = 20
         $0.layer.borderColor = UIColor.white.cgColor
@@ -56,7 +54,7 @@ extension ImageEditButtonView {
     
     private func addSubviews() {
         self.addSubview(profileImageWithBackgroundView)
-        self.addSubview(cameraIconView)
+        self.addSubview(cameraButton)
     }
     
     private func setLayout() {
@@ -64,9 +62,8 @@ extension ImageEditButtonView {
             make.center.equalToSuperview()
         }
         
-        cameraIconView.snp.makeConstraints { make in
+        cameraButton.snp.makeConstraints { make in
             make.right.bottom.equalToSuperview()
         }
     }
 }
-
