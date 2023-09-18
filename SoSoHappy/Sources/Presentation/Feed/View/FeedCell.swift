@@ -9,16 +9,21 @@ import UIKit
 import SnapKit
 import ImageSlideshow
 import Then
+import ReactorKit
+
 /*
  1. 코드 상속 처리
- 2. heartButton 토글 적용
  */
 
 final class FeedCell: UITableViewCell {
     // MARK: - Properties
+    var disposeBag = DisposeBag()
+    
     static var cellIdentifer: String {
         return String(describing: Self.self)
     }
+    
+    private let heartImageConfiguration = UIImage.SymbolConfiguration(pointSize: 21, weight: .light)
     // MARK: - UI Components
     // 피드 cell background
     private lazy var cellBackgroundView =  UIView().then {
@@ -29,13 +34,7 @@ final class FeedCell: UITableViewCell {
     }
     
     private lazy var profileImageNameTimeStackView = ProfileImageNameTimeStackView(imageSize: 38)
-    // 좋아요 버튼
-    private lazy var heartButton = UIButton().then {
-        let image = UIImage(systemName: "heart")
-        $0.setImage(image, for: .normal)
-        $0.tintColor = .red
-    }
-    
+    private lazy var heartButton = UIButton()
     private lazy var weatherDateStackView = WeatherDateStackView()
     private lazy var categoryStackView = CategoryStackView(imageSize: 45)
     
@@ -45,7 +44,6 @@ final class FeedCell: UITableViewCell {
         $0.font = .systemFont(ofSize: 15, weight: .light)
         $0.textColor = .darkGray
         $0.numberOfLines = 2
-        $0.text = "오늘 아아랑 휘낭시에를 머것다..그런데 아아를 먹다가 쏟아버렸다. 커피 냄새가 좋아서 괜찮아지만 옷에 묻은 얼룩은 슬펐다. 휘낭시애는 맛있어서 연달아서 5개를 앉은 자리에서 먹었다. 행복했다! 오늘 하루도 작은 행복을 느낄 수 있어서 너무 감사합니다."
     }
     
     lazy var imageSlideView = ImageSlideView()
@@ -62,17 +60,6 @@ final class FeedCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
-    
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        backgroundColor = .clear
-//        selectionStyle = .none
-//        self.contentView.backgroundColor = .white
-//        self.contentView.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).cgColor
-//        self.contentView.layer.borderWidth = 1
-//        self.contentView.layer.cornerRadius = 16
-//        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-//    }
 }
 
 //MARK: - setCellAttributes & Add Subviews & Constraints
@@ -118,6 +105,7 @@ extension FeedCell {
         weatherDateStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(profileImageNameTimeStackView.snp.bottom).offset(14)
+//            make.height.equalTo(70)
         }
         
         categoryStackView.snp.makeConstraints { make in
@@ -141,3 +129,71 @@ extension FeedCell {
         }
     }
 }
+
+extension FeedCell: View {
+    func bind(reactor: FeedReactor) {
+        guard let currentFeed = reactor.currentState.feed else { return }
+        setFeedCell(currentFeed)
+        
+        heartButton.rx.tap // debouce ? throttle
+            .map { Reactor.Action.toggleLike}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+//        reactor.state
+//            .skip(1)
+//            .compactMap { $0.feed?.isLike }
+//            // .compactMap : Optional 벗기고 nil 값 filter
+//            // nil 다 제외하고 isLike 값만 남게 됨
+//            .map {
+//                let image = self.setImageForHeartButton($0)
+//                let color = $0 ? UIColor.red : UIColor.gray
+//                return (image, color)
+//            }
+//            .bind { [weak heartButton] image, color in
+//                heartButton?.setImage(image, for: .normal)
+//                heartButton?.tintColor = color
+//            }
+//            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .skip(1)
+            .compactMap { $0.feed?.isLike }
+            .bind { [weak self] isLike in
+                print("여기: \(type(of: isLike))")
+                guard let `self` = self else { return }
+//                heartButton.setImage(self.setImageForHeartButton(isLike), for: .normal)
+//                heartButton.tintColor = isLike ? .systemRed : .systemGray
+                setHeartButton(isLike)
+            }
+            .disposed(by: disposeBag)
+        
+       
+    }
+    
+    private func setFeedCell(_ feed: Feed) {
+        print("setFeedCell")
+        profileImageNameTimeStackView.setContents(feed: feed)
+        setHeartButton(feed.isLike)
+//        heartButton.setImage(setImageForHeartButton(feed.isLike), for: .normal)
+//        heartButton.tintColor = feed.isLike ? .systemRed : .systemGray
+        weatherDateStackView.setContents(feed: feed)
+        categoryStackView.setContents(feed: feed)
+        contentLabel.text = feed.content
+        imageSlideView.setContents(feed: feed)
+    }
+    
+//    private func setImageForHeartButton(_ isLike: Bool) -> UIImage {
+//        return isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
+//    }
+    
+    private func setHeartButton(_ isLike: Bool) {
+        let image: UIImage = isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
+        let color: UIColor =  isLike ? UIColor.systemRed : UIColor.systemGray
+        
+        heartButton.setImage(image, for: .normal)
+        heartButton.tintColor = color
+    }
+}
+
