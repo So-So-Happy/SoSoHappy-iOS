@@ -22,7 +22,7 @@ final class ProfileImageWithBackgroundView: UIView {
     }
     
     lazy var profileImageView = UIImageView().then {            // 프로필 이미지
-        $0.contentMode = .scaleToFill    
+        $0.contentMode = .scaleToFill
         $0.layer.masksToBounds = true
     }
     
@@ -65,4 +65,5 @@ extension ProfileImageWithBackgroundView {
         }
     }
 }
+
 

@@ -1,5 +1,5 @@
 //
-//  Feed.swift
+//  FeedTemp.swift
 //  SoSoHappy
 //
 //  Created by Sue on 2023/09/07.
@@ -12,7 +12,7 @@
 import UIKit
 
 
-struct Feed: Hashable {
+struct FeedTemp: Hashable {
     let profileImage: UIImage           // String?
     let profileNickName: String         // 게시글 작성자 닉네임 - "소해피"
     let time: String                    // 게시글 업로드 시간 - "5분 전"

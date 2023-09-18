@@ -19,14 +19,14 @@ class OwnFeedViewReactor: Reactor {
     
     enum Mutation {
         case setRefreshing(Bool)
-        case profile(Profile)
-        case setFeeds([Feed])
+        case profile(ProfileTemp)
+        case setFeeds([FeedTemp])
     }
     
     struct State {
         var isRefreshing: Bool = false
-        var profile: Profile?
-        var feeds: [Feed] = []
+        var profile: ProfileTemp?
+        var feeds: [FeedTemp] = []
     }
     
     let initialState: State
@@ -35,8 +35,8 @@ class OwnFeedViewReactor: Reactor {
         initialState = State()
     }
     
-    var forTest: [Feed] = [
-        Feed(profileImage: UIImage(named: "profile")!,
+    var forTest: [FeedTemp] = [
+        FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor", time: "10분 전",
                                 isLike: true, weather: "sunny",
                                 date: "2023.09.08 금요일",
@@ -44,7 +44,7 @@ class OwnFeedViewReactor: Reactor {
                                 content: "엥 이거 왜 안나타나지?",
                                 images: [UIImage(named: "bagel")!]
                                 ),
-        Feed(profileImage: UIImage(named: "profile")!,
+        FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor22", time: "15분 전",
                                 isLike: false, weather: "rainy",
                                 date: "2023.09.07 목요일",
@@ -54,12 +54,12 @@ class OwnFeedViewReactor: Reactor {
                                 )
     ]
     
-    var testProfile = Profile(profileImage: UIImage(named: "pic2")!, profileNickName: "아메리카노러버", selfIntroduction: "나는야 소해피. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !")
+    var testProfile = ProfileTemp(profileImage: UIImage(named: "pic2")!, profileNickName: "아메리카노러버", selfIntroduction: "나는야 소해피. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !")
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .refresh:
-            let fetchedFeeds: [Feed] = []
+            let fetchedFeeds: [FeedTemp] = []
             let profile = testProfile
             print("refreshed")
             return Observable.concat([
@@ -68,7 +68,7 @@ class OwnFeedViewReactor: Reactor {
                 // user 프로필도 불러와야 함
                 Observable.just(Mutation.profile(profile)),
                 Observable.just(Mutation.setFeeds(fetchedFeeds)), // 통신해서 받아온 feed들을 Mutation.setFeeds로 map
-                Observable.just(.setRefreshing(false)) 
+                Observable.just(.setRefreshing(false))
             ])
         }
     }

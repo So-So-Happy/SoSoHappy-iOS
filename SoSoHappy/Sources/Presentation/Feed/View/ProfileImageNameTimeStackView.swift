@@ -86,9 +86,10 @@ extension ProfileImageNameTimeStackView {
 
 // MARK: Setting할 수 있는 function
 extension ProfileImageNameTimeStackView {
-    func setContents(feed: Feed) {
+    func setContents(feed: FeedTemp) {
         profileImageView.image = feed.profileImage
         profileNickNameLabel.text = feed.profileNickName
         timeLabel.text = feed.time
     }
 }
+

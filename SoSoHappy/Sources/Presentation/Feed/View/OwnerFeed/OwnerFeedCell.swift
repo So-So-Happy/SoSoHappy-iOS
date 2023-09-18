@@ -152,7 +152,7 @@ extension OwnerFeedCell: View {
         
     }
     
-    private func setFeedCell(_ feed: Feed) {
+    private func setFeedCell(_ feed: FeedTemp) {
         
     }
     
@@ -161,3 +161,4 @@ extension OwnerFeedCell: View {
         return isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
     }
 }
+

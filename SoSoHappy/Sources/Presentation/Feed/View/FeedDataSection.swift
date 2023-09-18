@@ -16,11 +16,11 @@ import RxDataSources
  */
 
 struct FeedDataSection {
-    var items: [Feed]
+    var items: [FeedTemp]
 }
 
 extension FeedDataSection: SectionModelType {
-    typealias Item = Feed
+    typealias Item = FeedTemp
     
     init(original: FeedDataSection, items: [Item]) {
         self = original

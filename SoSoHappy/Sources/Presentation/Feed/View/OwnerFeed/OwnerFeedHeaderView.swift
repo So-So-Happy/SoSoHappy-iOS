@@ -65,7 +65,7 @@ final class OwnerFeedHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(with profile: Profile) {
+    func update(with profile: ProfileTemp) {
         print("OwnerFeedHeaderView - update function")
         profileImageWithBackgroundView.profileImageView.image = profile.profileImage
         profileNickNameLabel.text = profile.profileNickName
@@ -151,7 +151,7 @@ extension OwnerFeedHeaderView {
 //#if DEBUG
 //import SwiftUI
 //struct OwnerFeedViewControllerRepresentable: UIViewControllerRepresentable {
-//    
+//
 //    func updateUIViewController(_ uiView: UIViewController,context: Context) {
 //        // leave this empty
 //    }
@@ -169,6 +169,7 @@ extension OwnerFeedHeaderView {
 //                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
 //                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
 //        }
-//        
+//
 //    }
 //} #endif
+

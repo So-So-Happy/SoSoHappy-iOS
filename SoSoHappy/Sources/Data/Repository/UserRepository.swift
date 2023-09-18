@@ -12,19 +12,27 @@ import Moya
 
 final class UserRepository: UserRepositoryProtocol, Networkable {
     func googleLogin() -> RxSwift.Observable<AuthResponse> {
-        <#code#>
+        return UserRepository.makeProvider().rx.request(.kakaoLogin)
+                    .map(AuthResponse.self)
+                    .asObservable()
     }
     
     func setProfile(profile: Profile) -> RxSwift.Observable<SetProfileResponse> {
-        <#code#>
+        return UserRepository.makeProvider().rx.request(.kakaoLogin)
+                    .map(SetProfileResponse.self)
+                    .asObservable()
     }
     
     func resign(email: Resign) -> RxSwift.Observable<ResignResponse> {
-        <#code#>
+        return UserRepository.makeProvider().rx.request(.kakaoLogin)
+                    .map(ResignResponse.self)
+                    .asObservable()
     }
     
     func findProfileImg(nickName: FindProfileImg) -> RxSwift.Observable<FindProfileImgResponse> {
-        <#code#>
+        return UserRepository.makeProvider().rx.request(.kakaoLogin)
+                    .map(FindProfileImgResponse.self)
+                    .asObservable()
     }
     
    

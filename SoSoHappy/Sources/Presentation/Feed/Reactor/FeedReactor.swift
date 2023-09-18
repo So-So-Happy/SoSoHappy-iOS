@@ -17,11 +17,11 @@ class FeedReactor: Reactor {
     }
     
     enum Mutation {
-        case setFeed(Feed)
+        case setFeed(FeedTemp)
     }
     
     struct State {
-        var feed: Feed?
+        var feed: FeedTemp?
     }
     
     let initialState: State
@@ -32,7 +32,7 @@ class FeedReactor: Reactor {
 //    }
     
     // MARK: 방법 2
-    init(feed: Feed) {
+    init(feed: FeedTemp) {
         initialState = State(feed: feed)
     }
     
@@ -59,4 +59,5 @@ class FeedReactor: Reactor {
         return newState
     }
 }
+
 

@@ -154,7 +154,7 @@ extension FeedCell: View {
             .disposed(by: disposeBag)
     }
     
-    private func setFeedCell(_ feed: Feed) {
+    private func setFeedCell(_ feed: FeedTemp) {
         print("setCells")
         profileImageNameTimeStackView.setContents(feed: feed)
         setHeartButton(feed.isLike)
@@ -172,4 +172,5 @@ extension FeedCell: View {
         heartButton.tintColor = color
     }
 }
+
 

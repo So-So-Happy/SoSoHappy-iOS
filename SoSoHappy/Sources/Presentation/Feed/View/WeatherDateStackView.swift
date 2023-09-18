@@ -55,9 +55,10 @@ extension WeatherDateStackView {
 
 // MARK: Setting할 수 있는 functions
 extension WeatherDateStackView {
-    func setContents(feed: Feed) {
+    func setContents(feed: FeedTemp) {
         weatherImageView.image = UIImage(named: feed.weather)
         dateLabel.text = feed.date
     }
 }
+
 

@@ -89,3 +89,4 @@ extension NickNameStackView {
         nickNameStackView.addArrangedSubview(warningMessageLabel)
     }
 }
+

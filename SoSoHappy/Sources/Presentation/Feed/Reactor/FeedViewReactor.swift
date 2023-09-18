@@ -21,13 +21,13 @@ class FeedViewReactor: Reactor {
     
     enum Mutation {
         case setRefreshing(Bool)
-        case setFeeds([Feed])
+        case setFeeds([FeedTemp])
         case sortOption(SortOption)
     }
     
     struct State {
         var isRefreshing: Bool = false
-        var feeds: [Feed] = []
+        var feeds: [FeedTemp] = []
         var sortOption: SortOption = .today
     }
     
@@ -37,8 +37,8 @@ class FeedViewReactor: Reactor {
         initialState = State()
     }
     
-    var forTest: [Feed] = [
-        Feed(profileImage: UIImage(named: "profile")!,
+    var forTest: [FeedTemp] = [
+        FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor", time: "10분 전",
                                 isLike: true, weather: "sunny",
                                 date: "2023.09.08 금요일",
@@ -46,7 +46,7 @@ class FeedViewReactor: Reactor {
                                 content: "엥 이거 왜 안나타나지?",
                                 images: [UIImage(named: "bagel")!]
                                 ),
-        Feed(profileImage: UIImage(named: "cafe")!,
+        FeedTemp(profileImage: UIImage(named: "cafe")!,
                                 profileNickName: "Reactor22", time: "15분 전",
                                 isLike: false, weather: "rainy",
                                 date: "2023.09.07 목요일",
@@ -92,7 +92,7 @@ class FeedViewReactor: Reactor {
     }
     
     private func fetchFeedBySortOption(_ sortOption: SortOption) -> Observable<Mutation> {
-        let fetchedFeeds: [Feed] = []
+        let fetchedFeeds: [FeedTemp] = []
         // sortOption에 따라서 feed를 fetch - today, total
         
         // API 통신 부분 코드 작성할 때 AlertReactor 코드 참고해보기
@@ -105,3 +105,4 @@ class FeedViewReactor: Reactor {
 
     }
 }
+

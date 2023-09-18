@@ -13,11 +13,11 @@ class OwnerFeedCellReactor: Reactor {
     }
     
     enum Mutation {
-        case setFeed(Feed)
+        case setFeed(FeedTemp)
     }
     
     struct State {
-        var feed: Feed?
+        var feed: FeedTemp?
     }
     
     let initialState: State
@@ -49,4 +49,5 @@ class OwnerFeedCellReactor: Reactor {
         return newState
     }
 }
+
 

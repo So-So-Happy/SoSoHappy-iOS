@@ -95,7 +95,7 @@ extension UserAPI {
     }
     
     func getHeader() -> [String : String]? {
-        
+        return [:]
     }
 }
 
