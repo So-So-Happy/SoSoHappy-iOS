@@ -1,6 +1,0 @@
-framework module Pods_SoSoHappy_SoSoHappyUITests {
-  umbrella header "Pods-SoSoHappy-SoSoHappyUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
