@@ -8,22 +8,20 @@
 import UIKit
 import SnapKit
 import Then
-/*
- 1. heartButton 토글 적용
- */
+import ReactorKit
+import RxSwift
+import RxCocoa
  
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
+    var disposeBag = DisposeBag()
+    
     // MARK: - UI Components
-    private lazy var refreshControl = UIRefreshControl().then {
-        $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-    }
-    var imageSlideView = ImageSlideView()
+    private lazy var refreshControl = UIRefreshControl()
+    private lazy var ownerFeedHeaderView = OwnerFeedHeaderView()
     
     private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
-        $0.delegate = self
-        $0.dataSource = self
-        $0.register(OwnerFeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
+        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
         $0.separatorStyle = .none
         $0.refreshControl = self.refreshControl
         $0.sectionHeaderHeight = UITableView.automaticDimension
@@ -34,7 +32,17 @@ final class OwnerFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view did load")
         setup()
+    }
+
+    init(reactor: OwnFeedViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -52,46 +60,63 @@ extension OwnerFeedViewController {
     }
 }
 
-// MARK: - UITableView DataSource
-extension OwnerFeedViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: OwnerFeedCell = tableView.dequeueReusableCell(withIdentifier: OwnerFeedCell.cellIdentifer , for: indexPath) as? OwnerFeedCell else { fatalError("The tableView could not dequeue OwnerFeedCell in OwnerFeedViewController.") }
+// MARK: - ReactorKit - bind func
+extension OwnerFeedViewController: View {
+    // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
+    func bind(reactor: OwnFeedViewReactor) {
+        self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
+    
+        self.rx.viewDidLoad
+            .map { Reactor.Action.refresh } // 해당 유저의 공개 feed fetch
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
-        cell.imageSlideView.slideShowView.addGestureRecognizer(tapGesture)
-        return cell
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .map { Reactor.Action.refresh }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .skip(1)
+            .compactMap { $0.profile }
+            .subscribe(onNext: { [weak self] profile in
+                self?.ownerFeedHeaderView.update(with: profile)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .skip(1)
+            .map { $0.feeds }
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifer, cellType: FeedCell.self)) { (row,  feed, cell) in
+                print("cell 만드는 중")
+
+                let cellReactor = FeedReactor(feed: feed)
+                cell.reactor = cellReactor
+
+                cell.imageSlideView.tapObservable
+                    .subscribe(onNext: { [weak self] in
+                        guard let self = self else { return }
+                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+                    })
+                    .disposed(by: cell.disposeBag) // cell.disposeBag ?
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isRefreshing }
+          .bind(to: self.refreshControl.rx.isRefreshing)
+          .disposed(by: self.disposeBag)
+        
     }
 }
 
-// MARK: - UITableView Delegate
+// MARK: - UITableView Delegate (Header 설정)
 extension OwnerFeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection section: Int) -> CGFloat {
-        return 200
+        return 300
     }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return OwnerFeedHeaderView()
-    }
-}
 
-// MARK: - Action
-extension OwnerFeedViewController {
-    @objc func didTap(sender: UITapGestureRecognizer? = nil) {
-        print("OwnerFeedViewController images - didTap() called")
-        imageSlideView.slideShowView.presentFullScreenController(from: self)
-    }
-    
-    // 실제로 서버로부터 다시 데이터를 받아오는 작업을 해보면서 수정하면 될 것 같음
-    @objc func handleRefreshControl() {
-        print("refreshTable")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // .main ? .global?
-            self.tableView.reloadData()
-            self.tableView.refreshControl?.endRefreshing() // Refresh 작업이 끝났음을 control에 알림 (이 타이밍도 다시 한번 확인 필요할 듯)
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return ownerFeedHeaderView
     }
 }
 
