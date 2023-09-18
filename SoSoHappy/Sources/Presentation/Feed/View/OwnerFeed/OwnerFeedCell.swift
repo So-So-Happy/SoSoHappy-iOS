@@ -9,12 +9,20 @@ import UIKit
 import SnapKit
 import ImageSlideshow
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
 final class OwnerFeedCell: UITableViewCell {
     // MARK: - Properties
+    var disposeBag = DisposeBag()
+    
     static var cellIdentifer: String {
         return String(describing: Self.self)
     }
+    
+    private let heartImageConfiguration = UIImage.SymbolConfiguration(pointSize: 21, weight: .light)
+    
     // MARK: - UI Components
     // 피드 cell background
     private lazy var cellBackgroundView = UIView().then {
@@ -116,30 +124,40 @@ extension OwnerFeedCell {
     }
 }
 
-
-
-//#if DEBUG
-//import SwiftUI
-//struct OwnerFeedViewControllerRepresentable: UIViewControllerRepresentable {
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//        // leave this empty
-//    }
-//    @available(iOS 13.0.0, *)
-//    func makeUIViewController(context: Context) -> UIViewController{
-//        OwnerFeedViewController()
-//    }
-//}
-//@available(iOS 13.0, *)
-//struct OwnerFeedViewControllerRepresentable_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            OwnerFeedViewControllerRepresentable()
-//                .ignoresSafeArea()
-//                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
-//                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
-//        }
-//
-//    }
-//} #endif
-
+extension OwnerFeedCell: View {
+    func bind(reactor: OwnerFeedCellReactor) {
+        guard let currentFeed = reactor.currentState.feed else { return }
+        setFeedCell(currentFeed)
+        
+        heartButton.rx.tap // debouce ? throttle
+            .map { Reactor.Action.toggleLike}
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .compactMap { $0.feed?.isLike }
+            // .compactMap : Optional 벗기고 nil 값 filter
+            // nil 다 제외하고 isLike 값만 남게 됨
+            .map {
+                let image = self.setImageForHeartButton($0)
+                let color = $0 ? UIColor.red : UIColor.gray
+                return (image, color)
+            }
+            .bind { [weak heartButton] image, color in
+                heartButton?.setImage(image, for: .normal)
+                heartButton?.tintColor = color
+            }
+            .disposed(by: disposeBag)
+        
+    }
+    
+    private func setFeedCell(_ feed: Feed) {
+        
+    }
+    
+    
+    private func setImageForHeartButton(_ isLike: Bool) -> UIImage {
+        return isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
+    }
+}

@@ -26,21 +26,19 @@ final class FeedHeaderView: UIView {
         spacing: 8
     )
     
-    private lazy var sortTodayButton = UIButton().then {
+    lazy var sortTodayButton = UIButton().then {
         $0.setTitle("오늘", for: .normal)
         $0.setTitleColor(.black, for: .normal)
-        $0.titleLabel?.font =  UIFont.systemFont(ofSize: 15)
     }
     
     private lazy var divider = UILabel().then {
-        $0.font = .systemFont(ofSize: 12, weight: .regular)
+        $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.text = "|"
     }
     
-    private lazy var sortTotalButton = UIButton().then {
+    lazy var sortTotalButton = UIButton().then {
         $0.setTitle("전체", for: .normal)
         $0.setTitleColor(.gray, for: .normal)
-        $0.titleLabel?.font =  UIFont.systemFont(ofSize: 15)
     }
     
     override init(frame: CGRect) {
@@ -78,32 +76,7 @@ extension FeedHeaderView {
         sortTodayTotalStackView.snp.makeConstraints { make in
             make.right.equalTo(safeAreaLayoutGuide).inset(16)
             make.top.equalTo(feedSubtitle.snp.bottom).offset(40)
+            make.bottom.equalToSuperview().inset(10)
         }
     }
 }
-
-
-//#if DEBUG
-//import SwiftUI
-//struct FeedViewControllerRepresentable: UIViewControllerRepresentable {
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//        // leave this empty
-//    }
-//    @available(iOS 13.0.0, *)
-//    func makeUIViewController(context: Context) -> UIViewController{
-//        FeedViewController()
-//    }
-//}
-//@available(iOS 13.0, *)
-//struct FeedViewControllerRepresentable_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            FeedViewControllerRepresentable()
-//                .ignoresSafeArea()
-//                .previewDisplayName(/*@START_MENU_TOKEN@*/"Preview"/*@END_MENU_TOKEN@*/)
-//                .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
-//        }
-//
-//    }
-//} #endif
