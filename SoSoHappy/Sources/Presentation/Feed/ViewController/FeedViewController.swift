@@ -112,6 +112,7 @@ extension FeedViewController: View {
         
         // MARK: State (Reactor -> State) 아웃풋
         reactor.state
+            .skip(1)
             .map { $0.feeds }
             .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifer, cellType: FeedCell.self)) { (row,  feed, cell) in
                 // MARK: FeedReactor에 feed 넣어주는 방법1
@@ -133,11 +134,14 @@ extension FeedViewController: View {
             }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.isRefreshing }
-          .bind(to: self.refreshControl.rx.isRefreshing)
-          .disposed(by: self.disposeBag)
+        reactor.state
+            .skip(1)
+            .map { $0.isRefreshing }
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: self.disposeBag)
         
         reactor.state
+            .skip(1)
             .map { $0.sortOption }
             .subscribe(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
