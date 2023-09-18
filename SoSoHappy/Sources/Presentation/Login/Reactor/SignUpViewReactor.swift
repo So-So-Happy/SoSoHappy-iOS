@@ -32,27 +32,23 @@ class SignUpViewReactor: Reactor {
     struct State {
         var profileImage: UIImage
         var nickNameText: String
-        var duplicateMessage: String
         var selfIntroText: String
-        var isDuplicate: Bool // 중복 (true) 상태로 초기화
+        var isDuplicate: Bool?
     }
     
     let initialState: State
     
     init() {
-        initialState = State(profileImage: UIImage(named: "profile")!, nickNameText: "", duplicateMessage: "", selfIntroText: "", isDuplicate: true)
+        initialState = State(profileImage: UIImage(named: "profile")!, nickNameText: "", selfIntroText: "")
     }
     
     // MARK: Action -> Mutation
     func mutate(action: Action) -> Observable<Mutation> {
-        print("mutate")
-        // switch문 (action)
         switch action {
         case let .selectImage(image):
             return Observable.just(Mutation.setImage(image))
             
         case let .nickNameTextChanged(text):
-            print("mutate() nickNameTextChanged: \(text)")
             return Observable.just(Mutation.setNickNameText(text))
             
         case let .selfIntroTextChanged(text):
@@ -60,43 +56,47 @@ class SignUpViewReactor: Reactor {
             
         case .checkDuplicate:
             // 중복 검사 API -> 결과 (중복 - true, 중복 x - false)
-            print(".checkDuplicate")
-            return Observable.just(Mutation.isDuplicate(true))
+            return Observable.just(Mutation.isDuplicate(false))
             
         case .signUp:
-            // 프로필 생성 API -> 결과 (가입 잘 됨 - true, 실패 - false)
+            print("muate() - signup")
+            let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
+            
             return Observable.just(Mutation.signUpSuccessed(true))
         }
     }
     
     // MARK: Mutation -> State
     func reduce(state: State, mutation: Mutation) -> State {
-        print("reduce")
         var newState = state
         
         switch mutation {
         case let .setImage(image):
-            print("reduce - setImage")
             if let image = image {
                 newState.profileImage = image
-            } else {
-                newState.profileImage = UIImage(named: "profile")!
             }
 
         case let .setNickNameText(text):
-            newState.nickNameText = String(text.prefix(10))
+            let textWithoutSpace = text.replacingOccurrences(of: " ", with: "") // 아예 스페이스가 안되도록 해줘야 함!
+            let newText = String(textWithoutSpace.prefix(10)) // 10글자 제한
+            newState.nickNameText = newText
+            
+            // 그냥 text의 값이 이전과 변했으면 중복검사를 nil로 설정해줌
+            if currentState.nickNameText != newText {
+                newState.isDuplicate = nil
+            }
             
         case let .setSelfIntroText(text):
-            newState.selfIntroText = String(text.prefix(60))
+            newState.selfIntroText = String(text.prefix(60))    // 60자 제한
             
         case let .isDuplicate(bool):
-            print(".isDuplicate: \(bool)")
             newState.isDuplicate = bool
-            newState.duplicateMessage = bool ? "사용중인 닉네임입니다" : ""
             
         case let .signUpSuccessed(bool) :
-            print("")
-            // success 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯
+            // 여기에서 가입 성공 여부를 처리하고 필요한 동작 수행 필요
+            print("reduce() - .signUpSuccessed")
+            // fail 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯?
+            // success했을 때도 사용자한테 알려주고
         }
         
         return newState
