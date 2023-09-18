@@ -45,16 +45,15 @@ extension CategoryStackView {
             }
             return imageView
         }
-        
         self.stackView.addArrangedSubviews(images)
     }
 }
 
-// MARK: Setting할 수 있는 functions
-extension CategoryStackView {
-    func setContents(feed: Feed) {
-        images = feed.categories
-        addImageViews(images: images)
-    }
-}
+//// MARK: Setting할 수 있는 functions
+//extension CategoryStackView {
+//    func setContents(feed: Feed) {
+//        images = feed.categories
+//        addImageViews(images: images)
+//    }
+//}
 
