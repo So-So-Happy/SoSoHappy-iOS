@@ -91,3 +91,4 @@ iOSInjectionProject/
 .DS_Store
 Pods/
 SoSoHappy-iOS/Podfile.lock
+Config.xcconfig
