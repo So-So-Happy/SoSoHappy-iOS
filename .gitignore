@@ -89,6 +89,6 @@ fastlane/test_output
 
 iOSInjectionProject/
 .DS_Store
-Pods/
-SoSoHappy-iOS/Podfile.lock
+/Pods
+/Podfile.lock
 Config.xcconfig
