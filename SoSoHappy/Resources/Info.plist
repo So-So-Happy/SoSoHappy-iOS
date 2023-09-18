@@ -4,9 +4,39 @@
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>&quot;소소해피&quot;가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao${KAKAO_NATIVE_APP_KEY}</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>${GOOGLE_NATIVE_APP_KEY}</string>
+			</array>
+		</dict>
+	</array>
+	<key>GIDClientID</key>
+	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
+	<key>KAKAO_NATIVE_APP_KEY</key>
+	<string>${KAKAO_NATIVE_APP_KEY}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UIApplicationSupportsTabbedSceneCollection</key>
 		<false/>
 		<key>UISceneConfigurations</key>
 		<dict>

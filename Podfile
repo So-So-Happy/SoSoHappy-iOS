@@ -13,6 +13,8 @@ target 'SoSoHappy' do
   pod 'FSCalendar'
   pod 'Then' 
   pod 'ReactorKit'
+  pod 'RxKakaoSDK'
+  pod 'GoogleSignIn'
 
   # Pods for SoSoHappy
 
