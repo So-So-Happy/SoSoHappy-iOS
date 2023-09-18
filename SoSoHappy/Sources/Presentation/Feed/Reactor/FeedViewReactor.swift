@@ -46,11 +46,11 @@ class FeedViewReactor: Reactor {
                                 content: "엥 이거 왜 안나타나지?",
                                 images: [UIImage(named: "bagel")!]
                                 ),
-        Feed(profileImage: UIImage(named: "profile")!,
+        Feed(profileImage: UIImage(named: "cafe")!,
                                 profileNickName: "Reactor22", time: "15분 전",
                                 isLike: false, weather: "rainy",
                                 date: "2023.09.07 목요일",
-                                categories: ["sohappy", "coffe", "donut"],
+                                categories: ["sohappy", "coffe", "coffe"],
                                 content: "오호라 잘 나타나는구만",
                                 images: [UIImage(named: "cafe")!, UIImage(named: "churros")!]
                                 )
