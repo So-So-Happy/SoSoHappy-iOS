@@ -13,6 +13,7 @@ import ReactorKit
 
 /*
  1. 코드 상속 처리
+ 2. 하트 버튼 연타 처리 (debounce, throttle)
  */
 
 final class FeedCell: UITableViewCell {
@@ -140,53 +141,24 @@ extension FeedCell: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-//        reactor.state
-//            .skip(1)
-//            .compactMap { $0.feed?.isLike }
-//            // .compactMap : Optional 벗기고 nil 값 filter
-//            // nil 다 제외하고 isLike 값만 남게 됨
-//            .map {
-//                let image = self.setImageForHeartButton($0)
-//                let color = $0 ? UIColor.red : UIColor.gray
-//                return (image, color)
-//            }
-//            .bind { [weak heartButton] image, color in
-//                heartButton?.setImage(image, for: .normal)
-//                heartButton?.tintColor = color
-//            }
-//            .disposed(by: disposeBag)
-        
-        
         reactor.state
             .skip(1)
-            .compactMap { $0.feed?.isLike }
+            .compactMap { $0.feed?.isLike } // Optional 벗기고 nil 값 filter
             .bind { [weak self] isLike in
-                print("여기: \(type(of: isLike))")
                 guard let `self` = self else { return }
-//                heartButton.setImage(self.setImageForHeartButton(isLike), for: .normal)
-//                heartButton.tintColor = isLike ? .systemRed : .systemGray
                 setHeartButton(isLike)
             }
             .disposed(by: disposeBag)
-        
-       
     }
     
     private func setFeedCell(_ feed: Feed) {
-        print("setFeedCell")
         profileImageNameTimeStackView.setContents(feed: feed)
         setHeartButton(feed.isLike)
-//        heartButton.setImage(setImageForHeartButton(feed.isLike), for: .normal)
-//        heartButton.tintColor = feed.isLike ? .systemRed : .systemGray
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.setContents(feed: feed)
         contentLabel.text = feed.content
         imageSlideView.setContents(feed: feed)
     }
-    
-//    private func setImageForHeartButton(_ isLike: Bool) -> UIImage {
-//        return isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
-//    }
     
     private func setHeartButton(_ isLike: Bool) {
         let image: UIImage = isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
