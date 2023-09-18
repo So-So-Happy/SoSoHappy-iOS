@@ -12,7 +12,7 @@ import SnapKit
 
 final class CategoryStackView: UIView {
     var imageSize: CGFloat
-    private var images: [String] = ["sohappy", "coffe", "donut"]
+    private var images: [String] = []
     private lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
     
     init(imageSize: CGFloat = 30) {
@@ -49,3 +49,12 @@ extension CategoryStackView {
         self.stackView.addArrangedSubviews(images)
     }
 }
+
+// MARK: Setting할 수 있는 functions
+extension CategoryStackView {
+    func setContents(feed: Feed) {
+        images = feed.categories
+        addImageViews(images: images)
+    }
+}
+
