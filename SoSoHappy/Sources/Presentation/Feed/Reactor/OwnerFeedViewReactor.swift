@@ -12,7 +12,7 @@ import ReactorKit
  */
 
 
-class OwnFeedViewReactor: Reactor {
+class OwnerFeedViewReactor: Reactor {
     enum Action {
         case refresh
     }
