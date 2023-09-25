@@ -13,8 +13,9 @@ import ReactorKit
 import RxGesture
 
 /*
- 1. Category가 계속 누적되는 문제 있음
- 2. imageSlideShow tapObservable로 했을 때 full screen 되는게 좀 이상함
+ 1. heartbutton throttle, debouce 적용
+ 2. heartbutton 누를 때마다 reactor.state feed 때문에 전체 view 들이 업데이트되는데 퍼포먼스 영향 많이 주는지 한번 확인해보기
+ 3. BaseCell을 여기에서 재사용해볼까 했는데 모양새가 다름
  */
 
 
@@ -22,13 +23,7 @@ final class FeedDetailViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
-    private let heartImageConfiguration = UIImage.SymbolConfiguration(pointSize: 21, weight: .light)
-    
     // MARK: - UI Components
-//    private lazy var refreshControl = UIRefreshControl().then {
-//        $0.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-//    }
-    
     private lazy var scrollView = UIScrollView().then {
         let image = UIImage(named: "rainBackground")!
         $0.backgroundColor = UIColor(patternImage: image)
@@ -37,9 +32,7 @@ final class FeedDetailViewController: UIViewController {
     
     private lazy var contentView = UIView()
     private lazy var profileImageNameTimeStackView = ProfileImageNameTimeStackView(imageSize: 44)
-    
-    private lazy var heartButton = UIButton()
-    
+    private lazy var heartButton = HeartButton()
     private lazy var categoryStackView = CategoryStackView(imageSize: 40)
     
     private lazy var dateLabel = UILabel().then {
@@ -61,14 +54,12 @@ final class FeedDetailViewController: UIViewController {
         $0.numberOfLines = 0
 //        $0.setLineSpacing(lineSpacing: 9)
     }
-//
-//    private lazy var imageSlideView = ImageSlideView().then {
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
-//        $0.slideShowView.addGestureRecognizer(tapGesture)
-//    }
-//
-    private lazy var imageSlideView = ImageSlideView()
-    
+
+    private lazy var imageSlideView = ImageSlideView().then {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
+        $0.slideShowView.addGestureRecognizer(tapGesture)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -157,13 +148,6 @@ extension FeedDetailViewController: View {
             .map { Reactor.Action.toggleLike}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        imageSlideView.tapObservable
-            .subscribe(onNext: { [weak self] in
-                guard let `self` = self else { return }
-                imageSlideView.slideShowView.presentFullScreenController(from: self)
-            })
-            .disposed(by: disposeBag)
 
         reactor.state
             .map { $0.feed }
@@ -173,7 +157,7 @@ extension FeedDetailViewController: View {
                 print("여기 : \(type(of: feed))")
                 profileImageNameTimeStackView.setContents(feed: feed)
                 // 날씨에 대한 background 이미지 설정해주는 코드 필요
-                setHeartButton(feed.isLike)
+                heartButton.setHeartButton(feed.isLike)
                 categoryStackView.addImageViews(images: feed.categories)
                 dateLabel.text = feed.date
                 contentLabel.text = feed.content
@@ -181,55 +165,13 @@ extension FeedDetailViewController: View {
                 imageSlideView.setContents(feed: feed)
             }
             .disposed(by: disposeBag)
-        
-        // 아래 코드가 오류를 띄우면서 Build Success되는 이상한...
-//        reactor.state
-//            .compactMap { $0.feed }
-//            .bind { [weak self] feed in
-//                guard let `self` = self else { return }
-//                print("here")
-//                print("여기 : \(type(of: feed))")
-//                profileImageNameTimeStackView.setContents(feed: feed)
-//                // 날씨에 대한 background 이미지 설정해주는 코드 필요
-//                heartButton.setImage( setImageForHeartButton(feed.isLike), for: .normal)
-//                heartButton.tintColor = feed.isLike ? .systemRed : .systemGray
-//                categoryStackView.addImageViews(images: feed.categories)
-//                dateLabel.text = feed.date
-//                contentLabel.text = feed.content
-//                imageSlideView.setContents(feed: feed)
-//            }
-//            .disposed(by: disposeBag)
-    }
-    
-
-    private func setHeartButton(_ isLike: Bool) {
-        let image: UIImage = isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
-        let color: UIColor =  isLike ? UIColor.systemRed : UIColor.systemGray
-        
-        heartButton.setImage(image, for: .normal)
-        heartButton.tintColor = color
     }
 }
 
 // MARK: - Action
 extension FeedDetailViewController {
-//    @objc func didTap(sender: UITapGestureRecognizer? = nil) {
-//        print("ViewController - didTap() called")
-//        let _ = imageSlideView.slideShowView.presentFullScreenController(from: self)
-//    }
-    //
-    //    // 실제로 서버로부터 다시 데이터를 받아오는 작업을 해보면서 수정하면 될 것 같음
-    //    @objc func handleRefreshControl() {
-    //        print("refreshTable")
-    //        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { // .main ? .global?
-    //            // 새로운 들어온 데이터를 바탕으로 scrollview를 다시 그려줘야 함
-    //            // scrollView는 마땅히 reloadData 같은 function이 없음
-    //            // https://stackoverflow.com/questions/43583051/scrollview-not-working-after-reload-view-swift-3
-    //
-    //            self.scrollView.refreshControl?.endRefreshing() // Refresh 작업이 끝났음을 control에 알림 (이 타이밍도 다시 한번 확인 필요할 듯)
-    //        }
-    //    }
-    //}
-    //
+    @objc func didTap(sender: UITapGestureRecognizer? = nil) {
+        print("ViewController - didTap() called")
+        imageSlideView.slideShowView.presentFullScreenController(from: self)
+    }
 }
-
