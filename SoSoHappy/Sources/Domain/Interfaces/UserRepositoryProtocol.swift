@@ -9,8 +9,8 @@ import Foundation
 import RxSwift
 
 protocol UserRepositoryProtocol {
-    func kakaoLogin() -> Observable<AuthResponse>
-    func googleLogin() -> Observable<AuthResponse>
+    func kakaoLogin() -> Single<AuthResponse>
+    func googleLogin() -> Single<AuthResponse>
     func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse>
     func setProfile(profile: Profile) -> Observable<SetProfileResponse>
     func resign(email: Resign) -> Observable<ResignResponse>

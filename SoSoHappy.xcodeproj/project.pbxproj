@@ -19,7 +19,7 @@
 		0613BCDA2AA8AC4200E2B97F /* NetworkLoggerPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCD92AA8AC4200E2B97F /* NetworkLoggerPlugin.swift */; };
 		0613BCDC2AA8AC7300E2B97F /* Networkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCDB2AA8AC7300E2B97F /* Networkable.swift */; };
 		0613BCE02AA9D60D00E2B97F /* JWTAuthorizationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCDF2AA9D60D00E2B97F /* JWTAuthorizationType.swift */; };
-		0613BCE22AA9E86D00E2B97F /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCE12AA9E86D00E2B97F /* ServiceError.swift */; };
+		0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCE12AA9E86D00E2B97F /* HttpError.swift */; };
 		0613BCE42AA9EFBA00E2B97F /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCE32AA9EFBA00E2B97F /* BaseTargetType.swift */; };
 		0613BCE82AA9F75500E2B97F /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCE72AA9F75500E2B97F /* Keychain.swift */; };
 		0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCEA2AADF8EC00E2B97F /* LocalStorage.swift */; };
@@ -38,6 +38,15 @@
 		066871312AB1F3E9009B3E71 /* SetProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871302AB1F3E9009B3E71 /* SetProfileResponse.swift */; };
 		066871332AB1F40B009B3E71 /* FindProfileResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871322AB1F40B009B3E71 /* FindProfileResponse.swift */; };
 		066871352AB20720009B3E71 /* ResignResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871342AB2071F009B3E71 /* ResignResponse.swift */; };
+		066871382ABB2075009B3E71 /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871372ABB2075009B3E71 /* KakaoSigninManager.swift */; };
+		0668713B2ABB20A1009B3E71 /* SigninManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0668713A2ABB20A1009B3E71 /* SigninManagerProtocol.swift */; };
+		0668713D2ABB20BB009B3E71 /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0668713C2ABB20BA009B3E71 /* AppleSigninManager.swift */; };
+		0668713F2ABB20FE009B3E71 /* SigninRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0668713E2ABB20FE009B3E71 /* SigninRequest.swift */; };
+		066871412ABB211B009B3E71 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871402ABB211B009B3E71 /* Requestable.swift */; };
+		066871432ABB2138009B3E71 /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871422ABB2138009B3E71 /* SocialType.swift */; };
+		066871452ABB218D009B3E71 /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871442ABB218D009B3E71 /* BaseError.swift */; };
+		066871472ABB229D009B3E71 /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066871462ABB229D009B3E71 /* ResponseContainer.swift */; };
+		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
 		06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */; };
 		06F6BA382A8DE85300A6765A /* Happy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA372A8DE85300A6765A /* Happy.swift */; };
@@ -159,7 +168,7 @@
 		0613BCD92AA8AC4200E2B97F /* NetworkLoggerPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkLoggerPlugin.swift; sourceTree = "<group>"; };
 		0613BCDB2AA8AC7300E2B97F /* Networkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networkable.swift; sourceTree = "<group>"; };
 		0613BCDF2AA9D60D00E2B97F /* JWTAuthorizationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTAuthorizationType.swift; sourceTree = "<group>"; };
-		0613BCE12AA9E86D00E2B97F /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		0613BCE12AA9E86D00E2B97F /* HttpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpError.swift; sourceTree = "<group>"; };
 		0613BCE32AA9EFBA00E2B97F /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		0613BCE72AA9F75500E2B97F /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		0613BCEA2AADF8EC00E2B97F /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
@@ -178,6 +187,15 @@
 		066871302AB1F3E9009B3E71 /* SetProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetProfileResponse.swift; sourceTree = "<group>"; };
 		066871322AB1F40B009B3E71 /* FindProfileResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindProfileResponse.swift; sourceTree = "<group>"; };
 		066871342AB2071F009B3E71 /* ResignResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResignResponse.swift; sourceTree = "<group>"; };
+		066871372ABB2075009B3E71 /* KakaoSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = KakaoSigninManager.swift; path = "../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Models/Responses/KakaoSigninManager.swift"; sourceTree = "<group>"; };
+		0668713A2ABB20A1009B3E71 /* SigninManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SigninManagerProtocol.swift; path = ../../../../../../SigninManagerProtocol.swift; sourceTree = "<group>"; };
+		0668713C2ABB20BA009B3E71 /* AppleSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppleSigninManager.swift; path = ../../../../../../AppleSigninManager.swift; sourceTree = "<group>"; };
+		0668713E2ABB20FE009B3E71 /* SigninRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SigninRequest.swift; path = "../../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Models/SigninRequest.swift"; sourceTree = "<group>"; };
+		066871402ABB211B009B3E71 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Requestable.swift; path = "../../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Models/Requestable.swift"; sourceTree = "<group>"; };
+		066871422ABB2138009B3E71 /* SocialType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SocialType.swift; path = "../../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Models/SocialType.swift"; sourceTree = "<group>"; };
+		066871442ABB218D009B3E71 /* BaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseError.swift; path = "../../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Error/BaseError.swift"; sourceTree = "<group>"; };
+		066871462ABB229D009B3E71 /* ResponseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResponseContainer.swift; path = "../../../../../../../.Trash/SoSoHappy-iOS 오후 7.23.37/SoSoHappy/Sources/Network/Models/ResponseContainer.swift"; sourceTree = "<group>"; };
+		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
 		06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideView.swift; sourceTree = "<group>"; };
 		06F6BA372A8DE85300A6765A /* Happy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Happy.swift; sourceTree = "<group>"; };
@@ -345,8 +363,10 @@
 		0613BCE62AA9F19700E2B97F /* Error */ = {
 			isa = PBXGroup;
 			children = (
-				0613BCE12AA9E86D00E2B97F /* ServiceError.swift */,
+				0613BCE12AA9E86D00E2B97F /* HttpError.swift */,
 				0613BCD72AA89B2100E2B97F /* UserAPIError.swift */,
+				066871442ABB218D009B3E71 /* BaseError.swift */,
+				06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -366,6 +386,10 @@
 				066871292AB1DF91009B3E71 /* Profile.swift */,
 				0668712B2AB1E3B0009B3E71 /* Resign.swift */,
 				0668712D2AB1E860009B3E71 /* FindProfileImg.swift */,
+				0668713E2ABB20FE009B3E71 /* SigninRequest.swift */,
+				066871402ABB211B009B3E71 /* Requestable.swift */,
+				066871422ABB2138009B3E71 /* SocialType.swift */,
+				066871462ABB229D009B3E71 /* ResponseContainer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -407,6 +431,16 @@
 				066871342AB2071F009B3E71 /* ResignResponse.swift */,
 			);
 			path = Responses;
+			sourceTree = "<group>";
+		};
+		066871362ABB2062009B3E71 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				066871372ABB2075009B3E71 /* KakaoSigninManager.swift */,
+				0668713C2ABB20BA009B3E71 /* AppleSigninManager.swift */,
+				0668713A2ABB20A1009B3E71 /* SigninManagerProtocol.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		403C88CF55CF0D2A33042714 /* Pods */ = {
@@ -505,6 +539,7 @@
 		67E7DB392A812FF600C33988 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				066871362ABB2062009B3E71 /* Manager */,
 				066871282AAF61EF009B3E71 /* Storage */,
 				67E7DB3B2A81300E00C33988 /* Data */,
 				67E7DB3C2A81302300C33988 /* Domain */,
@@ -1380,7 +1415,7 @@
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
 				066871252AAF5C17009B3E71 /* CheckNickNameResponse.swift in Sources */,
-				0613BCE22AA9E86D00E2B97F /* ServiceError.swift in Sources */,
+				0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
@@ -1393,18 +1428,21 @@
 				802C6C9A2AB87802001142B4 /* Ex+UIResponder.swift in Sources */,
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
+				0668713F2ABB20FE009B3E71 /* SigninRequest.swift in Sources */,
 				67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */,
 				802C6C922AB875B9001142B4 /* FeedTemp.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
+				066871452ABB218D009B3E71 /* BaseError.swift in Sources */,
 				67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */,
 				67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */,
 				06F6BA3A2A8E43E200A6765A /* CalendarView.swift in Sources */,
 				06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */,
 				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
 				0613BCD82AA89B2100E2B97F /* UserAPIError.swift in Sources */,
+				06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				0668712C2AB1E3B0009B3E71 /* Resign.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
@@ -1413,6 +1451,7 @@
 				67021E692A83CBDE00B47A6B /* AddStep1ViewModel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
 				0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */,
+				066871432ABB2138009B3E71 /* SocialType.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				802C6CB22AB87D01001142B4 /* FeedReactor.swift in Sources */,
 				0613BCF52AAE17BF00E2B97F /* HttpNetwork.swift in Sources */,
@@ -1424,11 +1463,14 @@
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,
+				066871382ABB2075009B3E71 /* KakaoSigninManager.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
+				0668713D2ABB20BB009B3E71 /* AppleSigninManager.swift in Sources */,
 				80380C1A2A98DDA40077048D /* FeedCell.swift in Sources */,
 				80380C222A98DE7C0077048D /* NickNameRecentMessageStackView.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
+				066871472ABB229D009B3E71 /* ResponseContainer.swift in Sources */,
 				80380C1E2A98DE0E0077048D /* OwnerFeedHeaderView.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* User.swift in Sources */,
 				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,
@@ -1448,6 +1490,7 @@
 				066871352AB20720009B3E71 /* ResignResponse.swift in Sources */,
 				0613BCCF2AA5F1A800E2B97F /* Moya+NetworkError.swift in Sources */,
 				802C6C9C2AB8781A001142B4 /* Rx+UIViewController.swift in Sources */,
+				066871412ABB211B009B3E71 /* Requestable.swift in Sources */,
 				80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */,
 				0613BCE82AA9F75500E2B97F /* Keychain.swift in Sources */,
 				0613BCE02AA9D60D00E2B97F /* JWTAuthorizationType.swift in Sources */,
@@ -1472,6 +1515,7 @@
 				0613BCE42AA9EFBA00E2B97F /* BaseTargetType.swift in Sources */,
 				06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */,
 				0613BCDA2AA8AC4200E2B97F /* NetworkLoggerPlugin.swift in Sources */,
+				0668713B2ABB20A1009B3E71 /* SigninManagerProtocol.swift in Sources */,
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
 				0613BCF72AAE250500E2B97F /* AuthResponse.swift in Sources */,

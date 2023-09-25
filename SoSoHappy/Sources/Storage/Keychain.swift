@@ -10,7 +10,7 @@ import Security
 import Alamofire
 
 
-final class Keychain: NSObject {
+final class KeychainService: NSObject {
     public class func saveData(serviceIdentifier: String, forKey: String, data: String) {
         self.save(service: serviceIdentifier, forKey: forKey, data: data)
     }
@@ -24,13 +24,13 @@ final class Keychain: NSObject {
     public class func deleteTokenData() {
         if let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
            let account = UserDefaults.standard.read(key: .userAccount) as? String,
-           let token = Keychain.loadData(serviceIdentifier: identifier, forKey: account) {
+           let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
             self.delete(service: identifier, forKey: account, data: token)
         }
     }
 }
 
-private extension Keychain {
+private extension KeychainService {
     class func save(service: String, forKey: String, data: String) {
         let dataFromString: Data = data.data(using: String.Encoding.utf8)!
         let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword as String,
@@ -77,7 +77,7 @@ private extension Keychain {
     }
 }
 
-extension Keychain {
+extension KeychainService {
     
     class func getAccessToken(serviceID: String) -> String? {
         let serviceID = serviceID

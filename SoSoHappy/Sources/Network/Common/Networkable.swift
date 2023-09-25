@@ -20,8 +20,8 @@ extension Networkable {
     static func accessProvider() -> MoyaProvider<Target> {
         let tokenClosure: (TargetType) -> HeaderType = { _ in
             guard let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
-                  let accessToken = Keychain.getAccessToken(serviceID: identifier),
-                    let refreshToken = Keychain.getRefreshToken(serviceID: identifier),
+                  let accessToken = KeychainService.getAccessToken(serviceID: identifier),
+                    let refreshToken = KeychainService.getRefreshToken(serviceID: identifier),
                     let email = UserDefaults.standard.read(key: .userAccount) as? String
             else {
 //                Logger.debug(error: SocialLoginError.noToken, message: "No Token")

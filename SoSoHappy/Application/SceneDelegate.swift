@@ -24,7 +24,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
 //        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
         let mainVC = LoginViewController()
-        mainVC.reactor = LoginViewReactor()
+        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
         window.rootViewController = mainVC // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window

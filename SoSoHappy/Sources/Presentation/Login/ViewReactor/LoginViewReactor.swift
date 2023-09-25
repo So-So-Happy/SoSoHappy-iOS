@@ -15,13 +15,35 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import GoogleSignIn
 
+// Kakao SDK 로그인
+// Userdefaults, fetchToken
+//
+
 class LoginViewReactor: Reactor {
-    
-    // MARK: - 초기 상태를 정의합니다.
-    let initialState = State()
     
     // MARK: - Class member property
     let disposeBag = DisposeBag()
+    
+    let initialState: State
+    private let repository: UserRepository
+    private let userDefaults: LocalStorageService
+    private let kakaoManager: SigninManagerProtocol
+    private let appleManager: SigninManagerProtocol
+    
+    // MARK: - Init
+    init(
+        repository: UserRepository,
+        userDefaults: LocalStorageService,
+        kakaoManager: SigninManagerProtocol,
+        appleManager: SigninManagerProtocol,
+        state: State = State()
+    ) {
+        self.repository = repository
+        self.userDefaults = userDefaults
+        self.kakaoManager = kakaoManager
+        self.appleManager = appleManager
+        self.initialState = state
+    }
     
     // MARK: - 가능한 액션을 정의합니다.
     enum Action {
@@ -35,6 +57,7 @@ class LoginViewReactor: Reactor {
         case googleLogin
         case kakaoLoading(Bool)
         case googleLoading(Bool)
+        case showErrorAlert(Error)
     }
     
     // MARK: - 뷰의 상태를 정의합니다. (현재 상태 기록)
@@ -43,6 +66,8 @@ class LoginViewReactor: Reactor {
         var isKakaoLoading = false
         var isGoogleLoggedIn = false
         var isGoogleLoading = false
+        var showErrorAlert: Error?
+
     }
     
     // MARK: - 액션에서 변이로의 로직을 구현합니다. (Action이 들어온 경우, 어떤 처리를 할건지 분기)
@@ -53,58 +78,7 @@ class LoginViewReactor: Reactor {
             // 예: 실제 로그인 요청 및 결과에 따른 변이 방출
             return Observable.concat([
                 Observable.just(Mutation.kakaoLoading(true)),
-                Observable.deferred {
-                    Observable.create { observer in
-                        // Check the availability of Kakao Talk
-                        if (UserApi.isKakaoTalkLoginAvailable()) {
-                            UserApi.shared.rx.loginWithKakaoTalk()
-                                .subscribe(onNext:{ (oauthToken) in
-                                    print("loginWithKakaoTalk() success.")
-                                    
-                                    // 로그인 성공 시 Mutation.login 값 방출
-                                    observer.onNext(.kakaoLogin)
-                                    
-                                    // 성공 시 사용자 정보 가져오기
-                                    self.getUserInfo()
-                                    
-                                    // 이벤트 방출 후 Observable 작업 완료. 더 이상 값 방출 X
-                                    observer.onCompleted()
-                                    
-                                    _ = oauthToken
-                                }, onError: {error in
-                                    print("loginWithKakaoTalk() error :", error)
-                                    observer.onNext(.kakaoLoading(false))
-                                    observer.onError(error)
-                                })
-                                .disposed(by: self.disposeBag)
-                            
-                        } else { // If you don't have Kakaotalk installed
-                            UserApi.shared.rx.loginWithKakaoAccount()
-                                .subscribe(onNext:{ (oauthToken) in
-                                    print("loginWithKakaoAccount() success.")
-                                    
-                                    // 로그인 성공 시 Mutation.login 값 방출
-                                    observer.onNext(.kakaoLogin)
-                                    
-                                    // 성공 시 사용자 정보 가져오기
-                                    self.getUserInfo()
-                                    
-                                    // 이벤트 방출 후 Observable 작업 완료. 더 이상 값 방출 X
-                                    observer.onCompleted()
-                                    
-                                    _ = oauthToken
-                                }, onError: {error in
-                                    print("loginWithKakaoAccount() error :", error)
-                                    observer.onNext(.kakaoLoading(false))
-                                    observer.onError(error)
-                                })
-                                .disposed(by: self.disposeBag)
-                        }
-                        
-                        return Disposables.create()
-                    } as! Observable<LoginViewReactor.Mutation>
-                },
-                Observable.just(Mutation.kakaoLoading(false))
+                self.signinWithKakao()
             ])
         case .googleLogin:
             return Observable.concat([
@@ -125,6 +99,10 @@ class LoginViewReactor: Reactor {
                 },
                 Observable.just(Mutation.googleLoading(false))
             ])
+//
+//        case .fetchToken:
+//            return repository.kakaoLogin()
+//                .map { Mutation.fetchToken($0) }
         }
     }
     
@@ -142,6 +120,8 @@ class LoginViewReactor: Reactor {
         case .googleLoading(let shouldShow):
             newState.isGoogleLoading = shouldShow
             if shouldShow == false { newState.isGoogleLoggedIn = false }
+        case .showErrorAlert(let error):
+            newState.showErrorAlert = error
         }
         return newState
     }
@@ -154,9 +134,7 @@ class LoginViewReactor: Reactor {
                 print("userNickname :", user.properties?["nickname"] ?? "unknown_token")
                 print("userEmail :", user.kakaoAccount?.email ?? "unknown_email")
                 print("userID :", user.id ?? "unknown_ID")
-                self.checkToken() // 토큰 조회
-                //do something
-                _ = user
+                self.userDefaults.write(key: .userAccount, value: user.kakaoAccount?.email ?? "")
             }, onFailure: {error in
                 print(error)
             })
@@ -168,10 +146,10 @@ class LoginViewReactor: Reactor {
         UserApi.shared.rx.accessTokenInfo()
             .subscribe(onSuccess:{ (accessTokenInfo) in
                 print("accessToken: \(accessTokenInfo.self)")
-                
+                self.userDefaults.write(key: .token, value: accessTokenInfo.self)
                 //do something
                 _ = accessTokenInfo
-                
+                // keychain (key)
             }, onFailure: {error in
                 print(error)
             })
@@ -189,6 +167,61 @@ class LoginViewReactor: Reactor {
             print("idToken: ", userInfo?.user.idToken ?? "unknown_idToken")
             print("userID: ", userInfo?.user.userID ?? "unknown_userID")
             print("userName: ", userInfo?.user.profile?.email ?? "unknown_profile")
+            
+            // keychain에 저장
         }
     }
+    
+    private func signinWithKakao() -> Observable<Mutation> {
+        self.kakaoManager.signin()
+            .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+                guard let self = self else { return .error(BaseError.unknown) }
+                self.getUserInfo() // userdefault email 저장
+//                token 저장할 수 있음.
+                return self.signin(request: signinRequest)
+            }
+            .catch { error in
+                if case .custom(let message) = error as? BaseError,
+                   message == "cancel" {
+                    return .just(.kakaoLoading(false))
+                } else {
+                    return .just(.showErrorAlert(error))
+                }
+            }
+    }
+    
+//      private func signinWithApple() -> Observable<Mutation> {
+//          return self.appleManager.signin()
+//              .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+//                  guard let self = self else { return .error(BaseError.unknown) }
+//
+//                  return self.signin(request: signinRequest)
+//              }
+//              .catch { error in
+//                  if case .custom(let message) = error as? BaseError,
+//                     message == "cancel" {
+//                      return .just(.showLoading(isShow: false))
+//                  } else {
+//                      return .just(.showErrorAlert(error))
+//                  }
+//              }
+//      }
+    
+    private func signin(request: SigninRequest) -> Observable<Mutation> {
+        return repository.kakaoLogin()
+            .asObservable()
+            .do(onNext: { signinResponse in
+                print("access: \(signinResponse.Authorization)")
+                print("refresh: \(signinResponse.AuthorizationRefresh)")
+                KeychainService.saveData(serviceIdentifier: "", forKey: "accessToken", data: signinResponse.Authorization)
+                KeychainService.saveData(serviceIdentifier: "", forKey: "refreshToken", data: signinResponse.AuthorizationRefresh)
+            })
+            .flatMap { _ in
+                return Observable.just(Mutation.kakaoLoading(false))
+            }
+            .catch { error in
+                return .just(Mutation.showErrorAlert(HTTPError.unauthorized))
+            }
+    }
+
 }

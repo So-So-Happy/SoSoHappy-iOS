@@ -35,7 +35,7 @@ extension UserAPI {
         case .googleLogin:
             return ""
         case .kakaoLogin:
-            return ""
+            return "/auth-service/oauth2/authorization/kakao"
         case .checkDuplicateNickname:
             return ""
         case .getRefreshToken:

@@ -33,7 +33,7 @@ final class LoginViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        bind(reactor: LoginViewReactor())
+        bind(reactor: LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager()))
     }
     
     // Reactor를 설정하는 메서드
