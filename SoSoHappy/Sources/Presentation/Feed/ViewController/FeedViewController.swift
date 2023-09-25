@@ -15,15 +15,18 @@ import RxCocoa
 /*
  리팩토링
  1. 버튼을 여러번 클릭했을 때 API 중복 호출을 막아주는 조치 (하트, 오늘, 전체 버튼) - throttle, debouce
- 2. refresh control 한번 더 확인해보기
+ 2. refresh control 한번 더 확인해보기 - 좀 모양새가 이상함
  
  3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
  
  4.  operator들 좀 더 찾아보고 적용해보면서 리팩토링
     (rxswift: asDriver, drive, distinctUntilChanged, subscribe, do 공부해보기)
- 
- 5. RxDataSource로 리팩토링할지 고민
+
+ */
+
+/*
+ 1. refreshcontrol이 navigation title이 large로 해서 그런지 모양새가 이상하게 나와서 코드를 일단 수정해놓음
  */
 
 
@@ -36,10 +39,10 @@ final class FeedViewController: UIViewController {
     private lazy var refreshControl = UIRefreshControl()
     
     private lazy var tableView = UITableView().then {
-        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
-        $0.refreshControl = refreshControl
+        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
+        $0.refreshControl = self.refreshControl
         $0.tableHeaderView = feedHeaderView
-        $0.tableHeaderView?.frame.size.height = 94   // 고정된 값으로 줘도 됨.
+        $0.tableHeaderView?.frame.size.height = 150   // 고정된 값으로 줘도 됨. 94
         $0.backgroundColor = UIColor(named: "backgroundColor")
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
@@ -69,8 +72,8 @@ extension FeedViewController {
     }
     
     func configureNavigation() {
-        self.navigationItem.title = "소피들의 소소해피"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
+//        self.navigationItem.title = "소피들의 소소해피"
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func setLayout() {
@@ -87,7 +90,7 @@ extension FeedViewController: View {
     func bind(reactor: FeedViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
         self.rx.viewDidLoad
-            .map { Reactor.Action.fetchTodayFeeds } // default today
+            .map { Reactor.Action.fetchFeeds(.today) } // default today
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -101,20 +104,31 @@ extension FeedViewController: View {
         // throttle :
         feedHeaderView.sortTodayButton.rx.tap
 //            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
-            .map { Reactor.Action.fetchTodayFeeds }
+            .map { Reactor.Action.fetchFeeds(.today) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         feedHeaderView.sortTotalButton.rx.tap
-            .map { Reactor.Action.fetchTotalFeeds }
+            .map { Reactor.Action.fetchFeeds(.total) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        tableView.rx.contentOffset
+            .subscribe(onNext: { [weak self] contentOffset in
+                guard let self = self else { return }
+                if contentOffset.y < -50 {
+                    self.navigationItem.title = ""
+                } else {
+                    self.navigationItem.title = "소피들의 소소해피"
+                }
+            })
+            .disposed(by: disposeBag)
+
         // MARK: State (Reactor -> State) 아웃풋
         reactor.state
             .skip(1)
             .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifer, cellType: FeedCell.self)) { (row,  feed, cell) in
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { (row,  feed, cell) in
                 // MARK: FeedReactor에 feed 넣어주는 방법1
 //                let initialState = FeedReactor.State(feed: feed)
 //                let cellReactor = FeedReactor(state: initialState)
@@ -136,18 +150,19 @@ extension FeedViewController: View {
         
         reactor.state
             .skip(1)
-            .map { $0.isRefreshing }
-            .bind(to: self.refreshControl.rx.isRefreshing)
-            .disposed(by: self.disposeBag)
-        
-        reactor.state
-            .skip(1)
             .map { $0.sortOption }
             .subscribe(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
                 updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isRefreshing }
+            .distinctUntilChanged()
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: self.disposeBag)
+        
     }
     
     func updateButtonState(_ sortOption: SortOption) {
@@ -166,4 +181,5 @@ extension FeedViewController: View {
         notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
     }
 }
+
 
