@@ -71,7 +71,6 @@
 		67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */; };
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
-		67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB862A81386B00C33988 /* CalenderViewModel.swift */; };
 		67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB892A81389C00C33988 /* ChartViewModel.swift */; };
 		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
@@ -96,7 +95,7 @@
 		802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CA32AB8788E001142B4 /* Rx+ UIImageView.swift */; };
 		802C6CA62AB87990001142B4 /* FeedDataSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CA52AB87990001142B4 /* FeedDataSection.swift */; };
 		802C6CAA2AB87C11001142B4 /* FeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CA92AB87C11001142B4 /* FeedViewReactor.swift */; };
-		802C6CAE2AB87C36001142B4 /* OwnFeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CAD2AB87C36001142B4 /* OwnFeedViewReactor.swift */; };
+		802C6CAE2AB87C36001142B4 /* OwnerFeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CAD2AB87C36001142B4 /* OwnerFeedViewReactor.swift */; };
 		802C6CB02AB87C46001142B4 /* OwnerFeedCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CAF2AB87C46001142B4 /* OwnerFeedCellReactor.swift */; };
 		802C6CB22AB87D01001142B4 /* FeedReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802C6CB12AB87D01001142B4 /* FeedReactor.swift */; };
 		80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380BFA2A989F850077048D /* LogInButtonStackView.swift */; };
@@ -121,10 +120,13 @@
 		80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */; };
 		80380C352A98DFF00077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C342A98DFF00077048D /* DMListViewController.swift */; };
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
-		80380C392A98E0160077048D /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C382A98E0160077048D /* FeedViewModel.swift */; };
 		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		80C0A2E32ABC081300107332 /* HappyListViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2E22ABC081300107332 /* HappyListViewReactor.swift */; };
+		80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */; };
+		80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EA2AC06E6400107332 /* BaseCell.swift */; };
+		80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EE2AC0867300107332 /* HeartButton.swift */; };
 		983175DA02B9CBA5C769E25F /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 784B9507DDC2B90C071B7FE0 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
 		D74B6451342E18ED858C7C0A /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3EA23E547A68548FED1ACEC /* Pods_SoSoHappy.framework */; };
 /* End PBXBuildFile section */
@@ -210,15 +212,11 @@
 		67E7DB612A8136CF00C33988 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		67E7DB632A8136DF00C33988 /* CalenderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewController.swift; sourceTree = "<group>"; };
 		67E7DB652A8136EA00C33988 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
-		67E7DB672A81370600C33988 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		67E7DB6D2A81378400C33988 /* LoginCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
-		67E7DB812A81382100C33988 /* FeedCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
-		67E7DB862A81386B00C33988 /* CalenderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewModel.swift; sourceTree = "<group>"; };
 		67E7DB892A81389C00C33988 /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
-		67E7DB8C2A8138BD00C33988 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		67E7DB912A8138EB00C33988 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		67E7DB972A81420400C33988 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -249,7 +247,7 @@
 		802C6CA32AB8788E001142B4 /* Rx+ UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+ UIImageView.swift"; sourceTree = "<group>"; };
 		802C6CA52AB87990001142B4 /* FeedDataSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataSection.swift; sourceTree = "<group>"; };
 		802C6CA92AB87C11001142B4 /* FeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewReactor.swift; sourceTree = "<group>"; };
-		802C6CAD2AB87C36001142B4 /* OwnFeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnFeedViewReactor.swift; sourceTree = "<group>"; };
+		802C6CAD2AB87C36001142B4 /* OwnerFeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedViewReactor.swift; sourceTree = "<group>"; };
 		802C6CAF2AB87C46001142B4 /* OwnerFeedCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedCellReactor.swift; sourceTree = "<group>"; };
 		802C6CB12AB87D01001142B4 /* FeedReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedReactor.swift; sourceTree = "<group>"; };
 		80380BFA2A989F850077048D /* LogInButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInButtonStackView.swift; sourceTree = "<group>"; };
@@ -274,9 +272,12 @@
 		80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnerFeedViewController.swift; sourceTree = "<group>"; };
 		80380C342A98DFF00077048D /* DMListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMListViewController.swift; sourceTree = "<group>"; };
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
-		80380C382A98E0160077048D /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		80C0A2E22ABC081300107332 /* HappyListViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListViewReactor.swift; sourceTree = "<group>"; };
+		80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCellReactor.swift; sourceTree = "<group>"; };
+		80C0A2EA2AC06E6400107332 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
+		80C0A2EE2AC0867300107332 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		AC845FFA630A86110528443A /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
 		BD9B1162B4ABAB09E316D4A9 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C3EA23E547A68548FED1ACEC /* Pods_SoSoHappy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +315,7 @@
 		060DE1972A83CFA100C60392 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				80C0A2EA2AC06E6400107332 /* BaseCell.swift */,
 				060DE1982A83CFE000C60392 /* HappyListCell.swift */,
 				060DE19C2A850A6500C60392 /* CategoryStackView.swift */,
 				06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */,
@@ -576,10 +578,10 @@
 		67E7DB3F2A8130F600C33988 /* Calender */ = {
 			isa = PBXGroup;
 			children = (
+				80C0A2E12ABC07DF00107332 /* Reactor */,
 				060DE1972A83CFA100C60392 /* View */,
 				67E7DB712A8137AA00C33988 /* Coordinator */,
 				67E7DB742A8137BB00C33988 /* ViewController */,
-				67E7DB852A81385C00C33988 /* ViewModel */,
 			);
 			path = Calender;
 			sourceTree = "<group>";
@@ -593,16 +595,6 @@
 				67E7DB882A81388300C33988 /* ViewModel */,
 			);
 			path = Chart;
-			sourceTree = "<group>";
-		};
-		67E7DB412A81319900C33988 /* Feed */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB732A8137B500C33988 /* Coordinator */,
-				67E7DB762A8137C800C33988 /* ViewController */,
-				67E7DB8B2A8138A700C33988 /* ViewModel */,
-			);
-			path = Feed;
 			sourceTree = "<group>";
 		};
 		67E7DB422A8131A100C33988 /* MyPage */ = {
@@ -759,14 +751,6 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		67E7DB732A8137B500C33988 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB7B2A8137F100C33988 /* Protocol */,
-			);
-			path = Coordinator;
-			sourceTree = "<group>";
-		};
 		67E7DB742A8137BB00C33988 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -780,14 +764,6 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB652A8136EA00C33988 /* ChartViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		67E7DB762A8137C800C33988 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB672A81370600C33988 /* FeedViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -825,14 +801,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		67E7DB7B2A8137F100C33988 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB812A81382100C33988 /* FeedCoordinator.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		67E7DB7C2A8137F400C33988 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -841,27 +809,10 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		67E7DB852A81385C00C33988 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB412A81319900C33988 /* Feed */,
-				67E7DB862A81386B00C33988 /* CalenderViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		67E7DB882A81388300C33988 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				67E7DB892A81389C00C33988 /* ChartViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		67E7DB8B2A8138A700C33988 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB8C2A8138BD00C33988 /* FeedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -930,7 +881,7 @@
 			children = (
 				802C6CA92AB87C11001142B4 /* FeedViewReactor.swift */,
 				802C6CB12AB87D01001142B4 /* FeedReactor.swift */,
-				802C6CAD2AB87C36001142B4 /* OwnFeedViewReactor.swift */,
+				802C6CAD2AB87C36001142B4 /* OwnerFeedViewReactor.swift */,
 				802C6CAF2AB87C46001142B4 /* OwnerFeedCellReactor.swift */,
 			);
 			path = Reactor;
@@ -965,17 +916,8 @@
 				80380C0F2A98DC4C0077048D /* Coordinator */,
 				80380C0E2A98DC400077048D /* View */,
 				80380C0D2A98DC330077048D /* ViewController */,
-				80380C0C2A98DC2B0077048D /* ViewModel */,
 			);
 			path = Feed;
-			sourceTree = "<group>";
-		};
-		80380C0C2A98DC2B0077048D /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				80380C382A98E0160077048D /* FeedViewModel.swift */,
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		80380C0D2A98DC330077048D /* ViewController */ = {
@@ -992,6 +934,7 @@
 		80380C0E2A98DC400077048D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				80C0A2EE2AC0867300107332 /* HeartButton.swift */,
 				802C6CA52AB87990001142B4 /* FeedDataSection.swift */,
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
@@ -1054,6 +997,15 @@
 				80380C362A98DFFE0077048D /* DMChattingViewController.swift */,
 			);
 			path = DM;
+			sourceTree = "<group>";
+		};
+		80C0A2E12ABC07DF00107332 /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				80C0A2E22ABC081300107332 /* HappyListViewReactor.swift */,
+				80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */,
+			);
+			path = Reactor;
 			sourceTree = "<group>";
 		};
 		8B0D7766E1BEC508DB0C3EDF /* Frameworks */ = {
@@ -1372,11 +1324,9 @@
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* LoginCoordinator.swift in Sources */,
 				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
-				67E7DB872A81386B00C33988 /* CalenderViewModel.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				67E7DB512A81356A00C33988 /* DiaryRepository.swift in Sources */,
 				802C6C942AB875CE001142B4 /* ProfileTemp.swift in Sources */,
-				80380C392A98E0160077048D /* FeedViewModel.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
 				066871252AAF5C17009B3E71 /* CheckNickNameResponse.swift in Sources */,
@@ -1389,6 +1339,7 @@
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
 				802C6CB02AB87C46001142B4 /* OwnerFeedCellReactor.swift in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
+				80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */,
 				0613BCD62AA89AE400E2B97F /* Ex+Encodable.swift in Sources */,
 				802C6C9A2AB87802001142B4 /* Ex+UIResponder.swift in Sources */,
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
@@ -1415,6 +1366,7 @@
 				0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
 				802C6CB22AB87D01001142B4 /* FeedReactor.swift in Sources */,
+				80C0A2E32ABC081300107332 /* HappyListViewReactor.swift in Sources */,
 				0613BCF52AAE17BF00E2B97F /* HttpNetwork.swift in Sources */,
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				0668712E2AB1E860009B3E71 /* FindProfileImg.swift in Sources */,
@@ -1442,6 +1394,7 @@
 				802C6CAA2AB87C11001142B4 /* FeedViewReactor.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
 				802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */,
+				80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
 				80380BFF2A98A0690077048D /* SignUpViewController.swift in Sources */,
 				066871312AB1F3E9009B3E71 /* SetProfileResponse.swift in Sources */,
@@ -1453,7 +1406,7 @@
 				0613BCE02AA9D60D00E2B97F /* JWTAuthorizationType.swift in Sources */,
 				802C6CA02AB8785A001142B4 /* RxImagePickerDelegateProxy.swift in Sources */,
 				67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */,
-				802C6CAE2AB87C36001142B4 /* OwnFeedViewReactor.swift in Sources */,
+				802C6CAE2AB87C36001142B4 /* OwnerFeedViewReactor.swift in Sources */,
 				066871332AB1F40B009B3E71 /* FindProfileResponse.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
@@ -1475,6 +1428,7 @@
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
 				0613BCF72AAE250500E2B97F /* AuthResponse.swift in Sources */,
+				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
