@@ -108,9 +108,10 @@ extension OwnerFeedViewController: View {
             }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.isRefreshing }
-          .bind(to: self.refreshControl.rx.isRefreshing)
-          .disposed(by: self.disposeBag)
+        reactor.state
+            .map { $0.isRefreshing }
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: self.disposeBag)
         
     }
 }
