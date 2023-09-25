@@ -38,6 +38,8 @@ final class CategoryStackView: UIView {
 
 extension CategoryStackView {
     func addImageViews(images: [String]) {
+        stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        
         let images = images.map { imageName in
             let imageView = UIImageView(image: UIImage(named: imageName))
             imageView.contentMode = .scaleAspectFit
@@ -49,13 +51,3 @@ extension CategoryStackView {
         self.stackView.addArrangedSubviews(images)
     }
 }
-
-//// MARK: Setting할 수 있는 functions
-//extension CategoryStackView {
-//    func setContents(feed: Feed) {
-//        images = feed.categories
-//        addImageViews(images: images)
-//    }
-//}
-
-

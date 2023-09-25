@@ -11,6 +11,11 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+
+/*
+ 1. refreshControl이 여기에서 꼭 필요가 있을까?
+ 2. profile update가 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
+ */
  
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
@@ -21,7 +26,7 @@ final class OwnerFeedViewController: UIViewController {
     private lazy var ownerFeedHeaderView = OwnerFeedHeaderView()
     
     private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
-        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifer)
+        $0.register(OwnerFeedCell.self, forCellReuseIdentifier: OwnerFeedCell.cellIdentifier)
         $0.separatorStyle = .none
         $0.refreshControl = self.refreshControl
         $0.sectionHeaderHeight = UITableView.automaticDimension
@@ -36,7 +41,7 @@ final class OwnerFeedViewController: UIViewController {
         setup()
     }
 
-    init(reactor: OwnFeedViewReactor) {
+    init(reactor: OwnerFeedViewReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -63,7 +68,7 @@ extension OwnerFeedViewController {
 // MARK: - ReactorKit - bind func
 extension OwnerFeedViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
-    func bind(reactor: OwnFeedViewReactor) {
+    func bind(reactor: OwnerFeedViewReactor) {
         self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
     
         self.rx.viewDidLoad
@@ -76,6 +81,7 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 이게 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
         reactor.state
             .skip(1)
             .compactMap { $0.profile }
@@ -87,7 +93,7 @@ extension OwnerFeedViewController: View {
         reactor.state
             .skip(1)
             .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifer, cellType: FeedCell.self)) { (row,  feed, cell) in
+            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { (row,  feed, cell) in
                 print("cell 만드는 중")
 
                 let cellReactor = FeedReactor(feed: feed)
@@ -102,9 +108,10 @@ extension OwnerFeedViewController: View {
             }
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.isRefreshing }
-          .bind(to: self.refreshControl.rx.isRefreshing)
-          .disposed(by: self.disposeBag)
+        reactor.state
+            .map { $0.isRefreshing }
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: self.disposeBag)
         
     }
 }

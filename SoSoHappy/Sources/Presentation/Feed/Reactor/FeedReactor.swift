@@ -50,14 +50,9 @@ class FeedReactor: Reactor {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-//        case let .setLike(like):
-//            newState.isLike = like
         case .setFeed(let feed):
             newState.feed = feed
         }
-        
         return newState
     }
 }
-
-

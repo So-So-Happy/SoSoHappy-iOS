@@ -12,6 +12,13 @@ import Then
 
 final class FeedHeaderView: UIView {
     // MARK: - UI Components
+    private lazy var titleLabel = UILabel().then {
+        $0.textAlignment = .left
+        $0.font = .systemFont(ofSize: 32, weight: .bold)
+        $0.text = "소피들의 소소해피"
+        $0.textColor = .black
+    }
+    
     private lazy var feedSubtitle = UILabel().then {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
@@ -63,14 +70,20 @@ extension FeedHeaderView {
         sortTodayTotalStackView.addArrangedSubview(divider)
         sortTodayTotalStackView.addArrangedSubview(sortTotalButton)
         
+        addSubview(titleLabel)
         addSubview(feedSubtitle)
         addSubview(sortTodayTotalStackView)
     }
     
     private func setLayout() {
-        feedSubtitle.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.left.equalTo(safeAreaLayoutGuide).inset(16)
             make.top.equalToSuperview().inset(3)
+        }
+        
+        feedSubtitle.snp.makeConstraints { make in
+            make.left.equalTo(safeAreaLayoutGuide).inset(16)
+            make.top.equalTo(titleLabel.snp.bottom).offset(8)
         }
         
         sortTodayTotalStackView.snp.makeConstraints { make in
