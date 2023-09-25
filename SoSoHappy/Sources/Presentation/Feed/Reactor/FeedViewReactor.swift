@@ -15,8 +15,7 @@ enum SortOption {
 class FeedViewReactor: Reactor {
     enum Action {
         case refresh
-        case fetchTodayFeeds
-        case fetchTotalFeeds
+        case fetchFeeds(SortOption)
     }
     
     enum Mutation {
@@ -39,20 +38,20 @@ class FeedViewReactor: Reactor {
     
     var forTest: [FeedTemp] = [
         FeedTemp(profileImage: UIImage(named: "profile")!,
-                                profileNickName: "Reactor", time: "10분 전",
+                                profileNickName: "구름이", time: "10분 전",
                                 isLike: true, weather: "sunny",
-                                date: "2023.09.08 금요일",
+                                date: "2023.09.18 월요일",
                                 categories: ["sohappy", "coffe", "donut"],
-                                content: "엥 이거 왜 안나타나지?",
+                                content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
                                 images: [UIImage(named: "bagel")!]
                                 ),
         FeedTemp(profileImage: UIImage(named: "cafe")!,
-                                profileNickName: "Reactor22", time: "15분 전",
+                                profileNickName: "날씨조아", time: "15분 전",
                                 isLike: false, weather: "rainy",
                                 date: "2023.09.07 목요일",
                                 categories: ["sohappy", "coffe", "coffe"],
                                 content: "오호라 잘 나타나는구만",
-                                images: [UIImage(named: "cafe")!, UIImage(named: "churros")!]
+                                images: []
                                 )
     ]
     
@@ -62,16 +61,13 @@ class FeedViewReactor: Reactor {
             // currentState.sortOption에 따라 달라짐
             return Observable.concat([
                 Observable.just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                fetchFeedBySortOption(currentState.sortOption),
+                fetchFeedBySortOption(currentState.sortOption), 
 //              UserService.users().map(Mutation.setUsers),
-              Observable.just(.setRefreshing(false))
+                Observable.just(.setRefreshing(false))
             ])
-            
-        case .fetchTodayFeeds: // 오늘
-            return fetchFeedBySortOption(.today)
 
-        case .fetchTotalFeeds: // 전체
-            return fetchFeedBySortOption(.total)
+        case let .fetchFeeds(sortOption):
+            return fetchFeedBySortOption(sortOption)
         }
     }
     
@@ -86,8 +82,8 @@ class FeedViewReactor: Reactor {
             
         case let .sortOption(sort):
             newState.sortOption = sort
-            
         }
+        
         return newState
     }
     
