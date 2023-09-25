@@ -49,8 +49,7 @@ class BaseCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: override 재정의 가능하게 하는 키워드가 뭔지 정확히 알아보기
-    public func setFeedCell(_ feed: FeedTemp) {
+    func setFeedCell(_ feed: FeedTemp) {
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.addImageViews(images: feed.categories)
         contentLabel.text = feed.content
