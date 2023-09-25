@@ -12,7 +12,7 @@ import ReactorKit
  */
 
 
-class OwnFeedViewReactor: Reactor {
+class OwnerFeedViewReactor: Reactor {
     enum Action {
         case refresh
     }
@@ -41,8 +41,8 @@ class OwnFeedViewReactor: Reactor {
                                 isLike: true, weather: "sunny",
                                 date: "2023.09.08 금요일",
                                 categories: ["sohappy", "coffe", "donut"],
-                                content: "엥 이거 왜 안나타나지?",
-                                images: [UIImage(named: "bagel")!]
+                                content: "츄로스 맛집 발견. 너무 행복해~",
+                                images: [UIImage(named: "churros")!]
                                 ),
         FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor22", time: "15분 전",
@@ -54,7 +54,7 @@ class OwnFeedViewReactor: Reactor {
                                 )
     ]
     
-    var testProfile = ProfileTemp(profileImage: UIImage(named: "pic2")!, profileNickName: "아메리카노러버", selfIntroduction: "나는야 소해피. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !")
+    var testProfile = ProfileTemp(profileImage: UIImage(named: "pic2")!, profileNickName: "날씨조아", selfIntroduction: "나는야 날씨조아. 디저트 러버. 크로플, 도넛, 와플이 내 최애 디저트다. 음료는 아이스아메리카노 좋아함 !")
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -84,8 +84,8 @@ class OwnFeedViewReactor: Reactor {
             
         case let .profile(profile):
             state.profile = testProfile
-            
         }
+        
         return state
     }
 }
