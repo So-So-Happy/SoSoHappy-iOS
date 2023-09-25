@@ -41,7 +41,7 @@ final class OwnerFeedViewController: UIViewController {
         setup()
     }
 
-    init(reactor: OwnFeedViewReactor) {
+    init(reactor: OwnerFeedViewReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -68,7 +68,7 @@ extension OwnerFeedViewController {
 // MARK: - ReactorKit - bind func
 extension OwnerFeedViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
-    func bind(reactor: OwnFeedViewReactor) {
+    func bind(reactor: OwnerFeedViewReactor) {
         self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
     
         self.rx.viewDidLoad
