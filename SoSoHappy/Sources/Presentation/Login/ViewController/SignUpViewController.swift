@@ -40,7 +40,6 @@ final class SignUpViewController: UIViewController {
         $0.setTitle("시작하기", for: .normal)
         $0.titleLabel?.textColor = .white
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        $0.backgroundColor = UIColor(named: "buttonColor")
         $0.layer.cornerRadius = 8
         $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
         $0.setBackgroundColor(UIColor.orange, for: .enabled)
