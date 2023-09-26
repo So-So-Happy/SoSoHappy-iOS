@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import Then
 
-final class OwnerFeedHeaderView: UIView {
+class OwnerFeedHeaderView: UIView {
     // MARK: - UI Components
-    private lazy var stackView = UIStackView(
+    lazy var stackView = UIStackView(
         axis: .vertical,
         alignment: .center,
         distribution: .fill,
@@ -19,7 +19,7 @@ final class OwnerFeedHeaderView: UIView {
     )
     
     // 프로필 사진
-    private lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 150, profileImageViewwSize: 120)
+    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 150, profileImageViewwSize: 120)
     
     // 닉네임
     lazy var profileNickNameLabel = UILabel().then {
@@ -65,7 +65,7 @@ extension OwnerFeedHeaderView {
     private func setStackView() {
         addSubview(stackView)
         stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(20)
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20))
         }
         
         stackView.addArrangedSubview(profileImageWithBackgroundView)
