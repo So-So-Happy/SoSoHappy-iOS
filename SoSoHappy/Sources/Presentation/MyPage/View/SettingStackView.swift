@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 final class SettingStackView: UIView {
-    
-    // MARK: - Properties 
+    // MARK: - UI Components
     private lazy var alarmCell = SettingCellView()
     private lazy var darkmodeCell = SettingCellView()
     private lazy var languageCell = SettingCellView()
@@ -18,14 +17,12 @@ final class SettingStackView: UIView {
     private lazy var policyCell = SettingCellView()
     private lazy var accountCell = SettingCellView()
     
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(axis: .vertical,
-                                    alignment: .fill,
-                                    distribution: .fillEqually,
-                                    spacing: 20
-        )
-        return stackView
-    }()
+    private lazy var stackView = UIStackView(
+        axis: .vertical,
+        alignment: .fill,
+        distribution: .fillEqually,
+        spacing: 20
+    )
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,9 +40,8 @@ final class SettingStackView: UIView {
 
 
 extension SettingStackView {
-    
+
     // MARK: - Update UI & Layout
-    
     func setup() {
         setLayout()
         setUI()

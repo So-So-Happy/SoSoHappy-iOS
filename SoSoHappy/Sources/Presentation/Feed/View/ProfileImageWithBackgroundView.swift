@@ -51,6 +51,8 @@ extension ProfileImageWithBackgroundView {
     }
     
     private func setLayout() {
+        // addSubview: 해당 뷰가 이미 하위 뷰로 있는지 확인하고, 이미 있다면 다시 추가하지 않음
+        // 따라서 updateProfileImageSize에서 다시 한번 호출이 되더라도 누적이 되지 않음
         addSubview(backgroundCircleView)
         backgroundCircleView.addSubview(profileImageView)
         
@@ -66,4 +68,16 @@ extension ProfileImageWithBackgroundView {
     }
 }
 
+// MARK: Size update function
+extension ProfileImageWithBackgroundView {
+    func updateProfileImageSize(background: CGFloat, profile: CGFloat) {
+        self.backgroundCircleViewSize = background
+        self.profileImageViewwSize = profile
+        
+        backgroundCircleView.snp.removeConstraints()
+        profileImageView.snp.removeConstraints()
+        
+        setView()
+    }
+}
 
