@@ -89,3 +89,16 @@ extension LogInButtonStackView {
         }
     }
 }
+
+
+// MARK: - Coordinator TestCode
+/// Login -> Home으로 넘어가는 액션 타겟 정의 함수
+extension LogInButtonStackView {
+    func setKakaoButtonTarget(target: Any?, action: Selector) {
+        kakaoLoginButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+    
+    func setAppleButtonTarget(target: Any?, action: Selector) {
+        appleLoginButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+}

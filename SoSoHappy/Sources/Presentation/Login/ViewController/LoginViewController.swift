@@ -20,6 +20,8 @@ import GoogleSignIn
 
 final class LoginViewController: UIViewController, View {
     
+    private let coordinator: LoginCoordinatorProtocol
+    
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
@@ -29,6 +31,16 @@ final class LoginViewController: UIViewController, View {
     private lazy var logInButtonStackView = LogInButtonStackView()
     
     var disposeBag = DisposeBag()
+    
+    // MARK: - Init
+    public init(coordinator: LoginCoordinatorProtocol) {
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +95,7 @@ extension LoginViewController {
     private func setup() {
         setLayout()
         setAttribute()
+        configureButtonTarget() // coordinator 테스트를 위한 메서드 호출입니다. 
     }
     
     // Add SubViews & Contstraints
@@ -113,4 +126,26 @@ extension LoginViewController {
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "loginColor")
     }
+}
+
+
+// MARK: - Coordinator TestCode
+/// 카카오 버튼 눌렸을때 바로 TabBarController 로 넘어감.
+extension LoginViewController {
+    
+    private func configureButtonTarget() {
+        logInButtonStackView.setKakaoButtonTarget(target: self, action: #selector(didTapKakaoButton))
+        logInButtonStackView.setAppleButtonTarget(target: self, action: #selector(didTapAppleButton))
+    }
+    
+    @objc private func didTapKakaoButton() {
+        coordinator.pushMainView()
+        print("카카오 눌림")
+    }
+    
+    @objc private func didTapAppleButton() {
+        coordinator.pushMainView()
+        print("애플 눌림")
+    }
+    
 }
