@@ -62,6 +62,7 @@
 		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
 		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
 		67CFE3D52A8903D60085DA40 /* CategoryButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */; };
+		67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
 		67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4C2A8134D800C33988 /* Fonts.swift */; };
 		67E7DB512A81356A00C33988 /* DiaryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB502A81356A00C33988 /* DiaryRepository.swift */; };
@@ -220,6 +221,7 @@
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
+		67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+ Bundle.swift"; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		67E7DB4C2A8134D800C33988 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		67E7DB502A81356A00C33988 /* DiaryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRepository.swift; sourceTree = "<group>"; };
@@ -689,6 +691,7 @@
 				802C6C9D2AB8782F001142B4 /* Rx+ UIImagePickerController.swift */,
 				802C6CA32AB8788E001142B4 /* Rx+ UIImageView.swift */,
 				802C6C9F2AB8785A001142B4 /* RxImagePickerDelegateProxy.swift */,
+				67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1506,6 +1509,7 @@
 				0613BCF72AAE250500E2B97F /* AuthResponse.swift in Sources */,
 				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
+				67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
