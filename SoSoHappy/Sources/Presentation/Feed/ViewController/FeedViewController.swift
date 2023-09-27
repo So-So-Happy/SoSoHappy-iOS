@@ -29,10 +29,19 @@ import RxCocoa
  1. refreshcontrol이 navigation title이 large로 해서 그런지 모양새가 이상하게 나와서 코드를 일단 수정해놓음
  */
 
+// delegate 프로퍼티에 weak 키워드를 붙이려면 AnyObject를 써야 했음
+// weak의 용도와 AnyObject가 무엇인지 좀 찾아보기
+protocol FeedViewControllerDelegate: AnyObject {
+    func didSelectCell()
+    func didSelectProfileImage()
+}
+
 
 final class FeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    
+    weak var delegate: FeedViewControllerDelegate?
     
     // MARK: - UI Components
     private lazy var feedHeaderView = FeedHeaderView()
@@ -51,7 +60,21 @@ final class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("FeedViewController viewDidLoad ---------------")
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let contentOffset = self.tableView.contentOffset
+        handleTableViewContentOffset(contentOffset)
+    }
+
+    // MARK: - 스크롤된 정도에 따라서 navigation title을 줬더니 다음 화면으로 넘어갈 때 Back 대신 title이 뜨길래
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("FeedViewController viewWillDisappear ---------------")
+        self.navigationItem.title = ""
     }
     
     init(reactor: FeedViewReactor) {
@@ -67,7 +90,7 @@ final class FeedViewController: UIViewController {
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension FeedViewController {
     private func setup() {
-        configureNavigation()
+//        configureNavigation()
         setLayout()
     }
     
@@ -113,14 +136,21 @@ extension FeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // asDriver  - 항상 main 스레드에서 관찰하고 에러가 발생하지 않는 것을 보장하여 시퀀스 작업을 간단하게 함
+        // subscribe - 구독 관리를 더 세밀하게 제어해야 하는 경우
+        tableView.rx.itemSelected
+            .asDriver()
+            .drive(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                print("indexPath: \(indexPath.row)")
+                self.delegate?.didSelectCell()
+            })
+            .disposed(by: disposeBag)
+        
         tableView.rx.contentOffset
             .subscribe(onNext: { [weak self] contentOffset in
                 guard let self = self else { return }
-                if contentOffset.y < -50 {
-                    self.navigationItem.title = ""
-                } else {
-                    self.navigationItem.title = "소피들의 소소해피"
-                }
+                handleTableViewContentOffset(contentOffset)
             })
             .disposed(by: disposeBag)
 
@@ -136,6 +166,11 @@ extension FeedViewController: View {
                 // MARK: FeedReactor에 feed 넣어주는 방법2
                 let cellReactor = FeedReactor(feed: feed)
                 cell.reactor = cellReactor
+                
+                cell.didSelectProfileImage = { [weak self] in
+                    self?.delegate?.didSelectProfileImage()
+                }
+                
                 
                 // - 여기에 코드를 작성한 이유
                 // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
@@ -153,7 +188,7 @@ extension FeedViewController: View {
             .map { $0.sortOption }
             .subscribe(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                updateButtonState(sortOption)
+                feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
         
@@ -165,20 +200,12 @@ extension FeedViewController: View {
         
     }
     
-    func updateButtonState(_ sortOption: SortOption) {
-        switch sortOption {
-        case .today:
-            setSortTextColorAttribute(feedHeaderView.sortTodayButton, feedHeaderView.sortTotalButton)
-        case .total:
-            setSortTextColorAttribute(feedHeaderView.sortTotalButton, feedHeaderView.sortTodayButton)
+    private func handleTableViewContentOffset(_ contentOffset: CGPoint) {
+        if contentOffset.y < -50 {
+            self.navigationItem.title = ""
+        } else {
+            self.navigationItem.title = "소피들의 소소해피"
         }
-    }
-    
-    private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
-        selected.setTitleColor(.black, for: .normal)
-        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
-        notSelected.setTitleColor(.gray, for: .normal)
-        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
     }
 }
 
