@@ -19,6 +19,9 @@ import ReactorKit
  */
 
 class AddViewReactor: Reactor {
+    // 서버에 보낼 때는 weather를 String으로 보내줘야 해서 인덱스를 뽑아서 사용할 수 있도록 만들었음
+    let weatherStrings = ["sunny", "partlyCloudy", "cloudy", "rainy", "snowy"]
+    
     enum Action {
         case weatherButtonTapped(Int)
         case happinessButtonTapped(Int)
