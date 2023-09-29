@@ -11,12 +11,6 @@ import Then
 import RxSwift
 import RxCocoa
 
-/*
- 1. 버튼 크기 비율 설정하는 코드가 좀 마음에 걸리긴 함.
- */
-
-
-
 final class WeatherStackView: UIView {
     // 날씨 버튼이 탭될 때 버튼의 'tag'를 발행하는 데 사용
     let weatherButtonTappedSubject = PublishSubject<Int>()
@@ -88,7 +82,7 @@ extension WeatherStackView {
 
 // MARK: - WeatherStackView안의 버튼이 선택되는 효과를 담당하는 function
 extension WeatherStackView {
-    func updateButtonAppearance(_ selectedWeather: Int?) {
+    func updateButtonAppearance(_ selectedWeather: Int?) { // 1, 2, 3, 4, 5
         for (index, button) in weatherStackView.arrangedSubviews.enumerated() {
             guard let button = button as? UIButton else { continue }
             let isSelected = index + 1 == selectedWeather
