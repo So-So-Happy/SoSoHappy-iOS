@@ -31,12 +31,6 @@ final class HappinessStackView: UIView {
         ("happy100", 100)
     ]
     
-    private lazy var happiness20Button = UIButton()
-    private lazy var happiness40Button = UIButton()
-    private lazy var happiness60Button = UIButton()
-    private lazy var happiness80Button = UIButton()
-    private lazy var happiness100Button = UIButton()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setStackView()
@@ -102,7 +96,7 @@ extension HappinessStackView {
                 
                 // 버튼에 그림자 추가
                 button.layer.shadowColor = UIColor.black.cgColor
-                button.layer.shadowOpacity = 0.5
+                button.layer.shadowOpacity = 0.8 // 0.5
                 button.layer.shadowOffset = CGSize(width: 0, height: 2)
                 button.layer.shadowRadius = 4
             } else {
