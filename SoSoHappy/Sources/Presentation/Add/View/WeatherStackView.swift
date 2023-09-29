@@ -25,11 +25,11 @@ final class WeatherStackView: UIView {
     )
     
     private let buttonInfo: [(title: String, tag: Int)] = [
-        ("sunny", 1),
-        ("partlyCloudy", 2),
-        ("cloudy", 3),
-        ("rainy", 4),
-        ("snowy", 5)
+        ("sunny", 0),
+        ("partlyCloudy", 1),
+        ("cloudy", 2),
+        ("rainy", 3),
+        ("snowy", 4)
     ]
     
     override init(frame: CGRect) {
@@ -82,10 +82,10 @@ extension WeatherStackView {
 
 // MARK: - WeatherStackView안의 버튼이 선택되는 효과를 담당하는 function
 extension WeatherStackView {
-    func updateButtonAppearance(_ selectedWeather: Int?) { // 1, 2, 3, 4, 5
+    func updateButtonAppearance(_ selectedWeather: Int?) { // 0, 1, 2, 3, 4
         for (index, button) in weatherStackView.arrangedSubviews.enumerated() {
             guard let button = button as? UIButton else { continue }
-            let isSelected = index + 1 == selectedWeather
+            let isSelected = index == selectedWeather
             updateButton(button, isSelected: isSelected)
         }
     }
@@ -98,7 +98,7 @@ extension WeatherStackView {
                 
                 // 버튼에 그림자 추가
                 button.layer.shadowColor = UIColor.black.cgColor
-                button.layer.shadowOpacity = 0.5
+                button.layer.shadowOpacity = 0.9 // 0.5
                 button.layer.shadowOffset = CGSize(width: 0, height: 2)
                 button.layer.shadowRadius = 4
             } else {
