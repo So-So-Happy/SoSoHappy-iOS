@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Resign: Codable {
+struct ResignRequest: Codable {
     let email: String
 }
 
