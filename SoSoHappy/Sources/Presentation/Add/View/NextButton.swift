@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class NextButton: UIButton {
+final class NextButton: HappyButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureButton()
@@ -21,9 +21,10 @@ final class NextButton: UIButton {
     private func configureButton() {
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
         let image = UIImage(systemName: "arrow.right", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        self.layer.cornerRadius = 40
-        self.setImage(image, for: .normal)
-        self.backgroundColor = UIColor(named: "AccentColor")
+        layer.cornerRadius = 40
+        setImage(image, for: .normal)
+        setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
+        setBackgroundColor(UIColor.orange, for: .enabled)
         
         self.snp.makeConstraints { make in
             make.width.height.equalTo(80)
