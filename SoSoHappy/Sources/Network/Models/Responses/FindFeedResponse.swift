@@ -9,7 +9,8 @@ import Foundation
 
 struct FindFeedResponse: Decodable {
     let nickname, weather: String
-    let date, happiness: Int
+    let date: Double
+    let happiness: Int
     let text: String
     let isPublic: Bool
     let categoryList, imageList, likeNicknameList: [String]
