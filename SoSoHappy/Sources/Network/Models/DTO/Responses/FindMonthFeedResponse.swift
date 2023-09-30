@@ -1,5 +1,5 @@
 //
-//  FindDayFeedResponse.swift
+//  FindMonthFeedResponse.swift
 //  SoSoHappy
 //
 //  Created by 박희경 on 2023/09/30.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FindFeedResponse: Decodable {
+struct FindMonthFeedResponse: Decodable {
     let nickname, weather: String
     let date: Double
     let happiness: Int
@@ -16,3 +16,5 @@ struct FindFeedResponse: Decodable {
     let categoryList, imageList, likeNicknameList: [String]
     
 }
+
+
