@@ -16,9 +16,9 @@ import RxCocoa
 
 /*
 리팩토링
-1. weatherStackView, happinessStackView 버튼 크기가 좀 더 동일하면 좋을 것 같음
-2. 스택과 함께 각각 label도 넣어줘도 될 것 같음 (안해도 되고 해도 되고)
-3. happinessLabel 의 oo 님에 UserDefaults에서 닉네임 꺼내서 넣어주면 됨
+1. weatherStackView, happinessStackView 버튼 크기가 좀 더 동일하면 좋을 것 같음 (선택)
+2. 스택과 함께 각각 label도 넣어줘도 될 것 같음 (선택)
+3. happinessLabel 의 oo 님에 UserDefaults에서 닉네임 꺼내서 넣어주면 됨 (필수)
  */
 
 final class AddStep1ViewController: UIViewController {
@@ -112,7 +112,7 @@ extension AddStep1ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(happinessStackView.snp.bottom).offset(100)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(90)
         }
     }
 }
@@ -147,6 +147,13 @@ extension AddStep1ViewController: View {
                 guard let self = self else { return }
                 happinessStackView.updateButtonAppearance(selectedHappiness)
             })
+            .disposed(by: disposeBag)
+        
+        // weather, happiness 둘 다 선택이 되어야 nextButton 활성화
+        reactor.state
+            .map { $0.selectedWeather != nil && $0.selectedHappiness != nil }
+            .distinctUntilChanged()
+            .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
     }
 }
