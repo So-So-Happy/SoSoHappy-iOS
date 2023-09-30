@@ -24,11 +24,11 @@ final class HappinessStackView: UIView {
     )
     
     private let buttonInfo: [(title: String, tag: Int)] = [
-        ("happy20", 20),
-        ("happy40", 40),
-        ("happy60", 60),
-        ("happy80", 80),
-        ("happy100", 100)
+        ("happy20", 1),
+        ("happy40", 2),
+        ("happy60", 3),
+        ("happy80", 4),
+        ("happy100", 5)
     ]
     
     override init(frame: CGRect) {
@@ -70,7 +70,7 @@ extension HappinessStackView {
         
         // button이 tap되면 tag로 추출
         button.rx.tap
-            .map { tag } // 20, 40, 60, 80, 100
+            .map { tag } // 1, 2, 3, 4, 5
             .bind(to: happinessButtonTappedSubject)
             .disposed(by: disposeBag)
         
@@ -80,10 +80,10 @@ extension HappinessStackView {
 
 // MARK: - HappinessStackView안의 버튼이 선택되는 효과를 담당하는 function
 extension HappinessStackView {
-    func updateButtonAppearance(_ selectedHappiness: Int?) { // 20, 40, 60, 80, 100
+    func updateButtonAppearance(_ selectedHappiness: Int?) { // 1, 2, 3, 4, 5
         for (index, button) in happinessStackView.arrangedSubviews.enumerated() {
             guard let button = button as? UIButton else { continue }
-            let isSelected = (index + 1) * 20 == selectedHappiness
+            let isSelected = index + 1 == selectedHappiness
             updateButton(button, isSelected: isSelected)
         }
     }
