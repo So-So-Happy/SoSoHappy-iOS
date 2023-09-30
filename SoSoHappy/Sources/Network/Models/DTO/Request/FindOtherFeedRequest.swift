@@ -9,7 +9,7 @@ import Foundation
 
 struct FindOtherFeedRequest: Codable, Requestable {
     let nickName: String
-    let date: Double?
+    let date: Int64?
     let page: Int
     let size: Int
     

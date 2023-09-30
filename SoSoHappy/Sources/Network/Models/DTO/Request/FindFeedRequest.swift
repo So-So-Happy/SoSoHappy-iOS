@@ -8,7 +8,7 @@
 import Foundation
 
 struct FindFeedRequest: Codable {
-    let date: Double
+    let date: Int64
     let nickName: String
 }
 
