@@ -39,7 +39,6 @@ protocol FeedViewControllerDelegate: AnyObject {
 final class FeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
     weak var delegate: FeedViewControllerDelegate?
     
     // MARK: - UI Components
@@ -153,28 +152,9 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { (row,  feed, cell) in
-                // MARK: FeedReactor에 feed 넣어주는 방법1
-//                let initialState = FeedReactor.State(feed: feed)
-//                let cellReactor = FeedReactor(state: initialState)
-                                
-                // MARK: FeedReactor에 feed 넣어주는 방법2
-                let cellReactor = FeedReactor(feed: feed)
-                cell.reactor = cellReactor
-                
-                // cell의 didSelectProfileImage(클로저)는 cell의 프로필 이미지를 탭했을 때 호출
-                cell.didSelectProfileImage = { [weak self] ownerNickName in
-                    self?.delegate?.showOwner(ownerNickName: ownerNickName)
-                }
-                
-                // - 여기에 코드를 작성한 이유
-                // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
-                cell.imageSlideView.tapObservable
-                    .subscribe(onNext: { [weak self] in
-                        guard let self = self else { return }
-                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-                    })
-                    .disposed(by: cell.disposeBag)
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  feed, cell) in
+                guard let self = self else { return }
+                configureCell(cell, with: feed)
             }
             .disposed(by: disposeBag)
         
@@ -203,6 +183,34 @@ extension FeedViewController: View {
             })
             .disposed(by: disposeBag)
     }
+    
+    func configureCell(_ cell: FeedCell, with feed: FeedTemp) {
+        // MARK: FeedReactor에 feed 넣어주는 방법1
+//        let initialState = FeedReactor.State(feed: feed)
+//        let cellReactor = FeedReactor(state: initialState)
+        
+        // MARK: FeedReactor에 feed 넣어주는 방법2
+        let cellReactor = FeedReactor(feed: feed)
+        cell.reactor = cellReactor
+        
+        // - 여기에 코드를 작성한 이유
+        // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
+        cell.imageSlideView.tapObservable
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+            })
+            .disposed(by: cell.disposeBag)
+        
+        // Subscribe to profileImageTapSubject here
+        cell.profileImageTapSubject
+            .subscribe(onNext: { [weak self] nickName in
+                guard let self = self else { return }
+                self.delegate?.showOwner(ownerNickName: nickName)
+            })
+            .disposed(by: cell.disposeBag)
+    }
+    
     
     private func handleTableViewContentOffset(_ contentOffset: CGPoint) {
         if contentOffset.y < -50 {

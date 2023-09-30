@@ -20,6 +20,7 @@ import RxCocoa
 final class FeedCell: BaseCell {
     // MARK: - Properties
     var didSelectProfileImage: ((String) -> Void)?
+    let profileImageTapSubject = PublishSubject<String>()
     
     // MARK: - UI Components
     private lazy var heartButton = HeartButton()
@@ -74,14 +75,12 @@ extension FeedCell: View {
             .disposed(by: disposeBag)
         
         profileImageNameTimeStackView.profileImageView.rx.tap
-            .asDriver()
-            .drive(onNext: { [weak self] _ in
-                guard let self = self, let didSelectProfileImage = didSelectProfileImage, let ownerNickName = profileImageNameTimeStackView.profileNickNameLabel.text  else { return }
-                // 클로저 호출
-                didSelectProfileImage(ownerNickName)
+            .subscribe(onNext: { [weak self] _ in
+                guard let nickName = self?.profileImageNameTimeStackView.profileNickNameLabel.text else { return }
+                self?.profileImageTapSubject.onNext(nickName)
             })
             .disposed(by: disposeBag)
-        
+
         
         reactor.state
             .skip(1)
