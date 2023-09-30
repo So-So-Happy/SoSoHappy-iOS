@@ -19,9 +19,6 @@ import RxCocoa
  
  3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
- 
- 4.  operator들 좀 더 찾아보고 적용해보면서 리팩토링
-    (rxswift: asDriver, drive, distinctUntilChanged, subscribe, do 공부해보기)
 
  */
 
@@ -29,11 +26,13 @@ import RxCocoa
  1. refreshcontrol이 navigation title이 large로 해서 그런지 모양새가 이상하게 나와서 코드를 일단 수정해놓음
  */
 
+// MARK: - cell에서 feed를 받는게 좋을지 아니면 itemSelected로 feed를 받는게 좋을지 고민해보고 정하기
+
 // delegate 프로퍼티에 weak 키워드를 붙이려면 AnyObject를 써야 했음
 // weak의 용도와 AnyObject가 무엇인지 좀 찾아보기
 protocol FeedViewControllerDelegate: AnyObject {
-    func didSelectCell()
-    func didSelectProfileImage()
+    func showdDetails(feed: FeedTemp) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
+    func showOwner(ownerNickName: String) // 조회대상 닉네임이 필요 ('특정 유저 피드 조회'는 서버통신 필요)
 }
 
 
@@ -139,12 +138,8 @@ extension FeedViewController: View {
         // asDriver  - 항상 main 스레드에서 관찰하고 에러가 발생하지 않는 것을 보장하여 시퀀스 작업을 간단하게 함
         // subscribe - 구독 관리를 더 세밀하게 제어해야 하는 경우
         tableView.rx.itemSelected
-            .asDriver()
-            .drive(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                print("indexPath: \(indexPath.row)")
-                self.delegate?.didSelectCell()
-            })
+            .map { Reactor.Action.selectedCell(index: $0.row) }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         tableView.rx.contentOffset
@@ -167,10 +162,10 @@ extension FeedViewController: View {
                 let cellReactor = FeedReactor(feed: feed)
                 cell.reactor = cellReactor
                 
-                cell.didSelectProfileImage = { [weak self] in
-                    self?.delegate?.didSelectProfileImage()
+                // cell의 didSelectProfileImage(클로저)는 cell의 프로필 이미지를 탭했을 때 호출
+                cell.didSelectProfileImage = { [weak self] ownerNickName in
+                    self?.delegate?.showOwner(ownerNickName: ownerNickName)
                 }
-                
                 
                 // - 여기에 코드를 작성한 이유
                 // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
@@ -196,8 +191,17 @@ extension FeedViewController: View {
             .map { $0.isRefreshing }
             .distinctUntilChanged()
             .bind(to: self.refreshControl.rx.isRefreshing)
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.selectedFeed }
+            .subscribe(onNext: { [weak self] feed in
+                guard let self = self else { return }
+                print("여기까지 진행완료")
+//                print("feed: \(feed), type: \(type(of: feed))")
+                self.delegate?.showdDetails(feed: feed)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func handleTableViewContentOffset(_ contentOffset: CGPoint) {
