@@ -14,30 +14,25 @@ enum FeedNavigationSource {
 
 
 final class FeedDetailCoordinator: Coordinator {
-    var type: CoordinatorType { .main }
+    var type: CoordinatorType { .feed }
     var navigationSource: FeedNavigationSource = .feedViewController
     
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
+    var feedData: FeedTemp
     
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController() ) {
+    init(navigationController: UINavigationController = UINavigationController(), feedData: FeedTemp) {
         self.navigationController = navigationController
+        self.feedData = feedData // Initialize the feedData property
     }
     
     func start() {
         print("FeedDetailCoordinator START")
-        let test = FeedTemp(profileImage: UIImage(named: "profile")!,
-                            profileNickName: "구름이", time: "10분 전",
-                            isLike: true, weather: "sunny",
-                            date: "2023.09.18 월요일",
-                            categories: ["sohappy", "coffe", "donut"],
-                            content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
-                            images: [UIImage(named: "bagel")!]
-                            )
-        let feedReactor = FeedReactor(feed: test)
+        print("-----------feedData: \(feedData)") // feedTemp type
+        let feedReactor = FeedReactor(feed: feedData)
         let feedDetailVC = FeedDetailViewController(reactor: feedReactor)
         feedDetailVC.delegate = self
         navigationController.pushViewController(feedDetailVC, animated: true)
@@ -45,13 +40,11 @@ final class FeedDetailCoordinator: Coordinator {
 }
 
 extension FeedDetailCoordinator: FeedDetailViewControllerDelegate {
-    func didSelectProfileImage() {
+    func showOwner(ownerNickName: String) {
         print("FeedDetailViewController에서 프로필 이미지 선택함")
         switch navigationSource {
         case .feedViewController:
-//            let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController)
-            let ownerFeedCoordinator = FeedCoordinatorFactory.makeOwnerFeedCoordinator(navigationController: self.navigationController)
-            
+            let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName)
             ownerFeedCoordinator.start()
             self.childCoordinators.append(ownerFeedCoordinator)
         default: break

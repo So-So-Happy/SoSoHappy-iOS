@@ -10,12 +10,12 @@ import UIKit
 /*
  궁금한 점
  1. FeedCoordinatorInterface 용도
- 2. FeedCoordinator type을 .feed로 해야하는지 .main으로 둬도 되는지
+ 2. FeedCoordinator type을 .feed로 해야하는게 맞지?
  */
 
 /*
- 1. 중복되는 코드 리팩토링
- 2. 데이터 넘겨주는 거 작성하기
+ 1. 중복되는 코드 리팩토링 - didSelectCell 자체가 많이 중복됨
+ 2. 데이터 넘겨주는 거 작성하기 (Reactor에 API request 해야할 때 보내야하는것들이 잘 챙겨져 있는지 확인하고 작성하기)
  */
 
 public protocol FeedCoordinatorInterface {
@@ -23,23 +23,8 @@ public protocol FeedCoordinatorInterface {
     func finished()
 }
 
-// MARK: - Coordinator 만들어주는 중복된 코드가 많아서 FeedCoordinatorFactory 만들어줌 (이게 가장 좋은 방법일지는 잘 모르겠음)
-class FeedCoordinatorFactory {
-    static func makeFeedDetailCoordinator(navigationController: UINavigationController, navigationSource: FeedNavigationSource) -> FeedDetailCoordinator {
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: navigationController)
-        feedDetailCoordinator.navigationSource = navigationSource
-        return feedDetailCoordinator
-    }
-    
-    static func makeOwnerFeedCoordinator(navigationController: UINavigationController) -> OwnerFeedCoordinator {
-        let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: navigationController)
-        return ownerFeedCoordinator
-    }
-}
-
-
 final class FeedCoordinator: Coordinator {
-    var type: CoordinatorType { .main }
+    var type: CoordinatorType { .feed }
     
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -62,19 +47,18 @@ final class FeedCoordinator: Coordinator {
 }
 
 extension FeedCoordinator: FeedViewControllerDelegate {
-    func didSelectCell() {
+    func showdDetails(feed: FeedTemp) {
         print("cell 선택함")
-//        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController)
-//        feedDetailCoordinator.navigationSource = .feedViewController
-        let feedDetailCoordinator = FeedCoordinatorFactory.makeFeedDetailCoordinator(navigationController: self.navigationController, navigationSource: .feedViewController)
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed)
+        feedDetailCoordinator.navigationSource = .feedViewController
         feedDetailCoordinator.start()
         self.childCoordinators.append(feedDetailCoordinator)
     }
     
-    func didSelectProfileImage() {
+    func showOwner(ownerNickName: String) {
         print("프로필 이미지 선택")
-//        let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController)
-        let ownerFeedCoordinator = FeedCoordinatorFactory.makeOwnerFeedCoordinator(navigationController: self.navigationController)
+        print("ownerNickName : \(ownerNickName)")
+        let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName)
         ownerFeedCoordinator.start()
         self.childCoordinators.append(ownerFeedCoordinator)
     }
