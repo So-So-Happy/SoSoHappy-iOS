@@ -103,16 +103,21 @@ class FeedViewReactor: Reactor {
         var state = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
+            print("1")
             state.isRefreshing = isRefreshing
             
         case let .setFeeds(feeds):
+            print("2 .setFeeds activated")
             state.feeds = forTest
+            state.selectedFeed = nil
             
         case let .sortOption(sort):
+            print("3")
             state.sortOption = sort
+            state.selectedFeed = nil
             
         case let .selectedCell(index):
-            print("선택했음")
+            print("4")
             state.selectedFeed = state.feeds[index]
             
         }
