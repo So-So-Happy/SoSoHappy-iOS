@@ -25,12 +25,9 @@ public protocol FeedCoordinatorInterface {
 
 final class FeedCoordinator: Coordinator {
     var type: CoordinatorType { .feed }
-    
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    
-    
     var finishDelegate: CoordinatorFinishDelegate?
     
     init(navigationController: UINavigationController = UINavigationController() ) {
@@ -44,26 +41,28 @@ final class FeedCoordinator: Coordinator {
         feedVC.delegate = self
         navigationController.pushViewController(feedVC, animated: true)
     }
+    
+    func finish() {
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
 }
 
 extension FeedCoordinator: FeedViewControllerDelegate {
     func showdDetails(feed: FeedTemp) {
         print("cell 선택함")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed)
-        feedDetailCoordinator.navigationSource = .feedViewController
-        feedDetailCoordinator.start()
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed, navigatingFrom: .feedViewController)
         self.childCoordinators.append(feedDetailCoordinator)
+        feedDetailCoordinator.start()
     }
     
     func showOwner(ownerNickName: String) {
         print("프로필 이미지 선택")
         print("ownerNickName : \(ownerNickName)")
         let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName)
-        ownerFeedCoordinator.start()
         self.childCoordinators.append(ownerFeedCoordinator)
+        ownerFeedCoordinator.start()
     }
 }
-
 
 
 

@@ -29,15 +29,18 @@ final class OwnerFeedCoordinator: Coordinator {
         ownerFeedVC.delegate = self
         navigationController.pushViewController(ownerFeedVC, animated: true)
     }
+    
+    func finish() {
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
 }
 
 
 extension OwnerFeedCoordinator: OwnerFeedViewControllerDelegate {
     func showDetail(feed: FeedTemp) {
         print("OwnerFeedCoordinator didSelectCell 메서드 실행")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed)
-        feedDetailCoordinator.navigationSource = .ownerFeedViewController
-        feedDetailCoordinator.start()
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed, navigatingFrom: .ownerFeedViewController)
         self.childCoordinators.append(feedDetailCoordinator)
+        feedDetailCoordinator.start()
     }
 }
