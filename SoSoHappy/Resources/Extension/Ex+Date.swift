@@ -51,4 +51,13 @@ extension Date {
         dateformat.dateFormat = "yyyyMM"
         return dateformat.string(from: self)
     }
+    
+    /// 1분전, 1초전
+    func timeAgo() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        formatter.locale = Locale(identifier: "ko_KR")
+        let timeAgoString = formatter.localizedString(for: self, relativeTo: Date())
+        return timeAgoString == "0초 후" ? "지금" : timeAgoString
+    }
 }
