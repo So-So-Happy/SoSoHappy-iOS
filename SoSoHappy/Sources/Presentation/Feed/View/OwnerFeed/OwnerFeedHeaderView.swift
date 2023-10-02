@@ -47,7 +47,7 @@ class OwnerFeedHeaderView: UIView {
     }
     
     func update(with profile: ProfileTemp) {
-        print("OwnerFeedHeaderView - update function")
+//        print("OwnerFeedHeaderView - update function")
         profileImageWithBackgroundView.profileImageView.image = profile.profileImage
         profileNickNameLabel.text = profile.profileNickName
         profileSelfIntroduction.text = profile.selfIntroduction

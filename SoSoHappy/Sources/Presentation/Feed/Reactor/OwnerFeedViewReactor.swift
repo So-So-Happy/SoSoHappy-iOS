@@ -11,35 +11,58 @@ import ReactorKit
  1. refresh control dealy 이런거 직접 통신해보면서 조정
  */
 
+/*
+ requset
+ srcNickName: String    // 조회하는 유저 닉네임
+ dstNickName: String    // 조회 대상 닉네임
+ page: Int
+ size: Int
+ */
+
+/*
+ response
+ nickName: String   // "admin1"
+ weather: String    // "sunny"
+ date: Int          // 2023090913248392
+ happiness: Int     // 3
+ text: String       // "hi~"
+ categoryList: [String] // ["coffee"]
+ imageList: [바이트]   // []
+ isLiked: Bool      // false
+ */
 
 class OwnerFeedViewReactor: Reactor {
     enum Action {
         case refresh
+        case selectedCell(index: Int)
     }
     
     enum Mutation {
         case setRefreshing(Bool)
         case profile(ProfileTemp)
         case setFeeds([FeedTemp])
+        case selectedCell(index: Int)
     }
     
     struct State {
+        var ownerNickName: String
         var isRefreshing: Bool = false
         var profile: ProfileTemp?
         var feeds: [FeedTemp] = []
+        var selectedFeed: FeedTemp?
     }
     
     let initialState: State
     
-    init() {
-        initialState = State()
+    init(ownerNickName: String) {
+        initialState = State(ownerNickName: ownerNickName)
     }
     
     var forTest: [FeedTemp] = [
         FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor", time: "10분 전",
                                 isLike: true, weather: "sunny",
-                                date: "2023.09.08 금요일",
+                                feedDate: "2023.09.08 금요일",
                                 categories: ["sohappy", "coffe", "donut"],
                                 content: "츄로스 맛집 발견. 너무 행복해~",
                                 images: [UIImage(named: "churros")!]
@@ -47,7 +70,7 @@ class OwnerFeedViewReactor: Reactor {
         FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "Reactor22", time: "15분 전",
                                 isLike: false, weather: "rainy",
-                                date: "2023.09.07 목요일",
+                                feedDate: "2023.09.07 목요일",
                                 categories: ["sohappy", "coffe", "donut"],
                                 content: "오호라 잘 나타나는구만",
                                 images: [UIImage(named: "cafe")!, UIImage(named: "churros")!]
@@ -70,6 +93,9 @@ class OwnerFeedViewReactor: Reactor {
                 Observable.just(Mutation.setFeeds(fetchedFeeds)), // 통신해서 받아온 feed들을 Mutation.setFeeds로 map
                 Observable.just(.setRefreshing(false))
             ])
+            
+        case let .selectedCell(index):
+            return Observable.just(.selectedCell(index: index))
         }
     }
 
@@ -84,6 +110,10 @@ class OwnerFeedViewReactor: Reactor {
             
         case let .profile(profile):
             state.profile = testProfile
+            
+        case let .selectedCell(index):
+            print("선택했음")
+            state.selectedFeed = state.feeds[index]
         }
         
         return state
