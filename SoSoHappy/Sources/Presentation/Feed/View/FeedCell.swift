@@ -19,8 +19,8 @@ import RxCocoa
 
 final class FeedCell: BaseCell {
     // MARK: - Properties
-    var didSelectProfileImage: ((String) -> Void)?
     let profileImageTapSubject = PublishSubject<String>()
+    
     
     // MARK: - UI Components
     private lazy var heartButton = HeartButton()

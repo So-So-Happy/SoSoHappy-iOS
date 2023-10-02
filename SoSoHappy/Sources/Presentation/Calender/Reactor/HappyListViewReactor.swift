@@ -30,7 +30,7 @@ class HappyListViewReactor: Reactor {
         FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "구름이", time: "10분 전",
                                 isLike: true, weather: "sunny",
-                                date: "2023.09.18 월요일",
+                                feedDate: "2023.09.18 월요일",
                                 categories: ["sohappy", "coffe", "donut"],
                                 content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
                                 images: [UIImage(named: "bagel")!]
@@ -38,7 +38,7 @@ class HappyListViewReactor: Reactor {
         FeedTemp(profileImage: UIImage(named: "cafe")!,
                                 profileNickName: "날씨조아", time: "15분 전",
                                 isLike: false, weather: "rainy",
-                                date: "2023.09.07 목요일",
+                                feedDate: "2023.09.07 목요일",
                                 categories: ["sohappy", "coffe", "coffe"],
                                 content: "오호라 잘 나타나는구만",
                                 images: []
