@@ -13,15 +13,18 @@ import ReactorKit
 import RxGesture
 
 /*
- 1. heartbutton throttle, debouce 적용
- 2. heartbutton 누를 때마다 reactor.state feed 때문에 전체 view 들이 업데이트되는데 퍼포먼스 영향 많이 주는지 한번 확인해보기
- 3. BaseCell을 여기에서 재사용해볼까 했는데 모양새가 다름
+ 1. heartbutton throttle, debouce 적용, 날씨 bacgkround 이미지 적용
+ 2. OwnerFeedViewController에서 여기에서 보여주는 피드를 좋아요했을 때 반영이 안될 것 같은데 확인해보고 코드 수정해주기
  */
 
-
+protocol FeedDetailViewControllerDelegate: AnyObject {
+    func showOwner(ownerNickName: String) 
+}
+ 
 final class FeedDetailViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    weak var delegate: FeedDetailViewControllerDelegate?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
@@ -62,7 +65,13 @@ final class FeedDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("FeedDetailViewController viewDidLoad ---------------")
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("FeedDetailViewController viewWillAppear ---------------")
     }
     
     init(reactor: FeedReactor) {
@@ -78,6 +87,7 @@ final class FeedDetailViewController: UIViewController {
 //MARK: - Add Subviews & Constraints
 extension FeedDetailViewController {
     private func setup() {
+        self.navigationItem.title = ""
         setLayout()
     }
 
@@ -92,7 +102,7 @@ extension FeedDetailViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.bottom.equalTo(imageSlideView).offset(30)
+            make.bottom.equalTo(imageSlideView).offset(40)
         }
         
         profileImageNameTimeStackView.snp.makeConstraints { make in
@@ -148,23 +158,42 @@ extension FeedDetailViewController: View {
             .map { Reactor.Action.toggleLike}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        profileImageNameTimeStackView.profileImageView.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] _ in
+                guard let `self` = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
+                self.delegate?.showOwner(ownerNickName: nickName)
+            })
+            .disposed(by: disposeBag)
+        
 
         reactor.state
             .map { $0.feed }
             .bind { [weak self] feed in
                 guard let `self` = self, let feed = feed else { return }
-                print("here")
-                print("여기 : \(type(of: feed))")
-                profileImageNameTimeStackView.setContents(feed: feed)
-                // 날씨에 대한 background 이미지 설정해주는 코드 필요
-                heartButton.setHeartButton(feed.isLike)
-                categoryStackView.addImageViews(images: feed.categories)
-                dateLabel.text = feed.date
-                contentLabel.text = feed.content
-                contentLabel.setLineSpacing(lineSpacing: 9)
-                imageSlideView.setContents(feed: feed)
+//                print("여기 : \(type(of: feed))")
+                setFeed(feed)
+                
             }
             .disposed(by: disposeBag)
+    }
+    
+    private func setFeed(_ feed: FeedTemp) {
+        profileImageNameTimeStackView.setContents(feed: feed)
+        // 날씨에 대한 background 이미지 설정해주는 코드 필요
+        heartButton.setHeartButton(feed.isLike)
+        categoryStackView.addImageViews(images: feed.categories)
+        dateLabel.text = feed.feedDate
+        contentLabel.text = feed.content
+        contentLabel.setLineSpacing(lineSpacing: 9)
+        
+        if feed.images.isEmpty {
+            imageSlideView.isHidden = true
+        } else {
+            imageSlideView.isHidden = false
+            imageSlideView.setContents(feed: feed)
+        }
     }
 }
 
