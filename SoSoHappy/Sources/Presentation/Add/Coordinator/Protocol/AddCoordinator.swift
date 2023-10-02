@@ -28,7 +28,7 @@ final class AddCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = AddStep1ViewController()
+        let viewController = AddStep1ViewController(reactor: AddViewReactor())
         navigationController.pushViewController(viewController, animated: true)
     }
 }
