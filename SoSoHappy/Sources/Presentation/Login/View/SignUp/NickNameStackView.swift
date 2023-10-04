@@ -18,7 +18,7 @@ final class NickNameStackView: UIView {
     )
     
     private lazy var nickNameGuideLabel = UILabel().then {
-        $0.text = "닉네임을 입력해주세요 (최대 10자)"
+        $0.text = "닉네임을 입력해주세요. (최대 10자)"
         $0.textColor = .darkGray
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15, weight: .light)
