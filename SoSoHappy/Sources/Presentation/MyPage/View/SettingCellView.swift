@@ -12,7 +12,7 @@ final class SettingCellView: UIView {
     // MARK: - Properties
     private lazy var imageView = UIImageView()
     private lazy var textLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 18)
+        $0.font = .systemFont(ofSize: 16)
         $0.textColor = UIColor(rgb: 0x626262)
     }
     

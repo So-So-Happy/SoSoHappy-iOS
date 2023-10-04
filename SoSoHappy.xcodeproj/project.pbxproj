@@ -57,6 +57,7 @@
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
+		6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */; };
 		67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */; };
 		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
 		67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */; };
@@ -221,8 +222,8 @@
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
+		6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReactor.swift; sourceTree = "<group>"; };
-		67B1F51C2AA08B67000DA458 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
 		67CFE3D22A88FBB70085DA40 /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		67CFE3D42A8903D60085DA40 /* CategoryButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryButtonCell.swift; sourceTree = "<group>"; };
@@ -716,7 +717,6 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				67B1F51C2AA08B67000DA458 /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -837,6 +837,7 @@
 			children = (
 				67E7DB912A8138EB00C33988 /* MyPageViewController.swift */,
 				0661C9BB2A92654C0075B5A3 /* SetAppThemeViewController.swift */,
+				6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1484,6 +1485,7 @@
 				802C6C962AB8775B001142B4 /* HappyButton.swift in Sources */,
 				0613BCCD2AA5EBFC00E2B97F /* UserRepository.swift in Sources */,
 				80380C242A98DE900077048D /* RecentTimeMessageCountStackView.swift in Sources */,
+				6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */,
 				80AD68B92AC69A8A00DD3D5F /* WeatherStackView.swift in Sources */,
 				67E7DB5E2A81360A00C33988 /* UserRepositoryProtocol.swift in Sources */,
 				802C6CAA2AB87C11001142B4 /* FeedViewReactor.swift in Sources */,
@@ -1583,7 +1585,6 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1644,7 +1645,6 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67B1F51C2AA08B67000DA458 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
