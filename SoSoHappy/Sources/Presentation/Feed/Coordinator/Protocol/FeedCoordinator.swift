@@ -27,7 +27,7 @@ final class FeedCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = FeedViewController()
+        let viewController = FeedViewController(reactor: FeedViewReactor())
         navigationController.pushViewController(viewController, animated: true)
     }
     
