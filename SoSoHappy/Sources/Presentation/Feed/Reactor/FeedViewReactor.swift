@@ -7,6 +7,28 @@
 
 import ReactorKit
 
+/*
+ 피드 조회 (오늘 - date 입력, 전체 - date 입력 x)
+ nickName: String
+ date: Int
+ page: Int
+ size: Int
+ 
+ */
+
+/*
+ response
+ nickName: String   // "admin1"
+ weather: String    // "sunny"
+ date: Int          // 2023090913248392
+ happiness: Int     // 3
+ text: String       // "hi~"
+ categoryList: [String] // ["coffee"]
+ imageList: [바이트]   // []
+ isLiked: Bool      // false
+ */
+
+
 enum SortOption {
     case today
     case total
@@ -16,18 +38,21 @@ class FeedViewReactor: Reactor {
     enum Action {
         case refresh
         case fetchFeeds(SortOption)
+        case selectedCell(index: Int)
     }
     
     enum Mutation {
         case setRefreshing(Bool)
         case setFeeds([FeedTemp])
         case sortOption(SortOption)
+        case selectedCell(index: Int)
     }
     
     struct State {
         var isRefreshing: Bool = false
         var feeds: [FeedTemp] = []
         var sortOption: SortOption = .today
+        var selectedFeed: FeedTemp?
     }
     
     let initialState: State
@@ -40,7 +65,7 @@ class FeedViewReactor: Reactor {
         FeedTemp(profileImage: UIImage(named: "profile")!,
                                 profileNickName: "구름이", time: "10분 전",
                                 isLike: true, weather: "sunny",
-                                date: "2023.09.18 월요일",
+                                feedDate: "2023.09.18 월요일",
                                 categories: ["sohappy", "coffe", "donut"],
                                 content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
                                 images: [UIImage(named: "bagel")!]
@@ -48,9 +73,9 @@ class FeedViewReactor: Reactor {
         FeedTemp(profileImage: UIImage(named: "cafe")!,
                                 profileNickName: "날씨조아", time: "15분 전",
                                 isLike: false, weather: "rainy",
-                                date: "2023.09.07 목요일",
+                                feedDate: "2023.09.07 목요일",
                                 categories: ["sohappy", "coffe", "coffe"],
-                                content: "오호라 잘 나타나는구만",
+                                content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
                                 images: []
                                 )
     ]
@@ -68,23 +93,36 @@ class FeedViewReactor: Reactor {
 
         case let .fetchFeeds(sortOption):
             return fetchFeedBySortOption(sortOption)
+            
+        case let .selectedCell(index):
+            return Observable.just(.selectedCell(index: index))
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
+        var state = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
-            newState.isRefreshing = isRefreshing
+            print("1")
+            state.isRefreshing = isRefreshing
             
         case let .setFeeds(feeds):
-            newState.feeds = forTest
+            print("2 .setFeeds activated")
+            state.feeds = forTest
+            state.selectedFeed = nil
             
         case let .sortOption(sort):
-            newState.sortOption = sort
+            print("3")
+            state.sortOption = sort
+            state.selectedFeed = nil
+            
+        case let .selectedCell(index):
+            print("4")
+            state.selectedFeed = state.feeds[index]
+            
         }
         
-        return newState
+        return state
     }
     
     private func fetchFeedBySortOption(_ sortOption: SortOption) -> Observable<Mutation> {

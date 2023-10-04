@@ -57,7 +57,7 @@ extension WeatherDateStackView {
 extension WeatherDateStackView {
     func setContents(feed: FeedTemp) {
         weatherImageView.image = UIImage(named: feed.weather)
-        dateLabel.text = feed.date
+        dateLabel.text = feed.feedDate
     }
 }
 

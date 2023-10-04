@@ -94,3 +94,21 @@ extension FeedHeaderView {
     }
 }
 
+
+extension FeedHeaderView {
+    func updateButtonState(_ sortOption: SortOption) {
+        switch sortOption {
+        case .today:
+            setSortTextColorAttribute(sortTodayButton, sortTotalButton)
+        case .total:
+            setSortTextColorAttribute(sortTotalButton, sortTodayButton)
+        }
+    }
+    
+    private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
+        selected.setTitleColor(.black, for: .normal)
+        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
+        notSelected.setTitleColor(.gray, for: .normal)
+        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
+    }
+}

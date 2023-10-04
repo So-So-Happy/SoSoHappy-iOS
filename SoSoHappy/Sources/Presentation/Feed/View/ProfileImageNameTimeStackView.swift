@@ -10,8 +10,10 @@ import SnapKit
 import Then
 
 final class ProfileImageNameTimeStackView: UIView {
+    // MARK: Properties
     var imageSize: CGFloat
     
+    // MARK: UI Components
     private lazy var profileImageNameTimeStackView = UIStackView(
         axis: .horizontal,
         alignment: .center,
@@ -20,7 +22,7 @@ final class ProfileImageNameTimeStackView: UIView {
     )
     
     // 피드 작성한 사람의 프로필 이미지
-    private lazy var profileImageView =  UIImageView().then {
+    lazy var profileImageView =  UIImageView().then {
         $0.contentMode = .scaleToFill
         $0.clipsToBounds = true
     }
@@ -33,7 +35,7 @@ final class ProfileImageNameTimeStackView: UIView {
     )
     
     // 피드 작성한 사람의 닉네임
-    private lazy var profileNickNameLabel = UILabel().then {
+    lazy var profileNickNameLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
     }

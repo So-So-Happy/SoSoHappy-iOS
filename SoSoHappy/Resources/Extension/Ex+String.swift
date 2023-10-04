@@ -1,5 +1,5 @@
 //
-//  Ex+ String.swift
+//  Ex+String.swift
 //  SoSoHappy
 //
 //  Created by Sue on 2023/09/14.

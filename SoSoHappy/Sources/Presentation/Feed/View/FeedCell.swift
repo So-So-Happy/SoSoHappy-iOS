@@ -10,12 +10,19 @@ import SnapKit
 import ImageSlideshow
 import Then
 import ReactorKit
+import RxSwift
+import RxCocoa
 
 /*
  1. 하트 버튼 연타 처리 (debounce, throttle)
  */
 
-final class FeedCell: BaseCell { 
+final class FeedCell: BaseCell {
+    // MARK: - Properties
+    let profileImageTapSubject = PublishSubject<String>()
+    
+    
+    // MARK: - UI Components
     private lazy var heartButton = HeartButton()
     private lazy var profileImageNameTimeStackView = ProfileImageNameTimeStackView(imageSize: 38)
     
@@ -66,6 +73,14 @@ extension FeedCell: View {
             .map { Reactor.Action.toggleLike}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        profileImageNameTimeStackView.profileImageView.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let nickName = self?.profileImageNameTimeStackView.profileNickNameLabel.text else { return }
+                self?.profileImageTapSubject.onNext(nickName)
+            })
+            .disposed(by: disposeBag)
+
         
         reactor.state
             .skip(1)

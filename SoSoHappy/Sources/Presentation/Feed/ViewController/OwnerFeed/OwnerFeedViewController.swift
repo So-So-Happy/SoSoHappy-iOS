@@ -16,10 +16,16 @@ import RxCocoa
  1. refreshControl이 여기에서 꼭 필요가 있을까?
  2. profile update가 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
  */
+
+
+protocol OwnerFeedViewControllerDelegate: AnyObject {
+    func showDetail(feed: FeedTemp)
+}
  
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    weak var delegate: OwnerFeedViewControllerDelegate?
     
     // MARK: - UI Components
     private lazy var refreshControl = UIRefreshControl()
@@ -37,8 +43,13 @@ final class OwnerFeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("view did load")
+        print("OwnerFeedViewController viewDidLoad ---------------")
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("OwnerFeedViewController viewWillAppear ---------------")
     }
 
     init(reactor: OwnerFeedViewReactor) {
@@ -54,6 +65,7 @@ final class OwnerFeedViewController: UIViewController {
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension OwnerFeedViewController {
     private func setup() {
+        self.navigationItem.title = ""
         setLayout()
     }
 
@@ -81,6 +93,11 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        tableView.rx.itemSelected
+            .map { Reactor.Action.selectedCell(index: $0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         // 이게 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
         reactor.state
             .skip(1)
@@ -93,18 +110,10 @@ extension OwnerFeedViewController: View {
         reactor.state
             .skip(1)
             .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { (row,  feed, cell) in
+            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { [weak self] (row,  feed, cell) in
+                guard let self = self else { return }
                 print("cell 만드는 중")
-
-                let cellReactor = FeedReactor(feed: feed)
-                cell.reactor = cellReactor
-
-                cell.imageSlideView.tapObservable
-                    .subscribe(onNext: { [weak self] in
-                        guard let self = self else { return }
-                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-                    })
-                    .disposed(by: cell.disposeBag) // cell.disposeBag ?
+                configureCell(cell, with: feed)
             }
             .disposed(by: disposeBag)
         
@@ -113,6 +122,26 @@ extension OwnerFeedViewController: View {
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: self.disposeBag)
         
+        reactor.state
+            .compactMap { $0.selectedFeed }
+            .subscribe(onNext: { [weak self] feed in
+                guard let self = self else { return }
+                print("여기까지 진행완료")
+//                print("feed: \(feed), type: \(type(of: feed))")
+                self.delegate?.showDetail(feed: feed)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func configureCell(_ cell: OwnerFeedCell, with feed: FeedTemp) {
+        let cellReactor = FeedReactor(feed: feed)
+        cell.reactor = cellReactor
+        cell.imageSlideView.tapObservable
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+            })
+            .disposed(by: cell.disposeBag) // cell.disposeBag ?
     }
 }
 

@@ -19,3 +19,14 @@ import UIKit
 //        return ControlEvent(events: ObservableType)
 //        }
 //}
+
+
+extension Reactive where Base: UIImageView {
+    var tap: ControlEvent<Void> {
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        base.isUserInteractionEnabled = true
+        base.addGestureRecognizer(tapGestureRecognizer)
+        
+        return ControlEvent(events: tapGestureRecognizer.rx.event.map { _ in })
+    }
+}

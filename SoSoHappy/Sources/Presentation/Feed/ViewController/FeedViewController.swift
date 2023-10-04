@@ -15,24 +15,20 @@ import RxCocoa
 /*
  리팩토링
  1. 버튼을 여러번 클릭했을 때 API 중복 호출을 막아주는 조치 (하트, 오늘, 전체 버튼) - throttle, debouce
- 2. refresh control 한번 더 확인해보기 - 좀 모양새가 이상함
- 
  3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
- 
- 4.  operator들 좀 더 찾아보고 적용해보면서 리팩토링
-    (rxswift: asDriver, drive, distinctUntilChanged, subscribe, do 공부해보기)
 
  */
 
-/*
- 1. refreshcontrol이 navigation title이 large로 해서 그런지 모양새가 이상하게 나와서 코드를 일단 수정해놓음
- */
-
+protocol FeedViewControllerDelegate: AnyObject { // only adopted by class
+    func showdDetails(feed: FeedTemp) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
+    func showOwner(ownerNickName: String) // 조회대상 닉네임이 필요 ('특정 유저 피드 조회'는 서버통신 필요)
+}
 
 final class FeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    weak var delegate: FeedViewControllerDelegate?  // weak - must have a reference type (not value)
     
     // MARK: - UI Components
     private lazy var feedHeaderView = FeedHeaderView()
@@ -51,7 +47,23 @@ final class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("FeedViewController viewDidLoad ---------------")
         setup()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("FeedViewController viewWillAppear ---------------")
+        let contentOffset = self.tableView.contentOffset
+        handleTableViewContentOffset(contentOffset)
+    }
+
+    // MARK: - 스크롤된 정도에 따라서 navigation title을 줬더니 다음 화면으로 넘어갈 때 Back 대신 title이 뜨길래
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("FeedViewController viewWillDisappear ---------------")
+        self.navigationItem.title = ""
     }
     
     init(reactor: FeedViewReactor) {
@@ -67,16 +79,6 @@ final class FeedViewController: UIViewController {
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension FeedViewController {
     private func setup() {
-        configureNavigation()
-        setLayout()
-    }
-    
-    func configureNavigation() {
-//        self.navigationItem.title = "소피들의 소소해피"
-//        self.navigationController?.navigationBar.prefersLargeTitles = true
-    }
-    
-    private func setLayout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -89,7 +91,7 @@ extension FeedViewController: View {
     // MARK: bind
     func bind(reactor: FeedViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        self.rx.viewDidLoad
+        self.rx.viewWillAppear
             .map { Reactor.Action.fetchFeeds(.today) } // default today
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -113,14 +115,17 @@ extension FeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // asDriver  - 항상 main 스레드에서 관찰하고 에러가 발생하지 않는 것을 보장하여 시퀀스 작업을 간단하게 함
+        // subscribe - 구독 관리를 더 세밀하게 제어해야 하는 경우
+        tableView.rx.itemSelected
+            .map { Reactor.Action.selectedCell(index: $0.row) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         tableView.rx.contentOffset
             .subscribe(onNext: { [weak self] contentOffset in
                 guard let self = self else { return }
-                if contentOffset.y < -50 {
-                    self.navigationItem.title = ""
-                } else {
-                    self.navigationItem.title = "소피들의 소소해피"
-                }
+                handleTableViewContentOffset(contentOffset)
             })
             .disposed(by: disposeBag)
 
@@ -128,23 +133,10 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { (row,  feed, cell) in
-                // MARK: FeedReactor에 feed 넣어주는 방법1
-//                let initialState = FeedReactor.State(feed: feed)
-//                let cellReactor = FeedReactor(state: initialState)
-                                
-                // MARK: FeedReactor에 feed 넣어주는 방법2
-                let cellReactor = FeedReactor(feed: feed)
-                cell.reactor = cellReactor
-                
-                // - 여기에 코드를 작성한 이유
-                // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
-                cell.imageSlideView.tapObservable
-                    .subscribe(onNext: { [weak self] in
-                        guard let self = self else { return }
-                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-                    })
-                    .disposed(by: cell.disposeBag)
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  feed, cell) in
+                guard let self = self else { return }
+                configureCell(cell, with: feed)
+                print("tableView cell 세팅중")
             }
             .disposed(by: disposeBag)
         
@@ -153,32 +145,66 @@ extension FeedViewController: View {
             .map { $0.sortOption }
             .subscribe(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                updateButtonState(sortOption)
+                print("sortOption")
+                feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isRefreshing }
+            .map {
+                print("isRefreshing")
+                return $0.isRefreshing
+                
+            }
             .distinctUntilChanged()
             .bind(to: self.refreshControl.rx.isRefreshing)
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.selectedFeed }
+            .subscribe(onNext: { [weak self] feed in
+                guard let self = self else { return }
+                print("selectedFeed : \(feed)")
+//                print("feed: \(feed), type: \(type(of: feed))")
+                self.delegate?.showdDetails(feed: feed)
+            })
+            .disposed(by: disposeBag)
     }
     
-    func updateButtonState(_ sortOption: SortOption) {
-        switch sortOption {
-        case .today:
-            setSortTextColorAttribute(feedHeaderView.sortTodayButton, feedHeaderView.sortTotalButton)
-        case .total:
-            setSortTextColorAttribute(feedHeaderView.sortTotalButton, feedHeaderView.sortTodayButton)
+    private func configureCell(_ cell: FeedCell, with feed: FeedTemp) {
+        // MARK: FeedReactor에 feed 넣어주는 방법1
+//        let initialState = FeedReactor.State(feed: feed)
+//        let cellReactor = FeedReactor(state: initialState)
+        
+        // MARK: FeedReactor에 feed 넣어주는 방법2
+        let cellReactor = FeedReactor(feed: feed)
+        cell.reactor = cellReactor
+        
+        // - 여기에 코드를 작성한 이유
+        // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
+        cell.imageSlideView.tapObservable
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+            })
+            .disposed(by: cell.disposeBag)
+        
+        // Subscribe to profileImageTapSubject here
+        cell.profileImageTapSubject
+            .subscribe(onNext: { [weak self] nickName in
+                guard let self = self else { return }
+                self.delegate?.showOwner(ownerNickName: nickName)
+            })
+            .disposed(by: cell.disposeBag)
+    }
+    
+    
+    private func handleTableViewContentOffset(_ contentOffset: CGPoint) {
+        if contentOffset.y < -50 {
+            self.navigationItem.title = ""
+        } else {
+            self.navigationItem.title = "소피들의 소소해피"
         }
-    }
-    
-    private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
-        selected.setTitleColor(.black, for: .normal)
-        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
-        notSelected.setTitleColor(.gray, for: .normal)
-        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
     }
 }
 
