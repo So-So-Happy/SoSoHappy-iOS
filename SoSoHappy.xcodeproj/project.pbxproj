@@ -494,9 +494,9 @@
 				0699EE942ACEA8CF00127C49 /* DTO */,
 				0699EEAE2ACEA8CF00127C49 /* Model.swift */,
 				0699EEAF2ACEA8CF00127C49 /* Profile.swift */,
-				0699EEB02ACEA8CF00127C49 /* Type */,
-				0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */,
 				0699EEB42ACEA8CF00127C49 /* Feed.swift */,
+				0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */,
+				0699EEB02ACEA8CF00127C49 /* Type */,
 			);
 			name = Models;
 			path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/Models";
