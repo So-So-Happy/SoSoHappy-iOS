@@ -15,9 +15,9 @@ enum UserAPI {
     case googleLogin
     case checkDuplicateNickname(nickName: String)
     case getRefreshToken
-    case resign(email: Resign)
+    case resign(email: ResignRequest)
     case setProfile(profile: Profile)
-    case findProfileImg(nickName: FindProfileImg)
+    case findProfileImg(nickName: FindProfileImgRequest)
 }
 
 // MARK: UserAPI + TargetType
@@ -33,19 +33,19 @@ extension UserAPI {
     func getPath() -> String {
         switch self {
         case .googleLogin:
-            return ""
+            return Bundle.main.googleLoginPath
         case .kakaoLogin:
-            return "/auth-service/oauth2/authorization/kakao"
+            return Bundle.main.kakaoLoginPath
         case .checkDuplicateNickname:
-            return ""
+            return Bundle.main.checkDuplicateNickNamePath
         case .getRefreshToken:
-            return ""
+            return Bundle.main.reIssueTokenPath
         case .setProfile:
-            return ""
+            return Bundle.main.setProfilePath
         case .resign:
-            return ""
+            return Bundle.main.resignPath
         case .findProfileImg:
-            return ""
+            return Bundle.main.fineProfileImgPath
         }
     }
     
@@ -79,13 +79,11 @@ extension UserAPI {
         case .getRefreshToken:
             return .requestPlain
         case .setProfile(let profile):
-            
             let imageData =  MultipartFormData(provider: .data(profile.profileImg.jpegData(compressionQuality: 0.1)!), name: "image", fileName: "jpeg", mimeType: "image/jpeg")
             let nickNameData = MultipartFormData(provider: .data(profile.nickName.data(using: .utf8)!), name: "nickname")
             let emailData = MultipartFormData(provider: .data(profile.email.data(using: .utf8)!), name: "email")
             let introData = MultipartFormData(provider: .data(profile.introduction.data(using: .utf8)!), name: "introduction")
             var formData: [Moya.MultipartFormData] = [imageData, nickNameData, emailData, introData]
-            
             return .uploadMultipart(formData)
         case .resign(let email):
             return .requestJSONEncodable(email)
@@ -94,9 +92,6 @@ extension UserAPI {
         }
     }
     
-    func getHeader() -> [String : String]? {
-        return [:]
-    }
 }
 
 
