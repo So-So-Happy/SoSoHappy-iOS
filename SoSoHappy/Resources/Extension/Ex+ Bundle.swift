@@ -64,6 +64,14 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["FIND_OTHER_FEED_PATH"] as? String else { fatalError("FIND_OTHER_FEED_PATH error") }
         return key
     }
+    
+    var findUserFeed: String {
+        guard let key = Bundle.main.infoDictionary?["FIND_USER_FEED_PATH"] as? String else {
+            fatalError("FIND_USER_FEED_PATH error")
+        }
+        return key
+    }
+    
     var analysisHappinessPath: String {
         guard let key = Bundle.main.infoDictionary?["ANALYSIS_HAPPINESS_PATH"] as? String else { fatalError("ANALYSIS_HAPPINESS_PATH error") }
         return key
