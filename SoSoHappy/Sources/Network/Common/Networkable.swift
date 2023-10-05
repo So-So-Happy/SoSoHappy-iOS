@@ -11,13 +11,13 @@ protocol Networkable {
     /// provider객체 생성 시 Moya에서 제공하는 TargetType을 명시해야 하므로 타입 필요
     associatedtype Target: TargetType
     /// DIP를 위해 protocol에 provider객체를 만드는 함수 정의
-    func accessProvider() -> MoyaProvider<Target>
-    func makeProvider() -> MoyaProvider<Target>
+    static func accessProvider() -> MoyaProvider<Target>
+    static func makeProvider() -> MoyaProvider<Target>
 }
 
 extension Networkable {
 
-    func accessProvider() -> MoyaProvider<Target> {
+    static func accessProvider() -> MoyaProvider<Target> {
         let tokenClosure: (TargetType) -> HeaderType = { _ in
             guard let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
                   let accessToken = KeychainService.getAccessToken(serviceID: identifier),
@@ -40,7 +40,7 @@ extension Networkable {
     
     
     /// login, duplicate 시 사용
-    func makeProvider() -> MoyaProvider<Target> {
+    static func makeProvider() -> MoyaProvider<Target> {
         
         /// 로그 세팅
         let loggerPlugin = NetworkLoggerPlugin()

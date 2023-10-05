@@ -7,10 +7,10 @@
 
 import UIKit
 
-struct Feed {
+struct Feed: Codable {
     
     let text: String
-    let imageList: [UIImage]
+    let imageList: Data
     let categoryList: [String]
     let isPulic: Bool
     let date: Double
@@ -19,7 +19,7 @@ struct Feed {
     let nickName: String
     
     init(text: String,
-         imageList: [UIImage],
+         imageList: Data,
          categoryList: [String],
          isPublic: Bool,
          date: Double,

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct UpdatePublicStatusRequest: Codable {
+struct UpdatePulicStatusRequest {
     let date: Int64
     let nickname: String
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct UpdateLikeRequest: Codable, Requestable {
+struct UpdateLikeRequest: Requestable {
     let srcNickname: String
     let nickname: String
     let date: Int64
