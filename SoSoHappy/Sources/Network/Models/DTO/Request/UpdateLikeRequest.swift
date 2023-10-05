@@ -5,10 +5,11 @@
 //  Created by 박희경 on 2023/09/30.
 //
 
+
 import Foundation
 
 
-struct UpdateLikeRequest: Requestable {
+struct UpdateLikeRequest: Codable, Requestable {
     let srcNickname: String
     let nickname: String
     let date: Int64

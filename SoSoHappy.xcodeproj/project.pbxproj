@@ -58,14 +58,11 @@
 		0699EEC92ACEA8CF00127C49 /* FindFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */; };
 		0699EECA2ACEA8CF00127C49 /* ResignRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */; };
 		0699EECC2ACEA8CF00127C49 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAE2ACEA8CF00127C49 /* Model.swift */; };
-		0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAF2ACEA8CF00127C49 /* Profile.swift */; };
 		0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB12ACEA8CF00127C49 /* Requestable.swift */; };
 		0699EECF2ACEA8CF00127C49 /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB22ACEA8CF00127C49 /* SocialType.swift */; };
-		0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */; };
 		0699EED12ACEA8D000127C49 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB42ACEA8CF00127C49 /* Feed.swift */; };
 		0699EED32ACEA8EA00127C49 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED22ACEA8EA00127C49 /* FeedAPI.swift */; };
 		0699EED52ACEA9CD00127C49 /* FeedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */; };
-		0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
 		06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */; };
@@ -149,9 +146,11 @@
 		80380C332A98DFCE0077048D /* OwnerFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C322A98DFCE0077048D /* OwnerFeedViewController.swift */; };
 		80380C352A98DFF00077048D /* DMListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C342A98DFF00077048D /* DMListViewController.swift */; };
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
-		80380C3F2A98ED780077048D /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 80380C3E2A98ED780077048D /* MessageKit */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		808650852ACF00A50036CCFB /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650842ACF00A50036CCFB /* Profile.swift */; };
+		808650872ACF00C50036CCFB /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650862ACF00C50036CCFB /* ResponseContainer.swift */; };
+		808650892ACF01C50036CCFB /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650882ACF01C50036CCFB /* UpdatePublicStatusRequest.swift */; };
 		80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */; };
 		80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */; };
 		80AD68722AC19F5000DD3D5F /* SigninManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */; };
@@ -216,7 +215,7 @@
 		06896DEF2AC2A817001DCCFC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		06896DF52AC2AB8E001DCCFC /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepository.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Data/Repository/FeedRepository.swift"; sourceTree = "<group>"; };
+		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
 		0699EE962ACEA8CF00127C49 /* FindOtherFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindOtherFeedResponse.swift; sourceTree = "<group>"; };
 		0699EE972ACEA8CF00127C49 /* SetProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileResponse.swift; sourceTree = "<group>"; };
 		0699EE982ACEA8CF00127C49 /* ResignResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignResponse.swift; sourceTree = "<group>"; };
@@ -240,14 +239,11 @@
 		0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFeedRequest.swift; sourceTree = "<group>"; };
 		0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignRequest.swift; sourceTree = "<group>"; };
 		0699EEAE2ACEA8CF00127C49 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		0699EEAF2ACEA8CF00127C49 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		0699EEB12ACEA8CF00127C49 /* Requestable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		0699EEB22ACEA8CF00127C49 /* SocialType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
-		0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
 		0699EEB42ACEA8CF00127C49 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAPI.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/API/FeedAPI.swift"; sourceTree = "<group>"; };
-		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepositoryProtocol.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Domain/Interfaces/FeedRepositoryProtocol.swift"; sourceTree = "<group>"; };
-		0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
+		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
+		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepositoryProtocol.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
 		06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideView.swift; sourceTree = "<group>"; };
@@ -342,6 +338,9 @@
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		808650842ACF00A50036CCFB /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		808650862ACF00C50036CCFB /* ResponseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
+		808650882ACF01C50036CCFB /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
 		80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSigninManager.swift; sourceTree = "<group>"; };
 		80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSigninManager.swift; sourceTree = "<group>"; };
 		80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninManagerProtocol.swift; sourceTree = "<group>"; };
@@ -367,7 +366,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80380C3F2A98ED780077048D /* MessageKit in Frameworks */,
 				D74B6451342E18ED858C7C0A /* Pods_SoSoHappy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -493,13 +491,12 @@
 			children = (
 				0699EE942ACEA8CF00127C49 /* DTO */,
 				0699EEAE2ACEA8CF00127C49 /* Model.swift */,
-				0699EEAF2ACEA8CF00127C49 /* Profile.swift */,
 				0699EEB42ACEA8CF00127C49 /* Feed.swift */,
-				0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */,
+				808650842ACF00A50036CCFB /* Profile.swift */,
+				808650862ACF00C50036CCFB /* ResponseContainer.swift */,
 				0699EEB02ACEA8CF00127C49 /* Type */,
 			);
-			name = Models;
-			path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/Models";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		0699EE942ACEA8CF00127C49 /* DTO */ = {
@@ -543,7 +540,7 @@
 				0699EEAA2ACEA8CF00127C49 /* FindOtherFeedRequest.swift */,
 				0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */,
 				0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */,
-				0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */,
+				808650882ACF01C50036CCFB /* UpdatePublicStatusRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1206,7 +1203,6 @@
 			);
 			name = SoSoHappy;
 			packageProductDependencies = (
-				80380C3E2A98ED780077048D /* MessageKit */,
 			);
 			productName = SoSoHappy;
 			productReference = 800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */;
@@ -1285,7 +1281,6 @@
 			);
 			mainGroup = 800F42532A794A6D00ACD6C1;
 			packageReferences = (
-				80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = 800F425D2A794A6D00ACD6C1 /* Products */;
 			projectDirPath = "";
@@ -1505,7 +1500,7 @@
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
-				0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */,
+				808650872ACF00C50036CCFB /* ResponseContainer.swift in Sources */,
 				0699EEB92ACEA8CF00127C49 /* FindDayFeedResponse.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
@@ -1558,6 +1553,7 @@
 				0699EEB72ACEA8CF00127C49 /* ResignResponse.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
+				808650852ACF00A50036CCFB /* Profile.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
@@ -1565,8 +1561,8 @@
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
 				0699EEBB2ACEA8CF00127C49 /* FindMonthFeedResponse.swift in Sources */,
 				0699EEC02ACEA8CF00127C49 /* AuthResponse.swift in Sources */,
+				808650892ACF01C50036CCFB /* UpdatePublicStatusRequest.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,
-				0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
 				0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
@@ -1632,7 +1628,6 @@
 				80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */,
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
-				0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */,
 				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 				67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */,
@@ -1976,25 +1971,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		80380C3E2A98ED780077048D /* MessageKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 80380C3D2A98ED780077048D /* XCRemoteSwiftPackageReference "MessageKit" */;
-			productName = MessageKit;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		800F42682A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld */ = {
