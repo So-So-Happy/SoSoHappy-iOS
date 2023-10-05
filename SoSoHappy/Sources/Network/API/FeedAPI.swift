@@ -1,0 +1,159 @@
+//
+//  FeedAPI.swift
+//  SoSoHappy
+//
+//  Created by 박희경 on 2023/09/30.
+//
+
+import Moya
+import RxSwift
+import Alamofire
+
+
+enum FeedAPI {
+    case saveFeed(Feed)
+    case findDayFeed(FindFeedRequest)
+    case findMonthFeed(FindFeedRequest)
+    case findOtherFeed(FindOtherFeedRequest)
+    case findUserFeed(FindUserFeedRequest)
+    case analysisHappiness(HappinessRequest)
+    case findMonthHappiness(HappinessRequest)
+    case findYearHappiness(HappinessRequest)
+    case updatePublicStatus(UpdatePublicStatusRequest)
+    case updateLike(UpdateLikeRequest)
+}
+
+// MARK: UserAPI + TargetType
+extension FeedAPI: BaseTargetType {
+    var path: String { self.getPath() }
+    var method: Moya.Method { self.getMethod() }
+    var task: Moya.Task { self.getTask() }
+    var headers: [String : String]? { self.getHeader() }
+}
+
+extension FeedAPI {
+    
+    func getPath() -> String {
+        switch self {
+        case .saveFeed:
+            return Bundle.main.saveFeedPath
+        case .findDayFeed:
+            return Bundle.main.findDayFeedPath
+        case .findMonthFeed:
+            return Bundle.main.findMonthFeedPath
+        case .findOtherFeed:
+            return Bundle.main.findOtherFeed
+        case .findUserFeed:
+            return Bundle.main.findUserFeed
+        case .analysisHappiness:
+            return Bundle.main.analysisHappinessPath
+        case .findMonthHappiness:
+            return Bundle.main.findMonthHappinessPath
+        case .findYearHappiness:
+            return Bundle.main.findYearHappinessPath
+        case .updatePublicStatus:
+            return Bundle.main.updatePublicStatusPath
+        case .updateLike:
+            return Bundle.main.updateLikePath
+        }
+    }
+    
+    func getMethod() -> Moya.Method {
+        switch self {
+        case .saveFeed:
+            return .post
+        case .findDayFeed:
+            return .post
+        case .findMonthFeed:
+            return .post
+        case .findOtherFeed:
+            return .get
+        case .findUserFeed:
+            return .get
+        case .analysisHappiness:
+            return .post
+        case .findMonthHappiness:
+            return .post
+        case .findYearHappiness:
+            return .post
+        case .updatePublicStatus:
+            return .post
+        case .updateLike:
+            return .post
+        }
+    }
+    
+    
+    func getTask() -> Task {
+        switch self {
+        case .saveFeed(let feed):
+            let formData = reuturnFeedMultiparFormData(feed: feed)
+            return .uploadMultipart(formData)
+        case .findDayFeed(let data):
+            return .requestJSONEncodable(data)
+        case .findMonthFeed(let data):
+            return .requestJSONEncodable(data)
+        case .findOtherFeed(let param):
+            return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
+        case .findUserFeed(let param):
+            return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
+        case .analysisHappiness(let data):
+            return .requestJSONEncodable(data)
+        case .findMonthHappiness(let data):
+            return .requestJSONEncodable(data)
+        case .findYearHappiness(let data):
+            return .requestJSONEncodable(data)
+        case .updatePublicStatus(let data):
+            return .requestJSONEncodable(data)
+        case .updateLike(let data):
+            return .requestJSONEncodable(data)
+        }
+    }
+    
+}
+
+
+extension FeedAPI: JWTAuthorizable {
+    var authorizationType: JWTAuthorizationType? {
+        return .accessToken
+    }
+}
+
+extension FeedAPI {
+    public var validationType: ValidationType {
+        return .successCodes
+    }
+}
+
+extension FeedAPI {
+    public func reuturnFeedMultiparFormData(feed: Feed) -> [Moya.MultipartFormData] {
+        var formData: [Moya.MultipartFormData] = []
+        
+        for image in feed.imageList {
+            let imageData = image.jpegData(compressionQuality: 0.1)!
+            formData.append(MultipartFormData(provider: .data(imageData),
+                                              name: "image",
+                                              fileName: "image.jpeg",
+                                              mimeType: "image/jpeg")
+            )
+        }
+        
+        let textData = feed.text.data(using: .utf8)!
+        let categoryListData = feed.categoryList.joined(separator: ",").data(using: .utf8)!
+        let isPublicData = String(feed.isPulic).data(using: .utf8)!
+        let dateData = String(feed.date).data(using: .utf8)!
+        let weatherData = feed.weather.data(using: .utf8)!
+        let happinessData = String(feed.happiness).data(using: .utf8)!
+        let nickNameData = feed.nickName.data(using: .utf8)!
+       
+        formData.append(MultipartFormData(provider: .data(textData), name: "text"))
+        formData.append(MultipartFormData(provider: .data(categoryListData), name: "categoryList"))
+        formData.append(MultipartFormData(provider: .data(isPublicData), name: "isPublic"))
+        formData.append(MultipartFormData(provider: .data(dateData), name: "date"))
+        formData.append(MultipartFormData(provider: .data(weatherData), name: "weather"))
+        formData.append(MultipartFormData(provider: .data(happinessData), name: "happiness"))
+        formData.append(MultipartFormData(provider: .data(nickNameData), name: "nickName"))
+
+        return formData
+    }
+}
