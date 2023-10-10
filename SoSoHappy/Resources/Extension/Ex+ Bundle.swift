@@ -11,13 +11,13 @@ import Foundation
 // 사용 예시. Bundle.main.(변수명)
 
 extension Bundle {
-    // Server - Common
+    // MARK: - Server - Common
     var baseURL: String {
         guard let key = Bundle.main.infoDictionary?["BASE_URL"] as? String else { fatalError("BASE_URL error") }
         return key
     }
 
-    // Server - Auth
+    // MARK: - Server - Auth
     var googleLoginPath: String {
         guard let key = Bundle.main.infoDictionary?["GOOGLE_LOGIN_PATH"] as? String else { fatalError("GOOGLE_LOGIN_PATH error") }
         return key
@@ -47,45 +47,61 @@ extension Bundle {
         return key
     }
     
-    // Server - Feed
+    // MARK: -  Server - Feed
     var saveFeedPath: String {
         guard let key = Bundle.main.infoDictionary?["SAVE_FEED_PATH"] as? String else { fatalError("SAVE_FEED_PATH error") }
         return key
     }
+    
     var findDayFeedPath: String {
         guard let key = Bundle.main.infoDictionary?["FIND_DAY_FEED_PATH"] as? String else { fatalError("FIND_DAY_FEED_PATH error") }
         return key
     }
+    
     var findMonthFeedPath: String {
         guard let key = Bundle.main.infoDictionary?["FIND_MONTH_FEED_PATH"] as? String else { fatalError("FIND_MONTH_FEED_PATH error") }
         return key
     }
+    
     var findOtherFeed: String {
         guard let key = Bundle.main.infoDictionary?["FIND_OTHER_FEED_PATH"] as? String else { fatalError("FIND_OTHER_FEED_PATH error") }
         return key
     }
+    
     var findUserFeed: String {
         guard let key = Bundle.main.infoDictionary?["FIND_USER_FEED_PATH"] as? String else { fatalError("FIND_USER_FEED_PATH error") }
         return key
     }
+    
     var analysisHappinessPath: String {
         guard let key = Bundle.main.infoDictionary?["ANALYSIS_HAPPINESS_PATH"] as? String else { fatalError("ANALYSIS_HAPPINESS_PATH error") }
         return key
     }
+    
     var findMonthHappinessPath: String {
         guard let key = Bundle.main.infoDictionary?["FIND_MONTH_HAPPINESS_PATH"] as? String else { fatalError("FIND_MONTH_HAPPINESS_PATH error") }
         return key
     }
+    
     var findYearHappinessPath: String {
         guard let key = Bundle.main.infoDictionary?["FIND_YEAR_HAPPINESS_PATH"] as? String else { fatalError("FIND_YEAR_HAPPINESS_PATH error") }
         return key
     }
+    
     var updatePublicStatusPath: String {
         guard let key = Bundle.main.infoDictionary?["UPDATE_PUBLIC_STATUS_PATH"] as? String else { fatalError("UPDATE_PUBLIC_STATUS_PATH error") }
         return key
     }
+    
     var updateLikePath: String {
         guard let key = Bundle.main.infoDictionary?["UPDATE_LIKE_PATH"] as? String else { fatalError("UPDATE_LIKE_PATH error") }
         return key
     }
+    
+    // MARK: - Server - Notice
+    var connectNoticePath: String {
+        guard let key = Bundle.main.infoDictionary?["CONNECT_NOTICE_PATH"] as? String else { fatalError("CONNECT_NOTICE_PATH error") }
+        return key
+    }
 }
+
