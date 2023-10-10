@@ -21,7 +21,7 @@ final class WeatherStackView: UIView {
         axis: .horizontal,
         alignment: .fill,
         distribution: .fill,
-        spacing: 30
+        spacing: 25
     )
     
     private let buttonInfo: [(title: String, tag: Int)] = [
