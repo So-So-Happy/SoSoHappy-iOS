@@ -7,39 +7,36 @@
 
 import UIKit
 
+protocol FeedDetailCoordinatorInterface: Coordinator {
+    func showOwner(ownerNickName: String)
+}
+
 enum FeedNavigationSource {
     case feedViewController
     case ownerFeedViewController
 }
 
-
-protocol FeedDetailCoordinatorDelegate: AnyObject {
-    func feedDetailCoordinator(_ coordinator: FeedDetailCoordinator, didToggleHeartButton newState: Bool)
-}
-
-final class FeedDetailCoordinator: Coordinator {
-    weak var delegate: FeedDetailCoordinatorDelegate?
+final class FeedDetailCoordinator: FeedDetailCoordinatorInterface {
     var type: CoordinatorType { .feed }
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    var feedData: FeedTemp
+    var feed: FeedTemp
     var navigatingFrom: FeedNavigationSource
     
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController(), feedData: FeedTemp, navigatingFrom: FeedNavigationSource ) {
+    init(navigationController: UINavigationController = UINavigationController(), feed: FeedTemp, navigatingFrom: FeedNavigationSource ) {
         self.navigationController = navigationController
-        self.feedData = feedData // Initialize the feedData property
+        self.feed = feed
         self.navigatingFrom = navigatingFrom
     }
     
     func start() {
         print("FeedDetailCoordinator START")
 //        print("-----------feedData: \(feedData)") // feedTemp type
-        let feedReactor = FeedReactor(feed: feedData)
-        let feedDetailVC = FeedDetailViewController(reactor: feedReactor)
-        feedDetailVC.delegate = self
+        let feedReactor = FeedReactor(feed: feed)
+        let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
         navigationController.pushViewController(feedDetailVC, animated: true)
     }
     
@@ -48,7 +45,7 @@ final class FeedDetailCoordinator: Coordinator {
     }
 }
 
-extension FeedDetailCoordinator: FeedDetailViewControllerDelegate {
+extension FeedDetailCoordinator {
     func showOwner(ownerNickName: String) {
         print("FeedDetailViewController에서 프로필 이미지 선택함")
         switch navigatingFrom {
