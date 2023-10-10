@@ -20,8 +20,7 @@ import RxCocoa
 final class FeedCell: BaseCell {
     // MARK: - Properties
     let profileImageTapSubject = PublishSubject<String>()
-    
-    
+
     // MARK: - UI Components
     private lazy var heartButton = HeartButton()
     private lazy var profileImageNameTimeStackView = ProfileImageNameTimeStackView(imageSize: 38)
