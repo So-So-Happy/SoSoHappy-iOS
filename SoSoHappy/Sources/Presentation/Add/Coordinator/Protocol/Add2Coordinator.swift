@@ -1,34 +1,28 @@
 //
-//  AddCoordinator.swift
+//  Add2Coordinator.swift
 //  SoSoHappy
 //
-//  Created by 박민주 on 2023/08/09.
+//  Created by Sue on 10/11/23.
 //
-
 
 import UIKit
 
-public protocol AddCoordinatorInterface {
-    func dismiss()
-    func finished()
-}
-
-final class AddCoordinator: Coordinator {
+final class Add2Coordinator: Coordinator {
     var type: CoordinatorType { .add }
-    
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    
-    
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController() ) {
+    var reactor: AddViewReactor
+    
+    init(navigationController: UINavigationController = UINavigationController(), reactor: AddViewReactor ) {
         self.navigationController = navigationController
+        self.reactor = reactor
     }
     
     func start() {
-        let viewController = AddStep1ViewController(reactor: AddViewReactor())
+        let viewController = AddStep2ViewController(reactor: reactor)
         navigationController.pushViewController(viewController, animated: true)
     }
     
@@ -36,7 +30,3 @@ final class AddCoordinator: Coordinator {
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
-
-
-
-
