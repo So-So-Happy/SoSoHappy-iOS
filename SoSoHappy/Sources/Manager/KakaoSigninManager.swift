@@ -28,7 +28,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
             UserApi.shared.unlink { error in
                 if let kakaoError = error as? SdkError,
                    kakaoError.getApiError().reason == .InvalidAccessToken {
-                    // KAKAO 토큰이 사라진 경우: 개발서버앱으로 왔다갔다 하는경우?
+                    // KAKAO 토큰이 사라진 경우: 개발서버앱으로 왔다갔다 하는 경우?
                     observer.onNext(())
                     observer.onCompleted()
                 } else if let error = error {

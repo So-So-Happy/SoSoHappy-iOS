@@ -33,6 +33,12 @@ final class LogInButtonStackView: UIView {
         $0.imageView?.contentMode = .scaleAspectFit
     }
     
+    lazy var appleLoginButton = UIButton().then {
+        let image = UIImage(named: "appleLogin")
+        $0.setImage(image, for: .normal)
+        $0.imageView?.contentMode = .scaleAspectFit
+    }
+    
     lazy var kakaoSpinner = UIActivityIndicatorView().then {
         $0.hidesWhenStopped = true
         $0.color = .black
@@ -43,12 +49,11 @@ final class LogInButtonStackView: UIView {
         $0.color = .black
     }
     
-    lazy var appleLoginButton = UIButton().then {
-        let image = UIImage(named: "appleLogin")
-        $0.setImage(image, for: .normal)
-        $0.imageView?.contentMode = .scaleAspectFit
+    lazy var appleSpinner = UIActivityIndicatorView().then {
+        $0.hidesWhenStopped = true
+        $0.color = .black
     }
-    
+
     private lazy var activityIndicatorView = UIActivityIndicatorView(style: .medium).then {
         $0.hidesWhenStopped = true
     }
@@ -82,22 +87,28 @@ extension LogInButtonStackView {
         buttonStackView.addArrangedSubview(appleLoginButton)
         addSubview(kakaoSpinner)
         addSubview(googleSpinner)
+        addSubview(appleSpinner)
     }
     
     private func setLayout() {
         kakaoLoginButton.addSubview(activityIndicatorView)
         googleLoginButton.addSubview(activityIndicatorView)
+        appleLoginButton.addSubview(activityIndicatorView)
         
         activityIndicatorView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
         kakaoSpinner.snp.makeConstraints { make in
-            make.center.equalTo(kakaoLoginButton) // kakaoLoginButton과 중앙 정렬
+            make.center.equalTo(kakaoLoginButton)
         }
         
         googleSpinner.snp.makeConstraints { make in
-            make.center.equalTo(googleLoginButton) // kakaoLoginButton과 중앙 정렬
+            make.center.equalTo(googleLoginButton)
+        }
+        
+        appleSpinner.snp.makeConstraints { make in
+            make.center.equalTo(appleLoginButton)
         }
     }
 }
