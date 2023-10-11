@@ -19,6 +19,7 @@ import RxCocoa
 1. weatherStackView, happinessStackView 버튼 크기가 좀 더 동일하면 좋을 것 같음 (선택)
 2. 스택과 함께 각각 label도 넣어줘도 될 것 같음 (선택)
 3. happinessLabel 의 oo 님에 UserDefaults에서 닉네임 꺼내서 넣어주면 됨 (필수)
+4. NextButton 위치 AddStep2랑 맞춰주기 (coordinator 연결하면 해도 될 듯)
  */
 
 final class AddStep1ViewController: UIViewController {
@@ -43,11 +44,9 @@ final class AddStep1ViewController: UIViewController {
     private lazy var happinessStackView = HappinessStackView()
 
     private lazy var nextButton = NextButton()
-    
-    // MARK: - LifeCycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "BGgrayColor")
         setup()
     }
     
@@ -61,6 +60,7 @@ final class AddStep1ViewController: UIViewController {
     }
 }
 
+//MARK: - Add Subviews & Constraints
 extension AddStep1ViewController {
     private func setup() {
         setAttribute()
@@ -112,7 +112,7 @@ extension AddStep1ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(90)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(70)
         }
     }
 }
