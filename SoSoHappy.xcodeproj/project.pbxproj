@@ -803,6 +803,7 @@
 		67E7DB442A8133A500C33988 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */,
 				060002A12A8CED1F0071E98C /* Ex+UIColor.swift */,
 				06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */,
 				06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */,
@@ -833,7 +834,6 @@
 			children = (
 				6769C0912AD6D4F700D1D2CD /* Config.xcconfig */,
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
