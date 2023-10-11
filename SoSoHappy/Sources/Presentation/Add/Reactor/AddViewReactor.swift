@@ -35,7 +35,8 @@ class AddViewReactor: Reactor {
         case happinessButtonTapped(Int)
         //        case categorySelected(Int)
         case testselectCategory(IndexPath)
-        case testdselectCategory
+        case testdselectCategory(IndexPath)
+        
         case selectCategory(String)
         case deselectCategory(String)
     }
@@ -46,18 +47,21 @@ class AddViewReactor: Reactor {
         case setSelectedHappiness(Int)
         
         // MARK: Add2
-        case testsetCategories([IndexPath])
         case setCategories([String])
+        case deselectCategoryItem(Int)
+        
+        case testsetCategories([IndexPath])
     }
     
     struct State {
         // MARK: Add1
         var selectedWeather: Int?
         var selectedHappiness: Int?
+        var selectedCategories: [String] = []
+        var deselectCategoryItem: Int?
         
         // MARK: Add2
         var testselectedCategories: [IndexPath] = []
-        var selectedCategories: [String] = []
     }
     
     let initialState: State
@@ -78,43 +82,64 @@ class AddViewReactor: Reactor {
             print("tag : \(tag)")
             return Observable.just(.setSelectedHappiness(tag))
             
-        case .selectCategory(let category):
-            print("select")
-            // Ensure that we don't select more than 3 categories
-//            if currentState.selectedCategories.count < 3 && !currentState.selectedCategories.contains(category) {
-//                var newCategories = currentState.selectedCategories
-//                newCategories.append(category)
-//                return .just(.setCategories(newCategories))
-//            }
-            var newCategories = currentState.selectedCategories
-            newCategories.append(category)
-//            print("count : \(newCategories.count)")
-//            if newCategories.count > 3 {
-//                print("3 넘어감")
-//                newCategories.removeFirst()
-//            }
-            return Observable.just(.setCategories(newCategories))
+        case let .selectCategory(category):
+            var selectedCategories = currentState.selectedCategories
+            selectedCategories.insert(category, at: 0)
+            
+            
+            if selectedCategories.count > 3 {
+                print("3 이상")
+                let removed = selectedCategories.removeLast()
+                let removedItem = categories.firstIndex(of: removed)!
+                
+                return Observable.concat([
+                    Observable.just(.deselectCategoryItem(removedItem)),
+                    Observable.just(.setCategories(selectedCategories))
+                ])
+                
+//                return Observable.just(.deselectCategoryIndex(index))
+            }
+            
+            print("String.self SELECT - \(category), selectedCategories : \(selectedCategories)")
+        
+            return Observable.just(.setCategories(selectedCategories))
             
         case .deselectCategory(let category):
-            print("deselect")
-            var newCategories = currentState.selectedCategories
-            if let index = newCategories.firstIndex(of: category) {
-                newCategories.remove(at: index)
-                return Observable.just(.setCategories(newCategories))
+            var selectedCategories = currentState.selectedCategories
+            
+            if let index = selectedCategories.firstIndex(of: category) {
+                selectedCategories.remove(at: index)
+                print("String.self DESELECT - \(category), selectedCategories : \(selectedCategories)")
+                
+                return Observable.just(.setCategories(selectedCategories))
             }
             
             return .empty()
+            
+            // MARK: - 현재 작업하고 있는 부분
         case let .testselectCategory(indexPath):
-            var newIndexPathArray = currentState.testselectedCategories
-            newIndexPathArray.append(indexPath)
+            print("IndexPath : \(indexPath)")
+            print("IndexPath.section : \(indexPath.section)") // 0
+            print("IndexPath.item : \(indexPath.item)") // 15
             
-            return Observable.just(.testsetCategories(newIndexPathArray))
+            var selectedCategories = currentState.testselectedCategories
+            selectedCategories.append(indexPath)
             
-        case let .testdselectCategory:
-            var newIndexPathArray = currentState.testselectedCategories
-            newIndexPathArray.removeFirst()
+            print("test SELET Category: \(indexPath), arr : \(selectedCategories)")
             
-            return Observable.just(.testsetCategories(newIndexPathArray))
+            return Observable.just(.testsetCategories(selectedCategories))
+            
+        case let .testdselectCategory(indexPath):
+            
+            var selectedCategories = currentState.testselectedCategories
+            if let index = selectedCategories.firstIndex(of: indexPath) {
+                selectedCategories.remove(at: index)
+                print("test DESELECT Category: \(indexPath), arr : \(selectedCategories)")
+                
+                return Observable.just(.testsetCategories(selectedCategories))
+            }
+            
+            return .empty()
         }
     }
     
@@ -125,14 +150,25 @@ class AddViewReactor: Reactor {
             newState.selectedWeather = tag
         case let .setSelectedHappiness(tag):
             newState.selectedHappiness = tag
-        case .setCategories(let categories):
+        case let .setCategories(categories):
             newState.selectedCategories = categories
             
+        case let .deselectCategoryItem(deselectedCategoryItem):
+            newState.deselectCategoryItem = deselectedCategoryItem
+            
+            
         case let .testsetCategories(indexPathArray):
+
+
             newState.testselectedCategories = indexPathArray
         }
         return newState
     }
 }
 
+extension AddViewReactor {
+    private func selectedCategoriesString(indexPathArr: [IndexPath]) -> [String] {
+        return [ ]
+    }
+}
 

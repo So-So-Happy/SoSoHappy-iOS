@@ -141,7 +141,7 @@ extension AddStep2ViewController: View {
         
         Observable.of(reactor.categories)
             .bind(to: categoryCollectionView.rx.items(cellIdentifier: CategoryCell.cellIdentifier, cellType: CategoryCell.self)) { index, category, cell in
-                print("1")
+//                print("1")
                 cell.setImage(category: category)
             }
             .disposed(by: disposeBag)
@@ -163,6 +163,9 @@ extension AddStep2ViewController: View {
         
         
         
+        
+        /*
+         // MARK: 버전 1
         categoryCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let self = self else { return }
@@ -192,7 +195,51 @@ extension AddStep2ViewController: View {
             }
             .disposed(by: disposeBag)
         
+        */
         
+        /*
+         // MARK: 버전 2
+        categoryCollectionView.rx.itemSelected
+            .map { Reactor.Action.testselectCategory($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        categoryCollectionView.rx.itemDeselected
+            .map { Reactor.Action.testdselectCategory($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.testselectedCategories.count > 0 }
+            .distinctUntilChanged()
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+         */
+        
+        categoryCollectionView.rx.modelSelected(String.self)
+            .map { Reactor.Action.selectCategory($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        categoryCollectionView.rx.modelDeselected(String.self)
+            .map { Reactor.Action.deselectCategory($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.selectedCategories.count > 0 }
+            .distinctUntilChanged()
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.deselectCategoryItem }
+            .subscribe(onNext: { [weak self] item in
+                guard let self = self else { return }
+                let indexPath = IndexPath(item: item, section: 0)
+                categoryCollectionView.deselectItem(at: indexPath, animated: true)
+            })
+            .disposed(by: disposeBag)
         
     }
 }
