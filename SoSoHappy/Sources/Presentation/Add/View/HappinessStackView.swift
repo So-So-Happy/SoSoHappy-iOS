@@ -24,11 +24,11 @@ final class HappinessStackView: UIView {
     )
     
     private let buttonInfo: [(title: String, tag: Int)] = [
-        ("happy20", 1),
-        ("happy40", 2),
-        ("happy60", 3),
-        ("happy80", 4),
-        ("happy100", 5)
+        ("happy1", 1),
+        ("happy2", 2),
+        ("happy3", 3),
+        ("happy4", 4),
+        ("happy5", 5)
     ]
     
     override init(frame: CGRect) {
