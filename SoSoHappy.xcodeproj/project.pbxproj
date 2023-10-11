@@ -58,14 +58,12 @@
 		0699EEC92ACEA8CF00127C49 /* FindFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */; };
 		0699EECA2ACEA8CF00127C49 /* ResignRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */; };
 		0699EECC2ACEA8CF00127C49 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAE2ACEA8CF00127C49 /* Model.swift */; };
-		0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAF2ACEA8CF00127C49 /* Profile.swift */; };
 		0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB12ACEA8CF00127C49 /* Requestable.swift */; };
 		0699EECF2ACEA8CF00127C49 /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB22ACEA8CF00127C49 /* SocialType.swift */; };
-		0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */; };
 		0699EED12ACEA8D000127C49 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB42ACEA8CF00127C49 /* Feed.swift */; };
 		0699EED32ACEA8EA00127C49 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED22ACEA8EA00127C49 /* FeedAPI.swift */; };
 		0699EED52ACEA9CD00127C49 /* FeedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */; };
-		0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */; };
+		0699EED72ACEAA4000127C49 /* UpdatePulicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED62ACEAA4000127C49 /* UpdatePulicStatusRequest.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
 		06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */; };
@@ -80,6 +78,12 @@
 		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
+		6769C0852AD6CADC00D1D2CD /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C0842AD6CADC00D1D2CD /* Profile.swift */; };
+		6769C0872AD6CAFD00D1D2CD /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C0862AD6CAFD00D1D2CD /* ResponseContainer.swift */; };
+		6769C0892AD6CFA700D1D2CD /* CalenderViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C0882AD6CFA700D1D2CD /* CalenderViewReactor.swift */; };
+		6769C08B2AD6D00000D1D2CD /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C08A2AD6D00000D1D2CD /* AlertViewController.swift */; };
+		6769C08D2AD6D01A00D1D2CD /* FeedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C08C2AD6D01A00D1D2CD /* FeedListViewController.swift */; };
+		6769C08F2AD6D06A00D1D2CD /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C08E2AD6D06A00D1D2CD /* TestAPI.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
 		6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */; };
 		67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */; };
@@ -216,7 +220,7 @@
 		06896DEF2AC2A817001DCCFC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		06896DF52AC2AB8E001DCCFC /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepository.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Data/Repository/FeedRepository.swift"; sourceTree = "<group>"; };
+		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
 		0699EE962ACEA8CF00127C49 /* FindOtherFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindOtherFeedResponse.swift; sourceTree = "<group>"; };
 		0699EE972ACEA8CF00127C49 /* SetProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileResponse.swift; sourceTree = "<group>"; };
 		0699EE982ACEA8CF00127C49 /* ResignResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignResponse.swift; sourceTree = "<group>"; };
@@ -240,14 +244,12 @@
 		0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFeedRequest.swift; sourceTree = "<group>"; };
 		0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignRequest.swift; sourceTree = "<group>"; };
 		0699EEAE2ACEA8CF00127C49 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		0699EEAF2ACEA8CF00127C49 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		0699EEB12ACEA8CF00127C49 /* Requestable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		0699EEB22ACEA8CF00127C49 /* SocialType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
-		0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
 		0699EEB42ACEA8CF00127C49 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAPI.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/API/FeedAPI.swift"; sourceTree = "<group>"; };
-		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepositoryProtocol.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Domain/Interfaces/FeedRepositoryProtocol.swift"; sourceTree = "<group>"; };
-		0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
+		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
+		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepositoryProtocol.swift; sourceTree = "<group>"; };
+		0699EED62ACEAA4000127C49 /* UpdatePulicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePulicStatusRequest.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
 		06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideView.swift; sourceTree = "<group>"; };
@@ -264,6 +266,12 @@
 		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
+		6769C0842AD6CADC00D1D2CD /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		6769C0862AD6CAFD00D1D2CD /* ResponseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
+		6769C0882AD6CFA700D1D2CD /* CalenderViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewReactor.swift; sourceTree = "<group>"; };
+		6769C08A2AD6D00000D1D2CD /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		6769C08C2AD6D01A00D1D2CD /* FeedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListViewController.swift; sourceTree = "<group>"; };
+		6769C08E2AD6D06A00D1D2CD /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReactor.swift; sourceTree = "<group>"; };
@@ -439,6 +447,7 @@
 			children = (
 				0613BCD02AA5F7B000E2B97F /* UserAPI.swift */,
 				0699EED22ACEA8EA00127C49 /* FeedAPI.swift */,
+				6769C08E2AD6D06A00D1D2CD /* TestAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -493,13 +502,12 @@
 			children = (
 				0699EE942ACEA8CF00127C49 /* DTO */,
 				0699EEAE2ACEA8CF00127C49 /* Model.swift */,
-				0699EEAF2ACEA8CF00127C49 /* Profile.swift */,
 				0699EEB42ACEA8CF00127C49 /* Feed.swift */,
-				0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */,
 				0699EEB02ACEA8CF00127C49 /* Type */,
+				6769C0842AD6CADC00D1D2CD /* Profile.swift */,
+				6769C0862AD6CAFD00D1D2CD /* ResponseContainer.swift */,
 			);
-			name = Models;
-			path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/Models";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		0699EE942ACEA8CF00127C49 /* DTO */ = {
@@ -543,7 +551,7 @@
 				0699EEAA2ACEA8CF00127C49 /* FindOtherFeedRequest.swift */,
 				0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */,
 				0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */,
-				0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */,
+				0699EED62ACEAA4000127C49 /* UpdatePulicStatusRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -902,6 +910,8 @@
 			children = (
 				67E7DB632A8136DF00C33988 /* CalenderViewController.swift */,
 				060DE19E2A8540F000C60392 /* HappyListViewController .swift */,
+				6769C08A2AD6D00000D1D2CD /* AlertViewController.swift */,
+				6769C08C2AD6D01A00D1D2CD /* FeedListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1171,6 +1181,7 @@
 			children = (
 				80C0A2E22ABC081300107332 /* HappyListViewReactor.swift */,
 				80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */,
+				6769C0882AD6CFA700D1D2CD /* CalenderViewReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
@@ -1486,6 +1497,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
+				6769C08D2AD6D01A00D1D2CD /* FeedListViewController.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
@@ -1505,7 +1517,7 @@
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
-				0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */,
+				6769C0872AD6CAFD00D1D2CD /* ResponseContainer.swift in Sources */,
 				0699EEB92ACEA8CF00127C49 /* FindDayFeedResponse.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
@@ -1514,6 +1526,7 @@
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */,
 				0699EECC2ACEA8CF00127C49 /* Model.swift in Sources */,
+				6769C08B2AD6D00000D1D2CD /* AlertViewController.swift in Sources */,
 				0613BCD62AA89AE400E2B97F /* Ex+Encodable.swift in Sources */,
 				802C6C9A2AB87802001142B4 /* Ex+UIResponder.swift in Sources */,
 				0699EEBD2ACEA8CF00127C49 /* FindProfileResponse.swift in Sources */,
@@ -1550,6 +1563,7 @@
 				0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */,
 				0699EEB52ACEA8CF00127C49 /* FindOtherFeedResponse.swift in Sources */,
 				060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */,
+				6769C0892AD6CFA700D1D2CD /* CalenderViewReactor.swift in Sources */,
 				802C6CB22AB87D01001142B4 /* FeedReactor.swift in Sources */,
 				80C0A2E32ABC081300107332 /* HappyListViewReactor.swift in Sources */,
 				0613BCF52AAE17BF00E2B97F /* HttpNetwork.swift in Sources */,
@@ -1558,7 +1572,9 @@
 				0699EEB72ACEA8CF00127C49 /* ResignResponse.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
+				6769C0852AD6CADC00D1D2CD /* Profile.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
+				6769C08F2AD6D06A00D1D2CD /* TestAPI.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
@@ -1566,7 +1582,7 @@
 				0699EEBB2ACEA8CF00127C49 /* FindMonthFeedResponse.swift in Sources */,
 				0699EEC02ACEA8CF00127C49 /* AuthResponse.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,
-				0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */,
+				0699EED72ACEAA4000127C49 /* UpdatePulicStatusRequest.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
 				0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
@@ -1632,7 +1648,6 @@
 				80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */,
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
-				0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */,
 				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 				67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */,

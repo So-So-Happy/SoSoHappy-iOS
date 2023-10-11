@@ -22,16 +22,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-
-        // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-//        let mainVC = EditProfileViewController(reactor: SignUpViewReactor())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-//        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-        window.rootViewController = mainVC // 시작 VC 작성해주기
+        
+//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
+        //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        
+        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
+        
+        let mainVC2 = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
+        
+        let mainVM = UINavigationController(rootViewController: mainVC2)
+        
+        window.rootViewController = mainVM // 시작 VC 작성해주기
         window.makeKeyAndVisible()
         self.window = window
     }

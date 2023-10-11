@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct UpdateLikeRequest: Requestable {
+struct UpdateLikeRequest: Requestable, Encodable {
     let srcNickname: String
     let nickname: String
     let date: Int64
