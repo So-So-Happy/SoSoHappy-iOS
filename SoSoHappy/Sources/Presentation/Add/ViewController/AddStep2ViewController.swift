@@ -2,175 +2,200 @@
 //  AddStep2ViewController.swift
 //  SoSoHappy
 //
-//  Created by 박민주 on 2023/08/13.
+//  Created by Sue on 10/11/23.
 //
 
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-final class AddStep2ViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-    
+// MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
+final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
-    private lazy var statusBarStack = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillEqually // 뷰를 동일한 크기로 분배
-    }
+    var disposeBag = DisposeBag()
     
-    private lazy var statusBarStep1 = UIView().then {
-        $0.backgroundColor = .white
-    }
     
-    private lazy var statusBarStep2 = UIView().then {
-        $0.backgroundColor = UIColor(named: "AccentColor")
-    }
+    // MARK: - UI Components
+    private lazy var statusBarStackView = StatusBarStackView(step: 2)
     
-    private lazy var statusBarStep3 = UIView().then {
-        $0.backgroundColor = .white
-    }
-    
-    private lazy var categoryLabel = UILabel().then {
+    private lazy var categoryIntoLabel = UILabel().then {
         $0.text = "오늘 당신을 행복하게 해준 것은?"
         $0.textColor = .darkGray
     }
     
-    private lazy var infoLabel = UILabel().then {
+    private lazy var categorySelectionCautionLabel = UILabel().then {
         $0.text = "최대 3개까지 선택할 수 있어요!"
         $0.textColor = .darkGray
         $0.font = UIFont.systemFont(ofSize: 13)
     }
     
-    private lazy var categoryImages: [String] = ["home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home", "home"] // Add more images as needed
     
-    private lazy var nextButton = UIButton().then {
-        $0.backgroundColor = UIColor(named: "AccentColor")
-        $0.layer.cornerRadius = 40
-        $0.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+    
+    private lazy var categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.cellIdentifier)
+        $0.backgroundColor = .clear
+        $0.allowsMultipleSelection = true
     }
     
-    private lazy var arrowImage = UIImage(systemName: "arrow.right")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+    private lazy var nextButton = NextButton()
     
-    private lazy var arrowImageView = UIImageView()
-    
-    private lazy var selectedIndices: Set<Int> = Set() // Set to track selected indices
-    
-    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "BGgrayColor")
-
-        setUpView()
-        setConstraints()
+        setup()
+    }
+    
+    init(reactor: AddViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
-// MARK: - CollectionView Setting
+//MARK: - Add Subviews & Constraints
 extension AddStep2ViewController {
-    
-    // MARK: UICollectionViewDataSource
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryImages.count
+    private func setup() {
+        setAttribute()
+        addViews()
+        setConstraints()
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryButtonCell", for: indexPath) as? CategoryButtonCell else {
-            return UICollectionViewCell()
+    private func setAttribute() {
+        view.backgroundColor = UIColor(named: "BGgrayColor")
+    }
+    
+    private func addViews() {
+        self.view.addSubview(statusBarStackView)
+        self.view.addSubview(categoryIntoLabel)
+        self.view.addSubview(categorySelectionCautionLabel)
+        self.view.addSubview(categoryCollectionView)
+        self.view.addSubview(nextButton)
+    }
+    
+    private func setConstraints() {
+        statusBarStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
-        cell.setImage(UIImage(named: categoryImages[indexPath.item])!)
-        return cell
+        
+        categoryIntoLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(statusBarStackView.snp.bottom).offset(40)
+        }
+        
+        categorySelectionCautionLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(categoryIntoLabel.snp.bottom).offset(6)
+        }
+        
+        categoryCollectionView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(categorySelectionCautionLabel.snp.bottom).offset(30)
+            make.horizontalEdges.equalToSuperview().inset(28)
+            make.bottom.equalTo(nextButton.snp.top).inset(-40)// 여기 값 더 수정해줘야 함
+        }
+        
+        nextButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
+        }
     }
-    
-    // MARK: UICollectionViewDelegateFlowLayout
+}
+
+// 이 사이즈를 좀 더 조정해주면 좋을 것 같음. 선택될 때 약간 짤린 듯한 느낌 남 (비행기)
+extension AddStep2ViewController: UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfColumns: CGFloat = 4 // 가로로 보여줄 아이템 개수
-        let spacingBetweenItems: CGFloat = 10 // 아이템 간의 간격
+        let numberOfColumns: CGFloat = 4
+        let numberOfRows: CGFloat = 6
+        let spacingBetweenItems: CGFloat = 10
+        let totalHorizontalSpacing = (numberOfColumns - 1) * spacingBetweenItems
+        let totalVerticalSpacing = (numberOfRows - 1) * spacingBetweenItems
         
-        let totalSpacing = (numberOfColumns - 1) * spacingBetweenItems
-        let width = (collectionView.frame.width - totalSpacing) / numberOfColumns
+        let width = (collectionView.bounds.width - totalHorizontalSpacing) / numberOfColumns
+        let height = (collectionView.bounds.height - totalVerticalSpacing) / numberOfRows
         
-        return CGSize(width: width, height: width)
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 10 // Adjust the spacing between rows as needed
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 10 // Adjust the spacing between columns as needed
     }
 }
 
-// MARK: - Layout & Attribute
-private extension AddStep2ViewController {
-    
-    //  MARK: 뷰 구성요소 세팅
-    private func setUpView() {
-        statusBarStack.addArrangedSubview(statusBarStep1)
-        statusBarStack.addArrangedSubview(statusBarStep2)
-        statusBarStack.addArrangedSubview(statusBarStep3)
-        view.addSubview(statusBarStack)
+// MARK: - ReactorKit - bind func
+extension AddStep2ViewController: View {
+    // MARK: bind
+    func bind(reactor: AddViewReactor) {
+        categoryCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
         
-        view.addSubview(categoryLabel)
-        view.addSubview(infoLabel)
+        Observable.of(reactor.categories)
+            .bind(to: categoryCollectionView.rx.items(cellIdentifier: CategoryCell.cellIdentifier, cellType: CategoryCell.self)) { index, category, cell in
+                print("1")
+                cell.setImage(category: category)
+            }
+            .disposed(by: disposeBag)
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.register(CategoryButtonCell.self, forCellWithReuseIdentifier: "CategoryButtonCell")
-        collectionView.backgroundColor = .clear
-        view.addSubview(collectionView)
+//
+//        categoryCollectionView.rx.itemSelected
+//            .map { Reactor.Action.categorySelected($0.item) }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
-        view.addSubview(nextButton)
-        arrowImageView = UIImageView(image: arrowImage)
-        nextButton.addSubview(arrowImageView)
-    }
-    
-    //  MARK: 뷰 구성요소 제약 설정
-    private func setConstraints() {
-        statusBarStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(5) // 높이 설정
-        }
+//
+//        categoryCollectionView.rx.modelSelected(String.self)
+//            .bind { category in
+//                print("2")
+//                reactor.action.onNext(.selectCategory(category))
+////                print("indexPath for selectedItems : \(self.categoryCollectionView.indexPathsForSelectedItems)")
+//            }
+//            .disposed(by: disposeBag)
         
-        categoryLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // 수평 중앙 정렬
-            make.top.equalTo(self.view.safeAreaLayoutGuide).inset(UIEdgeInsets(top: 45, left: 0, bottom: 0, right: 0))
-        }
         
-        infoLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // 수평 중앙 정렬
-            make.top.equalTo(categoryLabel).inset(UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0))
-        }
         
-        collectionView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 40, bottom: 0, right: 30))
-            make.top.equalTo(infoLabel).inset(UIEdgeInsets(top: 45, left: 0, bottom: 0, right: 0))
-            make.bottom.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0))
-        }
+        categoryCollectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                print("indexPath: \(indexPath)")
+                if reactor.currentState.testselectedCategories.count >= 3 {
+                    // Deselect the first selected item
+                    if let firstSelectedIndexPath = reactor.currentState.testselectedCategories.first {
+//                        print("item: \(item)")
+                        
+                        self.categoryCollectionView.deselectItem(at: firstSelectedIndexPath, animated: false)
+                        print("여기1")
+                        reactor.action.onNext(.testdselectCategory)
+                        let cell = categoryCollectionView.cellForItem(at:  IndexPath(item: 0, section: 0))
+                        
+                    }
+                }
+                reactor.action.onNext(.testselectCategory(indexPath))
+            })
+            .disposed(by: disposeBag)
+
         
-        // Next Button 설정
-        nextButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview() // 수평 중앙 정렬
-            make.bottomMargin.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 30, right: 0))
-            make.width.height.equalTo(80)
-        }
         
-        arrowImageView.snp.makeConstraints { make in
-            make.center.equalTo(nextButton)
-            make.width.height.equalTo(30)
-        }
+        categoryCollectionView.rx.modelDeselected(String.self)
+            .bind { category in
+                print("3")
+                reactor.action.onNext(.deselectCategory(category))
+            }
+            .disposed(by: disposeBag)
+        
+        
+        
     }
 }
 
-// MARK: - Action
-private extension AddStep2ViewController {
-    
-    // MARK: 다음 버튼 클릭될 때 호출되는 메서드
-    @objc private func nextButtonTapped() {
-        // Button tapped action
-        print("NextButton tapped!")
-        let addStep3VC = AddStep3ViewController()
-        navigationController?.pushViewController(addStep3VC, animated: true)
-    }
-}
+
+
