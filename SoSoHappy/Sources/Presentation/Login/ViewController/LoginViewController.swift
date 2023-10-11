@@ -57,12 +57,12 @@ final class LoginViewController: UIViewController, View {
     private func bindActions(_ reactor: LoginViewReactor) {
         // Kakao 로그인 버튼 탭 액션을 Reactor에 연결
         logInButtonStackView.kakaoLoginButton.rx.tap
-            .map { Reactor.Action.tapKakaoLogin }
+            .map { Reactor.Action.kakaoLogin }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         logInButtonStackView.googleLoginButton.rx.tap
-            .map { Reactor.Action.tapGoogleLogin }
+            .map { Reactor.Action.googleLogin }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -83,8 +83,8 @@ final class LoginViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
                 guard let self = self else { return }
-                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
-                shouldRun ? logInButtonStackView.googleSpinner.startAnimating() : logInButtonStackView.googleSpinner.stopAnimating()
+//                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
+//                shouldRun ? logInButtonStackView.googleSpinner.startAnimating() : logInButtonStackView.googleSpinner.stopAnimating()
             })
             .disposed(by: disposeBag)
     }

@@ -47,9 +47,8 @@ class LoginViewReactor: Reactor {
     
     // MARK: - 가능한 액션을 정의합니다.
     enum Action {
-        case tapKakaoLogin
-        case tapGoogleLogin
-        //case tapAppleLogin
+        case kakaoLogin
+        case googleLogin
     }
     
     // MARK: - 액션에 대응하는 변이를 정의합니다. (처리 단위)
@@ -74,22 +73,36 @@ class LoginViewReactor: Reactor {
     // MARK: - 액션에서 변이로의 로직을 구현합니다. (Action이 들어온 경우, 어떤 처리를 할건지 분기)
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .tapKakaoLogin:
+        case .kakaoLogin:
             // 여기에서 비동기 작업을 수행하고 해당하는 변이를 방출합니다.
             // 예: 실제 로그인 요청 및 결과에 따른 변이 방출
             return Observable.concat([
                 Observable.just(Mutation.kakaoLoading(true)),
-                self.signinWithKakao(),
-                Observable.just(Mutation.kakaoLoading(false))
+                self.signinWithKakao()
             ])
-        case .tapGoogleLogin:
+        case .googleLogin:
             return Observable.concat([
                 Observable.just(Mutation.googleLoading(true)),
-                self.startGoogleLogin(), // 로그인 성공 후, 사용자 정보 가져오기
+                Observable.create { observer in
+                    print("loginWithGoogle() success.")
+                    
+                    // 로그인 성공 시 Mutation.login 값 방출
+                    observer.onNext(.googleLogin)
+                    
+                    // 로그인 성공 후, 사용자 정보 가져오기
+                    self.startGoogleLogin()
+                    
+                    // 이벤트 방출 후 Observable 작업 완료. 더 이상 값 방출 X
+                    observer.onCompleted()
+                    
+                    return Disposables.create()
+                },
                 Observable.just(Mutation.googleLoading(false))
             ])
-//        case .tapAppleLogin:
-//            <#code#>
+//
+//        case .fetchToken:
+//            return repository.kakaoLogin()
+//                .map { Mutation.fetchToken($0) }
         }
     }
     
@@ -144,40 +157,28 @@ class LoginViewReactor: Reactor {
     }
     
     //MARK: - 구글 로그인
-    private func startGoogleLogin() -> Observable<Mutation> {
-        return Observable.create { observer in
-            guard let viewController = UIApplication.getMostTopViewController() else {
-                observer.onError(BaseError.unknown)
-                return Disposables.create()
-            }
-            GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { userInfo, error in
-                if let error = error {
-                    observer.onError(error)
-                } else if let userInfo = userInfo {
-                    print("🔎 ##### 구글 사용자 정보 조회 성공 #####")
-                    print("userInfo: ", userInfo)
-                    print("accessToken: ", userInfo.user.accessToken)
-                    print("idToken: ", userInfo.user.idToken ?? "unknown_idToken")
-                    print("userID: ", userInfo.user.userID ?? "unknown_userID")
-                    print("userName: ", userInfo.user.profile?.email ?? "unknown_profile")
-
-                    // 성공적으로 처리되었으므로 Completed 이벤트를 전달합니다.
-                    observer.onCompleted()
-                } else {
-                    observer.onError(BaseError.unknown)
-                }
-            }
-            return Disposables.create()
+    private func startGoogleLogin() {
+        guard let viewController = UIApplication.getMostTopViewController() else { return }
+        
+        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { userInfo, error in
+            print("🔎 ##### 구글 사용자 정보 조회 성공 #####")
+            print("userInfo: ", userInfo ?? "unknown")
+            print("accessToken: ", userInfo?.user.accessToken ?? "unknown_accessToken")
+            print("idToken: ", userInfo?.user.idToken ?? "unknown_idToken")
+            print("userID: ", userInfo?.user.userID ?? "unknown_userID")
+            print("userName: ", userInfo?.user.profile?.email ?? "unknown_profile")
+            
+            // keychain에 저장
         }
     }
-
-    //MARK: - 카카오 로그인
+    
     private func signinWithKakao() -> Observable<Mutation> {
         self.kakaoManager.signin()
             .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                self.getUserInfo()
-                return Observable.empty() // TODO: 임시 (기존: self.signin(request: signinRequest))
+                self.getUserInfo() // userdefault email 저장
+//                token 저장할 수 있음.
+                return self.signin(request: signinRequest)
             }
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
@@ -209,6 +210,12 @@ class LoginViewReactor: Reactor {
     private func signin(request: SigninRequest) -> Observable<Mutation> {
         return repository.kakaoLogin()
             .asObservable()
+            .do(onNext: { signinResponse in
+                print("access: \(signinResponse.Authorization)")
+                print("refresh: \(signinResponse.AuthorizationRefresh)")
+                KeychainService.saveData(serviceIdentifier: "", forKey: "accessToken", data: signinResponse.Authorization)
+                KeychainService.saveData(serviceIdentifier: "", forKey: "refreshToken", data: signinResponse.AuthorizationRefresh)
+            })
             .flatMap { _ in
                 return Observable.just(Mutation.kakaoLoading(false))
             }
@@ -216,4 +223,5 @@ class LoginViewReactor: Reactor {
                 return .just(Mutation.showErrorAlert(HTTPError.unauthorized))
             }
     }
+
 }

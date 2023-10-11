@@ -38,11 +38,6 @@ final class LogInButtonStackView: UIView {
         $0.color = .black
     }
     
-    lazy var googleSpinner = UIActivityIndicatorView().then {
-        $0.hidesWhenStopped = true
-        $0.color = .black
-    }
-    
     lazy var appleLoginButton = UIButton().then {
         let image = UIImage(named: "appleLogin")
         $0.setImage(image, for: .normal)
@@ -81,23 +76,16 @@ extension LogInButtonStackView {
         buttonStackView.addArrangedSubview(kakaoLoginButton)
         buttonStackView.addArrangedSubview(appleLoginButton)
         addSubview(kakaoSpinner)
-        addSubview(googleSpinner)
     }
     
     private func setLayout() {
         kakaoLoginButton.addSubview(activityIndicatorView)
-        googleLoginButton.addSubview(activityIndicatorView)
-        
         activityIndicatorView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
         
         kakaoSpinner.snp.makeConstraints { make in
             make.center.equalTo(kakaoLoginButton) // kakaoLoginButton과 중앙 정렬
-        }
-        
-        googleSpinner.snp.makeConstraints { make in
-            make.center.equalTo(googleLoginButton) // kakaoLoginButton과 중앙 정렬
         }
     }
 }
