@@ -12,6 +12,8 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
+// 버그 있었는데 제대로 추적 못함 (시뮬에서 계속 눌러보면서 찾고 해결하기)
+
 // MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
 final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -31,9 +33,7 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
         $0.textColor = .darkGray
         $0.font = UIFont.systemFont(ofSize: 13)
     }
-    
-    
-    
+ 
     private lazy var categoryCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.cellIdentifier)
         $0.backgroundColor = .clear
@@ -146,83 +146,19 @@ extension AddStep2ViewController: View {
             }
             .disposed(by: disposeBag)
         
-//
-//        categoryCollectionView.rx.itemSelected
-//            .map { Reactor.Action.categorySelected($0.item) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-        
-//
-//        categoryCollectionView.rx.modelSelected(String.self)
-//            .bind { category in
-//                print("2")
-//                reactor.action.onNext(.selectCategory(category))
-////                print("indexPath for selectedItems : \(self.categoryCollectionView.indexPathsForSelectedItems)")
-//            }
-//            .disposed(by: disposeBag)
-        
-        
-        
-        
-        /*
-         // MARK: 버전 1
-        categoryCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                print("indexPath: \(indexPath)")
-                if reactor.currentState.testselectedCategories.count >= 3 {
-                    // Deselect the first selected item
-                    if let firstSelectedIndexPath = reactor.currentState.testselectedCategories.first {
-//                        print("item: \(item)")
-                        
-                        self.categoryCollectionView.deselectItem(at: firstSelectedIndexPath, animated: false)
-                        print("여기1")
-                        reactor.action.onNext(.testdselectCategory)
-                        let cell = categoryCollectionView.cellForItem(at:  IndexPath(item: 0, section: 0))
-                        
-                    }
-                }
-                reactor.action.onNext(.testselectCategory(indexPath))
-            })
-            .disposed(by: disposeBag)
-
-        
-        
-        categoryCollectionView.rx.modelDeselected(String.self)
-            .bind { category in
-                print("3")
-                reactor.action.onNext(.deselectCategory(category))
-            }
-            .disposed(by: disposeBag)
-        
-        */
-        
-        /*
-         // MARK: 버전 2
-        categoryCollectionView.rx.itemSelected
-            .map { Reactor.Action.testselectCategory($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        categoryCollectionView.rx.itemDeselected
-            .map { Reactor.Action.testdselectCategory($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.testselectedCategories.count > 0 }
-            .distinctUntilChanged()
-            .bind(to: nextButton.rx.isEnabled)
-            .disposed(by: disposeBag)
-         */
-        
         categoryCollectionView.rx.modelSelected(String.self)
-            .map { Reactor.Action.selectCategory($0) }
+            .map {
+                print("model Selected")
+                return Reactor.Action.selectCategory($0)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         categoryCollectionView.rx.modelDeselected(String.self)
-            .map { Reactor.Action.deselectCategory($0) }
+            .map {
+                print("model Deselected")
+                return Reactor.Action.deselectCategory($0)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -234,11 +170,7 @@ extension AddStep2ViewController: View {
         
         reactor.state
             .compactMap { $0.deselectCategoryItem }
-            .subscribe(onNext: { [weak self] item in
-                guard let self = self else { return }
-                let indexPath = IndexPath(item: item, section: 0)
-                categoryCollectionView.deselectItem(at: indexPath, animated: true)
-            })
+            .bind(to: categoryCollectionView.rx.deselectItem)
             .disposed(by: disposeBag)
         
     }
