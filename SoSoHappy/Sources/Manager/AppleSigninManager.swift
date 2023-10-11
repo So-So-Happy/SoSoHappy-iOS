@@ -12,7 +12,6 @@ import RxSwift
 final class AppleSigninManager: NSObject, SigninManagerProtocol {
     private var publisher = PublishSubject<SigninRequest>()
     
-    
     deinit {
         self.publisher.onCompleted()
     }
@@ -55,49 +54,38 @@ final class AppleSigninManager: NSObject, SigninManagerProtocol {
 }
 
 extension AppleSigninManager: ASAuthorizationControllerDelegate {
-    func authorizationController(
-        controller: ASAuthorizationController,
-        didCompleteWithError error: Error
-    ) {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+            let userIdentifier = appleIDCredential.user
+            let familyName = appleIDCredential.fullName?.familyName
+            let givenName = appleIDCredential.fullName?.givenName
+            let email = appleIDCredential.email
+            let state = appleIDCredential.state
+            
+            print("🔎 ##### 애플 사용자 정보 조회 성공 #####")
+            print("userIdentifier:", userIdentifier)
+            print("familyName:", familyName ?? "unknown family name")
+            print("givenName:", givenName ?? "unknown given name")
+            print("givenName", email ?? "unknown email")
+            print("state", state ?? "unknown state")
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         if let authorizationError = error as? ASAuthorizationError {
             switch authorizationError.code {
             case .canceled:
                 self.publisher.onError(BaseError.custom("cancel"))
             case .failed, .invalidResponse, .notHandled, .unknown:
                 let error = BaseError.custom(authorizationError.localizedDescription)
-                
                 self.publisher.onError(error)
             default:
                 let error = BaseError.custom(error.localizedDescription)
-                
                 self.publisher.onError(error)
             }
         } else {
-            let error = BaseError.custom(
-                "error is instance of \(error.self). not ASAuthorizationError"
-            )
-            
+            let error = BaseError.custom("error is instance of \(error.self). not ASAuthorizationError")
             self.publisher.onError(error)
-        }
-    }
-    
-    func authorizationController(
-        controller: ASAuthorizationController,
-        didCompleteWithAuthorization authorization: ASAuthorization
-    ) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential,
-           let accessToken = String(
-            data: appleIDCredential.identityToken!,
-            encoding: .utf8
-           ) {
-            self.publisher.onNext(SigninRequest(socialType: .apple, token: accessToken))
-            self.publisher.onCompleted()
-        } else {
-            let signInError = BaseError.custom(
-                "credential is not ASAuthorizationAppleIDCredential"
-            )
-            
-            self.publisher.onError(signInError)
         }
     }
 }

@@ -57,18 +57,22 @@ final class LoginViewController: UIViewController, View {
     private func bindActions(_ reactor: LoginViewReactor) {
         // Kakao 로그인 버튼 탭 액션을 Reactor에 연결
         logInButtonStackView.kakaoLoginButton.rx.tap
-            .map { Reactor.Action.kakaoLogin }
+            .map { Reactor.Action.tapKakaoLogin }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         logInButtonStackView.googleLoginButton.rx.tap
-            .map { Reactor.Action.googleLogin }
+            .map { Reactor.Action.tapGoogleLogin }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        logInButtonStackView.appleLoginButton.rx.tap
+            .map { Reactor.Action.tapAppleLogin }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
     
-    private func bindState(_ reactor: LoginViewReactor) {
-        // Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트 - kakao
+    private func bindState(_ reactor: LoginViewReactor) { // Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트
         reactor.state.map { $0.isKakaoLoading }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
@@ -77,14 +81,22 @@ final class LoginViewController: UIViewController, View {
                 shouldRun ? logInButtonStackView.kakaoSpinner.startAnimating() : logInButtonStackView.kakaoSpinner.stopAnimating()
             })
             .disposed(by: disposeBag)
-        
-        // Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트 - google
+
         reactor.state.map { $0.isGoogleLoading }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
                 guard let self = self else { return }
-//                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
-//                shouldRun ? logInButtonStackView.googleSpinner.startAnimating() : logInButtonStackView.googleSpinner.stopAnimating()
+                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
+                shouldRun ? logInButtonStackView.googleSpinner.startAnimating() : logInButtonStackView.googleSpinner.stopAnimating()
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state.map { $0.isAppleLoading }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] shouldRun in
+                guard let self = self else { return }
+                logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
+                shouldRun ? logInButtonStackView.appleSpinner.startAnimating() : logInButtonStackView.appleSpinner.stopAnimating()
             })
             .disposed(by: disposeBag)
     }
