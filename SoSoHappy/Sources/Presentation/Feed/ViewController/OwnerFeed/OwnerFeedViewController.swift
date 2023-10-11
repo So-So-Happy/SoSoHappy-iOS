@@ -13,11 +13,12 @@ import RxSwift
 import RxCocoa
 
 /*
- 1. refreshControl이 여기에서 꼭 필요가 있을까?
+ 1. refreshControl이 여기에서 꼭 필요가 있을까? (없을 것 같긴 함)
  2. profile update가 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
+ 3. 밑에 cell 선택 -> detailVC1 -> Owner -> detailVC1 하면 "소피들의 소소해피"가 나타남 해결 필요
  */
 
-
+// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
 protocol OwnerFeedViewControllerDelegate: AnyObject {
     func showDetail(feed: FeedTemp)
 }
@@ -25,7 +26,7 @@ protocol OwnerFeedViewControllerDelegate: AnyObject {
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    weak var delegate: OwnerFeedViewControllerDelegate?
+    private weak var coordinator: OwnerFeedCoordinatorInterface?
     
     // MARK: - UI Components
     private lazy var refreshControl = UIRefreshControl()
@@ -52,9 +53,10 @@ final class OwnerFeedViewController: UIViewController {
         print("OwnerFeedViewController viewWillAppear ---------------")
     }
 
-    init(reactor: OwnerFeedViewReactor) {
+    init(reactor: OwnerFeedViewReactor, coordinator: OwnerFeedCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -82,9 +84,8 @@ extension OwnerFeedViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: OwnerFeedViewReactor) {
         self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
-    
-        self.rx.viewDidLoad
-            .map { Reactor.Action.refresh } // 해당 유저의 공개 feed fetch
+        self.rx.viewWillAppear
+            .map { Reactor.Action.fetchFeeds } // 해당 유저의 공개 feed fetch
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -128,7 +129,7 @@ extension OwnerFeedViewController: View {
                 guard let self = self else { return }
                 print("여기까지 진행완료")
 //                print("feed: \(feed), type: \(type(of: feed))")
-                self.delegate?.showDetail(feed: feed)
+                self.coordinator?.showDetails(feed: feed)
             })
             .disposed(by: disposeBag)
     }

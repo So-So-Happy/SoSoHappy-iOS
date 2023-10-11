@@ -33,6 +33,7 @@ import ReactorKit
 
 class OwnerFeedViewReactor: Reactor {
     enum Action {
+        case fetchFeeds
         case refresh
         case selectedCell(index: Int)
     }
@@ -81,6 +82,16 @@ class OwnerFeedViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .fetchFeeds:
+            // MARK: 일단은 Loading 없이 이렇게 처리함 (실제로 서버 연결해보면서 확인해보기)
+            let fetchedFeeds: [FeedTemp] = []
+            let profile = testProfile
+            
+            return Observable.concat([
+                Observable.just(Mutation.profile(profile)),
+                Observable.just(Mutation.setFeeds(fetchedFeeds))
+            ])
+            
         case .refresh:
             let fetchedFeeds: [FeedTemp] = []
             let profile = testProfile
@@ -107,9 +118,11 @@ class OwnerFeedViewReactor: Reactor {
             
         case let .setFeeds(feeds):
             state.feeds = forTest
+//            state.selectedFeed = nil
             
         case let .profile(profile):
             state.profile = testProfile
+            state.selectedFeed = nil
             
         case let .selectedCell(index):
             print("선택했음")

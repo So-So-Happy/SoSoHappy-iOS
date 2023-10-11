@@ -19,7 +19,7 @@ import RxCocoa
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
 
  */
-
+// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
 protocol FeedViewControllerDelegate: AnyObject { // only adopted by class
     func showdDetails(feed: FeedTemp) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
     func showOwner(ownerNickName: String) // 조회대상 닉네임이 필요 ('특정 유저 피드 조회'는 서버통신 필요)
@@ -28,7 +28,8 @@ protocol FeedViewControllerDelegate: AnyObject { // only adopted by class
 final class FeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    weak var delegate: FeedViewControllerDelegate?  // weak - must have a reference type (not value)
+//    weak var delegate: FeedViewControllerDelegate?  // weak - must have a reference type (not value)
+    private weak var coordinator: FeedCoordinatorInterface?
     
     // MARK: - UI Components
     private lazy var feedHeaderView = FeedHeaderView()
@@ -49,7 +50,6 @@ final class FeedViewController: UIViewController {
         super.viewDidLoad()
         print("FeedViewController viewDidLoad ---------------")
         setup()
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,9 +66,10 @@ final class FeedViewController: UIViewController {
         self.navigationItem.title = ""
     }
     
-    init(reactor: FeedViewReactor) {
+    init(reactor: FeedViewReactor, coordinator: FeedCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -166,7 +167,7 @@ extension FeedViewController: View {
                 guard let self = self else { return }
                 print("selectedFeed : \(feed)")
 //                print("feed: \(feed), type: \(type(of: feed))")
-                self.delegate?.showdDetails(feed: feed)
+                self.coordinator?.showdDetails(feed: feed)
             })
             .disposed(by: disposeBag)
     }
@@ -193,7 +194,7 @@ extension FeedViewController: View {
         cell.profileImageTapSubject
             .subscribe(onNext: { [weak self] nickName in
                 guard let self = self else { return }
-                self.delegate?.showOwner(ownerNickName: nickName)
+                self.coordinator?.showOwner(ownerNickName: nickName)
             })
             .disposed(by: cell.disposeBag)
     }
@@ -207,5 +208,4 @@ extension FeedViewController: View {
         }
     }
 }
-
 

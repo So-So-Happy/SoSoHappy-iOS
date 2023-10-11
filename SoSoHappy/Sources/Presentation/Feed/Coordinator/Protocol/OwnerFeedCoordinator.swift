@@ -7,9 +7,12 @@
 
 import UIKit
 
-final class OwnerFeedCoordinator: Coordinator {
+protocol OwnerFeedCoordinatorInterface: Coordinator {
+    func showDetails(feed: FeedTemp)
+}
+
+final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
     var type: CoordinatorType { .feed }
-    
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
@@ -25,8 +28,7 @@ final class OwnerFeedCoordinator: Coordinator {
     func start() {
         print("OwnerFeedCoordinator START")
         let ownerFeedViewReactor = OwnerFeedViewReactor(ownerNickName: self.ownerNickName)
-        let ownerFeedVC = OwnerFeedViewController(reactor: ownerFeedViewReactor)
-        ownerFeedVC.delegate = self
+        let ownerFeedVC = OwnerFeedViewController(reactor: ownerFeedViewReactor, coordinator: self)
         navigationController.pushViewController(ownerFeedVC, animated: true)
     }
     
@@ -36,10 +38,10 @@ final class OwnerFeedCoordinator: Coordinator {
 }
 
 
-extension OwnerFeedCoordinator: OwnerFeedViewControllerDelegate {
-    func showDetail(feed: FeedTemp) {
+extension OwnerFeedCoordinator {
+    func showDetails(feed: FeedTemp) {
         print("OwnerFeedCoordinator didSelectCell 메서드 실행")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedData: feed, navigatingFrom: .ownerFeedViewController)
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feed: feed, navigatingFrom: .ownerFeedViewController)
         self.childCoordinators.append(feedDetailCoordinator)
         feedDetailCoordinator.start()
     }

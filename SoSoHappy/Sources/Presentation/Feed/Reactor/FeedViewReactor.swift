@@ -86,7 +86,7 @@ class FeedViewReactor: Reactor {
             // currentState.sortOption에 따라 달라짐
             return Observable.concat([
                 Observable.just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                fetchFeedBySortOption(currentState.sortOption), 
+                fetchFeedBySortOption(currentState.sortOption),
 //              UserService.users().map(Mutation.setUsers),
                 Observable.just(.setRefreshing(false))
             ])
@@ -98,7 +98,7 @@ class FeedViewReactor: Reactor {
             return Observable.just(.selectedCell(index: index))
         }
     }
-    
+    // MARK: state.selectedFeed = nil를 한 곳에만 써도 될 것 같은데 한번 더 확인해보기
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
         switch mutation {
@@ -109,7 +109,7 @@ class FeedViewReactor: Reactor {
         case let .setFeeds(feeds):
             print("2 .setFeeds activated")
             state.feeds = forTest
-            state.selectedFeed = nil
+//            state.selectedFeed = nil
             
         case let .sortOption(sort):
             print("3")

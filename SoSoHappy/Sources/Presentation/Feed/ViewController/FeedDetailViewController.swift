@@ -16,15 +16,15 @@ import RxGesture
  1. heartbutton throttle, debouce 적용, 날씨 bacgkround 이미지 적용
  2. OwnerFeedViewController에서 여기에서 보여주는 피드를 좋아요했을 때 반영이 안될 것 같은데 확인해보고 코드 수정해주기
  */
-
+// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
 protocol FeedDetailViewControllerDelegate: AnyObject {
-    func showOwner(ownerNickName: String) 
+    func showOwner(ownerNickName: String)
 }
  
 final class FeedDetailViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    weak var delegate: FeedDetailViewControllerDelegate?
+    private weak var coordinator: FeedDetailCoordinatorInterface?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
@@ -74,9 +74,10 @@ final class FeedDetailViewController: UIViewController {
         print("FeedDetailViewController viewWillAppear ---------------")
     }
     
-    init(reactor: FeedReactor) {
+    init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -147,6 +148,14 @@ extension FeedDetailViewController {
 
 extension FeedDetailViewController: View {
     func bind(reactor: FeedReactor) {
+        self.rx.viewWillAppear
+            .map {
+                print("viewWillAppear - fetch feeds")
+                return Reactor.Action.fetchFeed
+            } // default today
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         imageSlideView.tapObservable
             .subscribe(onNext: { [weak self] in
                 guard let `self` = self else { return }
@@ -163,7 +172,7 @@ extension FeedDetailViewController: View {
             .asDriver()
             .drive(onNext: { [weak self] _ in
                 guard let `self` = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
-                self.delegate?.showOwner(ownerNickName: nickName)
+                self.coordinator?.showOwner(ownerNickName: nickName)
             })
             .disposed(by: disposeBag)
         
