@@ -17,12 +17,13 @@ protocol BaseTargetType: TargetType {
 }
 
 extension BaseTargetType {
-    public var baseURL: URL {
+    var baseURL: URL {
         // plist 에서 baseURL 뽑아오기
         return URL(string: "https://sosohappy.net")!
     }
-    public var sampleData: Data { Data() }
-    public var authorizationType: JWTAuthorizationType? { return .accessToken }
+    
+    var sampleData: Data { Data() }
+    var authorizationType: JWTAuthorizationType? { return .accessToken }
 }
 
 

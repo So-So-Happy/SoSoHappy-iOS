@@ -33,7 +33,6 @@ public enum JWTAuthorizationType {
     }
 }
 
-
 public final class JWTPlugin: PluginType {
 
     public typealias TokenClosure = (TargetType) -> HeaderType
@@ -48,15 +47,12 @@ public final class JWTPlugin: PluginType {
         guard
             let authorizable = target as? JWTAuthorizable,
             let authorizationType = authorizable.authorizationType
-        else {
-            return request
-        }
+        else { return request }
         
         var request = request
         
         // accessToken, email 헤더에 추가
         request.addValue(self.tokenClosure(target).accessToken, forHTTPHeaderField: authorizationType.value[0])
-        
         request.addValue(self.tokenClosure(target).email, forHTTPHeaderField: authorizationType.value[1])
         
         // token 재발급시 refreshToken 헤더에 추가

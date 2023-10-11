@@ -11,7 +11,7 @@ import RxSwift
 import Moya
 
 
-final class HttpNetwork: MoyaProvider<MultiTarget>, HttpNetworkType, Networkable {
+final class HttpNetwork: MoyaProvider<MultiTarget>, Networkable {
     func request(_ targetType: TargetType) -> Single<Response> {
         self.rx.request(.target(targetType))
             .filterSuccessfulStatusCodes()

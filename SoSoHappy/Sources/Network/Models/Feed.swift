@@ -4,25 +4,24 @@
 //
 //  Created by 박희경 on 2023/09/30.
 //
-
 import UIKit
 
-struct Feed: Codable {
+struct Feed {
     
     let text: String
-    let imageList: Data
+    let imageList: [UIImage]
     let categoryList: [String]
     let isPulic: Bool
-    let date: Double
+    let date: String
     let weather: String
     let happiness: Int
     let nickName: String
     
     init(text: String,
-         imageList: Data,
+         imageList: [UIImage],
          categoryList: [String],
          isPublic: Bool,
-         date: Double,
+         date: String,
          weather: String,
          happiness: Int,
          nickName: String
@@ -37,6 +36,18 @@ struct Feed: Codable {
         self.nickName = nickName
     }
     
+}
+
+extension Feed {
+    var happyImage: String {
+        switch happiness {
+        case 1 : return "happy1"
+        case 2 : return "happy2"
+        case 3: return "happy3"
+        case 4: return "happy4"
+        default: return "happy5"
+        }
+    }
 }
 
 

@@ -58,15 +58,22 @@
 		0699EEC92ACEA8CF00127C49 /* FindFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */; };
 		0699EECA2ACEA8CF00127C49 /* ResignRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */; };
 		0699EECC2ACEA8CF00127C49 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAE2ACEA8CF00127C49 /* Model.swift */; };
-		0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEAF2ACEA8CF00127C49 /* Profile.swift */; };
 		0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB12ACEA8CF00127C49 /* Requestable.swift */; };
 		0699EECF2ACEA8CF00127C49 /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB22ACEA8CF00127C49 /* SocialType.swift */; };
-		0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */; };
 		0699EED12ACEA8D000127C49 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EEB42ACEA8CF00127C49 /* Feed.swift */; };
 		0699EED32ACEA8EA00127C49 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED22ACEA8EA00127C49 /* FeedAPI.swift */; };
 		0699EED52ACEA9CD00127C49 /* FeedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */; };
-		0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */; };
+		069D7AEB2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AEA2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift */; };
+		069D7AEF2ACFFD2B00C815F1 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AEE2ACFFD2B00C815F1 /* Profile.swift */; };
+		069D7AF12ACFFD3700C815F1 /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */; };
+		069D7AF72ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF62ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift */; };
+		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
+		069D7AFB2AD03F0D00C815F1 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 069D7AFA2AD03F0D00C815F1 /* Config.xcconfig */; };
+		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
+		06A717402ACEE8AB00C73557 /* CalendarViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A7173F2ACEE8AA00C73557 /* CalendarViewReactor.swift */; };
+		06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC953A2AD62929003FFE52 /* AlertViewController.swift */; };
+		06EC953D2AD6297E003FFE52 /* FeedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC953C2AD6297E003FFE52 /* FeedListViewController.swift */; };
 		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
 		06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */; };
 		06F6BA382A8DE85300A6765A /* Happy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA372A8DE85300A6765A /* Happy.swift */; };
@@ -74,7 +81,6 @@
 		06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */; };
 		06F6BA3E2A8FACB500A6765A /* Ex+UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */; };
 		06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F6BA3F2A8FBED400A6765A /* PreviewView.swift */; };
-		1B0C114FAD2BE900C1A3F985 /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 529B9C1780137AC547CC4EA3 /* Pods_SoSoHappyTests.framework */; };
 		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
 		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
 		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
@@ -167,8 +173,9 @@
 		80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */; };
 		80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EA2AC06E6400107332 /* BaseCell.swift */; };
 		80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EE2AC0867300107332 /* HeartButton.swift */; };
-		983175DA02B9CBA5C769E25F /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 784B9507DDC2B90C071B7FE0 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
-		D74B6451342E18ED858C7C0A /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3EA23E547A68548FED1ACEC /* Pods_SoSoHappy.framework */; };
+		81C91FBEFF68DC546C773620 /* Pods_SoSoHappy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03C103540CB1875009381E85 /* Pods_SoSoHappy.framework */; };
+		91A36FF754AFCD703FEE56D3 /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B971FD9AC8F8ED16208646D4 /* Pods_SoSoHappy_SoSoHappyUITests.framework */; };
+		CF8BBB794F51D642AC698314 /* Pods_SoSoHappyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5917A5262AF5138887B845E6 /* Pods_SoSoHappyTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +196,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03C103540CB1875009381E85 /* Pods_SoSoHappy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		060002A12A8CED1F0071E98C /* Ex+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
 		060DE1982A83CFE000C60392 /* HappyListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCell.swift; sourceTree = "<group>"; };
 		060DE19C2A850A6500C60392 /* CategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
@@ -216,7 +224,7 @@
 		06896DEF2AC2A817001DCCFC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
 		06896DF52AC2AB8E001DCCFC /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepository.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Data/Repository/FeedRepository.swift"; sourceTree = "<group>"; };
+		0699EE912ACEA8B100127C49 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
 		0699EE962ACEA8CF00127C49 /* FindOtherFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindOtherFeedResponse.swift; sourceTree = "<group>"; };
 		0699EE972ACEA8CF00127C49 /* SetProfileResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetProfileResponse.swift; sourceTree = "<group>"; };
 		0699EE982ACEA8CF00127C49 /* ResignResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignResponse.swift; sourceTree = "<group>"; };
@@ -240,15 +248,22 @@
 		0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindFeedRequest.swift; sourceTree = "<group>"; };
 		0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResignRequest.swift; sourceTree = "<group>"; };
 		0699EEAE2ACEA8CF00127C49 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
-		0699EEAF2ACEA8CF00127C49 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		0699EEB12ACEA8CF00127C49 /* Requestable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		0699EEB22ACEA8CF00127C49 /* SocialType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
-		0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
 		0699EEB42ACEA8CF00127C49 /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
-		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedAPI.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/API/FeedAPI.swift"; sourceTree = "<group>"; };
-		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedRepositoryProtocol.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Domain/Interfaces/FeedRepositoryProtocol.swift"; sourceTree = "<group>"; };
-		0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
+		0699EED22ACEA8EA00127C49 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
+		0699EED42ACEA9CD00127C49 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepositoryProtocol.swift; sourceTree = "<group>"; };
+		069D7AEA2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
+		069D7AEE2ACFFD2B00C815F1 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
+		069D7AF62ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
+		069D7AF82AD0344300C815F1 /* HappinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappinessLevel.swift; sourceTree = "<group>"; };
+		069D7AFA2AD03F0D00C815F1 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		06A7173F2ACEE8AA00C73557 /* CalendarViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewReactor.swift; sourceTree = "<group>"; };
+		06EC953A2AD62929003FFE52 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		06EC953C2AD6297E003FFE52 /* FeedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListViewController.swift; sourceTree = "<group>"; };
 		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
 		06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSlideView.swift; sourceTree = "<group>"; };
 		06F6BA372A8DE85300A6765A /* Happy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Happy.swift; sourceTree = "<group>"; };
@@ -256,9 +271,10 @@
 		06F6BA3B2A8F6F2A00A6765A /* Ex+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Date.swift"; sourceTree = "<group>"; };
 		06F6BA3D2A8FACB500A6765A /* Ex+UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIView.swift"; sourceTree = "<group>"; };
 		06F6BA3F2A8FBED400A6765A /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
-		107C4C6FB307A9137024FB70 /* Pods-SoSoHappyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		4CDD640423CC1374835D64EC /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
-		529B9C1780137AC547CC4EA3 /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		15FFC674473AEA31BA3C1126 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5917A5262AF5138887B845E6 /* Pods_SoSoHappyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		62C51AC653BD303B8AFD4949 /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
+		63793797DEDD8E0F223A39DA /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
 		67021E642A83CBB100B47A6B /* AddCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCoordinator.swift; sourceTree = "<group>"; };
 		67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep1ViewController.swift; sourceTree = "<group>"; };
 		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
@@ -288,9 +304,6 @@
 		67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		67E7DB912A8138EB00C33988 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		67E7DB972A81420400C33988 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		69B1573E8A3FEF7743E8F410 /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
-		784B9507DDC2B90C071B7FE0 /* Pods_SoSoHappy_SoSoHappyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy_SoSoHappyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7BD38E703981CEE6F70927B2 /* Pods-SoSoHappyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.release.xcconfig"; sourceTree = "<group>"; };
 		800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoSoHappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		800F42612A794A6D00ACD6C1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -357,9 +370,10 @@
 		80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCellReactor.swift; sourceTree = "<group>"; };
 		80C0A2EA2AC06E6400107332 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		80C0A2EE2AC0867300107332 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
-		AC845FFA630A86110528443A /* Pods-SoSoHappy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.debug.xcconfig"; sourceTree = "<group>"; };
-		BD9B1162B4ABAB09E316D4A9 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		C3EA23E547A68548FED1ACEC /* Pods_SoSoHappy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B78D1E66DE46E238DFB9D8F /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B3F58FE4A7CECD1868946AFA /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
+		B971FD9AC8F8ED16208646D4 /* Pods_SoSoHappy_SoSoHappyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoSoHappy_SoSoHappyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB30AEF117790E6B79761D4F /* Pods-SoSoHappyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappyTests.debug.xcconfig"; path = "Target Support Files/Pods-SoSoHappyTests/Pods-SoSoHappyTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,7 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80380C3F2A98ED780077048D /* MessageKit in Frameworks */,
-				D74B6451342E18ED858C7C0A /* Pods_SoSoHappy.framework in Frameworks */,
+				81C91FBEFF68DC546C773620 /* Pods_SoSoHappy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +390,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B0C114FAD2BE900C1A3F985 /* Pods_SoSoHappyTests.framework in Frameworks */,
+				CF8BBB794F51D642AC698314 /* Pods_SoSoHappyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,7 +398,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				983175DA02B9CBA5C769E25F /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */,
+				91A36FF754AFCD703FEE56D3 /* Pods_SoSoHappy_SoSoHappyUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +453,7 @@
 			children = (
 				0613BCD02AA5F7B000E2B97F /* UserAPI.swift */,
 				0699EED22ACEA8EA00127C49 /* FeedAPI.swift */,
+				069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -493,13 +508,12 @@
 			children = (
 				0699EE942ACEA8CF00127C49 /* DTO */,
 				0699EEAE2ACEA8CF00127C49 /* Model.swift */,
-				0699EEAF2ACEA8CF00127C49 /* Profile.swift */,
 				0699EEB42ACEA8CF00127C49 /* Feed.swift */,
-				0699EEB32ACEA8CF00127C49 /* ResponseContainer.swift */,
+				069D7AEE2ACFFD2B00C815F1 /* Profile.swift */,
+				069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */,
 				0699EEB02ACEA8CF00127C49 /* Type */,
 			);
-			name = Models;
-			path = "../../../../../../Library/Mobile Documents/com~apple~CloudDocs/SoSoHappy/Sources/Network/Models";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		0699EE942ACEA8CF00127C49 /* DTO */ = {
@@ -528,6 +542,8 @@
 				0699EEA12ACEA8CF00127C49 /* AuthResponse.swift */,
 				0699EEA22ACEA8CF00127C49 /* AnalysisHappinessResponse.swift */,
 				0699EEA32ACEA8CF00127C49 /* UpdateLikeResponse.swift */,
+				069D7AEA2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift */,
+				069D7AF62ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -543,7 +559,6 @@
 				0699EEAA2ACEA8CF00127C49 /* FindOtherFeedRequest.swift */,
 				0699EEAB2ACEA8CF00127C49 /* FindFeedRequest.swift */,
 				0699EEAC2ACEA8CF00127C49 /* ResignRequest.swift */,
-				0699EED62ACEAA4000127C49 /* UpdatePublicStatusRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -560,12 +575,12 @@
 		403C88CF55CF0D2A33042714 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				AC845FFA630A86110528443A /* Pods-SoSoHappy.debug.xcconfig */,
-				69B1573E8A3FEF7743E8F410 /* Pods-SoSoHappy.release.xcconfig */,
-				BD9B1162B4ABAB09E316D4A9 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */,
-				4CDD640423CC1374835D64EC /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */,
-				107C4C6FB307A9137024FB70 /* Pods-SoSoHappyTests.debug.xcconfig */,
-				7BD38E703981CEE6F70927B2 /* Pods-SoSoHappyTests.release.xcconfig */,
+				62C51AC653BD303B8AFD4949 /* Pods-SoSoHappy.debug.xcconfig */,
+				B3F58FE4A7CECD1868946AFA /* Pods-SoSoHappy.release.xcconfig */,
+				9B78D1E66DE46E238DFB9D8F /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */,
+				15FFC674473AEA31BA3C1126 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */,
+				DB30AEF117790E6B79761D4F /* Pods-SoSoHappyTests.debug.xcconfig */,
+				63793797DEDD8E0F223A39DA /* Pods-SoSoHappyTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -669,6 +684,7 @@
 				800F426B2A794A6E00ACD6C1 /* Assets.xcassets */,
 				800F426D2A794A6E00ACD6C1 /* LaunchScreen.storyboard */,
 				800F42702A794A6E00ACD6C1 /* Info.plist */,
+				069D7AFA2AD03F0D00C815F1 /* Config.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -835,6 +851,7 @@
 				06F6BA372A8DE85300A6765A /* Happy.swift */,
 				802C6C912AB875B9001142B4 /* FeedTemp.swift */,
 				802C6C932AB875CE001142B4 /* ProfileTemp.swift */,
+				069D7AF82AD0344300C815F1 /* HappinessLevel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -902,6 +919,8 @@
 			children = (
 				67E7DB632A8136DF00C33988 /* CalenderViewController.swift */,
 				060DE19E2A8540F000C60392 /* HappyListViewController .swift */,
+				06EC953A2AD62929003FFE52 /* AlertViewController.swift */,
+				06EC953C2AD6297E003FFE52 /* FeedListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -981,7 +1000,7 @@
 				800F42822A794A6E00ACD6C1 /* SoSoHappyUITests */,
 				800F425D2A794A6D00ACD6C1 /* Products */,
 				403C88CF55CF0D2A33042714 /* Pods */,
-				8B0D7766E1BEC508DB0C3EDF /* Frameworks */,
+				CF54155E4B71CFB5213DB824 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1171,16 +1190,17 @@
 			children = (
 				80C0A2E22ABC081300107332 /* HappyListViewReactor.swift */,
 				80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */,
+				06A7173F2ACEE8AA00C73557 /* CalendarViewReactor.swift */,
 			);
 			path = Reactor;
 			sourceTree = "<group>";
 		};
-		8B0D7766E1BEC508DB0C3EDF /* Frameworks */ = {
+		CF54155E4B71CFB5213DB824 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C3EA23E547A68548FED1ACEC /* Pods_SoSoHappy.framework */,
-				784B9507DDC2B90C071B7FE0 /* Pods_SoSoHappy_SoSoHappyUITests.framework */,
-				529B9C1780137AC547CC4EA3 /* Pods_SoSoHappyTests.framework */,
+				03C103540CB1875009381E85 /* Pods_SoSoHappy.framework */,
+				B971FD9AC8F8ED16208646D4 /* Pods_SoSoHappy_SoSoHappyUITests.framework */,
+				5917A5262AF5138887B845E6 /* Pods_SoSoHappyTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1192,13 +1212,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F42892A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappy" */;
 			buildPhases = (
-				B335054520DCA0189FEB6180 /* [CP] Check Pods Manifest.lock */,
+				EB3188258BAB8AECE0CB8EC7 /* [CP] Check Pods Manifest.lock */,
 				67E7DB932A813B7E00C33988 /* SwiftLint Script */,
 				800F42582A794A6D00ACD6C1 /* Sources */,
 				800F42592A794A6D00ACD6C1 /* Frameworks */,
 				800F425A2A794A6D00ACD6C1 /* Resources */,
-				08E866818CDBF8258CF0FF21 /* [CP] Embed Pods Frameworks */,
-				C894C59794F4A5B70EFCE7D6 /* [CP] Copy Pods Resources */,
+				60924A0D18EB76AD48B66D5B /* [CP] Embed Pods Frameworks */,
+				08C16426E80CA35732A11DFE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1216,7 +1236,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F428C2A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappyTests" */;
 			buildPhases = (
-				897E9FA90148F91102C3B489 /* [CP] Check Pods Manifest.lock */,
+				C8F0016D1072CB294F632F6D /* [CP] Check Pods Manifest.lock */,
 				800F42712A794A6E00ACD6C1 /* Sources */,
 				800F42722A794A6E00ACD6C1 /* Frameworks */,
 				800F42732A794A6E00ACD6C1 /* Resources */,
@@ -1235,12 +1255,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 800F428F2A794A6E00ACD6C1 /* Build configuration list for PBXNativeTarget "SoSoHappyUITests" */;
 			buildPhases = (
-				618D62E9931A44A29FBB9381 /* [CP] Check Pods Manifest.lock */,
+				0BD46D1F1ACB605099E362A6 /* [CP] Check Pods Manifest.lock */,
 				800F427B2A794A6E00ACD6C1 /* Sources */,
 				800F427C2A794A6E00ACD6C1 /* Frameworks */,
 				800F427D2A794A6E00ACD6C1 /* Resources */,
-				E66A8D3A03B67FEFB07C64CA /* [CP] Embed Pods Frameworks */,
-				6B07698FD5F6844F42718108 /* [CP] Copy Pods Resources */,
+				EB2E85FBCB21D634BACAC861 /* [CP] Embed Pods Frameworks */,
+				BEEE0BA949C154EAAD800904 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1303,6 +1323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				069D7AFB2AD03F0D00C815F1 /* Config.xcconfig in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
@@ -1326,24 +1347,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08E866818CDBF8258CF0FF21 /* [CP] Embed Pods Frameworks */ = {
+		08C16426E80CA35732A11DFE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		618D62E9931A44A29FBB9381 /* [CP] Check Pods Manifest.lock */ = {
+		0BD46D1F1ACB605099E362A6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1365,6 +1386,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		60924A0D18EB76AD48B66D5B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		67E7DB932A813B7E00C33988 /* SwiftLint Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -1383,7 +1421,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		6B07698FD5F6844F42718108 /* [CP] Copy Pods Resources */ = {
+		BEEE0BA949C154EAAD800904 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1400,7 +1438,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		897E9FA90148F91102C3B489 /* [CP] Check Pods Manifest.lock */ = {
+		C8F0016D1072CB294F632F6D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1422,7 +1460,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B335054520DCA0189FEB6180 /* [CP] Check Pods Manifest.lock */ = {
+		EB2E85FBCB21D634BACAC861 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EB3188258BAB8AECE0CB8EC7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1444,40 +1499,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C894C59794F4A5B70EFCE7D6 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E66A8D3A03B67FEFB07C64CA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SoSoHappy-SoSoHappyUITests/Pods-SoSoHappy-SoSoHappyUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1487,6 +1508,7 @@
 			files = (
 				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
+				06EC953D2AD6297E003FFE52 /* FeedListViewController.swift in Sources */,
 				06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				0699EECF2ACEA8CF00127C49 /* SocialType.swift in Sources */,
@@ -1496,6 +1518,7 @@
 				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				0699EEBA2ACEA8CF00127C49 /* SaveFeedResponse.swift in Sources */,
+				06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */,
 				802C6C942AB875CE001142B4 /* ProfileTemp.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
@@ -1505,7 +1528,6 @@
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
 				06F6BA402A8FBED400A6765A /* PreviewView.swift in Sources */,
-				0699EED02ACEA8D000127C49 /* ResponseContainer.swift in Sources */,
 				0699EEB92ACEA8CF00127C49 /* FindDayFeedResponse.swift in Sources */,
 				800F426A2A794A6D00ACD6C1 /* SoSoHappy.xcdatamodeld in Sources */,
 				060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */,
@@ -1528,7 +1550,9 @@
 				80AD68B72AC68BC300DD3D5F /* StatusBarStackView.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
+				069D7AEB2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift in Sources */,
 				0699EEC42ACEA8CF00127C49 /* FindUserFeedRequest.swift in Sources */,
+				069D7AF72ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				80AD68B52AC5D75B00DD3D5F /* AddViewReactor.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
@@ -1540,12 +1564,14 @@
 				80380C312A98DFAB0077048D /* FeedDetailViewController.swift in Sources */,
 				0613BCD82AA89B2100E2B97F /* UserAPIError.swift in Sources */,
 				80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */,
+				06A717402ACEE8AB00C73557 /* CalendarViewReactor.swift in Sources */,
 				06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */,
 				0699EEC92ACEA8CF00127C49 /* FindFeedRequest.swift in Sources */,
 				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
 				67E7DB5C2A81360400C33988 /* UseCase.swift in Sources */,
 				802C6CA22AB87875001142B4 /* Ex+String.swift in Sources */,
+				069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */,
 				67CFE3D32A88FBB70085DA40 /* AddStep2ViewController.swift in Sources */,
 				0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */,
 				0699EEB52ACEA8CF00127C49 /* FindOtherFeedResponse.swift in Sources */,
@@ -1560,13 +1586,13 @@
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
+				069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
 				0699EEBB2ACEA8CF00127C49 /* FindMonthFeedResponse.swift in Sources */,
 				0699EEC02ACEA8CF00127C49 /* AuthResponse.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,
-				0699EED72ACEAA4000127C49 /* UpdatePublicStatusRequest.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
 				0699EECE2ACEA8CF00127C49 /* Requestable.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
@@ -1612,9 +1638,11 @@
 				802C6CA62AB87990001142B4 /* FeedDataSection.swift in Sources */,
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
+				069D7AEF2ACFFD2B00C815F1 /* Profile.swift in Sources */,
 				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
 				80AD68B02AC3F17700DD3D5F /* FeedDetailCoordinator.swift in Sources */,
+				069D7AF12ACFFD3700C815F1 /* ResponseContainer.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				0613BCDC2AA8AC7300E2B97F /* Networkable.swift in Sources */,
 				6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */,
@@ -1632,7 +1660,6 @@
 				80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */,
 				06F6BA3C2A8F6F2A00A6765A /* Ex+Date.swift in Sources */,
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
-				0699EECD2ACEA8CF00127C49 /* Profile.swift in Sources */,
 				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
 				67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */,
@@ -1686,6 +1713,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 069D7AFA2AD03F0D00C815F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1734,7 +1762,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1746,6 +1774,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 069D7AFA2AD03F0D00C815F1 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1788,7 +1817,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1800,7 +1829,7 @@
 		};
 		800F428A2A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC845FFA630A86110528443A /* Pods-SoSoHappy.debug.xcconfig */;
+			baseConfigurationReference = 62C51AC653BD303B8AFD4949 /* Pods-SoSoHappy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1831,7 +1860,7 @@
 		};
 		800F428B2A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 69B1573E8A3FEF7743E8F410 /* Pods-SoSoHappy.release.xcconfig */;
+			baseConfigurationReference = B3F58FE4A7CECD1868946AFA /* Pods-SoSoHappy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1862,7 +1891,7 @@
 		};
 		800F428D2A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 107C4C6FB307A9137024FB70 /* Pods-SoSoHappyTests.debug.xcconfig */;
+			baseConfigurationReference = DB30AEF117790E6B79761D4F /* Pods-SoSoHappyTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1882,7 +1911,7 @@
 		};
 		800F428E2A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7BD38E703981CEE6F70927B2 /* Pods-SoSoHappyTests.release.xcconfig */;
+			baseConfigurationReference = 63793797DEDD8E0F223A39DA /* Pods-SoSoHappyTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1902,7 +1931,7 @@
 		};
 		800F42902A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BD9B1162B4ABAB09E316D4A9 /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */;
+			baseConfigurationReference = 9B78D1E66DE46E238DFB9D8F /* Pods-SoSoHappy-SoSoHappyUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -1920,7 +1949,7 @@
 		};
 		800F42912A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4CDD640423CC1374835D64EC /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */;
+			baseConfigurationReference = 15FFC674473AEA31BA3C1126 /* Pods-SoSoHappy-SoSoHappyUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
