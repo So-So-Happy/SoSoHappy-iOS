@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import RxSwift
 import Moya
+import RxSwift
+import RxCocoa
 
 
 final class FeedRepository: FeedRepositoryProtocol, Networkable {
-    
     
     // MARK: - Target
     typealias Target = FeedAPI
@@ -22,16 +22,39 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             .asObservable()
     }
     
-    func findDayFeed(request: FindFeedRequest) -> Observable<FindDayFeedResponse> {
+    func findDayFeed(request: FindFeedRequest) -> Observable<Feed> {
         return accessProvider().rx.request(.findDayFeed(request))
-            .map(FindDayFeedResponse.self)
+            .map(FindAccountFeedResponse.self)
+            .map({ $0.toDomain() })
             .asObservable()
     }
     
-    func findMonthFeed(request: FindFeedRequest) -> Observable<[FindMonthFeedResponse]> {
-        return accessProvider().rx.request(.findMonthFeed(request))
-            .map([FindMonthFeedResponse].self)
+    func findMonthFeed(rq: FindFeedRequest) -> Observable<[Feed]> {
+        
+        let api = FeedAPI.findMonthFeed(rq)
+        
+        let observable = accessProvider().rx.request(api)
+            .map([FindAccountFeedResponse].self)
+            .map { $0.map { $0.toDomain() } }
             .asObservable()
+            
+        let observable2 = accessProvider().rx.request(api)
+            .asObservable()
+            
+            
+        observable2
+            .subscribe { response in
+                switch response {
+                case .next(let status):
+                    print("success: \(status.statusCode)")
+                case .completed:
+                    print("complete")
+                case .error(let error):
+                    print("error: \(error)")
+                }
+            }.disposed(by: DisposeBag())
+        
+        return observable
     }
     
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<FindOtherFeedResponse> {
@@ -75,5 +98,6 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             .map(UpdateLikeResponse.self)
             .asObservable()
     }
+    
     
 }

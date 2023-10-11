@@ -91,7 +91,6 @@ extension UserAPI {
             return .requestJSONEncodable(nickName)
         }
     }
-    
 }
 
 

@@ -27,4 +27,3 @@ struct ResponseContainer<T: Decodable>: Decodable {
     self.resultCode = try values.decodeIfPresent(String.self, forKey: .resultCode) ?? ""
   }
 }
-

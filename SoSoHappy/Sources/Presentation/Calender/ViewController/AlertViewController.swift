@@ -2,7 +2,7 @@
 //  AlertViewController.swift
 //  SoSoHappy
 //
-//  Created by 박민주 on 2023/10/11.
+//  Created by 박희경 on 2023/10/11.
 //
 
 import UIKit

@@ -213,7 +213,7 @@ extension CalendarViewController {
 //                .map { Reactor.Action.tapPreviousButton }
 //                .bind(to: reactor.action)
 //                .disposed(by: disposeBag)
-//
+//            
         }
         
         func bindState(_ reactor: CalendarViewReactor) {
@@ -591,7 +591,5 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
         }
     }
 }
-
-
 
 
