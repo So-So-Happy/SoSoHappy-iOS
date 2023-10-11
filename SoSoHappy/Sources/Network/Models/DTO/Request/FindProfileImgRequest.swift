@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FindProfileImg: Codable {
+struct FindProfileImgRequest: Codable {
     let nickName: String
     
     init(nickName: String) {

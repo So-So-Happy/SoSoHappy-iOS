@@ -2,7 +2,7 @@
 //  Model.swift
 //  SoSoHappy
 //
-//  Created by 박희경 on 2023/09/10.
+//  Created by Sue on 10/11/23.
 //
 
 import Foundation
