@@ -51,6 +51,22 @@ extension Date {
         dateformat.dateFormat = "yyyyMM"
         return dateformat.string(from: self)
     }
+
+    /// format: yyyyMMddHHmmssSS
+    func getFormattedYMDH() -> Int64 {
+        let dateformat = DateFormatter()
+        dateformat.locale = Locale(identifier: "ko_KR")
+        dateformat.timeZone = TimeZone(abbreviation: "KST")
+        dateformat.dateFormat = "yyyyMMddHHmmssSS"
+        let formattedString = dateformat.string(from: self)
+        let formattedInt = Int64(formattedString) ?? 0
+        
+        return formattedInt
+    }
+    
+    func parsingDate(_ string: String) -> String {
+        return string
+    }
     
     /// 1분전, 1초전
     func timeAgo() -> String {

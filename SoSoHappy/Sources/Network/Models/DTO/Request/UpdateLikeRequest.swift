@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct UpdateLikeRequest: Codable, Requestable {
     let srcNickname: String
     let nickname: String
