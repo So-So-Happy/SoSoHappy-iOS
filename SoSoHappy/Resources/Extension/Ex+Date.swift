@@ -64,6 +64,10 @@ extension Date {
         return formattedInt
     }
     
+    func parsingDate(_ string: String) -> String {
+        return string
+    }
+    
     /// 1분전, 1초전
     func timeAgo() -> String {
         let formatter = RelativeDateTimeFormatter()

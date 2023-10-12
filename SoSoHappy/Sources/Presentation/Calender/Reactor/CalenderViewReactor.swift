@@ -127,7 +127,7 @@ final class CalendarViewReactor: Reactor {
         }
     }
 
-    //MARK: - reduce func 
+    //MARK: - reduce func
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
@@ -166,3 +166,4 @@ extension CalendarViewReactor {
         }
     }
 }
+

@@ -15,7 +15,6 @@ public protocol CalendarCoordinatorInterface: AnyObject {
 }
 
 final class CalendarCoordinator: Coordinator {
- 
     var type: CoordinatorType { .main }
     
     var parentCoordinator: Coordinator?
@@ -83,6 +82,4 @@ extension CalendarCoordinator {
         return viewController
     }
 }
-
-
 

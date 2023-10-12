@@ -54,7 +54,7 @@ final class CalendarViewController: UIViewController, View {
         let image = UIImage(named: "alarmButton")
         $0.setImage(image, for: .normal)
     }
-    
+
     private lazy var listButton = UIButton().then {
         let image = UIImage(named: "listButton")
         $0.setImage(image, for: .normal)
@@ -107,6 +107,9 @@ final class CalendarViewController: UIViewController, View {
 //        self.view.addGestureRecognizer(swipeUp)
 //        self.view.addGestureRecognizer(swipeDown)
         setup()
+        
+        // TODO: 리스트도 바버튼에 넣고 바버튼 자체에 가로세로 길이 설정해주기
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
         
     }
     
@@ -208,7 +211,7 @@ extension CalendarViewController {
 //                .map { Reactor.Action.tapNextButton }
 //                .bind(to: reactor.action)
 //                .disposed(by: disposeBag)
-//            
+//
 //            self.previousButton.rx.tap
 //                .map { Reactor.Action.tapPreviousButton }
 //                .bind(to: reactor.action)
@@ -389,11 +392,9 @@ private extension CalendarViewController {
     
     private func setLayout() {
         self.view.backgroundColor = .white
-        self.view.addSubviews(alarmButton, listButton, previousButton, nextButton, yearLabel, monthLabel, calendar, preview)
+        self.view.addSubviews(listButton, previousButton, nextButton, yearLabel, monthLabel, calendar, preview)
         
         alarmButton.snp.makeConstraints {
-            $0.left.equalToSuperview().inset(30)
-            $0.top.equalToSuperview().inset(80)
             $0.width.height.equalTo(25)
         }
         
@@ -591,6 +592,5 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
         }
     }
 }
-
 
 
