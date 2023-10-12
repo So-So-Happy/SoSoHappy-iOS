@@ -9,7 +9,7 @@
 import Moya
 
 enum TestAPI {
-    case list
+    case list // string 받아오는 api
 }
 
 extension TestAPI: TargetType {

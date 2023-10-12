@@ -21,8 +21,6 @@ struct FindAccountFeedResponse: Decodable {
 
 extension FindAccountFeedResponse {
     func toDomain() -> Feed {
-        
-        print("========toDomain")
         let uiImageList: [UIImage] = imageList.compactMap { image in
             guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
                   let uiImage = UIImage(data: data) else {

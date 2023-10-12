@@ -17,7 +17,9 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
 
     // 서버한테 요청
     func kakaoLogin() -> Single<AuthResponse> {
-        return makeProvider().rx.request(.kakaoLogin)
+        
+        let provider = makeProvider()
+        return provider.rx.request(.kakaoLogin)
             .flatMap { response -> Single<AuthResponse> in
                 // 응답 헤더에서 accessToken과 refreshToken 추출
                 if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
@@ -31,7 +33,8 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     }
     
     func googleLogin() -> Single<AuthResponse> {
-        return makeProvider().rx.request(.googleLogin)
+        let provider = makeProvider()
+        return provider.rx.request(.googleLogin)
             .flatMap { response -> Single<AuthResponse> in
                 // 응답 헤더에서 accessToken과 refreshToken 추출
                 if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
@@ -45,32 +48,37 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     }
     
     func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse> {
-        return makeProvider().rx.request(.checkDuplicateNickname(nickName: nickName))
+        let provider = makeProvider()
+        return provider.rx.request(.checkDuplicateNickname(nickName: nickName))
             .map(CheckNickNameResponse.self)
             .asObservable()
     }
     
     func getRefreshToken() -> Observable<AuthResponse> {
-        return accessProvider().rx.request(UserAPI.getRefreshToken)
+        let provider = accessProvider()
+        return provider.rx.request(UserAPI.getRefreshToken)
             .map(AuthResponse.self)
             .asObservable()
     }
     
     
     func setProfile(profile: Profile) -> RxSwift.Observable<SetProfileResponse> {
-        return makeProvider().rx.request(.kakaoLogin)
+        let provider = makeProvider()
+        return provider.rx.request(.kakaoLogin)
                     .map(SetProfileResponse.self)
                     .asObservable()
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {
-        return makeProvider().rx.request(.kakaoLogin)
+        let provider = makeProvider()
+        return provider.rx.request(.kakaoLogin)
                     .map(ResignResponse.self)
                     .asObservable()
     }
     
     func findProfileImg(nickName: FindProfileImgRequest) -> RxSwift.Observable<FindProfileImgResponse> {
-        return makeProvider().rx.request(.kakaoLogin)
+        let provider = makeProvider()
+        return provider.rx.request(.kakaoLogin)
                     .map(FindProfileImgResponse.self)
                     .asObservable()
     }

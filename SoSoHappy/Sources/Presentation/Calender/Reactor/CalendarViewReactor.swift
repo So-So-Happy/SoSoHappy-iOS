@@ -76,7 +76,7 @@ final class CalendarViewReactor: Reactor {
         switch action {
         case .viewDidLoad:
             print("mutate viewdidload action")
-            let fetchFeed = feedRepository.findMonthFeed(rq: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: "wonder"))
+            let fetchFeed = feedRepository.findMonthFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: "wonder"))
                 .do(onNext: { [weak self] monthFeed in
                     print("monthFeed: \(monthFeed)")
                     self?.monthFeed = monthFeed
@@ -89,14 +89,39 @@ final class CalendarViewReactor: Reactor {
             return .just(.presentAlertView)
         case .tapListButton:
             print("mutate tabListButton action")
+            
             // 성공
-            let fetchStr = MoyaProvider<TestAPI>().rx.request(.list)
-                .map(String.self)
-                .asObservable()
-                .subscribe { data in
-                    let dt = data.event.element!
-                    print(dt)
+            let provider = MoyaProvider<TestAPI>()
+            let sersr = MoyaProvider<TestAPI>().rx.request(.list)
+                .subscribe { event in
+                    switch event {
+                    case let .success(response):
+                        print("success: \(response.data)")
+                        
+                    case let .failure(error):
+                        print("error: \(error)")
+                    }
+                    
                 }
+            
+//                .map(String.self)
+//                .subscribe { data in
+//                    let dt = data.event.element!
+//                    print(dt)
+//                }
+            
+//                .map(String.self)
+//                .asObservable()
+//                .subscribe { [weak self] (event) in
+//                        switch event {
+//                        case .success(let response):
+//                            print("response: \(response)")
+//                        case .error(let error):
+//                            print(error.localizedDescription)
+//                        }
+//                    }
+//                    .disposed(by: disposeBag)
+            
             
             return .just(.presentListView)
         }

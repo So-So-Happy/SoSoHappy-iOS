@@ -13,6 +13,7 @@ extension String {
         return self.replacingOccurrences(of: "\\s+$", with: "", options: .regularExpression)
     }
     
+    /// format: yyyyMMddHHmmssSS -> yyyy년 MM월 dd일 HH시 mm분
     func getDate() -> String {
 
         // 입력으로 받은 날짜 문자열 (yyyyMMddHHmmssSS 형식)

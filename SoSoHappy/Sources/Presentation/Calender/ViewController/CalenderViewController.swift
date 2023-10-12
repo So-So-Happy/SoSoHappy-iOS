@@ -302,16 +302,16 @@ private extension CalendarViewController {
 //                .disposed(by: disposeBag)
         
         // 성공
-        self.getTestAPI() { response, error in
-            guard let response = response else {
-                print(error ?? #function)
-                return
-            }
-
-            let listUser = response
-            print(listUser)
-        }
-        
+//        self.getTestAPI() { response, error in
+//            guard let response = response else {
+//                print(error ?? #function)
+//                return
+//            }
+//
+//            let listUser = response
+//            print(listUser)
+//        }
+//        
         self.reactor?.action.onNext(.tapListButton)
     }
     

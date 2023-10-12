@@ -52,6 +52,7 @@ extension Date {
         return dateformat.string(from: self)
     }
 
+    /// format: yyyyMMddHHmmssSS
     func getFormattedYMDH() -> Int64 {
         let dateformat = DateFormatter()
         dateformat.locale = Locale(identifier: "ko_KR")
