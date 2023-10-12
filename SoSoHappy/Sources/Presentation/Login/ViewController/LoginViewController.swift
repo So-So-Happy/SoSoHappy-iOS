@@ -25,7 +25,7 @@ final class LoginViewController: UIViewController, View {
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
-        $0.image = UIImage(named: "happiness")
+        $0.image = UIImage(named: "naviIcon")
         $0.contentMode = .scaleAspectFit    // 비율 유지
     }
     private lazy var logInButtonStackView = LogInButtonStackView()
@@ -116,14 +116,14 @@ extension LoginViewController {
         
         appDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(70)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(90)
             make.width.equalTo(appDescriptionStackView.appDescriptionStackView.snp.width)
         }
         
         appIconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
-            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(20)
+            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(40)
         }
         
         logInButtonStackView.snp.makeConstraints { make in
