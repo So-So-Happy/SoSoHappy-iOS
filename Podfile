@@ -21,7 +21,7 @@ target 'SoSoHappy' do
   pod "RxGesture"
   pod 'RxKeyboard'
   pod 'RxDataSources', '~> 5.0'
-
+  pod 'Starscream', '~> 4.0.6'
 
   # Pods for SoSoHappy
 

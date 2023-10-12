@@ -13,6 +13,7 @@ import RxCocoa
 
 final class FeedRepository: FeedRepositoryProtocol, Networkable {
     
+    
     // MARK: - Target
     typealias Target = FeedAPI
     
