@@ -161,6 +161,8 @@
 		808650F32AD6CCFE0036CCFB /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E32AD6CCFD0036CCFB /* AuthResponse.swift */; };
 		808650F42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */; };
 		808650F52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */; };
+		808650F62AD6CCFE0036CCFB /* UpdatePublicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E62AD6CCFE0036CCFB /* UpdatePublicStatusRequest.swift */; };
+		808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650F82ADA800C0036CCFB /* FeedExceptionView.swift */; };
 		80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */; };
 		80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */; };
 		80AD68722AC19F5000DD3D5F /* SigninManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */; };
@@ -374,6 +376,8 @@
 		808650E32AD6CCFD0036CCFB /* AuthResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
 		808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMonthFeedResponse.swift; sourceTree = "<group>"; };
+		808650E62AD6CCFE0036CCFB /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
+		808650F82ADA800C0036CCFB /* FeedExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedExceptionView.swift; sourceTree = "<group>"; };
 		80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSigninManager.swift; sourceTree = "<group>"; };
 		80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSigninManager.swift; sourceTree = "<group>"; };
 		80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninManagerProtocol.swift; sourceTree = "<group>"; };
@@ -1079,6 +1083,7 @@
 				80380C1B2A98DDB40077048D /* ProfileImageWithBackgroundView.swift */,
 				80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */,
 				80380C422A9E2B610077048D /* WeatherDateStackView.swift */,
+				808650F72ADA7F400036CCFB /* ExceptionView */,
 				80380C152A98DD750077048D /* OwnerFeed */,
 				80380C162A98DD7E0077048D /* DM */,
 			);
@@ -1206,6 +1211,14 @@
 				808650E22AD6CCFD0036CCFB /* UpdatePublicStatusResponse.swift */,
 			);
 			path = Responses;
+			sourceTree = "<group>";
+		};
+		808650F72ADA7F400036CCFB /* ExceptionView */ = {
+			isa = PBXGroup;
+			children = (
+				808650F82ADA800C0036CCFB /* FeedExceptionView.swift */,
+			);
+			path = ExceptionView;
 			sourceTree = "<group>";
 		};
 		80AD686C2AC19E8100DD3D5F /* Manager */ = {
@@ -1683,6 +1696,7 @@
 				060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */,
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
 				8086509E2AD665BC0036CCFB /* Rx+UICollectionView.swift in Sources */,
+				808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */,
 				808650E82AD6CCFE0036CCFB /* FindDayFeedResponse.swift in Sources */,
 				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,

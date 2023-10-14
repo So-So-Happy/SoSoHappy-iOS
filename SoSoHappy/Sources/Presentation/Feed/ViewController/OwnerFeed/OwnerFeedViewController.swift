@@ -18,10 +18,6 @@ import RxCocoa
  3. 밑에 cell 선택 -> detailVC1 -> Owner -> detailVC1 하면 "소피들의 소소해피"가 나타남 해결 필요
  */
 
-// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
-protocol OwnerFeedViewControllerDelegate: AnyObject {
-    func showDetail(feed: FeedTemp)
-}
  
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
