@@ -15,7 +15,10 @@ struct FindAccountFeedResponse: Decodable {
     let happiness: Int
     let text: String
     let isPublic: Bool
-    let categoryList, imageList, likeNicknameList: [String]
+    let categoryList: [String]
+    let imageList: [String]
+    let likeNicknameList: [String]?
+    
 }
 
 

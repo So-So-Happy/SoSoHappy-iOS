@@ -73,23 +73,21 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
+        print("mutate func start: action: \(action)")
         switch action {
         case .viewDidLoad:
-            print("mutate viewdidload action")
-            let fetchFeed = feedRepository.findMonthFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: "wonder"))
-                .do(onNext: { [weak self] monthFeed in
-                    print("monthFeed: \(monthFeed)")
-                    self?.monthFeed = monthFeed
-                })
+            feedRepository.findDayFeedTest(request: FindFeedRequest(date: Int64(2023091519321353), nickName: "wonder") )
+            
+            let ob = feedRepository.findMonthFeed(request: FindFeedRequest(date: Int64(2023091519321353), nickName: "wonder"))
                 .map { Mutation.setCalendarCell($0) }
-//                            .catch { .just(.showErrorAlert($0)) }
-            return fetchFeed
+              
+            return ob
         case .tapAlertButton:
             print("mutate tapAlertButton action")
+            let obser = Observable.just(Mutation.presentAlertView)
             return .just(.presentAlertView)
         case .tapListButton:
             print("mutate tabListButton action")
-            
             // 성공
             let provider = MoyaProvider<TestAPI>()
             let sersr = MoyaProvider<TestAPI>().rx.request(.list)
@@ -101,7 +99,6 @@ final class CalendarViewReactor: Reactor {
                     case let .failure(error):
                         print("error: \(error)")
                     }
-                    
                 }
             
 //                .map(String.self)
@@ -129,10 +126,11 @@ final class CalendarViewReactor: Reactor {
 
     //MARK: - reduce func
     func reduce(state: State, mutation: Mutation) -> State {
+        print("reduce func start, state: \(state), mutation: \(mutation)")
         var newState = state
-        
         switch mutation {
         case .setCalendarCell(let feeds):
+            print("reduce setCalendarCell ")
             newState.monthHappinessData = feeds
         case .presentAlertView:
             print("reduce presentAlertView ")
@@ -165,5 +163,52 @@ extension CalendarViewReactor {
             }
         }
     }
+    
+    func fetchMonthFeedTest() -> Observable<[Feed]> {
+        
+        return .empty()
+    }
+    
+    
+    func fetchMonthFeed() -> Single<[Feed]> {
+        let tokenClosure: (TargetType) -> HeaderType = { _ in
+            let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5NzI5MDQxMiwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tIn0.J_Qh_SmbCm6pdZNbXgwHFx48t7Vb71T3Jnr9Bu9zF1RN4d6RTGCeGUDGFdKuZdtSYuiuYbTIykBxgrzZrRqyEw"
+            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDkzNTA0MTIsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.-xloQBVlGOSD0p5K_7NV4jVoKPYRr8N0k-NYsb7KCsosQyvoAb8I3ECJwd2CjqKzrBov-L1O4Hvgf8LnGZxkpQ"
+            
+            let email = "pkkyung26@gmail.com"
+            
+            return HeaderType(email: email, accessToken: accessToken, refreshToken: refreshToken)
+        }
+        
+        let authPlugin = JWTPlugin(tokenClosure)
+        let provider = MoyaProvider<FeedAPI>(plugins: [authPlugin])
+        let observable = provider.rx.request(.findMonthFeed(FindFeedRequest(date: Int64(2023091519321353), nickName: "wonder")))
+            .asObservable()
+            .map { response -> [Feed] in
+                let jsonDecoder = JSONDecoder()
+                do {
+                    let decodedData = try jsonDecoder.decode([FindAccountFeedResponse].self, from: response.data)
+                    return decodedData.compactMap { $0.toDomain() }
+                } catch {
+                    return []
+                }
+            }
+        
+        
+        return Single<[Feed]>.create { single in
+            let disposable = observable
+                .asSingle()
+                .subscribe { data in
+                    single(.success(data))
+                }
+            
+            return Disposables.create {
+                disposable.dispose()
+            }
+        }
+        
+    }
 }
+
+
 

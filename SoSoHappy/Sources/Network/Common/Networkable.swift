@@ -19,7 +19,6 @@ protocol Networkable {
 extension Networkable {
 
     func accessProvider() -> MoyaProvider<Target> {
-        print("accessProvider start")
         let tokenClosure: (TargetType) -> HeaderType = { _ in
 //            guard let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
 //                  let accessToken = KeychainService.getAccessToken(serviceID: identifier),
@@ -29,8 +28,8 @@ extension Networkable {
 ////                Logger.debug(error: SocialLoginError.noToken, message: "No Token")
 //                return HeaderType(email: "", accessToken: "", refreshToken: "")
 //            }
-            let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5NjY5MTIyNiwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tIn0.9FIklq2cX79M99nhdjXHZSiEC9eocps_0Qib4RXjG3xL80PP0ubGNEddqKi-jpdahB42WAhEPM4EAYHj789p-w"
-            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDg3NTEyMjYsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.NOGYk-toxpH8tybWFfhakwP1p433PoG66K3vb3SP7GmKlRs03Gt1WuYF-5X34BH_SnHYVf9yXVsrjySycdmWbQ"
+            let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5NzMyNzg1MCwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tIn0.ITSR-PA4lj0mykAfHxuR9VkCcSwhl3Rio0FL5vKVVgLXzUWvuhstcZoqr6RZI3ZIf7hCGyRbe01NC-XJx5hxlA"
+            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDkzODc4NTAsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.H3QhFkCIHlnOwQEu4OmzifIFPEebkTx7k9_CEHzk1Ae_zz-q7Sq1ytohpHKeooxDdAJUg5mFV8EvfExz3eeM3A"
             
             let email = "pkkyung26@gmail.com"
             
@@ -40,7 +39,6 @@ extension Networkable {
         let authPlugin = JWTPlugin(tokenClosure)
 //        let loggerPlugin = NetworkLoggerPlugin()
         
-        print("accessProvider finish")
         /// plugin객체를 주입하여 provider 객체 생성
         return MoyaProvider<Target>(plugins: [authPlugin])
     }

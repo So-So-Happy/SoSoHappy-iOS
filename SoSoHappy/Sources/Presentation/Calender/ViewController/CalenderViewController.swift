@@ -134,65 +134,8 @@ final class CalendarViewController: UIViewController, View {
 extension CalendarViewController {
     
     func bind(reactor: CalendarViewReactor) {
-//        bindAction(reactor)
-//        bindState(reactor)
-        
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        self.alarmButton.rx.tap
-            .map {
-                print("버튼 눌림")
-                return Reactor.Action.tapAlertButton
-            }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.year }
-            .asDriver(onErrorJustReturn: "")
-            .distinctUntilChanged()
-            .drive(self.yearLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.month }
-            .asDriver(onErrorJustReturn: "")
-            .distinctUntilChanged()
-            .drive(self.monthLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.monthHappinessData }
-            .distinctUntilChanged { lhs, rhs in
-                return lhs.count == rhs.count
-            }
-            .subscribe { [weak self] feeds in
-                guard let `self` = self else { return }
-                self.monthFeedList = feeds
-            }
-            .disposed(by: disposeBag)
-        
-        reactor.pulse(\.$presentAlertView)
-            .compactMap { $0 }
-            .asDriver(onErrorJustReturn: ())
-            .drive { [weak self] _ in
-                print("pulse presentAlertView changed")
-                self?.coordinator.pushAlertView()
-            }
-            .disposed(by: disposeBag)
-        
-        
-        reactor.pulse(\.$presentListView)
-            .compactMap { $0 }
-            .asDriver(onErrorJustReturn: ())
-            .drive { [weak self] _ in
-                self?.coordinator.pushListView()
-            }
-            .disposed(by: disposeBag)
-        
+        bindAction(reactor)
+        bindState(reactor)
     }
     
     func bindAction(_ reactor: CalendarViewReactor) {
@@ -206,6 +149,7 @@ extension CalendarViewController {
             .map { Reactor.Action.tapAlertButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
             
 //            self.nextButton.rx.tap
 //                .map { Reactor.Action.tapNextButton }
@@ -249,7 +193,6 @@ extension CalendarViewController {
                 .compactMap { $0 }
                 .asDriver(onErrorJustReturn: ())
                 .drive { [weak self] _ in
-                    print("pulse presentAlertView changed")
                     self?.coordinator.pushAlertView()
                 }
                 .disposed(by: disposeBag)

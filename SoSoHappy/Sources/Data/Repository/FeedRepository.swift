@@ -33,12 +33,40 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     func findMonthFeed(request: FindFeedRequest) -> Observable<[Feed]> {
-        
         let provider = accessProvider()
-        return provider.rx.request(.findMonthFeed(request))
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findMonthFeed(request))
+                .map([FindAccountFeedResponse].self)
+                .map { $0.map { $0.toDomain() } }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("response: \(response)")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
+    
+    func findDayFeedTest(request: FindFeedRequest) {
+        let provider = accessProvider()
+        provider.rx.request(.findMonthFeed(request))
+            .asObservable()
             .map([FindAccountFeedResponse].self)
             .map { $0.map { $0.toDomain() } }
-            .asObservable()
+            .subscribe { data in
+                print("findDayFeedTest success: \(data)")
+            }
     }
     
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<FindOtherFeedResponse> {
