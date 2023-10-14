@@ -79,6 +79,7 @@ extension FeedHeaderView {
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(safeAreaLayoutGuide).inset(16)
             make.top.equalToSuperview().inset(3)
+            make.height.equalTo(39)
         }
         
         feedSubtitle.snp.makeConstraints { make in
