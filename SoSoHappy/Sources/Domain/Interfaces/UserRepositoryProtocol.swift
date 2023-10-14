@@ -13,7 +13,7 @@ protocol UserRepositoryProtocol {
     func googleLogin() -> Single<AuthResponse>
     func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse>
     func setProfile(profile: Profile) -> Observable<SetProfileResponse>
-    func resign(email: Resign) -> Observable<ResignResponse>
+    func resign(email: ResignRequest) -> Observable<ResignResponse>
     func getRefreshToken() -> Observable<AuthResponse>
-    func findProfileImg(nickName: FindProfileImg) -> Observable<FindProfileImgResponse>
+    func findProfileImg(nickName: FindProfileImgRequest) -> Observable<FindProfileImgResponse>
 }
