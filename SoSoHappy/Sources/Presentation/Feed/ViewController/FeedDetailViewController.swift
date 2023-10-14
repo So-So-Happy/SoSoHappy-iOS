@@ -16,11 +16,7 @@ import RxGesture
  1. heartbutton throttle, debouce 적용, 날씨 bacgkround 이미지 적용
  2. OwnerFeedViewController에서 여기에서 보여주는 피드를 좋아요했을 때 반영이 안될 것 같은데 확인해보고 코드 수정해주기
  */
-// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
-protocol FeedDetailViewControllerDelegate: AnyObject {
-    func showOwner(ownerNickName: String)
-}
- 
+
 final class FeedDetailViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
