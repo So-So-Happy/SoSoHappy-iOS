@@ -268,6 +268,7 @@
 		6769C0932AD6D7BE00D1D2CD /* CalenderViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewReactor.swift; sourceTree = "<group>"; };
 		678025302A95086A004123AA /* ChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartView.swift; sourceTree = "<group>"; };
 		6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		67A306AE2AD96ECA00BFF044 /* SoSoHappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoSoHappy.entitlements; sourceTree = "<group>"; };
 		67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReactor.swift; sourceTree = "<group>"; };
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
 		67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+ Bundle.swift"; sourceTree = "<group>"; };
@@ -989,6 +990,7 @@
 		800F425E2A794A6D00ACD6C1 /* SoSoHappy */ = {
 			isa = PBXGroup;
 			children = (
+				67A306AE2AD96ECA00BFF044 /* SoSoHappy.entitlements */,
 				67E7DB472A81347800C33988 /* Application */,
 				67E7DB3A2A812FFE00C33988 /* Resources */,
 				67E7DB392A812FF600C33988 /* Sources */,
@@ -1877,6 +1879,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SoSoHappy/SoSoHappy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1908,6 +1911,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SoSoHappy/SoSoHappy.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

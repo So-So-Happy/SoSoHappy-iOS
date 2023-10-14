@@ -63,11 +63,13 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
             let state = appleIDCredential.state
             
             print("🔎 ##### 애플 사용자 정보 조회 성공 #####")
-            print("userIdentifier:", userIdentifier)
-            print("familyName:", familyName ?? "unknown family name")
-            print("givenName:", givenName ?? "unknown given name")
-            print("givenName", email ?? "unknown email")
-            print("state", state ?? "unknown state")
+            print("userID:", userIdentifier)
+            print("familyName:", familyName ?? "이미 가입된 사용자")
+            print("givenName:", givenName ?? "이미 가입된 사용자")
+            print("email", email ?? "이미 가입된 사용자")
+            print("state", state ?? "이미 가입된 사용자")
+            
+            self.publisher.onCompleted()
         }
     }
     
