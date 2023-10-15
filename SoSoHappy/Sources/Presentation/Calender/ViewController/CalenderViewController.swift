@@ -110,6 +110,7 @@ final class CalendarViewController: UIViewController, View {
         
         // TODO: 리스트도 바버튼에 넣고 바버튼 자체에 가로세로 길이 설정해주기
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
         
     }
     
@@ -150,19 +151,22 @@ extension CalendarViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-            
-//            self.nextButton.rx.tap
-//                .map { Reactor.Action.tapNextButton }
-//                .bind(to: reactor.action)
-//                .disposed(by: disposeBag)
-//
-//            self.previousButton.rx.tap
-//                .map { Reactor.Action.tapPreviousButton }
-//                .bind(to: reactor.action)
-//                .disposed(by: disposeBag)
-//            
-        }
+        self.listButton.rx.tap
+            .map { Reactor.Action.tapListButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
+//        self.nextButton.rx.tap
+//            .map { Reactor.Action.tapNextButton }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//        
+//        self.previousButton.rx.tap
+//            .map { Reactor.Action.tapPreviousButton }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+    }
+    
         func bindState(_ reactor: CalendarViewReactor) {
             reactor.state
                 .map { $0.year }
@@ -224,41 +228,11 @@ private extension CalendarViewController {
     
     // 다음 버튼 액션
     @objc private func nextCurrentPage() {
-//        let calendar = Calendar.current
-//        var dateComponents = DateComponents()
-//        dateComponents.month = 1
-//        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-//        self.calendar.setCurrentPage(self.currentPage!, animated: true)
-        
-//        MoyaProvider<TestAPI>().rx.request(TestAPI.list)
-//            .asObservable()
-//            .subscribe { event in
-//                    switch event {
-//                    case .next(let response):
-//                        // 요청이 성공하면 응답 데이터를 출력하거나 사용할 수 있습니다.
-//                        print("Response Data: \(String(data: response.data, encoding: .utf8) ?? "")")
-//                    case .error(let error):
-//                        // 요청이 실패하면 오류를 처리합니다.
-//                        print("Error: \(error.localizedDescription)")
-//                    case .completed:
-//                        // Observable이 완료되었을 때 처리할 내용
-//                        break
-//                    }
-//                }
-//                .disposed(by: disposeBag)
-        
-        // 성공
-//        self.getTestAPI() { response, error in
-//            guard let response = response else {
-//                print(error ?? #function)
-//                return
-//            }
-//
-//            let listUser = response
-//            print(listUser)
-//        }
-//        
-        self.reactor?.action.onNext(.tapListButton)
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = 1
+        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendar.setCurrentPage(self.currentPage!, animated: true)
     }
     
     // 이전 버튼 액션
@@ -271,37 +245,11 @@ private extension CalendarViewController {
         self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
         self.calendar.setCurrentPage(self.currentPage!, animated: true)
         
-        reactor?.action.onNext(.tapAlertButton)
     }
     
 }
 
 extension CalendarViewController {
-    
-
-    func getTestAPI(completion: @escaping (_ succeed: String?, _ failed: Error?) -> Void) {
-        MoyaProvider<TestAPI>().request(.list) { result in
-            switch result {
-            case .success(let model): return completion(String(decoding: model.data, as: UTF8.self), nil)
-            case .failure(let error): return completion(nil, error)
-            }
-        }
-    }
-    
-    /// page에 해당하는 User 정보 조회
-    func getTestString(completion: @escaping (_ succeed: String?, _ failed: Error?) -> Void) {
-        MoyaProvider<TestAPI>().request(.list)
-        { result in
-            switch self.processResponse(result) {
-            case .success(let model):
-                print("success: \(model)")
-                return completion(model, nil)
-            case .failure(let error):
-                print("fail: \(error)")
-                return completion(nil, error)
-            }
-        }
-    }
     
     func processResponse(_ result: Result<Response, MoyaError>) -> Result<String?, Error> {
         switch result {
@@ -335,16 +283,14 @@ private extension CalendarViewController {
     
     private func setLayout() {
         self.view.backgroundColor = .white
-        self.view.addSubviews(listButton, previousButton, nextButton, yearLabel, monthLabel, calendar, preview)
+        self.view.addSubviews(previousButton, nextButton, yearLabel, monthLabel, calendar, preview)
         
         alarmButton.snp.makeConstraints {
             $0.width.height.equalTo(25)
         }
         
         listButton.snp.makeConstraints {
-            $0.right.equalToSuperview().inset(30)
-            $0.top.equalToSuperview().inset(80)
-            $0.width.height.equalTo(20)
+            $0.width.height.equalTo(25)
         }
         
         previousButton.snp.makeConstraints {
