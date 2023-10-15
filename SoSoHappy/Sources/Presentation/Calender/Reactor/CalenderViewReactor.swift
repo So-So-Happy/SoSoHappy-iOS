@@ -52,8 +52,8 @@ final class CalendarViewReactor: Reactor {
     // MARK: - Mutaion
     enum Mutation {
         case setCalendarCell([Feed])
-        case presentListView
         case presentAlertView
+        case presentListView
 //        case setPreview(Feed)
 //        case setMonth(String)
 //        case setYear(String)
@@ -65,6 +65,7 @@ final class CalendarViewReactor: Reactor {
         var year: String
         var month: String
         var monthHappinessData: [Feed]
+        var currentPage: Date?
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
 //        var happinessPreviewData: Feed
@@ -73,66 +74,28 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
+        print("mutate func start: action: \(action)")
         switch action {
         case .viewDidLoad:
-            print("mutate viewdidload action")
-            let fetchFeed = feedRepository.findMonthFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: "wonder"))
-                .do(onNext: { [weak self] monthFeed in
-                    print("monthFeed: \(monthFeed)")
-                    self?.monthFeed = monthFeed
-                })
+            return feedRepository.findMonthFeed(request: FindFeedRequest(date: Int64(2023091519321353), nickName: "wonder"))
                 .map { Mutation.setCalendarCell($0) }
-//                            .catch { .just(.showErrorAlert($0)) }
-            return fetchFeed
         case .tapAlertButton:
             print("mutate tapAlertButton action")
+            let obser = Observable.just(Mutation.presentAlertView)
             return .just(.presentAlertView)
         case .tapListButton:
             print("mutate tabListButton action")
-            
-            // 성공
-            let provider = MoyaProvider<TestAPI>()
-            let sersr = MoyaProvider<TestAPI>().rx.request(.list)
-                .subscribe { event in
-                    switch event {
-                    case let .success(response):
-                        print("success: \(response.data)")
-                        
-                    case let .failure(error):
-                        print("error: \(error)")
-                    }
-                    
-                }
-            
-//                .map(String.self)
-//                .subscribe { data in
-//                    let dt = data.event.element!
-//                    print(dt)
-//                }
-            
-//                .map(String.self)
-//                .asObservable()
-//                .subscribe { [weak self] (event) in
-//                        switch event {
-//                        case .success(let response):
-//                            print("response: \(response)")
-//                        case .error(let error):
-//                            print(error.localizedDescription)
-//                        }
-//                    }
-//                    .disposed(by: disposeBag)
-            
-            
             return .just(.presentListView)
         }
     }
 
     //MARK: - reduce func
     func reduce(state: State, mutation: Mutation) -> State {
+        print("reduce func start, state: \(state), mutation: \(mutation)")
         var newState = state
-        
         switch mutation {
         case .setCalendarCell(let feeds):
+            print("reduce setCalendarCell ")
             newState.monthHappinessData = feeds
         case .presentAlertView:
             print("reduce presentAlertView ")
@@ -157,13 +120,9 @@ final class CalendarViewReactor: Reactor {
 
 
 extension CalendarViewReactor {
-    func getTestAPI(completion: @escaping (_ succeed: String?, _ failed: Error?) -> Void) {
-        MoyaProvider<TestAPI>().request(.list) { result in
-            switch result {
-            case .success(let model): return completion(String(decoding: model.data, as: UTF8.self), nil)
-            case .failure(let error): return completion(nil, error)
-            }
-        }
-    }
+    
+   
 }
+
+
 

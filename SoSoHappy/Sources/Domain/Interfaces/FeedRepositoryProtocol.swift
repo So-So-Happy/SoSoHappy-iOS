@@ -21,5 +21,7 @@ protocol FeedRepositoryProtocol {
     func findYearHappiness(request: HappinessRequest) -> Observable<FindDayFeedResponse>
     func updatePublicStatus(request: UpdatePublicStatusRequest) -> Observable<UpdatePublicStatusResponse>
     func updateLike(request: UpdateLikeRequest) -> Observable<UpdateLikeResponse>
+    
+    func findDayFeedTest(request: FindFeedRequest) 
 }
 
