@@ -21,7 +21,7 @@ final class CalendarViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
     
-    private var monthFeed: [Feed] = []
+    private var monthFeed: [MyFeed] = []
 //    private var dayFeed: FindDayFeedResponse
     
     
@@ -51,7 +51,7 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - Mutaion
     enum Mutation {
-        case setCalendarCell([Feed])
+        case setCalendarCell([MyFeed])
         case presentAlertView
         case presentListView
 //        case setPreview(Feed)
@@ -64,7 +64,7 @@ final class CalendarViewReactor: Reactor {
     struct State {
         var year: String
         var month: String
-        var monthHappinessData: [Feed]
+        var monthHappinessData: [MyFeed]
         var currentPage: Date?
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?

@@ -2,51 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>BASE_URL</key>
-	<string>${BASE_URL}</string>
-	<key>GOOGLE_LOGIN_PATH</key>
-	<string>${GOOGLE_LOGIN_PATH}</string>
-	<key>KAKAO_LOGIN_PATH</key>
-	<string>${KAKAO_LOGIN_PATH}</string>
-	<key>CHECK_DUPLICATE_NICKNAME_PATH</key>
-	<string>${CHECK_DUPLICATE_NICKNAME_PATH}</string>
-	<key>SET_PROFILE_PATH</key>
-	<string>${SET_PROFILE_PATH}</string>
-	<key>RESIGN_PATH</key>
-	<string>${RESIGN_PATH}</string>
-	<key>REISSUE_TOKEN_PATH</key>
-	<string>${REISSUE_TOKEN_PATH}</string>
-	<key>FIND_PROFILE_IMG_PATH</key>
-	<string>${FIND_PROFILE_IMG_PATH}</string>
-	<key>SAVE_FEED_PATH</key>
-	<string>${SAVE_FEED_PATH}</string>
-	<key>FIND_DAY_FEED_PATH</key>
-	<string>${FIND_DAY_FEED_PATH}</string>
-	<key>FIND_MONTH_FEED_PATH</key>
-	<string>${FIND_MONTH_FEED_PATH}</string>
-	<key>FIND_OTHER_FEED_PATH</key>
-	<string>${FIND_OTHER_FEED_PATH}</string>
-	<key>FIND_USER_FEED_PATH</key>
-	<string>${FIND_USER_FEED_PATH}</string>
 	<key>ANALYSIS_HAPPINESS_PATH</key>
 	<string>${ANALYSIS_HAPPINESS_PATH}</string>
-	<key>FIND_MONTH_HAPPINESS_PATH</key>
-	<string>${FIND_MONTH_HAPPINESS_PATH}</string>
-	<key>FIND_YEAR_HAPPINESS_PATH</key>
-	<string>${FIND_YEAR_HAPPINESS_PATH}</string>
-	<key>UPDATE_PUBLIC_STATUS_PATH</key>
-	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
-	<key>UPDATE_LIKE_PATH</key>
-	<string>${UPDATE_LIKE_PATH}</string>
-	<key>CONNECT_NOTICE_PATH</key>
-	<string>${CONNECT_NOTICE_PATH}</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>&quot;소소해피&quot;가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.</string>
+	<key>BASE_URL</key>
+	<string>${BASE_URL}</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -66,8 +25,32 @@
 			</array>
 		</dict>
 	</array>
+	<key>CHECK_DUPLICATE_NICKNAME_PATH</key>
+	<string>${CHECK_DUPLICATE_NICKNAME_PATH}</string>
+	<key>CONNECT_NOTICE_PATH</key>
+	<string>${CONNECT_NOTICE_PATH}</string>
+	<key>FIND_DAY_FEED_PATH</key>
+	<string>${FIND_DAY_FEED_PATH}</string>
+	<key>FIND_MONTH_FEED_PATH</key>
+	<string>${FIND_MONTH_FEED_PATH}</string>
+	<key>FIND_MONTH_HAPPINESS_PATH</key>
+	<string>${FIND_MONTH_HAPPINESS_PATH}</string>
+	<key>FIND_OTHER_FEED_PATH</key>
+	<string>${FIND_OTHER_FEED_PATH}</string>
+	<key>FIND_PROFILE_IMG_PATH</key>
+	<string>${FIND_PROFILE_IMG_PATH}</string>
+	<key>FIND_USER_FEED_PATH</key>
+	<string>${FIND_USER_FEED_PATH}</string>
+	<key>FIND_YEAR_HAPPINESS_PATH</key>
+	<string>${FIND_YEAR_HAPPINESS_PATH}</string>
+	<key>FiND_DETAIL_FEED_PATH</key>
+	<string>${FIND_DETAIL_FEED_PATH}</string>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
+	<key>GOOGLE_LOGIN_PATH</key>
+	<string>${GOOGLE_LOGIN_PATH}</string>
+	<key>KAKAO_LOGIN_PATH</key>
+	<string>${KAKAO_LOGIN_PATH}</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -75,6 +58,19 @@
 		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>REISSUE_TOKEN_PATH</key>
+	<string>${REISSUE_TOKEN_PATH}</string>
+	<key>RESIGN_PATH</key>
+	<string>${RESIGN_PATH}</string>
+	<key>SAVE_FEED_PATH</key>
+	<string>${SAVE_FEED_PATH}</string>
+	<key>SET_PROFILE_PATH</key>
+	<string>${SET_PROFILE_PATH}</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -94,5 +90,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UPDATE_LIKE_PATH</key>
+	<string>${UPDATE_LIKE_PATH}</string>
+	<key>UPDATE_PUBLIC_STATUS_PATH</key>
+	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
 </dict>
 </plist>

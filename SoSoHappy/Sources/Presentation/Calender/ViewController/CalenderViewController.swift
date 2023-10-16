@@ -31,7 +31,7 @@ final class CalendarViewController: UIViewController, View {
         Happy(date: "2023-08-04", happinessRate: 80)
     ]
     
-    private var monthFeedList: [Feed] = []
+    private var monthFeedList: [MyFeed] = []
     
     
     //MARK: - UI Components

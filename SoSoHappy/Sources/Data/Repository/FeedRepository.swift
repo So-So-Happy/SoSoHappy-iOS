@@ -17,14 +17,14 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     // MARK: - Target
     typealias Target = FeedAPI
     
-    func saveFeed(feed: Feed) -> Observable<SaveFeedResponse> {
+    func saveFeed(feed: MyFeed) -> Observable<SaveFeedResponse> {
         let provider = accessProvider()
         return provider.rx.request(.saveFeed(feed))
             .map(SaveFeedResponse.self)
             .asObservable()
     }
     
-    func findDayFeed(request: FindFeedRequest) -> Observable<Feed> {
+    func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed> {
         let provider = accessProvider()
         return provider.rx.request(.findDayFeed(request))
             .map(FindAccountFeedResponse.self)
@@ -32,8 +32,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             .asObservable()
     }
     
-    func findMonthFeed(request: FindFeedRequest) -> Observable<[Feed]> {
-        let provider = accessProvider()
+    func findMonthFeed(request: FindFeedRequest) -> Observable<[MyFeed]> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findMonthFeed(request))
@@ -43,7 +42,6 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("response: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
                         emitter.onError(error)
@@ -58,29 +56,79 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
         }
     }
     
-    func findDayFeedTest(request: FindFeedRequest) {
-        let provider = accessProvider()
-        provider.rx.request(.findMonthFeed(request))
-            .asObservable()
-            .map([FindAccountFeedResponse].self)
-            .map { $0.map { $0.toDomain() } }
-            .subscribe { data in
-                print("findDayFeedTest success: \(data)")
+    /// findDetailFeed: 디테일 피드 데이터 fetch
+    func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findDetailFeed(request))
+                .map(FindDetailFeedResponse.self)
+                .map { $0.toDomain() }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
             }
+        }
     }
     
+    
+    /// findOtherFeed: 피드 전체 데이터 fetch
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<FindOtherFeedResponse> {
-        let provider = accessProvider()
-        return provider.rx.request(.findOtherFeed(request))
-            .map(FindOtherFeedResponse.self)
-            .asObservable()
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findOtherFeed(request))
+                .map(FindOtherFeedResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+        
     }
     
+    /// findUserFeed: 특정 유저 피드 데이터 fetch
     func findUserFeed(request: FindUserFeedRequest) -> Observable<FindUserFeedResponse> {
-        let provider = accessProvider()
-        return provider.rx.request(.findUserFeed(request))
-            .map(FindUserFeedResponse.self)
-            .asObservable()
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findUserFeed(request))
+                .map(FindUserFeedResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
@@ -111,11 +159,28 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             .asObservable()
     }
     
+    /// updateLike: 좋아요 여부 업데이트
     func updateLike(request: UpdateLikeRequest) -> Observable<UpdateLikeResponse> {
-        let provider = accessProvider()
-        return provider.rx.request(.updateLike(request))
-            .map(UpdateLikeResponse.self)
-            .asObservable()
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.updateLike(request))
+                .map(UpdateLikeResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     

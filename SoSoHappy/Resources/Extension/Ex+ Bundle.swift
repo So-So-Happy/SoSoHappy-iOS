@@ -63,6 +63,11 @@ extension Bundle {
         return key
     }
     
+    var findDetailFeed: String {
+        guard let key = Bundle.main.infoDictionary?["FIND_DETAIL_FEED_PATH"] as? String else { fatalError("FIND_DETAIL_FEED_PATH error") }
+        return key
+    }
+    
     var findOtherFeed: String {
         guard let key = Bundle.main.infoDictionary?["FIND_OTHER_FEED_PATH"] as? String else { fatalError("FIND_OTHER_FEED_PATH error") }
         return key

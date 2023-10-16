@@ -11,9 +11,10 @@ import Alamofire
 
 
 enum FeedAPI {
-    case saveFeed(Feed)
+    case saveFeed(MyFeed)
     case findDayFeed(FindFeedRequest)
     case findMonthFeed(FindFeedRequest)
+    case findDetailFeed(FindDetailFeedRequest)
     case findOtherFeed(FindOtherFeedRequest)
     case findUserFeed(FindUserFeedRequest)
     case analysisHappiness(HappinessRequest)
@@ -41,6 +42,8 @@ extension FeedAPI {
             return Bundle.main.findDayFeedPath
         case .findMonthFeed:
             return Bundle.main.findMonthFeedPath
+        case .findDetailFeed:
+            return Bundle.main.findDetailFeed
         case .findOtherFeed:
             return Bundle.main.findOtherFeed
         case .findUserFeed:
@@ -65,6 +68,8 @@ extension FeedAPI {
         case .findDayFeed:
             return .post
         case .findMonthFeed:
+            return .post
+        case .findDetailFeed:
             return .post
         case .findOtherFeed:
             return .get
@@ -99,6 +104,8 @@ extension FeedAPI {
             formData.append(MultipartFormData(provider: .data(date), name: "date"))
             return .uploadMultipart(formData)
 //            return .requestJSONEncodable(data)
+        case .findDetailFeed(let data):
+            return .requestJSONEncodable(data)
         case .findOtherFeed(let param):
             return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
         case .findUserFeed(let param):
@@ -132,7 +139,7 @@ extension FeedAPI {
 }
 
 extension FeedAPI {
-    public func reuturnFeedMultiparFormData(feed: Feed) -> [Moya.MultipartFormData] {
+    public func reuturnFeedMultiparFormData(feed: MyFeed) -> [Moya.MultipartFormData] {
         var formData: [Moya.MultipartFormData] = []
         
         for image in feed.imageList {
