@@ -19,7 +19,6 @@ protocol Networkable {
 extension Networkable {
 
     func accessProvider() -> MoyaProvider<Target> {
-        print("accessProvider start")
         let tokenClosure: (TargetType) -> HeaderType = { _ in
 //            guard let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
 //                  let accessToken = KeychainService.getAccessToken(serviceID: identifier),
@@ -29,9 +28,8 @@ extension Networkable {
 ////                Logger.debug(error: SocialLoginError.noToken, message: "No Token")
 //                return HeaderType(email: "", accessToken: "", refreshToken: "")
 //            }
-            let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5NjY5MTIyNiwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tIn0.9FIklq2cX79M99nhdjXHZSiEC9eocps_0Qib4RXjG3xL80PP0ubGNEddqKi-jpdahB42WAhEPM4EAYHj789p-w"
-            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDg3NTEyMjYsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.NOGYk-toxpH8tybWFfhakwP1p433PoG66K3vb3SP7GmKlRs03Gt1WuYF-5X34BH_SnHYVf9yXVsrjySycdmWbQ"
-            
+            let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTY5NzQ3Mjk0OCwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tIn0.KGLF21tjmEc30vUd8v-vTuGToLcpf2_FBou3kGdMIS9YEzvFzMyrUW5xT_WJ__P6r9Cqt5F1M7TBjPJf0GxQZA"
+            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDk0NzA5ODEsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.p_Ong1cGexoarqFG6jCHvriwhncKcGBuzWyH9DFieCm-YlPFpFBYJgpwgLOrLjtqUXUWVAcyZasprT2woPj-SQ"
             let email = "pkkyung26@gmail.com"
             
             return HeaderType(email: email, accessToken: accessToken, refreshToken: refreshToken)
@@ -40,7 +38,6 @@ extension Networkable {
         let authPlugin = JWTPlugin(tokenClosure)
 //        let loggerPlugin = NetworkLoggerPlugin()
         
-        print("accessProvider finish")
         /// plugin객체를 주입하여 provider 객체 생성
         return MoyaProvider<Target>(plugins: [authPlugin])
     }

@@ -1,44 +1,46 @@
 //
-//  Feed.swift
+//  UserFeed.swift
 //  SoSoHappy
 //
-//  Created by 박희경 on 2023/09/30.
+//  Created by 박희경 on 2023/10/16.
 //
+
+
 import UIKit
 
-struct Feed {
+struct UserFeed {
     
     let text: String
     let imageList: [UIImage]
     let categoryList: [String]
-    let isPulic: Bool
     let date: String
     let weather: String
     let happiness: Int
     let nickName: String
+    let isLiked: Bool
     
     init(text: String,
          imageList: [UIImage],
          categoryList: [String],
-         isPublic: Bool,
          date: String,
          weather: String,
          happiness: Int,
-         nickName: String
+         nickName: String,
+         isLiked: Bool
     ) {
         self.text = text
         self.imageList = imageList
         self.categoryList = categoryList
-        self.isPulic = isPublic
         self.date = date
         self.weather = weather
         self.happiness = happiness
         self.nickName = nickName
+        self.isLiked = isLiked
     }
     
 }
 
-extension Feed {
+extension UserFeed {
     var happyImage: String {
         switch happiness {
         case 1 : return "happy1"

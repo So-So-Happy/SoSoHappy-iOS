@@ -1,29 +1,26 @@
 //
-//  FindAccountFeedResponse.swift
+//  FindDetailFeedResponse.swift
 //  SoSoHappy
 //
-//  Created by 박희경 on 2023/10/06.
+//  Created by 박희경 on 2023/10/16.
 //
 
-import Foundation
 import UIKit
 
-
-struct FindAccountFeedResponse: Decodable {
-    let nickname, weather: String
-    let date: Int64
-    let happiness: Int
+struct FindDetailFeedResponse: Codable {
     let text: String
-    let isPublic: Bool
+    let imageList: [Data]
     let categoryList: [String]
-    let imageList: [String]
-    let likeNicknameList: [String]?
+    let date: String
+    let weather: String
+    let happiness: Int
+    let nickName: String
+    let isLiked: Bool
     
 }
 
-
-extension FindAccountFeedResponse {
-    func toDomain() -> MyFeed {
+extension FindDetailFeedResponse {
+    func toDomain() -> UserFeed {
         let uiImageList: [UIImage] = imageList.compactMap { image in
             guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
                   let uiImage = UIImage(data: data) else {
@@ -35,13 +32,10 @@ extension FindAccountFeedResponse {
         return .init(text: text,
                      imageList: uiImageList,
                      categoryList: categoryList,
-                     isPublic: isPublic,
                      date: String(date),
                      weather: weather,
                      happiness: happiness,
-                     nickName: nickname, 
-                     likeNickNameList: likeNicknameList ?? [])
+                     nickName: nickName,
+                     isLiked: isLiked)
     }
 }
-
-

@@ -17,13 +17,7 @@ import RxCocoa
  1. 버튼을 여러번 클릭했을 때 API 중복 호출을 막아주는 조치 (하트, 오늘, 전체 버튼) - throttle, debouce
  3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
-
  */
-// MARK: FeedViewControllerDelegate -> Interface 코드로 대체
-protocol FeedViewControllerDelegate: AnyObject { // only adopted by class
-    func showdDetails(feed: FeedTemp) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
-    func showOwner(ownerNickName: String) // 조회대상 닉네임이 필요 ('특정 유저 피드 조회'는 서버통신 필요)
-}
 
 final class FeedViewController: UIViewController {
     // MARK: - Properties
@@ -45,11 +39,11 @@ final class FeedViewController: UIViewController {
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 30
     }
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         print("FeedViewController viewDidLoad ---------------")
-        setup()
+        ssetLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,11 +73,18 @@ final class FeedViewController: UIViewController {
 
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension FeedViewController {
-    private func setup() {
+    private func ssetLayout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
+//        tableView.addSubview(feedEmptyView)
+//        
+//        feedEmptyView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+        
     }
 }
 
@@ -137,7 +138,7 @@ extension FeedViewController: View {
             .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  feed, cell) in
                 guard let self = self else { return }
                 configureCell(cell, with: feed)
-                print("tableView cell 세팅중")
+                print("tableView cell 세팅중!!")
             }
             .disposed(by: disposeBag)
         
@@ -146,14 +147,15 @@ extension FeedViewController: View {
             .map { $0.sortOption }
             .subscribe(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                print("sortOption")
+                print("sortOption!!")
                 feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
         
         reactor.state
+            .skip(1)
             .map {
-                print("isRefreshing")
+                print("isRefreshing!!")
                 return $0.isRefreshing
                 
             }
@@ -165,11 +167,21 @@ extension FeedViewController: View {
             .compactMap { $0.selectedFeed }
             .subscribe(onNext: { [weak self] feed in
                 guard let self = self else { return }
-                print("selectedFeed : \(feed)")
+                print("selectedFeed!! : \(feed) ")
 //                print("feed: \(feed), type: \(type(of: feed))")
                 self.coordinator?.showdDetails(feed: feed)
             })
             .disposed(by: disposeBag)
+        
+//        reactor.state
+//            .skip(1)
+//            .map { $0.feeds.isEmpty }
+//            .subscribe(onNext: { [weak self] isEmpty in
+//                print("비어있음!!")
+//                self?.feedEmptyView.isHidden = false
+//                
+//            })
+//            .disposed(by: disposeBag)
     }
     
     private func configureCell(_ cell: FeedCell, with feed: FeedTemp) {
