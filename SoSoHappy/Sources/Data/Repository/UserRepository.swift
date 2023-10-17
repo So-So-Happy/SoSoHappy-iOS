@@ -47,6 +47,23 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             }
     }
     
+    func appleLogin() -> Single<AuthResponse> {
+        let provider = makeProvider()
+        return provider.rx.request(.googleLogin)
+            .flatMap { response -> Single<AuthResponse> in
+                // 응답 헤더에서 accessToken과 refreshToken 추출
+                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
+                   let refreshToken = response.response?.allHeaderFields["AuthorizationRefresh"] as? String {
+                    let authResponse = AuthResponse(Authorization: accessToken, AuthorizationRefresh: refreshToken)
+                    return .just(authResponse)
+                } else {
+                    return .error(HTTPError.unauthorized)
+                }
+            }
+    }
+    
+    
+    
     func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse> {
         let provider = makeProvider()
         return provider.rx.request(.checkDuplicateNickname(nickName: nickName))
