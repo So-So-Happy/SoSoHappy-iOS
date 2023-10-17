@@ -9,14 +9,14 @@ import Foundation
 import CommonCrypto
 
 extension Data {
-    public func sha256() -> String {
+    public func sha512() -> String {
         return hexStringFromData(input: digest(input: self as NSData))
     }
     
     private func digest(input : NSData) -> NSData {
-        let digestLength = Int(CC_SHA256_DIGEST_LENGTH)
+        let digestLength = Int(CC_SHA512_DIGEST_LENGTH)
         var hash = [UInt8](repeating: 0, count: digestLength)
-        CC_SHA256(input.bytes, UInt32(input.length), &hash)
+        CC_SHA512(input.bytes, CC_LONG(input.length), &hash)
         return NSData(bytes: hash, length: digestLength)
     }
     
