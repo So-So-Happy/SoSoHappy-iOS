@@ -13,6 +13,8 @@
 	<string>${GOOGLE_LOGIN_PATH}</string>
 	<key>KAKAO_LOGIN_PATH</key>
 	<string>${KAKAO_LOGIN_PATH}</string>
+	<key>APPLE_LOGIN_PATH</key>
+	<string>${APPLE_LOGIN_PATH}</string>
 	<key>CHECK_DUPLICATE_NICKNAME_PATH</key>
 	<string>${CHECK_DUPLICATE_NICKNAME_PATH}</string>
 	<key>SET_PROFILE_PATH</key>
