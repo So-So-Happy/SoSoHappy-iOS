@@ -6,7 +6,6 @@
 //
 
 import AuthenticationServices
-
 import RxSwift
 
 final class AppleSigninManager: NSObject, SigninManagerProtocol {
