@@ -53,6 +53,25 @@ final class AddStep3ViewController: UIViewController {
         $0.text = getCurrentDate()
     }
     
+    private lazy var photoButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(photoButtonTapped)).then {
+        $0.tintColor = .black
+    }
+    
+    private lazy var lockButton = UIBarButtonItem(image: UIImage(systemName: "lock"), style: .plain, target: self, action: #selector(lockButtonTapped)).then {
+        $0.tintColor = .black
+    }
+    
+    private lazy var flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    
+    private lazy var downKeyboardButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down"), style: .plain, target: self, action: #selector(downKeyboardButtonTapped)).then {
+        $0.tintColor = .black
+    }
+    
+    private lazy var toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35)).then {
+        $0.sizeToFit()
+        $0.items = [photoButton, lockButton, flexibleSpaceButton, downKeyboardButton]
+    }
+    
     private lazy var textView = UITextView().then {
         $0.text = "오늘은..."
         $0.backgroundColor = .clear // Set background color to clear
@@ -62,25 +81,6 @@ final class AddStep3ViewController: UIViewController {
         $0.autocapitalizationType = .none
         $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
     }
-    
-    private lazy var toolBar = UIToolbar().then {
-        $0.sizeToFit()
-        $0.items = [photoButton, lockButton, flexibleSpaceButton, downKeyboardButton]
-    }
-    
-    private lazy var photoButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(photoButtonTapped)).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var lockButton = UIBarButtonItem(image: UIImage(systemName: "lock"), style: .plain, target: self, action: #selector(lockButtonTapped)).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var downKeyboardButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down"), style: .plain, target: self, action: #selector(downKeyboardButtonTapped))
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -121,11 +121,6 @@ private extension AddStep3ViewController {
             make.height.equalTo(5) // 높이 설정
         }
         
-        feelingStack.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStack).inset(UIEdgeInsets(top: 65, left: 0, bottom: 0, right: 0))
-        }
-        
         happinessRate.snp.makeConstraints { make in
             make.width.height.equalTo(60)
         }
@@ -134,15 +129,25 @@ private extension AddStep3ViewController {
             make.width.height.equalTo(60)
         }
         
+        feelingStack.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(statusBarStack).inset(65)
+        }
+        
         dateLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(feelingStack).inset(UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
+            make.top.equalTo(feelingStack).inset(80)
         }
         
         textView.snp.makeConstraints { make in
-            make.bottom.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 60, right: 20))
-            make.top.equalTo(dateLabel).inset(UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0))
+            make.top.equalTo(dateLabel).inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(60)
         }
+        
+//        toolBar.snp.makeConstraints { make in
+//            make.width.equalToSuperview()
+//        }
     }
 }
 
@@ -161,7 +166,7 @@ private extension AddStep3ViewController {
         
         // Create a date formatter
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd E요일"
+        dateFormatter.dateFormat = "yyyy.MM.dd E"
         
         // Format the date as a string
         let dateString = dateFormatter.string(from: currentDate)

@@ -45,12 +45,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let coordinator = CalendarCoordinator(navigationController: navigationController)
         coordinator.start()
 
-//        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
-//        
-//        let calendarVC = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
-//        
-//        let mainVM = UINavigationController(rootViewController: calendarVC)
-//        window.rootViewController = mainVM // 시작 VC 작성해주기
+        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
+        
+        let calendarVC = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
+        
+        let mainVM = AddStep3ViewController()
+        window.rootViewController = mainVM // 시작 VC 작성해주기
         
         
         window.makeKeyAndVisible()
