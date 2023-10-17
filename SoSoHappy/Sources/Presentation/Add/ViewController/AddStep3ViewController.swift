@@ -144,10 +144,6 @@ private extension AddStep3ViewController {
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(60)
         }
-        
-//        toolBar.snp.makeConstraints { make in
-//            make.width.equalToSuperview()
-//        }
     }
 }
 
