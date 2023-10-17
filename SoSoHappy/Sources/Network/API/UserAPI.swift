@@ -14,6 +14,7 @@ import Alamofire
 enum UserAPI {
     case kakaoLogin
     case googleLogin
+    case appleLogin
     case checkDuplicateNickname(nickName: String)
     case getRefreshToken
     case resign(email: ResignRequest)
@@ -37,6 +38,8 @@ extension UserAPI {
             return Bundle.main.googleLoginPath
         case .kakaoLogin:
             return Bundle.main.kakaoLoginPath
+        case .appleLogin:
+            return Bundle.main.appleLoginPath
         case .checkDuplicateNickname:
             return Bundle.main.checkDuplicateNickNamePath
         case .getRefreshToken:
@@ -56,6 +59,8 @@ extension UserAPI {
             return .get
         case .kakaoLogin:
             return .get
+        case .appleLogin:
+            return .get
         case .checkDuplicateNickname:
             return .post
         case .getRefreshToken:
@@ -74,6 +79,8 @@ extension UserAPI {
         case .googleLogin:
             return .requestPlain
         case .kakaoLogin:
+            return .requestPlain
+        case .appleLogin:
             return .requestPlain
         case .checkDuplicateNickname(let nickName):
             return .requestParameters(parameters: nickName.toDictionary(), encoding: URLEncoding.queryString)
@@ -100,6 +107,7 @@ extension UserAPI: JWTAuthorizable {
         switch self {
         case .googleLogin: return .none
         case .kakaoLogin: return .none
+        case .appleLogin: return .none
         case .checkDuplicateNickname: return .none
         case .getRefreshToken: return .refreshToken
         case .setProfile: return .accessToken
