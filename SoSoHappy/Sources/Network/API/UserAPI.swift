@@ -12,9 +12,8 @@ import Alamofire
 
 
 enum UserAPI {
-    case kakaoLogin
-    case googleLogin
-    case appleLogin
+    case getAuthorizeCode(codeChallenge: AuthCodeRequest)
+    case signIn(userInfo: SigninRequest)
     case checkDuplicateNickname(nickName: String)
     case getRefreshToken
     case resign(email: ResignRequest)
@@ -34,12 +33,10 @@ extension UserAPI {
     
     func getPath() -> String {
         switch self {
-        case .googleLogin:
-            return Bundle.main.googleLoginPath
-        case .kakaoLogin:
-            return Bundle.main.kakaoLoginPath
-        case .appleLogin:
-            return Bundle.main.appleLoginPath
+        case .getAuthorizeCode:
+            return Bundle.main.getAuthorizeCodePath
+        case .signIn:
+            return Bundle.main.signInPath
         case .checkDuplicateNickname:
             return Bundle.main.checkDuplicateNickNamePath
         case .getRefreshToken:
@@ -55,12 +52,10 @@ extension UserAPI {
     
     func getMethod() -> Moya.Method {
         switch self {
-        case .googleLogin:
-            return .get
-        case .kakaoLogin:
-            return .get
-        case .appleLogin:
-            return .get
+        case .getAuthorizeCode:
+            return .post
+        case .signIn:
+            return .post
         case .checkDuplicateNickname:
             return .post
         case .getRefreshToken:
@@ -76,12 +71,13 @@ extension UserAPI {
     
     func getTask() -> Task {
         switch self {
-        case .googleLogin:
-            return .requestPlain
-        case .kakaoLogin:
-            return .requestPlain
-        case .appleLogin:
-            return .requestPlain
+        case .getAuthorizeCode(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let codeChallenge = data.codeChallenge.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(codeChallenge), name: "codeChallenge"))
+            return .uploadMultipart(formData)
+        case .signIn(let userInfo):
+            return .requestJSONEncodable(userInfo)
         case .checkDuplicateNickname(let nickName):
             return .requestParameters(parameters: nickName.toDictionary(), encoding: URLEncoding.queryString)
         case .getRefreshToken:
@@ -105,9 +101,8 @@ extension UserAPI {
 extension UserAPI: JWTAuthorizable {
     var authorizationType: JWTAuthorizationType? {
         switch self {
-        case .googleLogin: return .none
-        case .kakaoLogin: return .none
-        case .appleLogin: return .none
+        case .getAuthorizeCode: return .accessToken
+        case .signIn: return .accessToken
         case .checkDuplicateNickname: return .none
         case .getRefreshToken: return .refreshToken
         case .setProfile: return .accessToken

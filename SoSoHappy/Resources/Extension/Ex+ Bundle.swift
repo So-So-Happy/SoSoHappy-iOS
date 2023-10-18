@@ -18,16 +18,12 @@ extension Bundle {
     }
 
     // MARK: - Server - Auth
-    var googleLoginPath: String {
-        guard let key = Bundle.main.infoDictionary?["GOOGLE_LOGIN_PATH"] as? String else { fatalError("GOOGLE_LOGIN_PATH error") }
+    var getAuthorizeCodePath: String {
+        guard let key = Bundle.main.infoDictionary?["GET_AUTHORIZE_CODE_PATH"] as? String else { fatalError("GET_AUTHORIZE_CODE_PATH error") }
         return key
     }
-    var kakaoLoginPath: String {
-        guard let key = Bundle.main.infoDictionary?["KAKAO_LOGIN_PATH"] as? String else { fatalError("KAKAO_LOGIN_PATH error") }
-        return key
-    }
-    var appleLoginPath: String {
-        guard let key = Bundle.main.infoDictionary?["APPLE_LOGIN_PATH"] as? String else { fatalError("APPLE_LOGIN_PATH error") }
+    var signInPath: String {
+        guard let key = Bundle.main.infoDictionary?["SIGN_IN_PATH"] as? String else { fatalError("SIGN_IN_PATH error") }
         return key
     }
     var checkDuplicateNickNamePath: String {

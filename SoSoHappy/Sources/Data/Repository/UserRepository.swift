@@ -7,62 +7,46 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 import Moya
+import Alamofire
 
 
 final class UserRepository: UserRepositoryProtocol, Networkable {
-   
     // MARK: - Target
     typealias Target = UserAPI
+    
+    // MARK: - 랜덤 문자열을 만들어서 서버에 인증 코드 발급을 요청하는 함수
+    func getAuthorizeCode() -> Observable<AuthCodeResponse> {
+        print("UserRepository getAuthorizeCode() started ..")
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            
+            // 랜덤 문자열 생성
+            let codeChallenge = String.createRandomString(length: 20)
+            print("UserRepository getAuthorizeCode() codeChallenge: \(codeChallenge)")
+            UserDefaults.standard.setValue(codeChallenge, forKey: "codeVerifier")
 
-    // 서버한테 요청
-    func kakaoLogin() -> Single<AuthResponse> {
-        
-        let provider = makeProvider()
-        return provider.rx.request(.kakaoLogin)
-            .flatMap { response -> Single<AuthResponse> in
-                // 응답 헤더에서 accessToken과 refreshToken 추출
-                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
-                   let refreshToken = response.response?.allHeaderFields["AuthorizationRefresh"] as? String {
-                    let authResponse = AuthResponse(Authorization: accessToken, AuthorizationRefresh: refreshToken)
-                    return .just(authResponse)
-                } else {
-                    return .error(HTTPError.unauthorized)
+            let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeChallenge)))
+                .map(AuthCodeResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("UserRepository getAuthorizeCode() subscribe event's response: \(response)")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
                 }
+            
+            return Disposables.create() {
+                disposable.dispose()
             }
+        }
     }
-    
-    func googleLogin() -> Single<AuthResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.googleLogin)
-            .flatMap { response -> Single<AuthResponse> in
-                // 응답 헤더에서 accessToken과 refreshToken 추출
-                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
-                   let refreshToken = response.response?.allHeaderFields["AuthorizationRefresh"] as? String {
-                    let authResponse = AuthResponse(Authorization: accessToken, AuthorizationRefresh: refreshToken)
-                    return .just(authResponse)
-                } else {
-                    return .error(HTTPError.unauthorized)
-                }
-            }
-    }
-    
-    func appleLogin() -> Single<AuthResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.googleLogin)
-            .flatMap { response -> Single<AuthResponse> in
-                // 응답 헤더에서 accessToken과 refreshToken 추출
-                if let accessToken = response.response?.allHeaderFields["Authorization"] as? String,
-                   let refreshToken = response.response?.allHeaderFields["AuthorizationRefresh"] as? String {
-                    let authResponse = AuthResponse(Authorization: accessToken, AuthorizationRefresh: refreshToken)
-                    return .just(authResponse)
-                } else {
-                    return .error(HTTPError.unauthorized)
-                }
-            }
-    }
-    
-    
     
     func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse> {
         let provider = makeProvider()
@@ -81,21 +65,21 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     
     func setProfile(profile: Profile) -> RxSwift.Observable<SetProfileResponse> {
         let provider = makeProvider()
-        return provider.rx.request(.kakaoLogin)
+        return provider.rx.request(.setProfile(profile: profile))
                     .map(SetProfileResponse.self)
                     .asObservable()
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {
         let provider = makeProvider()
-        return provider.rx.request(.kakaoLogin)
+        return provider.rx.request(.resign(email: email))
                     .map(ResignResponse.self)
                     .asObservable()
     }
     
     func findProfileImg(nickName: FindProfileImgRequest) -> RxSwift.Observable<FindProfileImgResponse> {
         let provider = makeProvider()
-        return provider.rx.request(.kakaoLogin)
+        return provider.rx.request(.findProfileImg(nickName: nickName))
                     .map(FindProfileImgResponse.self)
                     .asObservable()
     }

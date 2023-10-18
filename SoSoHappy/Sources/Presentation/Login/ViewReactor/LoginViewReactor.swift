@@ -21,20 +21,20 @@ class LoginViewReactor: Reactor {
     let disposeBag = DisposeBag()
     
     let initialState: State
-    private let repository: UserRepository
+    private let userRepository: UserRepository
     private let userDefaults: LocalStorageService
     private let kakaoManager: SigninManagerProtocol
     private let appleManager: SigninManagerProtocol
     
     // MARK: - Init
     init(
-        repository: UserRepository,
+        userRepository: UserRepository,
         userDefaults: LocalStorageService,
         kakaoManager: SigninManagerProtocol,
         appleManager: SigninManagerProtocol,
         state: State = State()
     ) {
-        self.repository = repository
+        self.userRepository = userRepository
         self.userDefaults = userDefaults
         self.kakaoManager = kakaoManager
         self.appleManager = appleManager
@@ -50,6 +50,7 @@ class LoginViewReactor: Reactor {
     
     // MARK: - 액션에 대응하는 변이를 정의합니다. (처리 단위)
     enum Mutation {
+        case getAuthorizeCode(AuthCodeResponse)
         case kakaoLogin
         case googleLogin
         case appleLogin
@@ -57,6 +58,8 @@ class LoginViewReactor: Reactor {
         case kakaoLoading(Bool)
         case googleLoading(Bool)
         case appleLoading(Bool)
+        
+        case goToMain
         
         case showErrorAlert(Error)
     }
@@ -72,6 +75,8 @@ class LoginViewReactor: Reactor {
         var isAppleLoggedIn = false
         var isAppleLoading = false
         
+        var goToMain: Void?
+        
         var showErrorAlert: Error?
     }
     
@@ -81,6 +86,8 @@ class LoginViewReactor: Reactor {
         case .tapKakaoLogin:
             return Observable.concat([
                 Observable.just(Mutation.kakaoLoading(true)),
+                userRepository.getAuthorizeCode()
+                    .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithKakao(),
                 Observable.just(Mutation.kakaoLoading(false))
             ])
@@ -104,8 +111,12 @@ class LoginViewReactor: Reactor {
         var newState = state
         
         switch mutation {
+        case .getAuthorizeCode(let authCode):
+            print("LoginViewReactor reduce() .getAuthorizeCode : \(authCode)")
+            
         case .kakaoLogin:
             newState.isKakaoLoggedIn = true
+            // Key Chain에 토큰들 저장하기
             
         case .googleLogin:
             newState.isGoogleLoggedIn = true
@@ -127,6 +138,9 @@ class LoginViewReactor: Reactor {
             
         case .showErrorAlert(let error):
             newState.showErrorAlert = error
+        
+        case .goToMain:
+            newState.goToMain = ()
         }
         
         return newState
@@ -137,7 +151,7 @@ class LoginViewReactor: Reactor {
         self.kakaoManager.signin()
             .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                return Observable.empty() // TODO: 임시 (기존: self.signin(request: signinRequest))
+                return Observable.empty() // self.signin(request: signinRequest)
             }
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
@@ -157,7 +171,7 @@ class LoginViewReactor: Reactor {
                 return Disposables.create()
             }
             GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { userInfo, error in
-                if let error = error {
+                if error != nil {
                     observer.onNext(.googleLoading(false))
                     observer.onCompleted()
                 } else if let userInfo = userInfo {
@@ -180,7 +194,7 @@ class LoginViewReactor: Reactor {
     private func signinWithApple() -> Observable<Mutation> {
         return self.appleManager.signin()
             .flatMap { [weak self] signinRequest -> Observable<Mutation> in
-                guard let self = self else { return .error(BaseError.unknown) }
+                guard self != nil else { return .error(BaseError.unknown) }
                 return Observable.empty() // TODO: 임시
             }
             .catch { error in
@@ -192,4 +206,20 @@ class LoginViewReactor: Reactor {
                 }
             }
     }
+    
+//    private func signin(request: SigninRequest) -> Observable<Mutation> {
+//        return userRepository.kakaoLogin(request: request)
+//            .asObservable()
+//            .do(onNext: { [weak self] signinResponse in
+//                print(signinResponse.Authorization)
+//                print(signinResponse.AuthorizationRefresh)
+//            })
+//            .flatMap { [weak self] _ -> Observable<Mutation> in
+//                guard let self = self else { return .error(BaseError.unknown) }
+//                return Observable.empty() // TODO: 임시
+//            }
+//            .catch { error in
+//                return .just(Mutation.showErrorAlert(HTTPError.unauthorized))
+//            }
+//    }
 }

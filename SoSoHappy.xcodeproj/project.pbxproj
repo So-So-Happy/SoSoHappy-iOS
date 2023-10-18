@@ -59,6 +59,8 @@
 		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
+		674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */; };
+		674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */; };
 		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
 		6769C0942AD6D7BE00D1D2CD /* CalenderViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C0932AD6D7BE00D1D2CD /* CalenderViewReactor.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
@@ -268,6 +270,8 @@
 		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
+		674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeResponse.swift; sourceTree = "<group>"; };
+		674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeRequest.swift; sourceTree = "<group>"; };
 		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		6769C0842AD6CADC00D1D2CD /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		6769C0882AD6CFA700D1D2CD /* CalenderViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewReactor.swift; sourceTree = "<group>"; };
@@ -1198,6 +1202,7 @@
 				808650CC2AD6CCDC0036CCFB /* UpdateLikeRequest.swift */,
 				808650C62AD6CCDB0036CCFB /* UpdatePulicStatusRequest.swift */,
 				067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */,
+				674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1221,6 +1226,7 @@
 				808650DF2AD6CCFC0036CCFB /* UpdateLikeResponse.swift */,
 				808650E22AD6CCFD0036CCFB /* UpdatePublicStatusResponse.swift */,
 				067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */,
+				674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1701,6 +1707,7 @@
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				808650CE2AD6CCDD0036CCFB /* FindOtherFeedRequest.swift in Sources */,
 				808650B82AD6CB110036CCFB /* ResponseContainer.swift in Sources */,
+				674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */,
 				808650D22AD6CCDD0036CCFB /* FindFeedRequest.swift in Sources */,
 				808650F12AD6CCFE0036CCFB /* SetProfileResponse.swift in Sources */,
 				8086509C2AD5B6CC0036CCFB /* CategoryCell.swift in Sources */,
@@ -1713,6 +1720,7 @@
 				808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */,
 				808650E82AD6CCFE0036CCFB /* FindDayFeedResponse.swift in Sources */,
 				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
+				674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */,
 				672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */,
 				80AD68B02AC3F17700DD3D5F /* FeedDetailCoordinator.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,

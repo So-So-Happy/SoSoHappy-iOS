@@ -25,8 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let mainVC = LoginViewController(coordinator: LoginCoordinator())
 //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
 //        window.rootViewController = mainVC // 시작 VC 작성해주기
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-        //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        let mainVC = LoginViewController(coordinator: LoginCoordinator())
+                mainVC.reactor = LoginViewReactor(userRepository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
 
 
         // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
@@ -49,8 +49,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let calendarVC = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
         
-        let mainVM = AddStep3ViewController()
-        window.rootViewController = mainVM // 시작 VC 작성해주기
+//        let mainVM = AddStep3ViewController()
+        window.rootViewController = mainVC // 시작 VC 작성해주기
         
         
         window.makeKeyAndVisible()

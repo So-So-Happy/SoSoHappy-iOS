@@ -88,10 +88,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     self.publisher.onError(BaseError.custom("authToken is nil"))
                     return
                 }
-                let request = SigninRequest(
-                    socialType: .kakao,
-                    token: authToken.accessToken
-                )
+                let request = SigninRequest(email: "", provider: "", providerId: "", codeVerifier: "", authorizeCode: "")
                 
                 self.publisher.onNext(request)
                 self.publisher.onCompleted()
@@ -130,10 +127,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     return
                 }
                 
-                let request = SigninRequest(
-                    socialType: .kakao,
-                    token: authToken.accessToken
-                )
+                let request = SigninRequest(email: "", provider: "", providerId: "", codeVerifier: "", authorizeCode: "")
                 
                 self.publisher.onNext(request)
                 self.publisher.onCompleted()

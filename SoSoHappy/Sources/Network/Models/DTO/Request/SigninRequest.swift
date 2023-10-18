@@ -7,14 +7,10 @@
 
 import Foundation
 
-struct SigninRequest: Requestable {
-    let socialType: SocialType
-    let token: String
-
-    var params: [String : Any] {
-        return [
-            "socialType": self.socialType.value,
-            "token": self.token
-        ]
-    }
+struct SigninRequest: Codable {
+    let email: String
+    let provider: String
+    let providerId: String
+    let codeVerifier: String
+    let authorizeCode: String
 }

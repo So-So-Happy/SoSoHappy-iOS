@@ -41,10 +41,19 @@ extension String {
 
 extension String {
     // MARK: 문자열 암호화
-    func sha256() -> String {
+    func sha512() -> String {
         if let stringData = self.data(using: String.Encoding.utf8) {
             return stringData.sha512()
         }
         return ""
+    }
+    
+    // MARK: 랜덤 문자열 생성
+    static func createRandomString(length: Int) -> String {
+        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String(
+            (0..<length)
+                .map { _ in letters.randomElement()! }
+        )
     }
 }
