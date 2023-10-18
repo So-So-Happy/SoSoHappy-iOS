@@ -23,11 +23,12 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             let provider = self.accessProvider()
             
             // 랜덤 문자열 생성
-            let codeChallenge = String.createRandomString(length: 20)
-            print("UserRepository getAuthorizeCode() codeChallenge: \(codeChallenge)")
-            UserDefaults.standard.setValue(codeChallenge, forKey: "codeVerifier")
+            let codeVerifier = String.createRandomString(length: 20)
+            print("UserRepository getAuthorizeCode() codeChallenge: \(codeVerifier)")
+            print("codeChallenge: \(codeVerifier.sha512())")
+            UserDefaults.standard.setValue(codeVerifier, forKey: "codeVerifier")
 
-            let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeChallenge)))
+            let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeVerifier.sha512())))
                 .map(AuthCodeResponse.self)
                 .asObservable()
                 .subscribe { event in
