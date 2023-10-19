@@ -1,8 +1,17 @@
+//
+//  KakaoSigninManager.swift
+//  SoSoHappy
+//
+//  Created by 박민주 on 10/19/23.
+//
+
+import RxSwift
 import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
-import RxSwift
-
+import RxKakaoSDKUser
+import RxKakaoSDKAuth
+import RxKakaoSDKCommon
 
 final class KakaoSigninManager: SigninManagerProtocol {
     private var disposeBag = DisposeBag()
@@ -88,11 +97,6 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     self.publisher.onError(BaseError.custom("authToken is nil"))
                     return
                 }
-                let request = SigninRequest(email: "", provider: "", providerId: "", codeVerifier: "", authorizeCode: "")
-                
-                self.publisher.onNext(request)
-                self.publisher.onCompleted()
-                
                 self.getUserInfo()
             }
         }
@@ -122,44 +126,33 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     self.publisher.onError(signInError)
                 }
             } else {
-                guard let authToken = authToken else {
+                guard authToken != nil else {
                     self.publisher.onError(BaseError.custom("authToken is nil"))
                     return
                 }
-                
-                let request = SigninRequest(email: "", provider: "", providerId: "", codeVerifier: "", authorizeCode: "")
-                
-                self.publisher.onNext(request)
-                self.publisher.onCompleted()
-                
                 self.getUserInfo()
             }
         }
     }
     
-    // MARK: - 사용자 정보 가져오기 : 카카오
+    // MARK: - 사용자 정보 가져오기
     func getUserInfo() {
         UserApi.shared.rx.me()
             .subscribe (onSuccess:{ user in
-                print("🔎 ##### 카카오 사용자 정보 조회 성공 #####")
-                print("userNickname :", user.properties?["nickname"] ?? "unknown_token")
-                print("userEmail :", user.kakaoAccount?.email ?? "unknown_email")
-                print("userID :", user.id ?? "unknown_ID")
-            }, onFailure: {error in
-                print(error)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    // MARK: - 토큰 정보 보기 : 카카오
-    func checkToken() { // 사용자 액세스 토큰 정보 조회
-        UserApi.shared.rx.accessTokenInfo()
-            .subscribe(onSuccess:{ (accessTokenInfo) in
-                print("accessToken: \(accessTokenInfo.self)")
-                _ = accessTokenInfo
-                // keychain (key)
-            }, onFailure: {error in
-                print(error)
+                UserDefaults.standard.setValue(user.kakaoAccount?.email, forKey: "userEmail")
+                
+                let request = SigninRequest(
+                    email: user.kakaoAccount?.email ?? "unknownEmail",
+                    provider: "kakao",
+                    providerId: String(user.id ?? 0),
+                    codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
+                    authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode"
+                )
+                
+                self.publisher.onNext(request)
+                self.publisher.onCompleted()
+            }, onFailure: { error in
+                self.publisher.onError(error)
             })
             .disposed(by: disposeBag)
     }

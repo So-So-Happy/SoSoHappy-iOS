@@ -76,8 +76,23 @@ extension UserAPI {
             let codeChallenge = data.codeChallenge.data(using: .utf8)!
             formData.append(MultipartFormData(provider: .data(codeChallenge), name: "codeChallenge"))
             return .uploadMultipart(formData)
-        case .signIn(let userInfo):
-            return .requestJSONEncodable(userInfo)
+            
+        case .signIn(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let email = data.email.data(using: .utf8)!
+            let provider = data.provider.data(using: .utf8)!
+            let providerId = data.providerId.data(using: .utf8)!
+            let codeVerifier = data.codeVerifier.data(using: .utf8)!
+            let authorizeCode = data.authorizeCode.data(using: .utf8)!
+            
+            formData.append(MultipartFormData(provider: .data(email), name: "email"))
+            formData.append(MultipartFormData(provider: .data(provider), name: "provider"))
+            formData.append(MultipartFormData(provider: .data(providerId), name: "providerId"))
+            formData.append(MultipartFormData(provider: .data(codeVerifier), name: "codeVerifier"))
+            formData.append(MultipartFormData(provider: .data(authorizeCode), name: "authorizeCode"))
+            
+            return .uploadMultipart(formData)
+            
         case .checkDuplicateNickname(let nickName):
             return .requestParameters(parameters: nickName.toDictionary(), encoding: URLEncoding.queryString)
         case .getRefreshToken:

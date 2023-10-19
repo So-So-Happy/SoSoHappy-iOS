@@ -13,28 +13,58 @@ import Alamofire
 
 
 final class UserRepository: UserRepositoryProtocol, Networkable {
+    
     // MARK: - Target
     typealias Target = UserAPI
     
     // MARK: - 랜덤 문자열을 만들어서 서버에 인증 코드 발급을 요청하는 함수
     func getAuthorizeCode() -> Observable<AuthCodeResponse> {
-        print("UserRepository getAuthorizeCode() started ..")
         return Observable.create { emitter in
             let provider = self.accessProvider()
             
             // 랜덤 문자열 생성
             let codeVerifier = String.createRandomString(length: 20)
-            print("UserRepository getAuthorizeCode() codeChallenge: \(codeVerifier)")
-            print("codeChallenge: \(codeVerifier.sha512())")
             UserDefaults.standard.setValue(codeVerifier, forKey: "codeVerifier")
-
+            
             let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeVerifier.sha512())))
                 .map(AuthCodeResponse.self)
                 .asObservable()
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("UserRepository getAuthorizeCode() subscribe event's response: \(response)")
+                        UserDefaults.standard.setValue(response.authorizeCode, forKey: "authorizeCode")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
+    
+    // MARK: - 로그인 요청 함수
+    func signIn(request: SigninRequest) -> Observable<AuthResponse> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.signIn(userInfo: request))
+                .map { response in
+                    // 헤더 추출 및 매핑
+                    var headers = response.response?.allHeaderFields as? [String: String]
+                    let accessToken = headers?["Authorization"] ?? ""
+                    let refreshToken = headers?["authorization-refresh"] ?? ""
+                    let email = headers?["email"] ?? ""
+                    let nickName = headers?["nickName"] ?? ""
+                    return AuthResponse(authorization: accessToken, authorizationRefresh: refreshToken, email: email, nickName: nickName)
+                }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
                         emitter.onNext(response)
                     case .error(let error):
                         emitter.onError(error)

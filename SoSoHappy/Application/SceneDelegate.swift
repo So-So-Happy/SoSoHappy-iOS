@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
 //        window.rootViewController = mainVC // 시작 VC 작성해주기
         let mainVC = LoginViewController(coordinator: LoginCoordinator())
-                mainVC.reactor = LoginViewReactor(userRepository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        mainVC.reactor = LoginViewReactor(userRepository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager: GoogleSigninManager())
 
 
         // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
