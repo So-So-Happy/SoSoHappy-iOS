@@ -22,38 +22,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        
+        //MARK: 전체 Tab Bar 다 확인할 수 있는 코드
+        let navigationController = UINavigationController()
+        window.rootViewController = navigationController
+//
+        let coordinator = AppCoordinator(navigationController: navigationController)
+        coordinator.start()
+
+        // MARK: View 한 개씩 화인
+//        let mainVC = UINavigationController(rootViewController: AddStep2ViewController(reactor: AddViewReactor()))
+//        let mainVC = UINavigationController(rootViewController: AddStep3ViewController3())
+//        let mainVC = UINavigationController(rootViewController: SignUpViewController(reactor: SignUpViewReactor()))
+                                            
+                                            
 //        window.rootViewController = mainVC // 시작 VC 작성해주기
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-        //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-
-        // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
+        
+        
+        
+//         let mainVC = UINavigationController(rootViewController: AddStep1ViewController(reactor: AddViewReactor()))
+        
+//         let mainVC = UINavigationController(rootViewController: AddStep2ViewController(reactor: AddViewReactor()))
+        
+//         let mainVC = UINavigationController(rootViewController: AddStep2ViewController2(collectionViewLayout: UICollectionViewFlowLayout()))
+        
 //        let mainVC = EditProfileViewController(reactor: SignUpViewReactor())
 //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
 
 //        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-        
 //        let mainVC = LoginViewController(coordinator: LoginCoordinator())
 //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-        
-        self.window = window
-        let navigationController = UINavigationController()
-        self.window?.rootViewController = navigationController
-        
-        let coordinator = CalendarCoordinator(navigationController: navigationController)
-        coordinator.start()
 
-//        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
-//        
-//        let calendarVC = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
-//        
-//        let mainVM = UINavigationController(rootViewController: calendarVC)
-//        window.rootViewController = mainVM // 시작 VC 작성해주기
-        
         
         window.makeKeyAndVisible()
+        self.window = window
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
