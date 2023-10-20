@@ -16,7 +16,6 @@ class LoginViewReactor: Reactor {
     
     let initialState: State
     private let userRepository: UserRepository
-    private let userDefaults: LocalStorageService
     private let kakaoManager: SigninManagerProtocol
     private let appleManager: SigninManagerProtocol
     private let googleManager: SigninManagerProtocol
@@ -24,14 +23,12 @@ class LoginViewReactor: Reactor {
     // MARK: - Init
     init(
         userRepository: UserRepository,
-        userDefaults: LocalStorageService,
         kakaoManager: SigninManagerProtocol,
         appleManager: SigninManagerProtocol,
         googleMagager: SigninManagerProtocol,
         state: State = State()
     ) {
         self.userRepository = userRepository
-        self.userDefaults = userDefaults
         self.kakaoManager = kakaoManager
         self.appleManager = appleManager
         self.googleManager = googleMagager
@@ -124,7 +121,7 @@ class LoginViewReactor: Reactor {
             print("✅ LoginViewReactor reduce() .getAuthorizeCode : \(authCode)")
            
         case .signIn(let auth):
-            print(print("✅ LoginViewReactor reduce() .signIn : \(auth)"))
+            print("✅ LoginViewReactor reduce() .signIn : \(auth)")
             
         case .kakaoLogin:
             newState.isKakaoLoggedIn = true
@@ -217,7 +214,7 @@ class LoginViewReactor: Reactor {
             .flatMap { [weak self] signinResponse -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
                 return .just(.signIn(signinResponse))
-//                    .map { _ in .goToMain }
+                    .map { _ in .goToMain }
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
