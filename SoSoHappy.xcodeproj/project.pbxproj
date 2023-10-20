@@ -33,6 +33,7 @@
 		067179F62ADCFFAC007252AE /* FindDetailFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */; };
 		067179F82ADD0426007252AE /* UserFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F72ADD0426007252AE /* UserFeed.swift */; };
 		067179FA2ADD04D4007252AE /* FindDetailFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */; };
+		067179FC2ADD83AC007252AE /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 067179FB2ADD83AC007252AE /* Config.xcconfig */; };
 		06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DED2AC2A804001DCCFC /* AppCoordinator.swift */; };
 		06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DEF2AC2A817001DCCFC /* Coordinator.swift */; };
 		06896DF22AC2A81F001DCCFC /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */; };
@@ -41,7 +42,6 @@
 		069D642A2AD832B3003834E5 /* FeedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D64282AD832B3003834E5 /* FeedRepositoryProtocol.swift */; };
 		069D642C2AD83335003834E5 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642B2AD83335003834E5 /* FeedAPI.swift */; };
 		069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642D2AD83432003834E5 /* FeedRepository.swift */; };
-		069D64302AD836A5003834E5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 069D642F2AD836A5003834E5 /* Config.xcconfig */; };
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
 		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
@@ -230,6 +230,7 @@
 		067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDetailFeedRequest.swift; sourceTree = "<group>"; };
 		067179F72ADD0426007252AE /* UserFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeed.swift; sourceTree = "<group>"; };
 		067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDetailFeedResponse.swift; sourceTree = "<group>"; };
+		067179FB2ADD83AC007252AE /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06896DED2AC2A804001DCCFC /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		06896DEF2AC2A817001DCCFC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
@@ -241,7 +242,6 @@
 		069D64282AD832B3003834E5 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepositoryProtocol.swift; sourceTree = "<group>"; };
 		069D642B2AD83335003834E5 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		069D642D2AD83432003834E5 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
-		069D642F2AD836A5003834E5 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		069D7AEA2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
 		069D7AEE2ACFFD2B00C815F1 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
@@ -792,7 +792,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				069D642F2AD836A5003834E5 /* Config.xcconfig */,
+				067179FB2ADD83AC007252AE /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1383,7 +1383,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				069D64302AD836A5003834E5 /* Config.xcconfig in Resources */,
+				067179FC2ADD83AC007252AE /* Config.xcconfig in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
@@ -1781,7 +1781,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 069D642F2AD836A5003834E5 /* Config.xcconfig */;
+			baseConfigurationReference = 067179FB2ADD83AC007252AE /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1842,7 +1842,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 069D642F2AD836A5003834E5 /* Config.xcconfig */;
+			baseConfigurationReference = 067179FB2ADD83AC007252AE /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

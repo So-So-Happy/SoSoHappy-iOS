@@ -9,12 +9,12 @@ import UIKit
 
 struct FindDetailFeedResponse: Codable {
     let text: String
-    let imageList: [Data]
+    let imageList: [String]
     let categoryList: [String]
-    let date: String
+    let date: Int64
     let weather: String
     let happiness: Int
-    let nickName: String
+    let nickname: String
     let isLiked: Bool
     
 }
@@ -35,7 +35,7 @@ extension FindDetailFeedResponse {
                      date: String(date),
                      weather: weather,
                      happiness: happiness,
-                     nickName: nickName,
+                     nickName: nickname,
                      isLiked: isLiked)
     }
 }

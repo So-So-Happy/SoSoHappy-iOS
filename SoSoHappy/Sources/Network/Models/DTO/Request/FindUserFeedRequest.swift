@@ -7,19 +7,10 @@
 
 import Foundation
 
-struct FindUserFeedRequest: Codable, Requestable {
+struct FindUserFeedRequest: Codable {
     let srcNickname: String
-    let dstNickname: Double
+    let dstNickname: String
     let page: Int
     let size: Int
-    
-    var params: [String : Any] {
-        return [
-            "srcNickname": self.srcNickname,
-            "dstNickname": self.dstNickname,
-            "page": self.page,
-            "size": self.size
-        ]
-    }
-    
 }
+

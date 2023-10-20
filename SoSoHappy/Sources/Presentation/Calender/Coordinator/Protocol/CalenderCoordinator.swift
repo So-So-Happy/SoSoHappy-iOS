@@ -8,8 +8,8 @@
 import UIKit
 
 public protocol CalendarCoordinatorInterface: AnyObject {
-    func pushAlertView()
-    func pushListView()
+    func pushAlarmView()
+    func pushListView(date: Date)
     func dismiss()
     func finished()
 }
@@ -36,14 +36,14 @@ final class CalendarCoordinator: Coordinator {
 }
 
 extension CalendarCoordinator: CalendarCoordinatorInterface {
-    func pushAlertView() {
-        print("pushed Alert View button")
-        let viewController = makeAlertViewController()
+    
+    func pushAlarmView() {
+        let viewController = makeAlarmViewController()
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    func pushListView(){
-        let viewController = makeFeedListViewController()
+    func pushListView(date: Date) {
+        let viewController = makeHappyListViewController(date: date)
         navigationController.pushViewController(viewController, animated: false)
     }
     
@@ -72,13 +72,13 @@ extension CalendarCoordinator {
         return viewController
     }
     
-    func makeAlertViewController() -> UIViewController {
+    func makeAlarmViewController() -> UIViewController {
         let viewController = AlertViewController()
         return viewController
     }
     
-    func makeFeedListViewController() -> UIViewController {
-        let viewController = FeedListViewController()
+    func makeHappyListViewController(date: Date) -> UIViewController {
+        let viewController = HappyListViewController(reactor: HappyListViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository(), currentPage: date), currentPage: date)
         return viewController
     }
 }

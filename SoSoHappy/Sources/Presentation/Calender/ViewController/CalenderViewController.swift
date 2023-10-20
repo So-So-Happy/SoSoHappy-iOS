@@ -41,13 +41,13 @@ final class CalendarViewController: UIViewController, View {
     private lazy var previousButton = UIButton().then({
         let image = UIImage(named: "previousButton")
         $0.setImage(image, for: .normal)
-        $0.addTarget(self, action: #selector(prevCurrentPage), for: .touchUpInside)
+//        $0.addTarget(self, action: #selector(prevCurrentPage), for: .touchUpInside)
     })
     
     private lazy var nextButton = UIButton().then({
         let image = UIImage(named: "nextButton")
         $0.setImage(image, for: .normal)
-        $0.addTarget(self, action: #selector(nextCurrentPage), for: .touchUpInside)
+//        $0.addTarget(self, action: #selector(nextCurrentPage), for: .touchUpInside)
     })
 
     private lazy var alarmButton = UIButton().then {
@@ -63,13 +63,13 @@ final class CalendarViewController: UIViewController, View {
     private lazy var yearLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
         $0.textColor = .gray
-        $0.text = "2023"
+        $0.text = Date().getFormattedDate(format: "yyyy")
     }
     
     private lazy var monthLabel = UILabel().then {
-        $0.textColor = .gray
-        $0.text = "8월"
         $0.font = .boldSystemFont(ofSize: 20)
+        $0.textColor = .gray
+        $0.text = Date().getFormattedDate(format: "M월")
     }
     
     private lazy var scrollView = UIScrollView()
@@ -107,11 +107,10 @@ final class CalendarViewController: UIViewController, View {
 //        self.view.addGestureRecognizer(swipeUp)
 //        self.view.addGestureRecognizer(swipeDown)
         setup()
-        
         // TODO: 리스트도 바버튼에 넣고 바버튼 자체에 가로세로 길이 설정해주기
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
-        
+
     }
     
     
@@ -147,7 +146,7 @@ extension CalendarViewController {
             .disposed(by: disposeBag)
         
         self.alarmButton.rx.tap
-            .map { Reactor.Action.tapAlertButton }
+            .map { Reactor.Action.tapAlarmButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -156,15 +155,15 @@ extension CalendarViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-//        self.nextButton.rx.tap
-//            .map { Reactor.Action.tapNextButton }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//        
-//        self.previousButton.rx.tap
-//            .map { Reactor.Action.tapPreviousButton }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        self.nextButton.rx.tap
+            .map { Reactor.Action.tapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.previousButton.rx.tap
+            .map { Reactor.Action.tapPreviousButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
         func bindState(_ reactor: CalendarViewReactor) {
@@ -183,13 +182,21 @@ extension CalendarViewController {
                 .disposed(by: disposeBag)
             
             reactor.state
-                .map { $0.monthHappinessData }
-                .distinctUntilChanged { lhs, rhs in
-                    return lhs.count == rhs.count
+                .map { $0.currentPage }
+                .distinctUntilChanged()
+                .subscribe { [weak self] date in
+                    guard let `self` = self else { return }
+                    self.currentPage = date
+                    self.calendar.setCurrentPage(date, animated: true)
                 }
+                .disposed(by: disposeBag)
+            
+            reactor.state
+                .map { $0.monthHappinessData }
                 .subscribe { [weak self] feeds in
                     guard let `self` = self else { return }
                     self.monthFeedList = feeds
+                    calendar.reloadData()
                 }
                 .disposed(by: disposeBag)
             
@@ -197,7 +204,7 @@ extension CalendarViewController {
                 .compactMap { $0 }
                 .asDriver(onErrorJustReturn: ())
                 .drive { [weak self] _ in
-                    self?.coordinator.pushAlertView()
+                    self?.coordinator.pushAlarmView()
                 }
                 .disposed(by: disposeBag)
             
@@ -206,7 +213,7 @@ extension CalendarViewController {
                 .compactMap { $0 }
                 .asDriver(onErrorJustReturn: ())
                 .drive { [weak self] _ in
-                    self?.coordinator.pushListView()
+                    self?.coordinator.pushListView(date: reactor.currentPage)
                 }
                 .disposed(by: disposeBag)
         }
@@ -226,50 +233,7 @@ private extension CalendarViewController {
         }
     }
     
-    // 다음 버튼 액션
-    @objc private func nextCurrentPage() {
-        let calendar = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = 1
-        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.calendar.setCurrentPage(self.currentPage!, animated: true)
-    }
-    
-    // 이전 버튼 액션
-    @objc private func prevCurrentPage() {
-        
-        let calendar = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = -1
-        
-        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.calendar.setCurrentPage(self.currentPage!, animated: true)
-        
-    }
-    
 }
-
-extension CalendarViewController {
-    
-    func processResponse(_ result: Result<Response, MoyaError>) -> Result<String?, Error> {
-        switch result {
-        case .success(let response):
-            do {
-                // status code가 200...299인 경우만 success로 체크 (아니면 예외발생)
-                _ = try response.filterSuccessfulStatusCodes()
-
-                let commonResponse = try JSONDecoder().decode(String.self, from: response.data)
-                return .success(commonResponse)
-            } catch {
-                return .failure(error)
-            }
-
-        case .failure(let error):
-            return .failure(error)
-        }
-    }
-}
-
 
 // MARK: - Layout & Attribute
 private extension CalendarViewController {
@@ -342,7 +306,7 @@ private extension CalendarViewController {
 }
 
 // MARK: - FSCalendar Set
-extension CalendarViewController{
+extension CalendarViewController {
     
     private func setCalender() {
         self.calendar.delegate = self
@@ -404,13 +368,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     
     // 캘린더 셀 정의
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
-        
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.identifier, for: date, at: position)
-        
         if let customCell = cell as? CalendarCell {
-            if let image = isHappyDay(String(date.getFormattedYMDH())) {
+            if let image = isHappyDay(String(date.getFormattedYMD())) {
                 customCell.setImage(image: image)
-            } else {
+            } 
+            else {
                 // cell 초기화
                 customCell.setImage(image: nil)
             }
@@ -420,8 +383,10 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func isHappyDay(_ dateStr: String) -> UIImage? {
-        
-        if let date = monthFeedList.first(where: { $0.date == dateStr })
+        if monthFeedList.count > 0 {
+            print("VC monthFeedList: \(monthFeedList[0].date.prefix(8)) , dateStr: \(dateStr)")
+        }
+        if let date = self.monthFeedList.first(where: { $0.date.prefix(8) == dateStr })
         {
             if let image = UIImage(named: date.happyImage) { return  image }
         }
@@ -441,39 +406,38 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
             $0.date == date.getFormattedDefault()
         }) {
             // UpdateUI
-            
         }
     }
     
     
     //FIXME: onNext 로 reactor action 전달
-    // 캘린더 페이지 변경시 year, month update
-    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        let date = calendar.currentPage.getFormattedYM()
-        
-        if calendar.scope == .week {
-            if let dateAfter = Calendar.current.date(byAdding: .day, value: 6, to: calendar.currentPage ) {
-                if date != dateAfter.getFormattedYM() {
-//                    viewModel.getWeeklyList(date, dateAfter.getFormattedYM())
-                }
-            }
-        } else {
-//            viewModel.getMonthlyList(date)
-        }
-        
-        self.setMonth(calendar.currentPage)
-    }
-    
-    func setMonth(_ date: Date) {
-        let year = date.getFormattedDate(format: "yyyy")
-        let month = date.getFormattedDate(format: "M월")
-        if Date().getFormattedDate(format: "yyyy") != year {
-            yearLabel.text = year
-            monthLabel.text = month
-        } else {
-            monthLabel.text = month
-        }
-    }
+    // 캘린더 페이지 변경시 year, month update, data, cell update
+//    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+//        let date = calendar.currentPage.getFormattedYM()
+//        
+//        if calendar.scope == .week {
+//            if let dateAfter = Calendar.current.date(byAdding: .day, value: 6, to: calendar.currentPage ) {
+//                if date != dateAfter.getFormattedYM() {
+////                    viewModel.getWeeklyList(date, dateAfter.getFormattedYM())
+//                }
+//            }
+//        } else {
+////            viewModel.getMonthlyList(date)
+//        }
+//        
+//        self.setMonth(calendar.currentPage)
+//    }
+//    
+//    func setMonth(_ date: Date) {
+//        let year = date.getFormattedDate(format: "yyyy")
+//        let month = date.getFormattedDate(format: "M월")
+//        if Date().getFormattedDate(format: "yyyy") != year {
+//            yearLabel.text = year
+//            monthLabel.text = month
+//        } else {
+//            monthLabel.text = month
+//        }
+//    }
     
     func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
         calendar.snp.updateConstraints {

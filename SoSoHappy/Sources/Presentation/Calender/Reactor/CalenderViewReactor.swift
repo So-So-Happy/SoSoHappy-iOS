@@ -20,10 +20,7 @@ final class CalendarViewReactor: Reactor {
     
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
-    
-    private var monthFeed: [MyFeed] = []
-//    private var dayFeed: FindDayFeedResponse
-    
+    var currentPage: Date = Date()
     
     // MARK: - Init
     init(
@@ -32,7 +29,8 @@ final class CalendarViewReactor: Reactor {
         state: State = State(
             year: "",
             month: "",
-            monthHappinessData: [])
+            monthHappinessData: [],
+        currentPage: Date())
     ) {
         self.feedRepository = feedRepository
         self.userRepository = userRepository
@@ -42,10 +40,10 @@ final class CalendarViewReactor: Reactor {
     // MARK: - Action
     enum Action {
         case viewDidLoad
-        case tapAlertButton
+        case tapAlarmButton
         case tapListButton
-//        case tapPreviousButton
-//        case tapNextButton
+        case tapPreviousButton
+        case tapNextButton
 //        case selectDate
     }
     
@@ -55,8 +53,11 @@ final class CalendarViewReactor: Reactor {
         case presentAlertView
         case presentListView
 //        case setPreview(Feed)
-//        case setMonth(String)
-//        case setYear(String)
+        case setMonth
+        case setYear
+        case moveToNextMonth(Date)
+        case moveToPreviousMonth(Date)
+        case testOtherFeed(UpdateLikeResponse)
 //        case showErrorAlert(Error)
     }
     
@@ -65,7 +66,7 @@ final class CalendarViewReactor: Reactor {
         var year: String
         var month: String
         var monthHappinessData: [MyFeed]
-        var currentPage: Date?
+        var currentPage: Date
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
 //        var happinessPreviewData: Feed
@@ -74,43 +75,70 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
-        print("mutate func start: action: \(action)")
         switch action {
         case .viewDidLoad:
-            return feedRepository.findMonthFeed(request: FindFeedRequest(date: Int64(2023091519321353), nickName: "wonder"))
-                .map { Mutation.setCalendarCell($0) }
-        case .tapAlertButton:
-            print("mutate tapAlertButton action")
-            let obser = Observable.just(Mutation.presentAlertView)
+            return .concat([
+                .just(.setYear),
+                .just(.setMonth),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map {
+                        print("\($0)")
+                        return Mutation.setCalendarCell($0)
+                    }
+            ])
+        case .tapAlarmButton:
             return .just(.presentAlertView)
         case .tapListButton:
-            print("mutate tabListButton action")
             return .just(.presentListView)
+        case .tapNextButton:
+            let nextPage = moveToNextMonth(currentPage)
+            return .concat([
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map({ Mutation.setCalendarCell($0) }),
+                .just(.moveToNextMonth(nextPage)),
+                .just(.setMonth),
+                .just(.setYear)
+            ])
+        case .tapPreviousButton:
+            let previousPage = moveToPreviousMonth(currentPage)
+            return .concat([
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map({ .setCalendarCell($0) }),
+                .just(.moveToPreviousMonth(previousPage)),
+                .just(.setMonth),
+                .just(.setYear)
+            ])
         }
     }
 
     //MARK: - reduce func
     func reduce(state: State, mutation: Mutation) -> State {
-        print("reduce func start, state: \(state), mutation: \(mutation)")
         var newState = state
         switch mutation {
         case .setCalendarCell(let feeds):
-            print("reduce setCalendarCell ")
             newState.monthHappinessData = feeds
         case .presentAlertView:
-            print("reduce presentAlertView ")
             newState.presentListView = ()
         case .presentListView:
-            print("reduce presentAlertView ")
             newState.presentListView = ()
-//        case .setPreview(_):
-//            <#code#>
-//        case .setMonth(_):
-//            <#code#>
-//        case .setYear(_):
-//            <#code#>
+        case .moveToNextMonth(let currentPage):
+            self.currentPage = currentPage
+            newState.currentPage = currentPage
+        case .moveToPreviousMonth(let currentPage):
+            self.currentPage = currentPage
+            newState.currentPage = currentPage
+        case .setYear:
+            newState.year = self.currentPage.getFormattedDate(format: "yyyy")
+        case .setMonth:
+            newState.month = self.currentPage.getFormattedDate(format: "M월")
+        case .testOtherFeed:
+            newState.year = state.currentPage.getFormattedDate(format: "yyyy")
+//            /        case .setPreview(_):
+//            //            <#code#>
 //        case .showErrorAlert(_):
+            
 //            <#code#>
+            
         }
         
         return newState
@@ -120,8 +148,18 @@ final class CalendarViewReactor: Reactor {
 
 
 extension CalendarViewReactor {
+    func moveToNextMonth(_ currentPage: Date) -> Date {
+        let calendar = Calendar.current
+        let currentPage = calendar.date(byAdding: .month, value: 1, to: currentPage) ?? Date()
+        return currentPage
+    }
     
-   
+    func moveToPreviousMonth(_ currentPage: Date) -> Date {
+        let calendar = Calendar.current
+        let currentPage = calendar.date(byAdding: .month, value: -1, to: currentPage) ?? Date()
+        return currentPage
+    }
+    
 }
 
 

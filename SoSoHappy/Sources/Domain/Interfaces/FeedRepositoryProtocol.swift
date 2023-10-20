@@ -15,8 +15,8 @@ protocol FeedRepositoryProtocol {
     func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed>
     func findMonthFeed(request: FindFeedRequest) -> Observable<[MyFeed]>
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed>
-    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<FindOtherFeedResponse>
-    func findUserFeed(request: FindUserFeedRequest) -> Observable<FindUserFeedResponse>
+    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]>
+    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]>
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse>
     func findMonthHappiness(request: HappinessRequest) -> Observable<FindMonthFeedResponse>
     func findYearHappiness(request: HappinessRequest) -> Observable<FindDayFeedResponse>

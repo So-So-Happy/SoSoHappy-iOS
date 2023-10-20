@@ -37,13 +37,14 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findMonthFeed(request))
                 .map([FindAccountFeedResponse].self)
-                .map { $0.map { $0.toDomain() } }
+                .map { $0.map { $0.toDomain() }}
                 .asObservable()
                 .subscribe { event in
                     switch event {
                     case .next(let response):
                         emitter.onNext(response)
                     case .error(let error):
+                        print("error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
@@ -58,78 +59,88 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     
     /// findDetailFeed: 디테일 피드 데이터 fetch
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed> {
-        return Observable.create { emitter in
-            let provider = self.accessProvider()
-            let disposable = provider.rx.request(.findDetailFeed(request))
-                .map(FindDetailFeedResponse.self)
-                .map { $0.toDomain() }
-                .asObservable()
-                .subscribe { event in
-                    switch event {
-                    case .next(let response):
-                        emitter.onNext(response)
-                    case .error(let error):
-                        emitter.onError(error)
-                    case .completed:
-                        emitter.onCompleted()
+            return Observable.create { emitter in
+                let provider = self.accessProvider()
+                let disposable = provider.rx.request(.findDetailFeed(request))
+                    .map(FindDetailFeedResponse.self)
+                    .map { $0.toDomain() }
+                    .asObservable()
+                    .subscribe { event in
+                        switch event {
+                        case .next(let response):
+                            print("findDetailFeed success: \(response)")
+                            emitter.onNext(response)
+                        case .error(let error):
+                            print("error: \(error.localizedDescription)")
+                            emitter.onError(error)
+                        case .completed:
+                            emitter.onCompleted()
+                        }
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
-    }
     
     
     /// findOtherFeed: 피드 전체 데이터 fetch
-    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<FindOtherFeedResponse> {
-        return Observable.create { emitter in
-            let provider = self.accessProvider()
-            let disposable = provider.rx.request(.findOtherFeed(request))
-                .map(FindOtherFeedResponse.self)
-                .asObservable()
-                .subscribe { event in
-                    switch event {
-                    case .next(let response):
-                        emitter.onNext(response)
-                    case .error(let error):
-                        emitter.onError(error)
-                    case .completed:
-                        emitter.onCompleted()
+    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]> {
+            print("여기 FeedRepository  - findOtherFeed")
+            return Observable.create { emitter in
+                let provider = self.accessProvider()
+                print("FeedRepository  - findOtherFeed - Observable")
+                let disposable = provider.rx.request(.findOtherFeed(request))
+                    .debug()
+                    .map(FindOtherFeedResponse.self)
+                    .map { $0.content.map { $0.toDomain() }}
+                    .asObservable()
+                    .subscribe { event in
+                        print("event: \(event)")
+                        switch event {
+                        case .next(let response):
+                            print("~~~findOtherfeed response : \(response) ")
+                            emitter.onNext(response)
+                        case .error(let error):
+                            print("FeedRepository  - findOtherFeed - 에러 남")
+                            emitter.onError(error)
+                        case .completed:
+                            emitter.onCompleted()
+                        }
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
-        
-    }
     
     /// findUserFeed: 특정 유저 피드 데이터 fetch
-    func findUserFeed(request: FindUserFeedRequest) -> Observable<FindUserFeedResponse> {
-        return Observable.create { emitter in
-            let provider = self.accessProvider()
-            let disposable = provider.rx.request(.findUserFeed(request))
-                .map(FindUserFeedResponse.self)
-                .asObservable()
-                .subscribe { event in
-                    switch event {
-                    case .next(let response):
-                        emitter.onNext(response)
-                    case .error(let error):
-                        emitter.onError(error)
-                    case .completed:
-                        emitter.onCompleted()
+    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]> {
+            return Observable.create { emitter in
+                let provider = self.accessProvider()
+                let disposable = provider.rx.request(.findUserFeed(request))
+                    .map(FindUserFeedResponse.self)
+                    .map { $0.content.map { $0.toDomain() }}
+                    .asObservable()
+                    .subscribe { event in
+                        switch event {
+                        case .next(let response):
+                            print("--------- findUserFeed success: ------ \(response)")
+                            emitter.onNext(response)
+                        case .error(let error):
+                            emitter.onError(error)
+                        case .completed:
+                            emitter.onCompleted()
+                        }
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
-    }
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
         let provider = accessProvider()
@@ -169,8 +180,10 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
+                        print("isLike success: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
+                        print("error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()

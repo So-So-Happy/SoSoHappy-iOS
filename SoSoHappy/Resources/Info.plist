@@ -43,7 +43,7 @@
 	<string>${FIND_USER_FEED_PATH}</string>
 	<key>FIND_YEAR_HAPPINESS_PATH</key>
 	<string>${FIND_YEAR_HAPPINESS_PATH}</string>
-	<key>FiND_DETAIL_FEED_PATH</key>
+	<key>FIND_DETAIL_FEED_PATH</key>
 	<string>${FIND_DETAIL_FEED_PATH}</string>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
@@ -90,9 +90,9 @@
 			</array>
 		</dict>
 	</dict>
-	<key>UPDATE_LIKE_PATH</key>
-	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
+	<key>UPDATE_LIKE_PATH</key>
+	<string>${UPDATE_LIKE_PATH}</string>
 </dict>
 </plist>

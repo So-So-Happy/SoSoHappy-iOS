@@ -18,9 +18,8 @@ struct FindAccountFeedResponse: Decodable {
     let categoryList: [String]
     let imageList: [String]
     let likeNicknameList: [String]?
-    
-}
 
+}
 
 extension FindAccountFeedResponse {
     func toDomain() -> MyFeed {
@@ -31,7 +30,7 @@ extension FindAccountFeedResponse {
             }
             return uiImage
         }
-        
+
         return .init(text: text,
                      imageList: uiImageList,
                      categoryList: categoryList,
@@ -39,9 +38,7 @@ extension FindAccountFeedResponse {
                      date: String(date),
                      weather: weather,
                      happiness: happiness,
-                     nickName: nickname, 
+                     nickName: nickname,
                      likeNickNameList: likeNicknameList ?? [])
     }
 }
-
-
