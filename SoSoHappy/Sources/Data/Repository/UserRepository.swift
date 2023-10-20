@@ -25,7 +25,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             // 랜덤 문자열 생성
             let codeVerifier = String.createRandomString(length: 20)
             UserDefaults.standard.setValue(codeVerifier, forKey: "codeVerifier")
-            
+
             let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeVerifier.sha512())))
                 .map(AuthCodeResponse.self)
                 .asObservable()
@@ -54,7 +54,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             let disposable = provider.rx.request(.signIn(userInfo: request))
                 .map { response in
                     // 헤더 추출 및 매핑
-                    var headers = response.response?.allHeaderFields as? [String: String]
+                    let headers = response.response?.allHeaderFields as? [String: String]
                     let accessToken = headers?["Authorization"] ?? ""
                     let refreshToken = headers?["authorization-refresh"] ?? ""
                     let email = headers?["email"] ?? ""

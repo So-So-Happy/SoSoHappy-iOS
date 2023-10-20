@@ -57,10 +57,11 @@ class LoginViewReactor: Reactor {
         case kakaoLoading(Bool)
         case googleLoading(Bool)
         case appleLoading(Bool)
+
+        case showErrorAlert(Error)
+        case clearErrorAlert
         
         case goToMain
-        
-        case showErrorAlert(Error)
     }
     
     // MARK: - 뷰의 상태를 정의 (현재 상태 기록)
@@ -74,39 +75,42 @@ class LoginViewReactor: Reactor {
         var isAppleLoggedIn = false
         var isAppleLoading = false
         
-        var goToMain: Void?
-        
         var showErrorAlert: Error?
+        
+        var goToMain: Void?
     }
     
     // MARK: - mutate action
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .tapKakaoLogin:
-            return Observable.concat([
+            return .concat([
                 Observable.just(Mutation.kakaoLoading(true)),
                 userRepository.getAuthorizeCode()
                     .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithKakao(),
-                Observable.just(Mutation.kakaoLoading(false))
+                Observable.just(Mutation.kakaoLoading(false)),
+                Observable.just(Mutation.clearErrorAlert)
             ])
             
         case .tapGoogleLogin:
-            return Observable.concat([
+            return .concat([
                 Observable.just(Mutation.googleLoading(true)),
                 userRepository.getAuthorizeCode()
                     .map { Mutation.getAuthorizeCode($0) },
-                self.startGoogleLogin(),
-                Observable.just(Mutation.googleLoading(false))
+                self.signinWithGoogle(),
+                Observable.just(Mutation.googleLoading(false)),
+                Observable.just(Mutation.clearErrorAlert)
             ])
             
         case .tapAppleLogin:
-            return Observable.concat([
+            return .concat([
                 Observable.just(Mutation.appleLoading(true)),
                 userRepository.getAuthorizeCode()
                     .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithApple(),
-                Observable.just(Mutation.appleLoading(false))
+                Observable.just(Mutation.appleLoading(false)),
+                Observable.just(Mutation.clearErrorAlert)
             ])
         }
     }
@@ -121,7 +125,6 @@ class LoginViewReactor: Reactor {
            
         case .signIn(let auth):
             print(print("✅ LoginViewReactor reduce() .signIn : \(auth)"))
-            // TODO: Key Chain에 토큰들 저장하기
             
         case .kakaoLogin:
             newState.isKakaoLoggedIn = true
@@ -146,7 +149,10 @@ class LoginViewReactor: Reactor {
             
         case .showErrorAlert(let error):
             newState.showErrorAlert = error
-        
+
+        case .clearErrorAlert:
+            newState.showErrorAlert = nil
+            
         case .goToMain:
             newState.goToMain = ()
         }
@@ -172,19 +178,15 @@ class LoginViewReactor: Reactor {
     }
     
     //MARK: - 구글 로그인
-    private func startGoogleLogin() -> Observable<Mutation> {
+    private func signinWithGoogle() -> Observable<Mutation> {
         self.googleManager.signin()
             .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
                 return self.signIn(request: signinRequest)
             }
             .catch { error in
-                if case .custom(let message) = error as? BaseError,
-                   message == "cancel" {
-                    return .just(.googleLoading(false))
-                } else {
-                    return .just(.showErrorAlert(error))
-                }
+                print("google login error:", error)
+                return .just(.googleLoading(false))
             }
     }
     
@@ -205,9 +207,18 @@ class LoginViewReactor: Reactor {
             }
     }
     
-    // MARK: - 로그인 성공 후 토큰 및 사용자 정보 가져오기
+    // MARK: - 로그인 성공 후 토큰과 사용자 정보 가져오기 & 키체인에 토큰 저장
     private func signIn(request: SigninRequest) -> Observable<Mutation> {
         return userRepository.signIn(request: request)
-            .map { Mutation.signIn($0) }
+            .do(onNext: { signinResponse in
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
+            })
+            .flatMap { [weak self] signinResponse -> Observable<Mutation> in
+                guard let self = self else { return .error(BaseError.unknown) }
+                return .just(.signIn(signinResponse))
+//                    .map { _ in .goToMain }
+            }
+            .catch { return .just(.showErrorAlert($0)) }
     }
 }

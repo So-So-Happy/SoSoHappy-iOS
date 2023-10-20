@@ -79,6 +79,8 @@ final class LoginViewController: UIViewController, View {
                 guard let self = self else { return }
                 logInButtonStackView.kakaoLoginButton.isEnabled = !shouldRun
                 shouldRun ? logInButtonStackView.kakaoSpinner.startAnimating() : logInButtonStackView.kakaoSpinner.stopAnimating()
+                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
+                logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
             })
             .disposed(by: disposeBag)
 
@@ -88,6 +90,8 @@ final class LoginViewController: UIViewController, View {
                 guard let self = self else { return }
                 logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
                 shouldRun ? logInButtonStackView.googleSpinner.startAnimating() : logInButtonStackView.googleSpinner.stopAnimating()
+                logInButtonStackView.kakaoLoginButton.isEnabled = !shouldRun
+                logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
             })
             .disposed(by: disposeBag)
 
@@ -97,6 +101,15 @@ final class LoginViewController: UIViewController, View {
                 guard let self = self else { return }
                 logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
                 shouldRun ? logInButtonStackView.appleSpinner.startAnimating() : logInButtonStackView.appleSpinner.stopAnimating()
+                logInButtonStackView.kakaoLoginButton.isEnabled = !shouldRun
+                logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showErrorAlert }
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                coordinator.presentErrorAlert(error)
             })
             .disposed(by: disposeBag)
     }
@@ -123,12 +136,12 @@ extension LoginViewController {
         appIconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
-            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(40)
+            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(25)
         }
         
         logInButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(appIconImageView.snp.bottom).offset(70)
+            make.top.equalTo(appIconImageView.snp.bottom).offset(100)
             make.width.equalTo(appDescriptionStackView.snp.width)
         }
         
@@ -149,7 +162,7 @@ extension LoginViewController {
         logInButtonStackView.setKakaoButtonTarget(target: self, action: #selector(didTapKakaoButton))
         logInButtonStackView.setAppleButtonTarget(target: self, action: #selector(didTapAppleButton))
     }
-    
+
     @objc private func didTapKakaoButton() {
         coordinator.pushMainView()
         print("카카오 눌림")

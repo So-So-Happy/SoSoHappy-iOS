@@ -19,13 +19,13 @@ final class AppDescriptionStackView: UIView {
         axis: .vertical,
         alignment: .center,
         distribution: .fill,
-        spacing: 28
+        spacing: 35
     )
     
     private lazy var appNameLabel = UILabel().then {
         $0.text = "소소해피"
         $0.textColor = .darkGray
-        $0.font = .systemFont(ofSize: 36, weight: .bold)
+        $0.font = .systemFont(ofSize: 40, weight: .bold)
         $0.setLineSpacing(kernValue: 9, alignment: .center)
     }
     
@@ -34,7 +34,7 @@ final class AppDescriptionStackView: UIView {
         $0.textColor = .darkGray
         $0.font = .systemFont(ofSize: 15, weight: .light)
         $0.numberOfLines = 2
-        $0.setLineSpacing(lineSpacing: 8, alignment: .center)
+        $0.setLineSpacing(lineSpacing: 5, alignment: .center)
     }
     
     private lazy var circleView = UIView().then {

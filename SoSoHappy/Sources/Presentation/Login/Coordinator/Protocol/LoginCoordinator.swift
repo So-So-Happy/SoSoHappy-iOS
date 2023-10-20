@@ -10,6 +10,7 @@ import UIKit
 public protocol LoginCoordinatorProtocol {
     func pushAuthView()
     func pushMainView()
+    func presentErrorAlert(_ error: Error)
 }
 
 final class LoginCoordinator: Coordinator {
@@ -46,6 +47,16 @@ extension LoginCoordinator {
     func makeAuthViewController() -> UIViewController {
         let viewController = LoginViewController(coordinator: self)
         return viewController
+    }
+    
+    func presentErrorAlert(_ error: Error) {
+        let alert = UIAlertController(title: "⚠️ 네트워크 오류 ⚠️", message: "잠시 후에 다시 시도해주세요.\n\(error.localizedDescription)", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        alert.addAction(okAction)
+        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
+        if let window = keyWindow, let rootViewController = window.rootViewController {
+            rootViewController.present(alert, animated: true, completion: nil)
+        }
     }
 }
 
