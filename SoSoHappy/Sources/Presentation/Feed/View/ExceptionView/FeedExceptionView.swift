@@ -9,13 +9,26 @@ import UIKit
 
 // 올라온 피드가 없습니다
 final class FeedExceptionView: UIView {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .blue
+    convenience init(title: String, topOffset: Int) {
+        self.init(frame: .zero)
+        self.configureUI(title: title, topOffset: topOffset)
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+}
+
+extension FeedExceptionView {
+    func configureUI(title: String, topOffset: Int) {
+        let titleLabel = UILabel()
+        
+        titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
+        titleLabel.textColor = .darkGray
+        titleLabel.text = title
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+        
+        self.addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(topOffset)
+        }
     }
 }
