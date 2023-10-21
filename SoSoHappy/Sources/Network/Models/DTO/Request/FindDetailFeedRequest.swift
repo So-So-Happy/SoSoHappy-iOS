@@ -10,6 +10,5 @@ import Foundation
 struct FindDetailFeedRequest: Encodable {
     let date: Int64
     let dstNickname: String
-    let scrNickname: String
-    
+    let srcNickname: String
 }
