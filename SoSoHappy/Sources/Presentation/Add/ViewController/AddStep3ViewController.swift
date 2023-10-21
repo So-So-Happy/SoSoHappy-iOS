@@ -26,6 +26,7 @@ final class AddStep3ViewController: BaseDetailViewController {
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
+
     
     override func viewDidLoad() {
         //        view.backgroundColor = .systemYellow

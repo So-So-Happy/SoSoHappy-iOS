@@ -26,6 +26,10 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["KAKAO_LOGIN_PATH"] as? String else { fatalError("KAKAO_LOGIN_PATH error") }
         return key
     }
+    var appleLoginPath: String {
+        guard let key = Bundle.main.infoDictionary?["APPLE_LOGIN_PATH"] as? String else { fatalError("APPLE_LOGIN_PATH error") }
+        return key
+    }
     var checkDuplicateNickNamePath: String {
         guard let key = Bundle.main.infoDictionary?["CHECK_DUPLICATE_NICKNAME_PATH"] as? String else { fatalError("CHECK_DUPLICATE_NICKNAME_PATH error") }
         return key

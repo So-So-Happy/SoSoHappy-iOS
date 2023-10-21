@@ -53,6 +53,8 @@
 	<string>${GOOGLE_LOGIN_PATH}</string>
 	<key>KAKAO_LOGIN_PATH</key>
 	<string>${KAKAO_LOGIN_PATH}</string>
+  <key>APPLE_LOGIN_PATH</key>
+	<string>${APPLE_LOGIN_PATH}</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>

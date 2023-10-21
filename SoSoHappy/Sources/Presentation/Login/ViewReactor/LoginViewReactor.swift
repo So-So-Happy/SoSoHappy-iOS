@@ -137,7 +137,6 @@ class LoginViewReactor: Reactor {
         self.kakaoManager.signin()
             .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                self.getUserInfo()
                 return Observable.empty() // TODO: 임시 (기존: self.signin(request: signinRequest))
             }
             .catch { error in
@@ -193,43 +192,4 @@ class LoginViewReactor: Reactor {
                 }
             }
     }
-    
-    // MARK: - 사용자 정보 가져오기 : 카카오
-    func getUserInfo() {
-        UserApi.shared.rx.me()
-            .subscribe (onSuccess:{ user in
-                print("🔎 ##### 카카오 사용자 정보 조회 성공 #####")
-                print("userNickname :", user.properties?["nickname"] ?? "unknown_token")
-                print("userEmail :", user.kakaoAccount?.email ?? "unknown_email")
-                print("userID :", user.id ?? "unknown_ID")
-            }, onFailure: {error in
-                print(error)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    // MARK: - 토큰 정보 보기 : 카카오
-    func checkToken() { // 사용자 액세스 토큰 정보 조회
-        UserApi.shared.rx.accessTokenInfo()
-            .subscribe(onSuccess:{ (accessTokenInfo) in
-                print("accessToken: \(accessTokenInfo.self)")
-                self.userDefaults.write(key: .token, value: accessTokenInfo.self)
-                _ = accessTokenInfo
-                // keychain (key)
-            }, onFailure: {error in
-                print(error)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    //    private func signin(request: SigninRequest) -> Observable<Mutation> {
-    //        return repository.kakaoLogin()
-    //            .asObservable()
-    //            .flatMap { _ in
-    //                return Observable.just(Mutation.kakaoLoading(false))
-    //            }
-    //            .catch { error in
-    //                return .just(Mutation.showErrorAlert(HTTPError.unauthorized))
-    //            }
-    //    }
 }
