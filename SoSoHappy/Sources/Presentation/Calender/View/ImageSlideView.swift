@@ -85,9 +85,9 @@ extension ImageSlideView {
 
 // MARK: Setting할 수 있는 functions
 extension ImageSlideView {
-    func setContents(feed: FeedTemp) {
+    func setContents(feed: FeedType) {
         imageResources = []
-        feed.images.forEach { img in
+        feed.imageList.forEach { img in
             imageResources.append(ImageSource(image: img))
         }
         self.slideShowView.setImageInputs(imageResources)
