@@ -14,5 +14,6 @@ protocol UserRepositoryProtocol {
     func setProfile(profile: Profile) -> Observable<SetProfileResponse>
     func resign(email: ResignRequest) -> Observable<ResignResponse>
     func getRefreshToken() -> Observable<AuthResponse>
-    func findProfileImg(nickName: FindProfileImgRequest) -> Observable<FindProfileImgResponse>
+    func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage>
+    func findIntroduction(request: FindIntroductionRequest) -> Observable<String>
 }

@@ -6,17 +6,13 @@
 //
 
 import ReactorKit
-/*
- text: String           // 일기
- imageList: List<File>  // 사진들
- categoryList: [String] // 카테고리
- isPublic: Boole        // 공개 여부
- date: Int              // 작성 날짜
- weather: String        // 날씨
- happiness: Int         // 행복 정도
- nickName: String       // 작성자 닉네임
- 
- */
+import Foundation
+
+enum AddStep {
+    case step1
+    case step2
+}
+
 
 final class AddViewReactor: Reactor {
     // MARK: Properties
@@ -30,36 +26,53 @@ final class AddViewReactor: Reactor {
         "pet", "picture", "youtube", "sea",
         "shopping", "sleep", "study", "trip"
     ]
-    let maxSelectedCategories = 3
+    
+    let maximumSelectionCount = 3
     
     enum Action {
         // MARK: Add1
-        case weatherButtonTapped(Int)
-        case happinessButtonTapped(Int)
+        case weatherButtonTapped(Int) // 0, 1, 2, 3, 4
+        case happinessButtonTapped(Int) // 1, 2, 3, 4, 5
+        case tapNextButton(AddStep)
        
         // MARK: Add2
         case selectCategory(String)
         case deselectCategory(String)
+        
+        // MARK: Add3
+        case fetchDatasForAdd3
+        case tapLockButton
     }
     
     enum Mutation {
         // MARK: Add1
         case setSelectedWeather(Int)
         case setSelectedHappiness(Int)
+        case setBeforeMovingToNextStep(AddStep)
         
         // MARK: Add2
         case selectedCategories([String])
-        case deselectCategoryItem(Int)
+        
+        // MARK: Add3
+        case setDatasForAdd3
+        case isPrivate(Bool)
     }
     
     struct State {
         // MARK: Add1
         var selectedWeather: Int?
         var selectedHappiness: Int?
+        var date: Date?
 
         // MARK: Add2
         var selectedCategories: [String] = []
         var deselectCategoryItem: Int?
+        
+        // MARK: Add3
+        var happyAndCategory: [String]?
+        var dateString: String?
+        var weatherString: String?
+        var isPrivate: Bool = true // true - 비공개 , false - 공개
     }
     
     let initialState: State
@@ -71,18 +84,33 @@ final class AddViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .weatherButtonTapped(tag):
-            print("Weather 버튼 눌림, tag: \(tag)")
+            print("mutate - Weather 버튼 눌림, tag: \(tag)")
             return Observable.just(.setSelectedWeather(tag))
             
         case let .happinessButtonTapped(tag):
-            print("Happiness 버튼 눌림, tag: \(tag)")
+            print("muate - Happiness 버튼 눌림, tag: \(tag)")
             return Observable.just(.setSelectedHappiness(tag))
             
+        case let .tapNextButton(addStep):
+            return Observable.just(.setBeforeMovingToNextStep(addStep))
+            
         case let .selectCategory(category):
-            return selectCategory(category)
+            print("mutate - selectCategory")
+            return setSelectedCategory(category)
             
         case .deselectCategory(let category):
-            return deselectCategory(category)
+            print("mutate - deselectCategory")
+            return setDeselectCategory(category)
+            
+        case .fetchDatasForAdd3:
+            print("muate -  fetchDatasForAdd3")
+            return Observable.just(.setDatasForAdd3)
+            
+        case .tapLockButton:
+            print("muate -  tapLockButton")
+            let isPrivate = !currentState.isPrivate
+            return Observable.just(.isPrivate(isPrivate))
+            
         }
     }
     
@@ -91,9 +119,18 @@ final class AddViewReactor: Reactor {
         switch mutation {
         case let .setSelectedWeather(tag):
             newState.selectedWeather = tag
+            newState.weatherString = weatherStrings[tag]
             
         case let .setSelectedHappiness(tag):
             newState.selectedHappiness = tag
+            
+        case let .setBeforeMovingToNextStep(stepNow):
+            switch stepNow {
+            case .step1:
+                newState.selectedCategories = []
+            case .step2:
+                newState.date = Date()
+            }
             
         case let .selectedCategories(categories):
             print("~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~ ~~~~~~~~ ")
@@ -104,48 +141,51 @@ final class AddViewReactor: Reactor {
 
             newState.selectedCategories = categories
             
-        case let .deselectCategoryItem(deselectedCategoryItem):
-            newState.deselectCategoryItem = deselectedCategoryItem
+        case .setDatasForAdd3:
+            print("reduce - setDatasForAdd3")
+            // 행복/카테고리 배열
+            print("state.selectedHappiness : \(type(of: state.selectedHappiness))") // Optional<Int>
+            print("state.selectedWeather: \(type(of: state.selectedWeather))") // Optional<Int>
+            if let happyInt = state.selectedHappiness {
+                // 행복 + 카테고리
+                let happineesImageName = "happy\(happyInt)"
+                let happinessAndCategories = [happineesImageName] + state.selectedCategories
+                
+                //날짜
+                let todayDate = Date()
+                let dateToString = todayDate.getFormattedYMDE()
             
+                //배경 이미지
+                let backgroundImageName = weatherStrings[state.selectedWeather!]
+                
+                newState.happyAndCategory = happinessAndCategories
+                newState.dateString = dateToString
+            }
+            
+        case let .isPrivate(isPrivate):
+            newState.isPrivate = isPrivate
         }
         return newState
     }
 }
 
 extension AddViewReactor {
-    private func selectCategory(_ category: String) -> Observable<Mutation> {
+    // MARK: selectedCategories에 새로 들어온 category 추가
+    private func setSelectedCategory(_ category: String) -> Observable<Mutation> {
         var selectedCategories = currentState.selectedCategories
-        selectedCategories.insert(category, at: 0)
-        
-        if selectedCategories.count > 3 {
-            
-            let removed = selectedCategories.removeLast()
-            if let removedItem = categories.firstIndex(of: removed){
-                print("3 이상, \(selectedCategories) ")
-                // 추가되고 제거된 내용을 State의 selectedCategories에 업데이트를 시켜줘야 하기 때문에 .selectedCategories Mutation도 해줘야 함
-                return Observable.concat([
-                    Observable.just(.deselectCategoryItem(removedItem)),
-                    Observable.just(.selectedCategories(selectedCategories))
-                ])
-                
-            }
-        }
-        
-        print("String.self SELECT - \(category), selectedCategories : \(selectedCategories)")
-    
+        selectedCategories.append(category)
+
         return Observable.just(.selectedCategories(selectedCategories))
     }
     
-    private func deselectCategory(_ category: String) -> Observable<Mutation> {
+    // MARK: selectedCategories에 category 제거
+    private func setDeselectCategory(_ category: String) -> Observable<Mutation> {
         var selectedCategories = currentState.selectedCategories
-        
         if let index = selectedCategories.firstIndex(of: category) {
             selectedCategories.remove(at: index)
-            print("String.self DESELECT - \(category), selectedCategories : \(selectedCategories)")
-            
-            return Observable.just(.selectedCategories(selectedCategories))
         }
         
-        return Observable.empty()
+        return Observable.just(.selectedCategories(selectedCategories))
     }
 }
+

@@ -41,8 +41,8 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
 extension OwnerFeedCoordinator {
     func showDetails(feed: FeedTemp) {
         print("OwnerFeedCoordinator didSelectCell 메서드 실행")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feed: feed, navigatingFrom: .ownerFeedViewController)
-        self.childCoordinators.append(feedDetailCoordinator)
-        feedDetailCoordinator.start()
+//        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feed: feed, navigatingFrom: .ownerFeedViewController)
+//        self.childCoordinators.append(feedDetailCoordinator)
+//        feedDetailCoordinator.start()
     }
 }

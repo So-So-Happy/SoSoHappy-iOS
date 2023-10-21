@@ -104,10 +104,10 @@ extension FeedAPI {
             formData.append(MultipartFormData(provider: .data(date), name: "date"))
             return .uploadMultipart(formData)
 //            return .requestJSONEncodable(data)
-        case .findDetailFeed(let data):
-            return .requestJSONEncodable(data)
-        case .findOtherFeed(let param):
+        case .findDetailFeed(let param):
             return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
+        case .findOtherFeed(let param):
+            return .requestParameters(parameters: param.params, encoding: URLEncoding.queryString)
         case .findUserFeed(let param):
             return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
         case .analysisHappiness(let data):
@@ -119,7 +119,14 @@ extension FeedAPI {
         case .updatePublicStatus(let data):
             return .requestJSONEncodable(data)
         case .updateLike(let data):
-            return .requestJSONEncodable(data)
+            var formData: [Moya.MultipartFormData] = []
+            let srcNickname = data.srcNickname.data(using: .utf8)!
+            let date = String(data.date).data(using: .utf8)!
+            let nickname = data.nickname.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
+            formData.append(MultipartFormData(provider: .data(date), name: "date"))
+            formData.append(MultipartFormData(provider: .data(srcNickname), name: "srcNickname"))
+            return .uploadMultipart(formData)
         }
     }
     
@@ -170,3 +177,4 @@ extension FeedAPI {
         return formData
     }
 }
+

@@ -30,9 +30,11 @@ final class OwnerFeedCell: BaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setFeedCell(_ feed: FeedTemp) {
+    override func setFeedCell(_ feed: FeedType) {
         super.setFeedCell(feed)
-        heartButton.setHeartButton(feed.isLike)
+        if let userFeed = feed as? UserFeed {
+            heartButton.setHeartButton(userFeed.isLiked)
+        }
     }
 }
 
@@ -52,22 +54,22 @@ extension OwnerFeedCell {
 
 extension OwnerFeedCell: View {
     func bind(reactor: FeedReactor) {
-        guard let currentFeed = reactor.currentState.feed else { return }
-        setFeedCell(currentFeed)
-        
-        heartButton.rx.tap
-            .map { Reactor.Action.toggleLike }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        
-        reactor.state
-            .skip(1)
-            .compactMap { $0.feed?.isLike } // Optional 벗기고 nil 값 filter
-            .bind { [weak self] isLike in
-                guard let `self` = self else { return }
-                heartButton.setHeartButton(isLike)
-            }
-            .disposed(by: disposeBag)
+//        guard let currentFeed = reactor.currentState.feed else { return }
+//        setFeedCell(currentFeed)
+//        
+//        heartButton.rx.tap
+//            .map { Reactor.Action.toggleLike }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//        
+//        
+//        reactor.state
+//            .skip(1)
+//            .compactMap { $0.feed?.isLike } // Optional 벗기고 nil 값 filter
+//            .bind { [weak self] isLike in
+//                guard let `self` = self else { return }
+//                heartButton.setHeartButton(isLike)
+//            }
+//            .disposed(by: disposeBag)
     }
 }

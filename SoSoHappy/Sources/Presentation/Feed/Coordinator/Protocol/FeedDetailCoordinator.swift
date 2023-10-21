@@ -21,22 +21,22 @@ final class FeedDetailCoordinator: FeedDetailCoordinatorInterface {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    var feed: FeedTemp
+    var userFeed: UserFeed
     var navigatingFrom: FeedNavigationSource
     
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController(), feed: FeedTemp, navigatingFrom: FeedNavigationSource ) {
+    init(navigationController: UINavigationController = UINavigationController(), userFeed: UserFeed, navigatingFrom: FeedNavigationSource ) {
         self.navigationController = navigationController
-        self.feed = feed
+        self.userFeed = userFeed
         self.navigatingFrom = navigatingFrom
     }
     
     func start() {
         print("FeedDetailCoordinator START")
-//        print("-----------feedData: \(feedData)") // feedTemp type
-        let feedReactor = FeedReactor(feed: feed)
+        let feedReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository())
         let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
+
         navigationController.pushViewController(feedDetailVC, animated: true)
     }
     

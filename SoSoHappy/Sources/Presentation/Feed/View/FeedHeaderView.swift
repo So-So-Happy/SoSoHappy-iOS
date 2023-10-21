@@ -36,6 +36,7 @@ final class FeedHeaderView: UIView {
     lazy var sortTodayButton = UIButton().then {
         $0.setTitle("오늘", for: .normal)
         $0.setTitleColor(.black, for: .normal)
+//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     }
     
     private lazy var divider = UILabel().then {
@@ -46,6 +47,7 @@ final class FeedHeaderView: UIView {
     lazy var sortTotalButton = UIButton().then {
         $0.setTitle("전체", for: .normal)
         $0.setTitleColor(.gray, for: .normal)
+//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     }
     
     override init(frame: CGRect) {
@@ -103,6 +105,7 @@ extension FeedHeaderView {
             setSortTextColorAttribute(sortTodayButton, sortTotalButton)
         case .total:
             setSortTextColorAttribute(sortTotalButton, sortTodayButton)
+        default: break
         }
     }
     

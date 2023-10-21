@@ -6,8 +6,7 @@
 //
 import UIKit
 
-struct MyFeed {
-    
+struct MyFeed: FeedType {
     let text: String
     let imageList: [UIImage]
     let categoryList: [String]

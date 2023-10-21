@@ -47,8 +47,10 @@
 	<string>${FIND_USER_FEED_PATH}</string>
 	<key>FIND_YEAR_HAPPINESS_PATH</key>
 	<string>${FIND_YEAR_HAPPINESS_PATH}</string>
-	<key>FiND_DETAIL_FEED_PATH</key>
+	<key>FIND_DETAIL_FEED_PATH</key>
 	<string>${FIND_DETAIL_FEED_PATH}</string>
+	<key>FIND_INTRODUCTION</key>
+	<string>${FIND_INTRODUCTION}</string>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>

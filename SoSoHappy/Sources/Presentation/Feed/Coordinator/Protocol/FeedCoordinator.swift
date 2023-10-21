@@ -19,7 +19,7 @@ import UIKit
 
 // MARK: - FeedCoordinatorInterface
 protocol FeedCoordinatorInterface: Coordinator {
-    func showdDetails(feed: FeedTemp) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
+    func showdDetails(userFeed: UserFeed) // feed 넘겨주기만 하면 됨 (따로 서버 통신 필요 없음)
     func showOwner(ownerNickName: String) // 조회대상 닉네임이 필요 ('특정 유저 피드 조회'는 서버통신 필요)
 }
 
@@ -37,8 +37,8 @@ final class FeedCoordinator: FeedCoordinatorInterface {
     
     // 실행했을 때 나오는 화면
     func start() {
-        let feedReactor = FeedViewReactor()
-        let feedVC = FeedViewController(reactor: feedReactor, coordinator: self)
+        let feedViewReactor = FeedViewReactor(feedRepository: FeedRepository())
+        let feedVC = FeedViewController(reactor: feedViewReactor, coordinator: self)
         navigationController.pushViewController(feedVC, animated: true)
     }
     
@@ -48,9 +48,10 @@ final class FeedCoordinator: FeedCoordinatorInterface {
 }
 
 extension FeedCoordinator {
-    func showdDetails(feed: FeedTemp) {
+    func showdDetails(userFeed: UserFeed) {
         print("1. cell 선택함")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feed: feed, navigatingFrom: .feedViewController)
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, userFeed: userFeed, navigatingFrom: .feedViewController)
+        
         self.childCoordinators.append(feedDetailCoordinator)
         feedDetailCoordinator.start()
     }

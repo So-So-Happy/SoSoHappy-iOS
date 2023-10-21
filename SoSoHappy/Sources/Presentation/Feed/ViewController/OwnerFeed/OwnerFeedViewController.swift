@@ -131,14 +131,14 @@ extension OwnerFeedViewController: View {
     }
     
     private func configureCell(_ cell: OwnerFeedCell, with feed: FeedTemp) {
-        let cellReactor = FeedReactor(feed: feed)
-        cell.reactor = cellReactor
-        cell.imageSlideView.tapObservable
-            .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-            })
-            .disposed(by: cell.disposeBag) // cell.disposeBag ?
+//        let cellReactor = FeedReactor(feed: feed)
+//        cell.reactor = cellReactor
+//        cell.imageSlideView.tapObservable
+//            .subscribe(onNext: { [weak self] in
+//                guard let self = self else { return }
+//                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+//            })
+//            .disposed(by: cell.disposeBag) // cell.disposeBag ?
     }
 }
 

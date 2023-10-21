@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
+
         let navigationController = UINavigationController()
         coordinator = LoginCoordinator(navigationController: navigationController)
         coordinator?.start()
@@ -28,6 +29,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+
+//         let window = UIWindow(windowScene: windowScene)
+        
+//         //MARK: 전체 Tab Bar 다 확인할 수 있는 코드
+//         let navigationController = UINavigationController()
+//         window.rootViewController = navigationController
+//         let coordinator = AppCoordinator(navigationController: navigationController)
+//         coordinator.start()
+
+        // MARK: View 한 개씩 화인
+//        let mainVC = UINavigationController(rootViewController: AddStep2ViewController(reactor: AddViewReactor()))
+//        let mainVC = UINavigationController(rootViewController: AddStep3ViewController3())
+//        let mainVC = UINavigationController(rootViewController: SignUpViewController(reactor: SignUpViewReactor()))
+                                            
+                                            
+//        window.rootViewController = mainVC // 시작 VC 작성해주기
+
+//         window.makeKeyAndVisible()
+//         self.window = window
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

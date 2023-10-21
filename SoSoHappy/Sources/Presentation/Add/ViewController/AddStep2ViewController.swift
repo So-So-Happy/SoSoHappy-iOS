@@ -12,14 +12,13 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-// 버그 있었는데 제대로 추적 못함 (시뮬에서 계속 눌러보면서 찾고 해결하기)
 
 // MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
 final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
-    
+    private weak var coordinator: AddCoordinatorInterface?
+
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 2)
     
@@ -45,11 +44,17 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        
+        print("--------AddSTEP2---------")
+        print("reactor.initialState.selectedWeather: \(reactor?.currentState.selectedWeather)")
+        print("reactor.initialState.selectedHappiness : \(reactor?.currentState.selectedHappiness)")
+        print("--------------------------")
     }
     
-    init(reactor: AddViewReactor) {
+    init(reactor: AddViewReactor, coordinator: AddCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -102,12 +107,12 @@ extension AddStep2ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 // 이 사이즈를 좀 더 조정해주면 좋을 것 같음. 선택될 때 약간 짤린 듯한 느낌 남 (비행기)
 extension AddStep2ViewController: UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -162,19 +167,44 @@ extension AddStep2ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        nextButton.rx.tap
+            .map { Reactor.Action.tapNextButton(.step2) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.showNextAdd(reactor: reactor)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.selectedCategories.count > 0 }
             .distinctUntilChanged()
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
-        
-        reactor.state
-            .compactMap { $0.deselectCategoryItem }
-            .bind(to: categoryCollectionView.rx.deselectItem)
-            .disposed(by: disposeBag)
-        
     }
 }
 
+// MARK: - CollectionView의 cell 선택에 Limit 설정
+extension AddStep2ViewController {
+    // cell을 선택할 때마다 호출 (deselect일 때는 호출되지 않음)
+    // didSelectItemAt 이전에 동작함
+    // cell의 isSelected를 true/false로 만드는 것을 결정
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        print("activated ")
+        
+        if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems, let reactor = reactor {
+            print("activated 1 : \(indexPathsForSelectedItems.count < reactor.maximumSelectionCount)")
+            print("~~~")
+            return indexPathsForSelectedItems.count < reactor.maximumSelectionCount
+        }
+        print("activated2 - true")
+        print("~~~")
+        return true
+    }
+
+}
 
 

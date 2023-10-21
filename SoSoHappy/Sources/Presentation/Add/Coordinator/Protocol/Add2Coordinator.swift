@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class Add2Coordinator: Coordinator {
+final class Add2Coordinator: AddCoordinatorInterface {
     var type: CoordinatorType { .add }
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
@@ -22,11 +22,21 @@ final class Add2Coordinator: Coordinator {
     }
     
     func start() {
-        let viewController = AddStep2ViewController(reactor: reactor)
-        navigationController.pushViewController(viewController, animated: true)
+        let addStep2VC = AddStep2ViewController(reactor: reactor, coordinator: self)
+        navigationController.pushViewController(addStep2VC, animated: true)
     }
     
     func finish() {
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
+}
+
+extension Add2Coordinator {
+    func showNextAdd(reactor: AddViewReactor) {
+        print("AddStep2 - shoNextAdd")
+        print("reactor.initialState.selectedCategories: \(reactor.currentState.selectedCategories)")
+        
+        let addStep3VC = AddStep3ViewController(reactor: reactor)
+        navigationController.pushViewController(addStep3VC, animated: true)
     }
 }

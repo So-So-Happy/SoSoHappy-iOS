@@ -40,7 +40,7 @@ final class ProfileImageNameTimeStackView: UIView {
         $0.font = .systemFont(ofSize: 18, weight: .semibold)
     }
     
-    // 피드 올라온 시간
+    // 피드 올라온 시간 ex. 4 분전
     private lazy var timeLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 11, weight: .light)
@@ -88,10 +88,10 @@ extension ProfileImageNameTimeStackView {
 
 // MARK: Setting할 수 있는 function
 extension ProfileImageNameTimeStackView {
-    func setContents(feed: FeedTemp) {
-        profileImageView.image = feed.profileImage
-        profileNickNameLabel.text = feed.profileNickName
-        timeLabel.text = feed.time
+    func setContents(userFeed: UserFeed) {
+        profileImageView.image = userFeed.profileImage
+        profileNickNameLabel.text = userFeed.nickName
+        timeLabel.text = userFeed.timeAgoString
     }
 }
 

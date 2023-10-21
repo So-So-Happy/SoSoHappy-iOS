@@ -21,7 +21,7 @@ final class HappyListCell: BaseCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setFeedCell(_ feed: FeedTemp) {
+    override func setFeedCell(_ feed: FeedType) {
         super.setFeedCell(feed)
     }
 }
@@ -29,7 +29,8 @@ final class HappyListCell: BaseCell {
 //MARK: - ReactorKit - bind function
 extension HappyListCell: View {
     func bind(reactor: HappyListCellReactor) {
+        // TODO: 여기 HappyListCellReactor 수정됨에 맞게 고쳐주면 됨
         guard let currentFeed = reactor.currentState.feed else { return }
-        setFeedCell(currentFeed)
+//        setFeedCell(currentFeed)
     }
 }
