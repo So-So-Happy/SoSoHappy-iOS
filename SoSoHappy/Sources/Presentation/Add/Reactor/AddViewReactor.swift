@@ -31,8 +31,8 @@ final class AddViewReactor: Reactor {
     
     enum Action {
         // MARK: Add1
-        case weatherButtonTapped(Int)
-        case happinessButtonTapped(Int)
+        case weatherButtonTapped(Int) // 0, 1, 2, 3, 4
+        case happinessButtonTapped(Int) // 1, 2, 3, 4, 5
         case tapNextButton(AddStep)
        
         // MARK: Add2
@@ -52,7 +52,6 @@ final class AddViewReactor: Reactor {
         
         // MARK: Add2
         case selectedCategories([String])
-        case deselectCategoryItem(Int)
         
         // MARK: Add3
         case setDatasForAdd3
@@ -141,9 +140,6 @@ final class AddViewReactor: Reactor {
             print("  ")
 
             newState.selectedCategories = categories
-            
-        case let .deselectCategoryItem(deselectedCategoryItem):
-            newState.deselectCategoryItem = deselectedCategoryItem
             
         case .setDatasForAdd3:
             print("reduce - setDatasForAdd3")
