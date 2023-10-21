@@ -2,186 +2,134 @@
 //  AddStep3ViewController.swift
 //  SoSoHappy
 //
-//  Created by 박민주 on 2023/08/14.
+//  Created by Sue on 10/16/23.
 //
 
 import UIKit
 import SnapKit
 import Then
+import ReactorKit
+import RxSwift
+import RxCocoa
 
-final class AddStep3ViewController: UIViewController {
+/*
+ 1. 갤러리 연결
+ 2. 사진 표시
+ 3. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함
+ 4. textView가 isEmpty - false일 경우 "저장"버튼 activate
+ 5. textView placeholder '오늘의 소소한 행복을 기록해주세요'
+ */
+
+final class AddStep3ViewController: BaseDetailViewController {
+    // MARK: - UI Components
+    private lazy var statusBarStackView = StatusBarStackView(step: 3)
+    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
     
-    // MARK: - Properties
-    private lazy var statusBarStack = UIStackView().then {
-        $0.axis = .horizontal
-        $0.distribution = .fillEqually // 뷰를 동일한 크기로 분배
-    }
-    private lazy var statusBarStep1 = UIView().then {
-        $0.backgroundColor = .white
-    }
+    private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
     
-    private lazy var statusBarStep2 = UIView().then {
-        $0.backgroundColor = .white
-    }
-    
-    private lazy var statusBarStep3 = UIView().then {
-        $0.backgroundColor = UIColor(named: "AccentColor")
-    }
-        
-    private lazy var saveButton = UIButton(type: .system).then {
-        $0.setTitle("저장", for: .normal)
-        $0.titleLabel?.font = .boldSystemFont(ofSize: UIFont.labelFontSize)
-        $0.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-    }
-    
-    private lazy var feelingStack = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 10
-    }
-    
-    private lazy var happinessRate = UIImageView(image: UIImage(named: "happy100")).then {
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    private lazy var happinessCategory1 = UIImageView(image: UIImage(named: "home")).then {
-        $0.contentMode = .scaleAspectFit
-    }
-    
-    private lazy var dateLabel = UILabel().then {
-        $0.textColor = .darkGray
-        $0.font = UIFont.systemFont(ofSize: 13)
-        $0.text = getCurrentDate()
-    }
-    
-    private lazy var textView = UITextView().then {
-        $0.text = "오늘은..."
-        $0.backgroundColor = .clear // Set background color to clear
-        $0.font = UIFont.systemFont(ofSize: 15)
-        $0.inputAccessoryView = toolBar
-        $0.autocorrectionType = .no
-        $0.autocapitalizationType = .none
-        $0.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-    }
-    
-    private lazy var toolBar = UIToolbar().then {
-        $0.sizeToFit()
-        $0.items = [photoButton, lockButton, flexibleSpaceButton, downKeyboardButton]
-    }
-    
-    private lazy var photoButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: self, action: #selector(photoButtonTapped)).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var lockButton = UIBarButtonItem(image: UIImage(systemName: "lock"), style: .plain, target: self, action: #selector(lockButtonTapped)).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil).then {
-        $0.tintColor = .black
-    }
-    
-    private lazy var downKeyboardButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down"), style: .plain, target: self, action: #selector(downKeyboardButtonTapped))
-    
-    // MARK: - LifeCycle
     override func viewDidLoad() {
+        //        view.backgroundColor = .systemYellow
+        print("AddStep3ViewController - viewDidLoad")
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "BGgrayColor")
-
-        setUpView()
-        setConstraints()
+        setup()
+    }
+    
+    init(reactor: AddViewReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
-
-// MARK: - Layout & Atribute
-private extension AddStep3ViewController {
-    
-    //  MARK: 뷰 구성요소 세팅
-    private func setUpView() {
-        statusBarStack.addArrangedSubview(statusBarStep1)
-        statusBarStack.addArrangedSubview(statusBarStep2)
-        statusBarStack.addArrangedSubview(statusBarStep3)
-
-        view.addSubview(statusBarStack)
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
-
-        feelingStack.addArrangedSubview(happinessRate)
-        feelingStack.addArrangedSubview(happinessCategory1)
-        view.addSubview(feelingStack)
-
-        view.addSubview(dateLabel)
-        view.addSubview(textView)
+// MARK: - set up
+extension AddStep3ViewController {
+    private func setup() {
+        setLayout()
+        setAttributes()
     }
     
-    //  MARK: 뷰 구성요소 제약 설정
-    private func setConstraints() {
-        statusBarStack.snp.makeConstraints { make in
+    private func setAttributes() {
+        textView.isUserInteractionEnabled = true
+        textView.inputAccessoryView = addKeyboardToolBar
+        
+        print("editable \(textView.isEditable)")
+    }
+    
+    private func setLayout() {
+        self.scrollView.addSubview(statusBarStackView)
+        self.navigationItem.rightBarButtonItem = saveButton
+        
+        statusBarStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(self.view.safeAreaLayoutGuide)
-            make.height.equalTo(5) // 높이 설정
         }
         
-        feelingStack.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStack).inset(UIEdgeInsets(top: 65, left: 0, bottom: 0, right: 0))
-        }
-        
-        happinessRate.snp.makeConstraints { make in
-            make.width.height.equalTo(60)
-        }
-        
-        happinessCategory1.snp.makeConstraints { make in
-            make.width.height.equalTo(60)
-        }
-        
-        dateLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(feelingStack).inset(UIEdgeInsets(top: 80, left: 0, bottom: 0, right: 0))
-        }
-        
-        textView.snp.makeConstraints { make in
-            make.bottom.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 60, right: 20))
-            make.top.equalTo(dateLabel).inset(UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0))
+        // 카테고리 설정
+        categoryStackView.snp.updateConstraints { make in
+            make.top.equalToSuperview().offset(80)
         }
     }
 }
 
-// MARK: - Action
-private extension AddStep3ViewController {
-    
-    // MARK: 저장 버튼 클릭 이벤트 함수
-    @objc private func saveButtonTapped() {
-        print("Save Button is clicked.")
-    }
-    
-    // MARK: 현재 날짜를 가져오는 함수
-    private func getCurrentDate() -> String {
-        // Get the current date
-        let currentDate = Date()
+// MARK: - bind func
+extension AddStep3ViewController: View {
+    func bind(reactor: AddViewReactor) {
+        self.rx.viewDidLoad
+            .map { Reactor.Action.fetchDatasForAdd3 }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
-        // Create a date formatter
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd E요일"
+        self.addKeyboardToolBar.photoBarButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                print("picture tapped")
+            })
+            .disposed(by: disposeBag)
         
-        // Format the date as a string
-        let dateString = dateFormatter.string(from: currentDate)
+        self.addKeyboardToolBar.lockBarButton.rx.tap
+            .map { Reactor.Action.tapLockButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
-        return dateString
-    }
-    
-    // MARK: 앨범 버튼 클릭 이벤트 함수
-    @objc private func photoButtonTapped() {
-        print("Photo Button is clicked.")
-    }
-    
-    // MARK: 공개/비공개 버튼 클릭 이벤트 함수
-    @objc private func lockButtonTapped() {
-        print("Lock Button is clicked.")
-    }
-    
-    // MARK: 키보드 내림 버튼 클릭 이벤트 함수
-    @objc private func downKeyboardButtonTapped() {
-        self.view.endEditing(true)
-        print("DownKeyboard Button is clicked.")
+        self.addKeyboardToolBar.keyboardDownBarButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                print("keyboardDownBarButton tapped")
+                self.view.endEditing(true)
+                //                toolBar.isHidden = true
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.dateString }
+            .bind(to: self.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.happyAndCategory }
+            .bind { [weak self] happyAndCategory in
+                guard let self = self else { return }
+                categoryStackView.addImageViews(images: happyAndCategory, imageSize: 62)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.weatherString }
+            .bind { [weak self] weather in
+                guard let self = self else { return }
+                let imageName = weather + "Bg"
+                let image = UIImage(named: imageName)!
+                scrollView.backgroundColor = UIColor(patternImage: image)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPrivate }
+            .bind { [weak self] isPrivate in
+                guard let self = self else { return }
+                addKeyboardToolBar.setPrivateTo(isPrivate)
+            }
+            .disposed(by: disposeBag)
     }
 }
