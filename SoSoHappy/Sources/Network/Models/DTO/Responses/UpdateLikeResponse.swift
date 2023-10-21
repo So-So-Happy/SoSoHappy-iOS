@@ -9,5 +9,4 @@ import Foundation
 
 struct UpdateLikeResponse: Codable {
     let like: Bool
-    
 }

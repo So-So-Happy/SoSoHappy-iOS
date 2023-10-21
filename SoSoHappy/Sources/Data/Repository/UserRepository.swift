@@ -11,7 +11,6 @@ import Moya
 
 
 final class UserRepository: UserRepositoryProtocol, Networkable {
-   
     // MARK: - Target
     typealias Target = UserAPI
 
@@ -93,11 +92,58 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                     .asObservable()
     }
     
-    func findProfileImg(nickName: FindProfileImgRequest) -> RxSwift.Observable<FindProfileImgResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.kakaoLogin)
-                    .map(FindProfileImgResponse.self)
-                    .asObservable()
+    func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            print("UserRepository  - findProfileImg")
+            let disposable = provider.rx.request(.findProfileImg(request))
+                .map(FindProfileImgResponse.self)
+                .map { $0.toDomain() }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("UserRepository - findProfileImg response success : \(response) ")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("UserRepository  - findProfileImg - error : \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+        
     }
     
+    func findIntroduction(request: FindIntroductionRequest) -> Observable<String> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            print("UserRepository  - findIntroduction")
+            let disposable = provider.rx.request(.findIntroduction(request))
+                .map(FindIntroductionResponse.self)
+                .map { $0.introduction }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("UserRepository - findIntroduction response success : \(response) ")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("UserRepository  - findIntroduction - error : \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
 }

@@ -19,15 +19,27 @@ import RxCocoa
 1. weatherStackView, happinessStackView 버튼 크기가 좀 더 동일하면 좋을 것 같음 (선택)
 2. 스택과 함께 각각 label도 넣어줘도 될 것 같음 (선택)
 3. happinessLabel 의 oo 님에 UserDefaults에서 닉네임 꺼내서 넣어주면 됨 (필수)
-4. NextButton 위치 AddStep2랑 맞춰주기 (coordinator 연결하면 해도 될 듯)
  */
 
 final class AddStep1ViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    private weak var coordinator: AddCoordinatorInterface?
 
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 1)
+    
+    private lazy var introLabel = UILabel().then {
+        $0.text = "소소한 행복을 기록해주세요"
+        $0.textColor = .darkGray
+        $0.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
+    }
+
+    private lazy var introSubLabel = UILabel().then {
+        $0.text = "하루 1개만 기록할 수 있어요!"
+        $0.textColor = .darkGray
+        $0.font = UIFont.systemFont(ofSize: 13)
+    }
     
     private lazy var weatherLabel = UILabel().then {
         $0.text = "오늘의 날씨는 어땠나요?"
@@ -50,9 +62,10 @@ final class AddStep1ViewController: UIViewController {
         setup()
     }
     
-    init(reactor: AddViewReactor) {
+    init(reactor: AddViewReactor, coordinator: AddCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+        self.coordinator = coordinator
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +87,8 @@ extension AddStep1ViewController {
     
     private func addViews() {
         self.view.addSubview(statusBarStackView)
+        self.view.addSubview(introLabel)
+        self.view.addSubview(introSubLabel)
         self.view.addSubview(weatherLabel)
         self.view.addSubview(weatherStackView)
         self.view.addSubview(happinessLabel)
@@ -87,9 +102,19 @@ extension AddStep1ViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
         
+        introLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(statusBarStackView.snp.bottom).offset(40)
+        }
+        
+        introSubLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(introLabel.snp.bottom).offset(6)
+        }
+        
         weatherLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStackView.snp.bottom).offset(120)
+            make.top.equalTo(introSubLabel.snp.bottom).offset(88)
         }
         
         weatherStackView.snp.makeConstraints { make in
@@ -112,7 +137,7 @@ extension AddStep1ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(70)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
         }
     }
 }
@@ -131,10 +156,23 @@ extension AddStep1ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        nextButton.rx.tap
+            .map { Reactor.Action.tapNextButton(.step1) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                print("AddStep 1 - nextButton - subscribe")
+                guard let self = self else { return }
+                coordinator?.showNextAdd(reactor: reactor)
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .skip(1)
             .map { $0.selectedWeather }
-            .subscribe(onNext: { [weak self] selectedWeather in
+            .bind(onNext: { [weak self] selectedWeather in
                 guard let self = self else { return }
                 weatherStackView.updateButtonAppearance(selectedWeather)
             })
@@ -143,7 +181,7 @@ extension AddStep1ViewController: View {
         reactor.state
             .skip(1)
             .map { $0.selectedHappiness }
-            .subscribe(onNext: { [weak self] selectedHappiness in
+            .bind(onNext: { [weak self] selectedHappiness in
                 guard let self = self else { return }
                 happinessStackView.updateButtonAppearance(selectedHappiness)
             })

@@ -46,10 +46,16 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["REISSUE_TOKEN_PATH"] as? String else { fatalError("REISSUE_TOKEN_PATH error") }
         return key
     }
-    var fineProfileImgPath: String {
+    var findProfileImgPath: String {
         guard let key = Bundle.main.infoDictionary?["FIND_PROFILE_IMG_PATH"] as? String else { fatalError("FIND_PROFILE_IMG_PATH error") }
         return key
     }
+    
+    var findIntrodunction: String {
+        guard let key = Bundle.main.infoDictionary?["FIND_INTRODUCTION"] as? String else { fatalError("FIND_INTRODUCTION error") }
+        return key
+    }
+    
     
     // MARK: -  Server - Feed
     var saveFeedPath: String {

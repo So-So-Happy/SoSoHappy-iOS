@@ -8,28 +8,28 @@
 
 import UIKit
 
-public protocol AddCoordinatorInterface {
-    func dismiss()
-    func finished()
+protocol AddCoordinatorInterface: Coordinator {
+    func showNextAdd(reactor: AddViewReactor)
 }
 
-final class AddCoordinator: Coordinator {
+final class AddCoordinator: AddCoordinatorInterface {
     var type: CoordinatorType { .add }
-    
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    
-    
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController() ) {
+    var tabBarController: UITabBarController
+    
+    init(navigationController: UINavigationController = UINavigationController(), tabBarController: UITabBarController ) {
         self.navigationController = navigationController
+        self.tabBarController = tabBarController
     }
     
     func start() {
-        let viewController = AddStep1ViewController(reactor: AddViewReactor())
-        navigationController.pushViewController(viewController, animated: true)
+        let addViewReactor = AddViewReactor()
+        let addStep1VC = AddStep1ViewController(reactor: addViewReactor, coordinator: self)
+        navigationController.pushViewController(addStep1VC, animated: true)
     }
     
     func finish() {
@@ -37,6 +37,15 @@ final class AddCoordinator: Coordinator {
     }
 }
 
-
+extension AddCoordinator {
+    func showNextAdd(reactor: AddViewReactor) {
+        print("[Coordinator] AddStep1 - shoNextAdd")
+        print("reactor.initialState.selectedWeather: \(reactor.currentState.selectedWeather)")
+        print("reactor.initialState.selectedHappiness : \(reactor.currentState.selectedHappiness)")
+        let add2Coordinator = Add2Coordinator(navigationController: self.navigationController, reactor: reactor)
+        self.childCoordinators.append(add2Coordinator)
+        add2Coordinator.start()
+    }
+}
 
 

@@ -7,16 +7,8 @@
 
 import Foundation
 
-struct UpdateLikeRequest: Codable, Requestable {
+struct UpdateLikeRequest: Codable {
     let srcNickname: String
     let nickname: String
     let date: Int64
-    
-    var params: [String : Any] {
-        return [
-            "srcNickname": self.srcNickname,
-            "nickname": self.nickname,
-            "date": self.date
-        ]
-    }
 }

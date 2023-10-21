@@ -6,35 +6,20 @@
 //
 
 import ReactorKit
+import UIKit
 
-/*
- 피드 조회 (오늘 - date 입력, 전체 - date 입력 x)
- nickName: String
- date: Int
- page: Int
- size: Int
- 
- */
-
-/*
- response
- nickName: String   // "admin1"
- weather: String    // "sunny"
- date: Int          // 2023090913248392
- happiness: Int     // 3
- text: String       // "hi~"
- categoryList: [String] // ["coffee"]
- imageList: [바이트]   // []
- isLiked: Bool      // false
- */
-
+// 궁금한 점
+// 1. 오늘 조회할 때 Int로 20231018만 넘겨주면 되는거죠? yes
 
 enum SortOption {
     case today
     case total
+    case currentSort // 미리 설정되어 있던 sortOption 설정해주기 위한 case
 }
 
 class FeedViewReactor: Reactor {
+    private let feedRepository: FeedRepositoryProtocol
+    
     enum Action {
         case refresh
         case fetchFeeds(SortOption)
@@ -43,59 +28,66 @@ class FeedViewReactor: Reactor {
     
     enum Mutation {
         case setRefreshing(Bool)
-        case setFeeds([FeedTemp])
+        case setFeeds([UserFeed])
         case sortOption(SortOption)
         case selectedCell(index: Int)
     }
     
     struct State {
         var isRefreshing: Bool = false
-        var feeds: [FeedTemp] = []
-        var sortOption: SortOption = .today
-        var selectedFeed: FeedTemp?
+        var userFeeds: [UserFeed] = []
+        var sortOption: SortOption?
+        var selectedFeed: UserFeed?
     }
     
     let initialState: State
     
-    init() {
+    init(feedRepository: FeedRepositoryProtocol) {
         initialState = State()
+        self.feedRepository = feedRepository
     }
-    
-    var forTest: [FeedTemp] = [
-        FeedTemp(profileImage: UIImage(named: "profile")!,
-                                profileNickName: "구름이", time: "10분 전",
-                                isLike: true, weather: "sunny",
-                                feedDate: "2023.09.18 월요일",
-                                categories: ["sohappy", "coffe", "donut"],
-                                content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
-                                images: [UIImage(named: "bagel")!]
-                                ),
-        FeedTemp(profileImage: UIImage(named: "cafe")!,
-                                profileNickName: "날씨조아", time: "15분 전",
-                                isLike: false, weather: "rainy",
-                                feedDate: "2023.09.07 목요일",
-                                categories: ["sohappy", "coffe", "coffe"],
-                                content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
-                                images: []
-                                )
-    ]
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .refresh:
             // currentState.sortOption에 따라 달라짐
-            return Observable.concat([
-                Observable.just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                fetchFeedBySortOption(currentState.sortOption),
-//              UserService.users().map(Mutation.setUsers),
-                Observable.just(.setRefreshing(false))
+            let requestDate: Int64? = setRequestDateBy(currentState.sortOption!)
+            
+            return .concat([
+                .just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
+//                fetchFeedBySortOption(currentState.sortOption),
+                feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
+                    .map { Mutation.setFeeds($0) },
+                
+                    .just(.setRefreshing(false))
             ])
-
+            
         case let .fetchFeeds(sortOption):
-            return fetchFeedBySortOption(sortOption)
+            let setSortOption: SortOption
+            
+            switch sortOption {
+            case .today:
+                setSortOption = .today
+            case .total:
+                setSortOption = .total
+            case .currentSort:
+                if let current = currentState.sortOption { // 미리 설정해뒀던 sortOption이 있다면 그걸로 설정
+                    setSortOption = current
+                } else { // 없었다면 기본설정
+                    setSortOption = .total
+                }
+            }
+            
+            let requestDate: Int64? = setRequestDateBy(setSortOption)
+            
+            return .concat([
+                .just(.sortOption(setSortOption)),
+                feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
+                    .map { Mutation.setFeeds($0) }
+            ])
             
         case let .selectedCell(index):
-            return Observable.just(.selectedCell(index: index))
+            return .just(.selectedCell(index: index))
         }
     }
     // MARK: state.selectedFeed = nil를 한 곳에만 써도 될 것 같은데 한번 더 확인해보기
@@ -103,40 +95,38 @@ class FeedViewReactor: Reactor {
         var state = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
-            print("1")
+            print("reduce - .setFreshing ")
             state.isRefreshing = isRefreshing
             
         case let .setFeeds(feeds):
-            print("2 .setFeeds activated")
-            state.feeds = forTest
-//            state.selectedFeed = nil
+            print("reduce -  .setFeeds : \(feeds)")
+            state.userFeeds = feeds
             
         case let .sortOption(sort):
-            print("3")
+            print("reduce -  .sortOption : \(sort)")
             state.sortOption = sort
             state.selectedFeed = nil
             
         case let .selectedCell(index):
-            print("4")
-            state.selectedFeed = state.feeds[index]
+            print("reduce - .selectedCell")
+            state.selectedFeed = state.userFeeds[index]
             
         }
         
         return state
     }
-    
-    private func fetchFeedBySortOption(_ sortOption: SortOption) -> Observable<Mutation> {
-        let fetchedFeeds: [FeedTemp] = []
-        // sortOption에 따라서 feed를 fetch - today, total
-        
-        // API 통신 부분 코드 작성할 때 AlertReactor 코드 참고해보기
-        // UserService.users().map(Mutation.setUsers),
-        // 통신해서 받아온 feed들을 Mutation.setFeeds로 map
-        return  Observable.concat([
-            Observable.just(Mutation.sortOption(sortOption)),
-            Observable.just(Mutation.setFeeds(fetchedFeeds))
-        ])
-
-    }
 }
 
+extension FeedViewReactor {
+    private func setRequestDateBy(_ sortOption: SortOption) -> Int64? {
+        switch sortOption {
+        case .today:
+            print("오늘 날짜 : \(Date().getFormattedYMDH())")
+            return Date().getFormattedYMDH()
+        case .total:
+            return nil
+        default:
+            return nil
+        }
+    }
+}

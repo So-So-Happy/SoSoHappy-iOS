@@ -19,7 +19,8 @@ enum UserAPI {
     case getRefreshToken
     case resign(email: ResignRequest)
     case setProfile(profile: Profile)
-    case findProfileImg(nickName: FindProfileImgRequest)
+    case findProfileImg(FindProfileImgRequest)
+    case findIntroduction(FindIntroductionRequest)
 }
 
 // MARK: UserAPI + TargetType
@@ -49,7 +50,9 @@ extension UserAPI {
         case .resign:
             return Bundle.main.resignPath
         case .findProfileImg:
-            return Bundle.main.fineProfileImgPath
+            return Bundle.main.findProfileImgPath
+        case .findIntroduction:
+            return Bundle.main.findIntrodunction
         }
     }
     
@@ -70,6 +73,8 @@ extension UserAPI {
         case .resign:
             return .post
         case .findProfileImg:
+            return .post
+        case .findIntroduction:
             return .post
         }
     }
@@ -95,8 +100,16 @@ extension UserAPI {
             return .uploadMultipart(formData)
         case .resign(let email):
             return .requestJSONEncodable(email)
-        case .findProfileImg(let nickName):
-            return .requestJSONEncodable(nickName)
+        case .findProfileImg(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let nickname = data.nickname.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
+            return .uploadMultipart(formData)
+        case .findIntroduction(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let nickname = data.nickname.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
+            return .uploadMultipart(formData)
         }
     }
 }
@@ -113,6 +126,7 @@ extension UserAPI: JWTAuthorizable {
         case .setProfile: return .accessToken
         case .resign: return .accessToken
         case .findProfileImg: return .accessToken
+        case .findIntroduction: return .accessToken
         }
     }
 }

@@ -19,15 +19,24 @@ import RxCocoa
  cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
  */
 
+/*
+ 1. refresh 할 때 Layout 에러 해결해주기
+ 2. '등록된 뷰가 없습니다'를 좀 더 자연스럽게 보여줄 수 있으면 좋을 것 같음
+ */
+
 final class FeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-//    weak var delegate: FeedViewControllerDelegate?  // weak - must have a reference type (not value)
     private weak var coordinator: FeedCoordinatorInterface?
     
     // MARK: - UI Components
     private lazy var feedHeaderView = FeedHeaderView()
     private lazy var refreshControl = UIRefreshControl()
+    private lazy var exceptionView = FeedExceptionView(
+        title: "등록된 피드가 없습니다.\n 소소한 행복을 공유하고 함께 응원해주세요!",
+        topOffset: 300
+    )
+    
     
     private lazy var tableView = UITableView().then {
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
@@ -42,13 +51,13 @@ final class FeedViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("FeedViewController viewDidLoad ---------------")
-        ssetLayout()
+        print("--------------- FeedViewController viewDidLoad ---------------")
+        setLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("FeedViewController viewWillAppear ---------------")
+        print("--------------- FeedViewController viewWillAppear ---------------")
         let contentOffset = self.tableView.contentOffset
         handleTableViewContentOffset(contentOffset)
     }
@@ -56,7 +65,7 @@ final class FeedViewController: UIViewController {
     // MARK: - 스크롤된 정도에 따라서 navigation title을 줬더니 다음 화면으로 넘어갈 때 Back 대신 title이 뜨길래
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("FeedViewController viewWillDisappear ---------------")
+        print("--------------- FeedViewController viewWillDisappear ---------------")
         self.navigationItem.title = ""
     }
     
@@ -73,18 +82,11 @@ final class FeedViewController: UIViewController {
 
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension FeedViewController {
-    private func ssetLayout() {
+    private func setLayout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-//        tableView.addSubview(feedEmptyView)
-//        
-//        feedEmptyView.snp.makeConstraints { make in
-//            make.edges.equalToSuperview()
-//        }
-        
     }
 }
 
@@ -94,7 +96,7 @@ extension FeedViewController: View {
     func bind(reactor: FeedViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
         self.rx.viewWillAppear
-            .map { Reactor.Action.fetchFeeds(.today) } // default today
+            .map { Reactor.Action.fetchFeeds(.currentSort) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -108,12 +110,18 @@ extension FeedViewController: View {
         // throttle :
         feedHeaderView.sortTodayButton.rx.tap
 //            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
-            .map { Reactor.Action.fetchFeeds(.today) }
+            .map {
+                print("오늘 누름")
+                return Reactor.Action.fetchFeeds(.today)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         feedHeaderView.sortTotalButton.rx.tap
-            .map { Reactor.Action.fetchFeeds(.total) }
+            .map {
+                print("전체 누름")
+                return Reactor.Action.fetchFeeds(.total)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -134,18 +142,48 @@ extension FeedViewController: View {
         // MARK: State (Reactor -> State) 아웃풋
         reactor.state
             .skip(1)
-            .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  feed, cell) in
-                guard let self = self else { return }
-                configureCell(cell, with: feed)
-                print("tableView cell 세팅중!!")
+            .map {
+                print("reactor.state - feeds : \($0.userFeeds)")
+                return $0.userFeeds
             }
+            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  userFeed, cell) in
+                print("tableView cell 세팅중!! - userFeed : \(userFeed)")
+                guard let self = self else { return }
+                configureCell(cell, with: userFeed)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .skip(1)
+            .map {
+                print("Feeds updated 되기 전 map : \($0.userFeeds)")
+                return $0.userFeeds
+            }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] userFeeds in
+                guard let self = self else { return }
+                print("@@ @@ @@ Feeds updated: \(userFeeds)")
+                
+                if userFeeds.isEmpty {
+                    print("없다")
+                    addEmptyView()
+                } else {
+                    print("있다")
+                    removeEmptyView()
+                }
+                
+//                self.noFeedLabel.isHidden = !feeds.isEmpty
+            })
             .disposed(by: disposeBag)
         
         reactor.state
             .skip(1)
-            .map { $0.sortOption }
-            .subscribe(onNext: { [weak self] sortOption in
+            .compactMap {
+                print("reactor.state - sortOption : \($0.sortOption)")
+                return $0.sortOption
+            }
+            .bind(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
                 print("sortOption!!")
                 feedHeaderView.updateButtonState(sortOption)
@@ -155,42 +193,36 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .map {
-                print("isRefreshing!!")
+                print("reactor.state - isRefreshing : \($0.isRefreshing)")
                 return $0.isRefreshing
                 
             }
             .distinctUntilChanged()
+            .debug()
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         reactor.state
             .compactMap { $0.selectedFeed }
-            .subscribe(onNext: { [weak self] feed in
+            .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                print("selectedFeed!! : \(feed) ")
+                print("selectedFeed!! : \(userFeed) ")
 //                print("feed: \(feed), type: \(type(of: feed))")
-                self.coordinator?.showdDetails(feed: feed)
+                self.coordinator?.showdDetails(userFeed: userFeed)
             })
             .disposed(by: disposeBag)
-        
-//        reactor.state
-//            .skip(1)
-//            .map { $0.feeds.isEmpty }
-//            .subscribe(onNext: { [weak self] isEmpty in
-//                print("비어있음!!")
-//                self?.feedEmptyView.isHidden = false
-//                
-//            })
-//            .disposed(by: disposeBag)
     }
-    
-    private func configureCell(_ cell: FeedCell, with feed: FeedTemp) {
+}
+
+// MARK: - configureCell & ExceptionView 핸들링 메서드
+extension FeedViewController {
+    private func configureCell(_ cell: FeedCell, with userFeed: UserFeed) {
         // MARK: FeedReactor에 feed 넣어주는 방법1
 //        let initialState = FeedReactor.State(feed: feed)
 //        let cellReactor = FeedReactor(state: initialState)
         
         // MARK: FeedReactor에 feed 넣어주는 방법2
-        let cellReactor = FeedReactor(feed: feed)
+        let cellReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository())
         cell.reactor = cellReactor
         
         // - 여기에 코드를 작성한 이유
@@ -219,5 +251,15 @@ extension FeedViewController: View {
             self.navigationItem.title = "소피들의 소소해피"
         }
     }
+    
+    func addEmptyView() {
+        self.tableView.addSubview(exceptionView)
+        exceptionView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+        }
+    }
+    
+    func removeEmptyView() {
+        exceptionView.removeFromSuperview()
+    }
 }
-
