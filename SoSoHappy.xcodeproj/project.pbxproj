@@ -41,7 +41,6 @@
 		069D642A2AD832B3003834E5 /* FeedRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D64282AD832B3003834E5 /* FeedRepositoryProtocol.swift */; };
 		069D642C2AD83335003834E5 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642B2AD83335003834E5 /* FeedAPI.swift */; };
 		069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642D2AD83432003834E5 /* FeedRepository.swift */; };
-		069D64302AD836A5003834E5 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 069D642F2AD836A5003834E5 /* Config.xcconfig */; };
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
 		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
@@ -58,7 +57,6 @@
 		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
 		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
-		6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6759875B2A892BA400910DCF /* AddStep3ViewController.swift */; };
 		6769C0942AD6D7BE00D1D2CD /* CalenderViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6769C0932AD6D7BE00D1D2CD /* CalenderViewReactor.swift */; };
 		678025312A95086A004123AA /* ChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678025302A95086A004123AA /* ChartView.swift */; };
 		6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */; };
@@ -128,12 +126,15 @@
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		80760F172AE111FB00103DF4 /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F162AE111FB00103DF4 /* FeedType.swift */; };
+		80760F192AE25C7800103DF4 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 80760F182AE25C7800103DF4 /* Config.xcconfig */; };
+		80760F1B2AE25E8F00103DF4 /* FindIntroductionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F1A2AE25E8F00103DF4 /* FindIntroductionRequest.swift */; };
+		80760F1D2AE2609100103DF4 /* FindIntroductionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */; };
 		808650962AD5AFC40036CCFB /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650952AD5AFC40036CCFB /* WebSocketManager.swift */; };
 		8086509A2AD5B11C0036CCFB /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */; };
 		8086509C2AD5B6CC0036CCFB /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086509B2AD5B6CC0036CCFB /* CategoryCell.swift */; };
 		8086509E2AD665BC0036CCFB /* Rx+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086509D2AD665BC0036CCFB /* Rx+UICollectionView.swift */; };
 		808650A02AD686570036CCFB /* Add2Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086509F2AD686570036CCFB /* Add2Coordinator.swift */; };
-		808650A22AD686610036CCFB /* Add3Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650A12AD686610036CCFB /* Add3Coordinator.swift */; };
 		808650B62AD6CAFF0036CCFB /* MyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650B52AD6CAFF0036CCFB /* MyFeed.swift */; };
 		808650B82AD6CB110036CCFB /* ResponseContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650B72AD6CB110036CCFB /* ResponseContainer.swift */; };
 		808650BB2AD6CB300036CCFB /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650BA2AD6CB300036CCFB /* SocialType.swift */; };
@@ -165,6 +166,10 @@
 		808650F42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */; };
 		808650F52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */; };
 		808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650F82ADA800C0036CCFB /* FeedExceptionView.swift */; };
+		808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */; };
+		8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */; };
+		8086510D2ADD71300036CCFB /* Ex+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510C2ADD71300036CCFB /* Ex+UITextView.swift */; };
+		8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */; };
 		80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */; };
 		80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */; };
 		80AD68722AC19F5000DD3D5F /* SigninManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */; };
@@ -241,7 +246,6 @@
 		069D64282AD832B3003834E5 /* FeedRepositoryProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepositoryProtocol.swift; sourceTree = "<group>"; };
 		069D642B2AD83335003834E5 /* FeedAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedAPI.swift; sourceTree = "<group>"; };
 		069D642D2AD83432003834E5 /* FeedRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedRepository.swift; sourceTree = "<group>"; };
-		069D642F2AD836A5003834E5 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		069D7AEA2ACFFC7C00C815F1 /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
 		069D7AEE2ACFFD2B00C815F1 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
@@ -266,7 +270,6 @@
 		67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep1ViewController.swift; sourceTree = "<group>"; };
 		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
-		6759875B2A892BA400910DCF /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		6769C0842AD6CADC00D1D2CD /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		6769C0882AD6CFA700D1D2CD /* CalenderViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewReactor.swift; sourceTree = "<group>"; };
 		6769C08A2AD6D00000D1D2CD /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
@@ -345,12 +348,15 @@
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		80760F162AE111FB00103DF4 /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
+		80760F182AE25C7800103DF4 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		80760F1A2AE25E8F00103DF4 /* FindIntroductionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIntroductionRequest.swift; sourceTree = "<group>"; };
+		80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIntroductionResponse.swift; sourceTree = "<group>"; };
 		808650952AD5AFC40036CCFB /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		8086509B2AD5B6CC0036CCFB /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		8086509D2AD665BC0036CCFB /* Rx+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rx+UICollectionView.swift"; sourceTree = "<group>"; };
 		8086509F2AD686570036CCFB /* Add2Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add2Coordinator.swift; sourceTree = "<group>"; };
-		808650A12AD686610036CCFB /* Add3Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Add3Coordinator.swift; sourceTree = "<group>"; };
 		808650B52AD6CAFF0036CCFB /* MyFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeed.swift; sourceTree = "<group>"; };
 		808650B72AD6CB110036CCFB /* ResponseContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
 		808650BA2AD6CB300036CCFB /* SocialType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
@@ -382,6 +388,10 @@
 		808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
 		808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMonthFeedResponse.swift; sourceTree = "<group>"; };
 		808650F82ADA800C0036CCFB /* FeedExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedExceptionView.swift; sourceTree = "<group>"; };
+		808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
+		8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
+		8086510C2ADD71300036CCFB /* Ex+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UITextView.swift"; sourceTree = "<group>"; };
+		8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBar.swift; sourceTree = "<group>"; };
 		80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSigninManager.swift; sourceTree = "<group>"; };
 		80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSigninManager.swift; sourceTree = "<group>"; };
 		80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninManagerProtocol.swift; sourceTree = "<group>"; };
@@ -566,7 +576,7 @@
 			children = (
 				67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */,
 				808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */,
-				6759875B2A892BA400910DCF /* AddStep3ViewController.swift */,
+				808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -576,7 +586,6 @@
 			children = (
 				67021E642A83CBB100B47A6B /* AddCoordinator.swift */,
 				8086509F2AD686570036CCFB /* Add2Coordinator.swift */,
-				808650A12AD686610036CCFB /* Add3Coordinator.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -589,6 +598,7 @@
 				80AD68BA2AC6D2BD00DD3D5F /* HappinessStackView.swift */,
 				80AD68BC2AC6DB1800DD3D5F /* NextButton.swift */,
 				8086509B2AD5B6CC0036CCFB /* CategoryCell.swift */,
+				8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -776,6 +786,7 @@
 				802C6C9F2AB8785A001142B4 /* RxImagePickerDelegateProxy.swift */,
 				67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */,
 				8086509D2AD665BC0036CCFB /* Rx+UICollectionView.swift */,
+				8086510C2ADD71300036CCFB /* Ex+UITextView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -792,7 +803,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				069D642F2AD836A5003834E5 /* Config.xcconfig */,
+				80760F182AE25C7800103DF4 /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1069,6 +1080,7 @@
 		80380C0D2A98DC330077048D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */,
 				80380C2E2A98DF7F0077048D /* FeedViewController.swift */,
 				80380C302A98DFAB0077048D /* FeedDetailViewController.swift */,
 				80380C2C2A98DF650077048D /* OwnerFeed */,
@@ -1148,9 +1160,18 @@
 			path = DM;
 			sourceTree = "<group>";
 		};
+		80760F152AE111E700103DF4 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				80760F162AE111FB00103DF4 /* FeedType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		808650B42AD6CAB60036CCFB /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				80760F152AE111E700103DF4 /* Protocol */,
 				808650C22AD6CC530036CCFB /* DTO */,
 				808650B52AD6CAFF0036CCFB /* MyFeed.swift */,
 				067179F72ADD0426007252AE /* UserFeed.swift */,
@@ -1193,6 +1214,7 @@
 				808650CC2AD6CCDC0036CCFB /* UpdateLikeRequest.swift */,
 				808650C62AD6CCDB0036CCFB /* UpdatePulicStatusRequest.swift */,
 				067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */,
+				80760F1A2AE25E8F00103DF4 /* FindIntroductionRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1216,6 +1238,7 @@
 				808650DF2AD6CCFC0036CCFB /* UpdateLikeResponse.swift */,
 				808650E22AD6CCFD0036CCFB /* UpdatePublicStatusResponse.swift */,
 				067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */,
+				80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1383,7 +1406,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				069D64302AD836A5003834E5 /* Config.xcconfig in Resources */,
+				80760F192AE25C7800103DF4 /* Config.xcconfig in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
@@ -1566,6 +1589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80760F1B2AE25E8F00103DF4 /* FindIntroductionRequest.swift in Sources */,
 				80380C042A98A1130077048D /* ImageEditButtonView.swift in Sources */,
 				0661C9BC2A92654C0075B5A3 /* SetAppThemeViewController.swift in Sources */,
 				06EC953D2AD6297E003FFE52 /* FeedListViewController.swift in Sources */,
@@ -1578,11 +1602,11 @@
 				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
 				808650BB2AD6CB300036CCFB /* SocialType.swift in Sources */,
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
-				808650A22AD686610036CCFB /* Add3Coordinator.swift in Sources */,
 				06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */,
 				802C6C942AB875CE001142B4 /* ProfileTemp.swift in Sources */,
 				6769C0942AD6D7BE00D1D2CD /* CalenderViewReactor.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
 				0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
@@ -1608,6 +1632,7 @@
 				808650D42AD6CCDD0036CCFB /* ResignRequest.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileVIew.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
+				80760F1D2AE2609100103DF4 /* FindIntroductionResponse.swift in Sources */,
 				80AD68B52AC5D75B00DD3D5F /* AddViewReactor.swift in Sources */,
 				069D64292AD832B3003834E5 /* UserRepositoryProtocol.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
@@ -1645,7 +1670,9 @@
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				808650C12AD6CBEA0036CCFB /* Model.swift in Sources */,
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
+				808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,
+				8086510D2ADD71300036CCFB /* Ex+UITextView.swift in Sources */,
 				808650F32AD6CCFE0036CCFB /* AuthResponse.swift in Sources */,
 				80380C1C2A98DDB40077048D /* ProfileImageWithBackgroundView.swift in Sources */,
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
@@ -1675,6 +1702,7 @@
 				80AD68B92AC69A8A00DD3D5F /* WeatherStackView.swift in Sources */,
 				802C6CAA2AB87C11001142B4 /* FeedViewReactor.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
+				8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */,
 				80AD687A2AC1A14700DD3D5F /* BaseError.swift in Sources */,
 				802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */,
 				80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */,
@@ -1711,7 +1739,7 @@
 				80AD68B02AC3F17700DD3D5F /* FeedDetailCoordinator.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				0613BCDC2AA8AC7300E2B97F /* Networkable.swift in Sources */,
-				6759875C2A892BA400910DCF /* AddStep3ViewController.swift in Sources */,
+				80760F172AE111FB00103DF4 /* FeedType.swift in Sources */,
 				067179FA2ADD04D4007252AE /* FindDetailFeedResponse.swift in Sources */,
 				06896DF22AC2A81F001DCCFC /* TabCoordinator.swift in Sources */,
 				80AD68AE2AC3F15B00DD3D5F /* OwnerFeedCoordinator.swift in Sources */,
@@ -1781,7 +1809,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 069D642F2AD836A5003834E5 /* Config.xcconfig */;
+			baseConfigurationReference = 80760F182AE25C7800103DF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1842,7 +1870,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 069D642F2AD836A5003834E5 /* Config.xcconfig */;
+			baseConfigurationReference = 80760F182AE25C7800103DF4 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
