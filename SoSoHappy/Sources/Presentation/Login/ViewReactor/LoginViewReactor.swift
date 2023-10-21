@@ -81,6 +81,7 @@ class LoginViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .tapKakaoLogin:
+            // TODO: 서버 오류로 인한 테스트 코드
             return Observable.just(Mutation.goToMain(true))
 //            return .concat([
 //                Observable.just(Mutation.kakaoLoading(true)),
