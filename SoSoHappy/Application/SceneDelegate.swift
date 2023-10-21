@@ -13,6 +13,7 @@ import GoogleSignIn
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
+    var coordinator: LoginCoordinator?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -20,40 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let window = UIWindow(windowScene: windowScene)
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-//        window.rootViewController = mainVC // 시작 VC 작성해주기
-        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-        mainVC.reactor = LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager: GoogleSigninManager())
-
-
-        // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-//        let mainVC = EditProfileViewController(reactor: SignUpViewReactor())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-//        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-        
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-        
-        self.window = window
         let navigationController = UINavigationController()
-        self.window?.rootViewController = navigationController
+        coordinator = LoginCoordinator(navigationController: navigationController)
+        coordinator?.start()
         
-        let coordinator = CalendarCoordinator(navigationController: navigationController)
-        coordinator.start()
-
-        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
-        
-        let calendarVC = CalendarViewController(reactor: reactor, coordinator: CalendarCoordinator(navigationController: UINavigationController()))
-        
-//        let mainVM = AddStep3ViewController()
-        window.rootViewController = mainVC // 시작 VC 작성해주기
-        
-        
-        window.makeKeyAndVisible()
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

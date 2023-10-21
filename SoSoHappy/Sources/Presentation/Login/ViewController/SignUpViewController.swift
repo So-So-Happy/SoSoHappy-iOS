@@ -47,9 +47,21 @@ final class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         setup()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        print("SignUpViewController deinit")
+        disposeBag = DisposeBag()
+    }
+    
     // MARK: Initializing
     init(reactor: SignUpViewReactor) {
         super.init(nibName: nil, bundle: nil)
@@ -119,7 +131,11 @@ extension SignUpViewController {
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.navigationItem.title = "회원가입"
+        
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) } // 구독
+        
+        // TODO: 🚨 백 버튼 누르고 다시 들어왔을 때 이미 구독되어 있는데 또 구독하게 돼서 오류 발생 ? - 원인 불확실
+        // Fatal error: The factory of UIImagePickerController is duplicated. DelegateProxy is not allowed of duplicated base object type.
     }
 }
 
@@ -128,21 +144,21 @@ extension SignUpViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: SignUpViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        profileImageEditButton.cameraButton.rx.tap
-            .flatMapLatest { [weak self] _ in
-                return UIImagePickerController.rx.createWithParent(self) { (picker) in
-                    picker.allowsEditing = true
-                    picker.sourceType = .photoLibrary
-                }
-                .flatMap { $0.rx.didFinishPickingMediaWithInfo } // 사진 다 골랐다
-                .take(1) // 단 1개의 아이템(사진)만 내보내는 것을 보장
-            }
-            .map{ info in
-                let img = info[.editedImage] as? UIImage // UIImage 옵셔널 type
-                return Reactor.Action.selectImage(img)
-            }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+//        profileImageEditButton.cameraButton.rx.tap
+//            .flatMapLatest { [weak self] _ in
+//                return UIImagePickerController.rx.createWithParent(self) { (picker) in
+//                    picker.allowsEditing = true
+//                    picker.sourceType = .photoLibrary
+//                }
+//                .flatMap { $0.rx.didFinishPickingMediaWithInfo } // 사진 다 골랐다
+//                .take(1) // 단 1개의 아이템(사진)만 내보내는 것을 보장
+//            }
+//            .map{ info in
+//                let img = info[.editedImage] as? UIImage // UIImage 옵셔널 type
+//                return Reactor.Action.selectImage(img)
+//            }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
         nickNameSection.nickNameTextField.rx.text.orEmpty
             .skip(1)

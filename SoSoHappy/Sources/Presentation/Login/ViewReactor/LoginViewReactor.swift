@@ -58,7 +58,7 @@ class LoginViewReactor: Reactor {
         case showErrorAlert(Error)
         case clearErrorAlert
         
-        case goToMain
+        case goToMain(Bool)
     }
     
     // MARK: - 뷰의 상태를 정의 (현재 상태 기록)
@@ -74,21 +74,22 @@ class LoginViewReactor: Reactor {
         
         var showErrorAlert: Error?
         
-        var goToMain: Void?
+        var goToMain: Bool = false
     }
     
     // MARK: - mutate action
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .tapKakaoLogin:
-            return .concat([
-                Observable.just(Mutation.kakaoLoading(true)),
-                userRepository.getAuthorizeCode()
-                    .map { Mutation.getAuthorizeCode($0) },
-                self.signinWithKakao(),
-                Observable.just(Mutation.kakaoLoading(false)),
-                Observable.just(Mutation.clearErrorAlert)
-            ])
+            return Observable.just(Mutation.goToMain(true))
+//            return .concat([
+//                Observable.just(Mutation.kakaoLoading(true)),
+//                userRepository.getAuthorizeCode()
+//                    .map { Mutation.getAuthorizeCode($0) },
+//                self.signinWithKakao(),
+//                Observable.just(Mutation.kakaoLoading(false)),
+//                Observable.just(Mutation.clearErrorAlert)
+//            ])
             
         case .tapGoogleLogin:
             return .concat([
@@ -150,8 +151,8 @@ class LoginViewReactor: Reactor {
         case .clearErrorAlert:
             newState.showErrorAlert = nil
             
-        case .goToMain:
-            newState.goToMain = ()
+        case .goToMain(let value):
+            newState.goToMain = value
         }
         
         return newState
@@ -182,7 +183,7 @@ class LoginViewReactor: Reactor {
                 return self.signIn(request: signinRequest)
             }
             .catch { error in
-                print("google login error:", error)
+                print("⚠️ google login error:", error)
                 return .just(.googleLoading(false))
             }
     }
@@ -212,9 +213,9 @@ class LoginViewReactor: Reactor {
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
             })
             .flatMap { [weak self] signinResponse -> Observable<Mutation> in
-                guard let self = self else { return .error(BaseError.unknown) }
+                guard self != nil else { return .error(BaseError.unknown) }
                 return .just(.signIn(signinResponse))
-                    .map { _ in .goToMain }
+                    .map { _ in .goToMain(true) }
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
