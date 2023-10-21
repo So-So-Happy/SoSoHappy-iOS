@@ -8,47 +8,42 @@
 
 import UIKit
 
-struct UserFeed {
+// MARK: profileImage 임시로 넣어놓음
+struct UserFeed: FeedType, Equatable {
+    let profileImage: UIImage? = UIImage(named: "profile")    // 프로필 이미지
+    let nickName: String                // 닉네임
+    let date: String                    // 날짜 ex. "2023101922401122"
+    let weather: String                 // 날씨
+    let happiness: Int                  // 행복 정도
+    let categoryList: [String]          // 카테고리 목록
+    let text: String                    // 피드 작성 글
+    let imageList: [UIImage]            // 등록한 이미지
+    let isLiked: Bool                   // 좋아요
     
-    let text: String
-    let imageList: [UIImage]
-    let categoryList: [String]
-    let date: String
-    let weather: String
-    let happiness: Int
-    let nickName: String
-    let isLiked: Bool
-    
-    init(text: String,
-         imageList: [UIImage],
-         categoryList: [String],
+    init(nickName: String, 
          date: String,
          weather: String,
          happiness: Int,
-         nickName: String,
+         categoryList: [String],
+         text: String,
+         imageList: [UIImage],
          isLiked: Bool
     ) {
-        self.text = text
-        self.imageList = imageList
-        self.categoryList = categoryList
+        self.nickName = nickName
         self.date = date
         self.weather = weather
         self.happiness = happiness
-        self.nickName = nickName
+        self.categoryList = categoryList
+        self.text = text
+        self.imageList = imageList
         self.isLiked = isLiked
     }
-    
 }
 
 extension UserFeed {
-    var happyImage: String {
-        switch happiness {
-        case 1 : return "happy1"
-        case 2 : return "happy2"
-        case 3: return "happy3"
-        case 4: return "happy4"
-        default: return "happy5"
-        }
+    // MARK: 18분 전
+    var timeAgoString: String {
+        return dateToDateType.timeAgo()
     }
 }
 
