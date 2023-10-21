@@ -12,16 +12,21 @@ import SnapKit
 // MARK: - CategoryStackView에 이미지가 계속 쌓이는 문제 해결 필요
 
 final class CategoryStackView: UIView {
-    var imageSize: CGFloat
     private var images: [String] = []
     private lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
     
-    init(imageSize: CGFloat = 30) {
-        self.imageSize = imageSize
-        super.init(frame: .zero)
+//    init(imageSize: CGFloat = 30) {
+//        self.imageSize = imageSize
+//        super.init(frame: .zero)
+//        setupStackView()
+//        addImageViews(images: images)
+//    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupStackView()
-        addImageViews(images: images)
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -37,7 +42,8 @@ final class CategoryStackView: UIView {
 }
 
 extension CategoryStackView {
-    func addImageViews(images: [String]) {
+    func addImageViews(images: [String], imageSize: CGFloat = 30) {
+        print("CategoryStackView - addImageViews : \(images)")
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         let images = images.map { imageName in
