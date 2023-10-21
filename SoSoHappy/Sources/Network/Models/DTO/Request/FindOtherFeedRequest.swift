@@ -8,23 +8,23 @@
 import Foundation
 
 struct FindOtherFeedRequest: Codable, Requestable {
-    let nickName: String
+    let nickname: String
     let date: Int64?
     let page: Int
     let size: Int
-    
+
     var params: [String: Any] {
         var parameters: [String: Any] = [
-            "nickname": nickName,
+            "nickname": nickname,
             "page": page,
             "size": size
         ]
-        
+
         if let date = date {
             parameters["date"] = date
         }
-        
+
         return parameters
     }
-    
-}
+
+} 
