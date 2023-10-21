@@ -172,7 +172,7 @@ extension AddStep1ViewController: View {
         reactor.state
             .skip(1)
             .map { $0.selectedWeather }
-            .subscribe(onNext: { [weak self] selectedWeather in
+            .bind(onNext: { [weak self] selectedWeather in
                 guard let self = self else { return }
                 weatherStackView.updateButtonAppearance(selectedWeather)
             })
@@ -181,7 +181,7 @@ extension AddStep1ViewController: View {
         reactor.state
             .skip(1)
             .map { $0.selectedHappiness }
-            .subscribe(onNext: { [weak self] selectedHappiness in
+            .bind(onNext: { [weak self] selectedHappiness in
                 guard let self = self else { return }
                 happinessStackView.updateButtonAppearance(selectedHappiness)
             })
