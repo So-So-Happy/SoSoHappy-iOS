@@ -9,9 +9,5 @@ import Foundation
 
 struct FindIntroductionRequest: Codable {
     let nickname: String
-    
-    var params: [String : Any] {
-        return [ "nickname": self.nickname ]
-    }
 }
 
