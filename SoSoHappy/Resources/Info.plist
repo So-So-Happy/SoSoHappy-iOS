@@ -25,6 +25,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>GET_AUTHORIZE_CODE_PATH</key>
+	<string>${GET_AUTHORIZE_CODE_PATH}</string>
+	<key>SIGN_IN_PATH</key>
+	<string>${SIGN_IN_PATH}</string>
 	<key>CHECK_DUPLICATE_NICKNAME_PATH</key>
 	<string>${CHECK_DUPLICATE_NICKNAME_PATH}</string>
 	<key>CONNECT_NOTICE_PATH</key>
@@ -49,12 +53,6 @@
 	<string>${FIND_INTRODUCTION}</string>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
-	<key>GOOGLE_LOGIN_PATH</key>
-	<string>${GOOGLE_LOGIN_PATH}</string>
-	<key>KAKAO_LOGIN_PATH</key>
-	<string>${KAKAO_LOGIN_PATH}</string>
-  <key>APPLE_LOGIN_PATH</key>
-	<string>${APPLE_LOGIN_PATH}</string>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>

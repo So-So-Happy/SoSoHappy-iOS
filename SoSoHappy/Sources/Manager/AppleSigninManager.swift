@@ -5,8 +5,8 @@
 //  Created by 박희경 on 2023/09/20.
 //
 
-import AuthenticationServices
 import RxSwift
+import AuthenticationServices
 
 final class AppleSigninManager: NSObject, SigninManagerProtocol {
     private var publisher = PublishSubject<SigninRequest>()
@@ -56,18 +56,18 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
-            let familyName = appleIDCredential.fullName?.familyName
-            let givenName = appleIDCredential.fullName?.givenName
             let email = appleIDCredential.email
-            let state = appleIDCredential.state
+            UserDefaults.standard.setValue(email, forKey: "userEmail") // email validation only at first login
+
+            let request = SigninRequest(
+                email: email ?? "email",
+                provider: "apple",
+                providerId: userIdentifier,
+                codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
+                authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode"
+            )
             
-            print("🔎 ##### 애플 사용자 정보 조회 성공 #####")
-            print("userID:", userIdentifier)
-            print("familyName:", familyName ?? "이미 가입된 사용자")
-            print("givenName:", givenName ?? "이미 가입된 사용자")
-            print("email", email ?? "이미 가입된 사용자")
-            print("state", state ?? "이미 가입된 사용자")
-            
+            self.publisher.onNext(request)
             self.publisher.onCompleted()
         }
     }

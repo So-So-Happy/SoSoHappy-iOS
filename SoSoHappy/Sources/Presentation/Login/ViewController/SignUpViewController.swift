@@ -49,7 +49,7 @@ final class SignUpViewController: UIViewController {
         super.viewDidLoad()
         setup()
     }
-
+    
     // MARK: Initializing
     init(reactor: SignUpViewReactor) {
         super.init(nibName: nil, bundle: nil)
@@ -119,7 +119,6 @@ extension SignUpViewController {
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
         self.navigationItem.title = "회원가입"
-        RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) } // 구독
     }
 }
 

@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nativeKakaoAppKey = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] ?? ""
         RxKakaoSDK.initSDK(appKey: nativeKakaoAppKey as! String)
         
+        RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
+        
         return true
     }
     
