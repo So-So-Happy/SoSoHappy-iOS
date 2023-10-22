@@ -34,13 +34,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName") ?? "없음"
         
         if let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName"), nickName.isEmpty {
-            // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
-            print("================= 사용자 정보 (개발용) =================")
-            print("👤 accessToken: \(String(describing: accessToken))")
-            print("👤 refreshToken: \(String(describing: refreshToken))")
-            print("👤 userEmail: \(String(describing: userEmail))")
-            print("👤 nickName: \(nickName)")
-            print("===================================================")
             showAuthFlow(needsIntroView: true)
         } else {
             // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
@@ -50,6 +43,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 userEmail: \(String(describing: userEmail))")
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
+            KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: "")
             showMainFlow()
         }
     }
