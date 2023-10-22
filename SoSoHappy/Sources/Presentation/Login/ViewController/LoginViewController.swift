@@ -116,15 +116,11 @@ final class LoginViewController: UIViewController, View {
             })
             .disposed(by: disposeBag)
         
-        reactor.state.map { $0.goToMain }
+        reactor.state.compactMap { $0.goToSignUp }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                if result {
-                    print("👤 UserDefaults의 userNickName:", UserDefaults.standard.string(forKey: "userNickName") ?? "nil (회원가입 필요)")
-                    if UserDefaults.standard.string(forKey: "userNickName") == nil {
-                        coordinator?.pushSignUpView()
-                    } else { coordinator?.pushCalenderView() }
-                }
+                coordinator?.pushSignUpView()
             })
             .disposed(by: disposeBag)
     }
@@ -135,7 +131,6 @@ extension LoginViewController {
     private func setup() {
         setLayout()
         setAttribute()
-//        configureButtonTarget() // coordinator 테스트를 위한 메서드 호출입니다. 
     }
     
     // Add SubViews & Contstraints
@@ -167,23 +162,3 @@ extension LoginViewController {
         self.view.backgroundColor = UIColor(named: "loginColor")
     }
 }
-
-
-//// MARK: - Coordinator TestCode
-///// 카카오 버튼 눌렸을때 바로 TabBarController 로 넘어감.
-//extension LoginViewController {
-//    
-//    private func configureButtonTarget() {
-//        logInButtonStackView.setKakaoButtonTarget(target: self, action: #selector(didTapKakaoButton))
-//        logInButtonStackView.setAppleButtonTarget(target: self, action: #selector(didTapAppleButton))
-//    }
-//
-//    @objc private func didTapKakaoButton() {
-//        print("카카오 눌림")
-//    }
-//    
-//    @objc private func didTapAppleButton() {
-//        print("애플 눌림")
-//    }
-//    
-//}

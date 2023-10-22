@@ -59,7 +59,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                     let refreshToken = headers?["authorization-refresh"] ?? ""
                     let email = headers?["email"] ?? ""
                     let nickName = headers?["nickName"] ?? ""
-                    UserDefaults.standard.setValue(nickName, forKey: "userNickName")
+                   
                     return AuthResponse(authorization: accessToken, authorizationRefresh: refreshToken, email: email, nickName: nickName)
                 }
                 .asObservable()

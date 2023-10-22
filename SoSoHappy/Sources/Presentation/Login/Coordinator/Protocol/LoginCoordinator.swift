@@ -24,7 +24,8 @@ final class LoginCoordinator: Coordinator {
     }
     
     func start() {
-       pushAuthView()
+        print(KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName") ?? "비어있음")
+        pushAuthView()
     }
     
     func finish() {
@@ -38,19 +39,10 @@ extension LoginCoordinator: LoginCoordinatorProtocol {
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func pushCalenderView() {
-        print("pushCalenderView() started...")
-        let calenderCoordinator = CalendarCoordinator(navigationController: self.navigationController)
-        self.childCoordinators.append(calenderCoordinator)
-        calenderCoordinator.start()
-    }
-    
     func pushSignUpView() {
-        print("pushSignUpView() started...")
         let signUpCoordinator = SignUpCoordinator(navigationController: self.navigationController)
         self.childCoordinators.append(signUpCoordinator)
         signUpCoordinator.start()
-        self.finish()
     }
 }
 

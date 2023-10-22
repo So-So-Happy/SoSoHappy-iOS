@@ -13,7 +13,7 @@ import GoogleSignIn
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var coordinator: LoginCoordinator?
+    var appCoordinator: AppCoordinator?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -23,9 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let navigationController = UINavigationController()
-        coordinator = LoginCoordinator(navigationController: navigationController)
-        coordinator?.start()
-        
+        appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator?.start()
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
@@ -42,12 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        let mainVC = UINavigationController(rootViewController: AddStep2ViewController(reactor: AddViewReactor()))
 //        let mainVC = UINavigationController(rootViewController: AddStep3ViewController3())
 //        let mainVC = UINavigationController(rootViewController: SignUpViewController(reactor: SignUpViewReactor()))
-                                            
-                                            
-//        window.rootViewController = mainVC // 시작 VC 작성해주기
 
-//         window.makeKeyAndVisible()
-//         self.window = window
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

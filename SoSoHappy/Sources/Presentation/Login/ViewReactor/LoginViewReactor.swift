@@ -45,7 +45,6 @@ class LoginViewReactor: Reactor {
     // MARK: - 액션에 대응하는 변이를 정의 (처리 단위)
     enum Mutation {
         case getAuthorizeCode(AuthCodeResponse)
-        case signIn(AuthResponse)
         
         case kakaoLogin
         case googleLogin
@@ -58,7 +57,7 @@ class LoginViewReactor: Reactor {
         case showErrorAlert(Error)
         case clearErrorAlert
         
-        case goToMain(Bool)
+        case goToSignUp(Bool)
     }
     
     // MARK: - 뷰의 상태를 정의 (현재 상태 기록)
@@ -74,23 +73,21 @@ class LoginViewReactor: Reactor {
         
         var showErrorAlert: Error?
         
-        var goToMain: Bool = false
+        var goToSignUp: Bool?
     }
     
     // MARK: - mutate action
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .tapKakaoLogin:
-            // TODO: 서버 오류로 인한 테스트 코드
-            return Observable.just(Mutation.goToMain(true))
-//            return .concat([
-//                Observable.just(Mutation.kakaoLoading(true)),
-//                userRepository.getAuthorizeCode()
-//                    .map { Mutation.getAuthorizeCode($0) },
-//                self.signinWithKakao(),
-//                Observable.just(Mutation.kakaoLoading(false)),
-//                Observable.just(Mutation.clearErrorAlert)
-//            ])
+            return .concat([
+                Observable.just(Mutation.kakaoLoading(true)),
+                userRepository.getAuthorizeCode()
+                    .map { Mutation.getAuthorizeCode($0) },
+                self.signinWithKakao(),
+                .just(Mutation.kakaoLoading(false)),
+                .just(Mutation.clearErrorAlert)
+            ])
             
         case .tapGoogleLogin:
             return .concat([
@@ -121,9 +118,6 @@ class LoginViewReactor: Reactor {
         switch mutation {
         case .getAuthorizeCode(let authCode):
             print("✅ LoginViewReactor reduce() .getAuthorizeCode : \(authCode)")
-           
-        case .signIn(let auth):
-            print("✅ LoginViewReactor reduce() .signIn : \(auth)")
             
         case .kakaoLogin:
             newState.isKakaoLoggedIn = true
@@ -152,8 +146,8 @@ class LoginViewReactor: Reactor {
         case .clearErrorAlert:
             newState.showErrorAlert = nil
             
-        case .goToMain(let value):
-            newState.goToMain = value
+        case .goToSignUp(let value):
+            newState.goToSignUp = value
         }
         
         return newState
@@ -212,11 +206,13 @@ class LoginViewReactor: Reactor {
             .do(onNext: { signinResponse in
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail", data: signinResponse.email)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: signinResponse.nickName)
             })
             .flatMap { [weak self] signinResponse -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
-                return .just(.signIn(signinResponse))
-                    .map { _ in .goToMain(true) }
+                print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")
+                return .just(.goToSignUp(true))
             }
             .catch { return .just(.showErrorAlert($0)) }
     }

@@ -33,7 +33,6 @@ final class SignUpCoordinator: Coordinator {
 
 extension SignUpCoordinator: SignUpCoordinatorProtocol {
     func pushSignUpView() {
-        
         let viewController = makeSignUpViewController()
         navigationController.pushViewController(viewController, animated: true)
     }
