@@ -229,7 +229,7 @@ extension SignUpViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                if result { signUpCoordinator.pushMainView() }
+                if result { signUpCoordinator.finish() }
                 else {  }
             })
             .disposed(by: disposeBag)

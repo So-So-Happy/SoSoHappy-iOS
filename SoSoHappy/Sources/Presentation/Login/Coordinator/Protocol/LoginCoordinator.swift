@@ -24,7 +24,6 @@ final class LoginCoordinator: Coordinator {
     }
     
     func start() {
-        print(KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName") ?? "비어있음")
         pushAuthView()
     }
     
@@ -41,8 +40,14 @@ extension LoginCoordinator: LoginCoordinatorProtocol {
     
     func pushSignUpView() {
         let signUpCoordinator = SignUpCoordinator(navigationController: self.navigationController)
+        signUpCoordinator.parentCoordinator = self
+        signUpCoordinator.finishDelegate = self
         self.childCoordinators.append(signUpCoordinator)
         signUpCoordinator.start()
+    }
+    
+    func pushMainView() {
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
 
@@ -63,4 +68,15 @@ extension LoginCoordinator {
     }
 }
 
-
+extension LoginCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+//        childDidFinish(childCoordinator, parent: self)
+        switch childCoordinator.type {
+        case .signup:
+            childCoordinator.navigationController.viewControllers.removeAll()
+            print("LoginCoordinator finish()")
+            finish()
+        default: break
+        }
+    }
+}
