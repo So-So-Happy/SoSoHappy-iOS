@@ -8,6 +8,6 @@
 import Foundation
 
 struct CheckNickNameResponse: Decodable {
-    let email: String
-    let isPresent: String // false: 중복 x, true: 중복 o
+    let email: String?
+    let isPresent: Bool // false: 중복 x, true: 중복 o
 }

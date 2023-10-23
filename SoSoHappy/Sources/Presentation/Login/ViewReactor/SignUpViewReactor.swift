@@ -10,7 +10,11 @@ import RxCocoa
 import RxSwift
 
 class SignUpViewReactor: Reactor {
-    // MARK: Action
+    
+    // MARK: - Class member property
+    private let userRepository = UserRepository()
+    
+    // MARK: - Action
     enum Action {
         case selectImage(UIImage?)
         case nickNameTextChanged(String)
@@ -19,7 +23,7 @@ class SignUpViewReactor: Reactor {
         case signUp
     }
     
-    // MARK: Mutation
+    // MARK: - Mutation
     enum Mutation {
         case setImage(UIImage?)
         case setNickNameText(String)
@@ -28,13 +32,16 @@ class SignUpViewReactor: Reactor {
         case signUpSuccessed(Bool)
     }
     
-    // MARK: State
+    // MARK: - State
     struct State {
         var profileImage: UIImage
         var nickNameText: String
         var selfIntroText: String
         var isDuplicate: Bool?
+        var signUpSuccessed: Bool?
     }
+    
+    // MARK: - Init
     
     let initialState: State
     
@@ -42,7 +49,7 @@ class SignUpViewReactor: Reactor {
         initialState = State(profileImage: UIImage(named: "profile")!, nickNameText: "", selfIntroText: "")
     }
     
-    // MARK: Action -> Mutation
+    // MARK: - Action -> Mutation
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .selectImage(image):
@@ -56,17 +63,22 @@ class SignUpViewReactor: Reactor {
             
         case .checkDuplicate:
             // 중복 검사 API -> 결과 (중복 - true, 중복 x - false)
-            return Observable.just(Mutation.isDuplicate(false))
+            return userRepository.checkDuplicateNickname(request: CheckNickNameRequest(nickName: currentState.nickNameText))
+                .map { Mutation.isDuplicate(Bool($0.isPresent)) }
             
         case .signUp:
-            print("muate() - signup")
             let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
+            let email = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail") ?? ""
+            let nickName = currentState.nickNameText
+            let profileImage = currentState.profileImage
+            let intro = trimmedSelfIntroText
             
-            return Observable.just(Mutation.signUpSuccessed(true))
+            return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
+                .map { Mutation.signUpSuccessed($0.success) }
         }
     }
     
-    // MARK: Mutation -> State
+    // MARK: - Mutation -> State
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
@@ -90,11 +102,14 @@ class SignUpViewReactor: Reactor {
             newState.selfIntroText = String(text.prefix(60))    // 60자 제한
             
         case let .isDuplicate(bool):
+            if !bool {
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickname", data: currentState.nickNameText)
+            }
             newState.isDuplicate = bool
             
         case let .signUpSuccessed(bool) :
-            // 여기에서 가입 성공 여부를 처리하고 필요한 동작 수행 필요
-            print("reduce() - .signUpSuccessed")
+            print("💖 회원가입 \(bool ? "성공" : "실패") (in reduce() - .signUpSuccessed)")
+            newState.signUpSuccessed = bool
             // fail 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯?
             // success했을 때도 사용자한테 알려주고
         }

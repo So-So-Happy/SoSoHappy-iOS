@@ -207,7 +207,7 @@ class LoginViewReactor: Reactor {
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail", data: signinResponse.email)
-                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: signinResponse.nickName)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: "signinResponse.nickName")
             })
             .flatMap { [weak self] signinResponse -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
