@@ -139,7 +139,7 @@ extension LoginViewController {
         
         appDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(90)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(60)
             make.width.equalTo(appDescriptionStackView.appDescriptionStackView.snp.width)
         }
         

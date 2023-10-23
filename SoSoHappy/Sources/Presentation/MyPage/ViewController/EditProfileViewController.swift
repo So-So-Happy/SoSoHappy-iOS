@@ -234,7 +234,8 @@ extension EditProfileViewController: View {
                 } else { // 키보드가 보일 때
                     self.scrollView.contentInset = contentInset
                     self.scrollView.scrollIndicatorInsets = contentInset
-                    self.scrollView.scrollRectToVisible(self.saveButton.frame, animated: true)
+                    let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
+                    self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
                 
             })
