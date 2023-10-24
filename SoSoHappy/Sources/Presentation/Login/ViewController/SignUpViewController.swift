@@ -24,7 +24,7 @@ final class SignUpViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     var contentInset: UIEdgeInsets?
-    private let signUpCoordinator = SignUpCoordinator()
+    private let coordinator: AuthCoordinatorProtocol?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView()
@@ -52,7 +52,8 @@ final class SignUpViewController: UIViewController {
     }
     
     // MARK: Initializing
-    init(reactor: SignUpViewReactor) {
+    init(reactor: SignUpViewReactor, coordinator: AuthCoordinatorProtocol) {
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -165,7 +166,7 @@ extension SignUpViewController: View {
             .disposed(by: disposeBag)
         
         signUpButton.rx.tap
-            .map { Reactor.Action.signUp }
+            .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -224,16 +225,34 @@ extension SignUpViewController: View {
             }
             .bind(to: signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
+
+        reactor.state.compactMap { $0.showFinalAlert }
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    coordinator?.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!") { self.reactor?.action.onNext(.signUp) }
+                }
+            })
+            .disposed(by: disposeBag)
         
-        reactor.state.compactMap { $0.signUpSuccessed }
+        reactor.state.compactMap { $0.goToMain }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                if result { signUpCoordinator.finish() }
-                else {  }
+                if result {
+                    coordinator?.pushMainView()
+                }
             })
             .disposed(by: disposeBag)
-
+        
+        reactor.state.compactMap { $0.showErrorAlert }
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                coordinator?.presentErrorAlert(error: error)
+            })
+            .disposed(by: disposeBag)
+        
+        // MARK: RxKeyboard.instance
         RxKeyboard.instance.willShowVisibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let `self` = self else { return }

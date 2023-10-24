@@ -43,7 +43,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 userEmail: \(String(describing: userEmail))")
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
-            KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: "")
             showMainFlow()
         }
     }
@@ -70,7 +69,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
 
 private extension AppCoordinator {
     func makeAuthCoordinator() -> Coordinator {
-        let coordinator = LoginCoordinator(navigationController: navigationController)
+        let coordinator = AuthCoordinator(navigationController: navigationController)
         coordinator.finishDelegate = self
         childCoordinators.append(coordinator)
         
@@ -92,13 +91,13 @@ extension AppCoordinator: CoordinatorFinishDelegate {
         childCoordinators = childCoordinator.childCoordinators.filter({
             $0.type != childCoordinator.type
         })
-        navigationController.viewControllers.removeAll()
-        
         switch childCoordinator.type {
         case .login:
             showMainFlow()
+            childCoordinators.removeAll()
         case .tabBar:
             showAuthFlow(needsIntroView: false)
+            
         default:
             break
         }

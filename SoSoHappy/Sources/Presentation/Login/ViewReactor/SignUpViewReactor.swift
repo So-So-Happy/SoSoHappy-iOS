@@ -12,6 +12,8 @@ import RxSwift
 class SignUpViewReactor: Reactor {
     
     // MARK: - Class member property
+    let disposeBag = DisposeBag()
+    let initialState: State
     private let userRepository = UserRepository()
     
     // MARK: - Action
@@ -20,6 +22,7 @@ class SignUpViewReactor: Reactor {
         case nickNameTextChanged(String)
         case selfIntroTextChanged(String)
         case checkDuplicate
+        case tapSignUpButton
         case signUp
     }
     
@@ -29,7 +32,10 @@ class SignUpViewReactor: Reactor {
         case setNickNameText(String)
         case setSelfIntroText(String)
         case isDuplicate(Bool)
-        case signUpSuccessed(Bool)
+        case showFinalAlert(Bool)
+        case showErrorAlert(Error)
+        case clearErrorAlert
+        case goToMain(Bool)
     }
     
     // MARK: - State
@@ -38,15 +44,19 @@ class SignUpViewReactor: Reactor {
         var nickNameText: String
         var selfIntroText: String
         var isDuplicate: Bool?
-        var signUpSuccessed: Bool?
+        var showFinalAlert: Bool?
+        var showErrorAlert: Error?
+    
+        var goToMain: Bool?
     }
     
     // MARK: - Init
-    
-    let initialState: State
-    
     init() {
-        initialState = State(profileImage: UIImage(named: "profile")!, nickNameText: "", selfIntroText: "")
+        initialState = State (
+            profileImage: UIImage(named: "profile")!,
+            nickNameText: "",
+            selfIntroText: ""
+        )
     }
     
     // MARK: - Action -> Mutation
@@ -62,19 +72,14 @@ class SignUpViewReactor: Reactor {
             return Observable.just(Mutation.setSelfIntroText(text))
             
         case .checkDuplicate:
-            // 중복 검사 API -> 결과 (중복 - true, 중복 x - false)
-            return userRepository.checkDuplicateNickname(request: CheckNickNameRequest(nickName: currentState.nickNameText))
-                .map { Mutation.isDuplicate(Bool($0.isPresent)) }
+            return .concat([checkDuplicateNickname(), .just(Mutation.clearErrorAlert)])
             
+        case .tapSignUpButton:
+            return Observable.just(Mutation.showFinalAlert(true))
+        
         case .signUp:
-            let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
-            let email = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail") ?? ""
-            let nickName = currentState.nickNameText
-            let profileImage = currentState.profileImage
-            let intro = trimmedSelfIntroText
-            
-            return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
-                .map { Mutation.signUpSuccessed($0.success) }
+            return .concat([setProfile(), .just(Mutation.clearErrorAlert)])
+        
         }
     }
     
@@ -107,15 +112,59 @@ class SignUpViewReactor: Reactor {
             }
             newState.isDuplicate = bool
             
-        case let .signUpSuccessed(bool) :
-            print("💖 회원가입 \(bool ? "성공" : "실패") (in reduce() - .signUpSuccessed)")
-            newState.signUpSuccessed = bool
+        case let .showFinalAlert(bool) :
+            newState.showFinalAlert = bool
             // fail 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯?
             // success했을 때도 사용자한테 알려주고
+            
+        case let .goToMain(bool):
+            print("💖 회원가입 \(bool ? "성공" : "실패") (in reduce() - .signUpSuccessed)")
+            newState.showFinalAlert = false
+            newState.goToMain = bool
+            
+        case let .showErrorAlert(error):
+            newState.showErrorAlert = error
+            newState.showFinalAlert = false
+            
+        case .clearErrorAlert:
+            newState.showErrorAlert = nil
         }
         
         return newState
     }
 }
 
+// MARK: - Custom functions
+extension SignUpViewReactor {
+    
+    // MARK: 닉네임 중복 검사
+    func checkDuplicateNickname() -> Observable<Mutation> {
+        return userRepository.checkDuplicateNickname(request: CheckNickNameRequest(nickName: currentState.nickNameText))
+            .do(onNext: { _ in })
+            .flatMap { [weak self] response -> Observable<Mutation> in
+                guard self != nil else { return .error(BaseError.unknown) }
+                return .just(.isDuplicate(Bool(response.isPresent)))
+            }
+            .catch { return .just(.showErrorAlert($0)) }
+    }
+    
+    // MARK: 프로필 설정 완료 후 서버와의 통신 결과 받아오기 & 키체인에 닉네임 저장
+    func setProfile() -> Observable<Mutation> {
+        let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
+        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail") ?? ""
+        let nickName = currentState.nickNameText
+        let profileImage = currentState.profileImage
+        let intro = trimmedSelfIntroText
+        
+        return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
+            .do(onNext: { signupResponse in
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName", data: nickName)
+            })
+            .flatMap { [weak self] signupResponse -> Observable<Mutation> in
+                guard self != nil else { return .error(BaseError.unknown) }
+                return .just(.goToMain(signupResponse.success))
+            }
+            .catch { return .just(.showErrorAlert($0)) }
+    }
+}
 

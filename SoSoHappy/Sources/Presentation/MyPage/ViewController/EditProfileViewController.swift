@@ -151,7 +151,7 @@ extension EditProfileViewController: View {
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
-            .map { Reactor.Action.signUp }
+            .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
