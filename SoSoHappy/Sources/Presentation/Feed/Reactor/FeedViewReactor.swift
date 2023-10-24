@@ -19,6 +19,7 @@ enum SortOption {
 
 class FeedViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
+    private let userRepository: UserRepositoryProtocol
     
     enum Action {
         case refresh
@@ -42,24 +43,20 @@ class FeedViewReactor: Reactor {
     
     let initialState: State
     
-    init(feedRepository: FeedRepositoryProtocol) {
+    init(feedRepository: FeedRepositoryProtocol) { //userRepository: UserRepositoryProtocol 추가
         initialState = State()
         self.feedRepository = feedRepository
+        self.userRepository = UserRepository()
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .refresh:
             // currentState.sortOption에 따라 달라짐
-            let requestDate: Int64? = setRequestDateBy(currentState.sortOption!)
-            
             return .concat([
                 .just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-//                fetchFeedBySortOption(currentState.sortOption),
-                feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
-                    .map { Mutation.setFeeds($0) },
-                
-                    .just(.setRefreshing(false))
+                fetchAndProcessFeeds(setSortOption: currentState.sortOption!),
+                .just(.setRefreshing(false))
             ])
             
         case let .fetchFeeds(sortOption):
@@ -78,12 +75,28 @@ class FeedViewReactor: Reactor {
                 }
             }
             
-            let requestDate: Int64? = setRequestDateBy(setSortOption)
-            
             return .concat([
                 .just(.sortOption(setSortOption)),
-                feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
-                    .map { Mutation.setFeeds($0) }
+//                feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
+//                    .flatMap { userFeeds -> Observable<[UserFeed]> in
+//                        print("😀 type : \(type(of: userFeeds))")
+//                        let profileImageObservables: [Observable<UserFeed>] = userFeeds.map { feed in
+//                            return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
+//                                .map { profileImage in
+//                                    var updatedFeed = feed
+//                                    updatedFeed.profileImage = profileImage
+//                                    return updatedFeed
+//                                }// map
+//                        } // map
+//                        // Observable.zip - profileImageObservables의 모든 작업이 끝날 때까지 기다림
+//                        // 모든 작업의 결과를 하나의 Observable로 반환할 수 있음.
+//                        // 결과의 순서를 원본 목록과 일치시켜서 하나의 Observable로 반환
+//                        return Observable.zip(profileImageObservables)
+//                        
+//                    } // flatMap
+//                    .map { Mutation.setFeeds($0) }
+                
+                fetchAndProcessFeeds(setSortOption: setSortOption)
             ])
             
         case let .selectedCell(index):
@@ -128,5 +141,29 @@ extension FeedViewReactor {
         default:
             return nil
         }
+    }
+    
+    
+    private func fetchAndProcessFeeds(setSortOption: SortOption) -> Observable<Mutation> {
+        let requestDate: Int64? = setRequestDateBy(setSortOption)
+        
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
+            .flatMap { userFeeds -> Observable<[UserFeed]> in
+                print("😀 type : \(type(of: userFeeds))")
+                let profileImageObservables: [Observable<UserFeed>] = userFeeds.map { feed in
+                    return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
+                        .map { profileImage in
+                            var updatedFeed = feed
+                            updatedFeed.profileImage = profileImage
+                            return updatedFeed
+                        }// map
+                } // map
+                // Observable.zip - profileImageObservables의 모든 작업이 끝날 때까지 기다림
+                // 모든 작업의 결과를 하나의 Observable로 반환할 수 있음.
+                // 결과의 순서를 원본 목록과 일치시켜서 하나의 Observable로 반환
+                return Observable.zip(profileImageObservables)
+                
+            } // flatMap
+            .map { Mutation.setFeeds($0) }
     }
 }
