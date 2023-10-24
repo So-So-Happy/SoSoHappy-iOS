@@ -27,7 +27,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func start() {
-        showAuthFlow(needsIntroView: true)
+        showMainFlow()
     }
     
     func showAuthFlow(needsIntroView: Bool) {

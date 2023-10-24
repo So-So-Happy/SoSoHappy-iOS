@@ -14,36 +14,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
     
+    var coordinator: AppCoordinator? 
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
+        // ChartViewController start
+        
+        //MARK: 전체 Tab Bar 다 확인할 수 있는 코드
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let window = UIWindow(windowScene: windowScene)
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-//        window.rootViewController = mainVC // 시작 VC 작성해주기
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-        //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-
-        // let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-//        let mainVC = EditProfileViewController(reactor: SignUpViewReactor())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-
-//        let mainVC = UINavigationController(rootViewController: AddStep1ViewController())
-        
-//        let mainVC = LoginViewController(coordinator: LoginCoordinator())
-//        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
-        
-        self.window = window
         let navigationController = UINavigationController()
-        self.window?.rootViewController = navigationController
+        coordinator = AppCoordinator(navigationController: navigationController)
+        coordinator?.start()
         
-        let coordinator = CalendarCoordinator(navigationController: navigationController)
-        coordinator.start()
+        window = UIWindow(windowScene: windowScene)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+        
+        //        let mainVC = LoginViewController(coordinator: LoginCoordinator())
+        //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        //        window.rootViewController = mainVC // 시작 VC 작성해주기
+        //        let mainVC = LoginViewController(coordinator: LoginCoordinator())
+                //        mainVC.reactor = LoginViewReactor(repository: UserRepository(), userDefaults: UserDefaults(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager())
+        
 
 //        let reactor = CalendarViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository())
 //        
@@ -53,7 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        window.rootViewController = mainVM // 시작 VC 작성해주기
         
         
-        window.makeKeyAndVisible()
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {

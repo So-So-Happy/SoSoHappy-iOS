@@ -15,7 +15,7 @@ import RxSwift
 import Moya
 
 // uipageViewController 사용?
-final class CalendarViewController: UIViewController, View {
+final class CalendarViewController: UIViewController {
     
 
     //MARK: - Properties
@@ -131,7 +131,7 @@ final class CalendarViewController: UIViewController, View {
 }
 
 
-extension CalendarViewController {
+extension CalendarViewController: View {
     
     func bind(reactor: CalendarViewReactor) {
         bindAction(reactor)

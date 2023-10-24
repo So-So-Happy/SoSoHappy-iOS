@@ -13,10 +13,14 @@ import ReactorKit
 import ImageSlideshow
 
 final class HappyListViewController : UIViewController {
+    
+    
     // MARK: - Properties
+    private var coordinator: HappyListCoordinatorInterface
     var disposeBag = DisposeBag()
     
     private var currentPage: Date
+    private var monthHappinessList = BehaviorRelay(value: [MyFeed]())
     
     // MARK: - UI Components
     private lazy var happyTableView = UITableView().then {
@@ -56,7 +60,10 @@ final class HappyListViewController : UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    init(reactor: HappyListViewReactor, currentPage: Date) {
+    init(reactor: HappyListViewReactor, 
+         coordinator: HappyListCoordinatorInterface,
+         currentPage: Date) {
+        self.coordinator = coordinator
         self.currentPage = currentPage
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
@@ -109,8 +116,31 @@ extension HappyListViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.nextButton.rx.tap
+            .map { Reactor.Action.tapNextButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        self.previousButton.rx.tap
+            .map { Reactor.Action.tapPreviousButton }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         // MARK: State (Reactor -> State) 아웃풋
+        reactor.state
+            .map { $0.date }
+            .asDriver(onErrorJustReturn: "")
+            .distinctUntilChanged()
+            .drive(self.yearMonthLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.monthHappinessData }
+            .subscribe { data in
+                self.monthHappinessList.accept(data)
+                
+            }.disposed(by: disposeBag)
+        
 //        reactor.state
 //            .skip(1)
 //            .map { $0.feeds }
@@ -132,3 +162,50 @@ extension HappyListViewController: View {
     }
 }
 
+extension HappyListViewController {
+    
+    func initialize() {
+        self.bindTableView()
+        
+        
+    }
+    
+    func bindTableView() {
+        self.monthHappinessList
+            .bind(to: self.happyTableView.rx.items(
+                cellIdentifier: "Cell",
+                cellType: HappyListCell.self)) {
+                _, element, cell in
+//                cell.item = element
+                    
+                }.disposed(by: disposeBag)
+        
+        
+        self.happyTableView.rx.modelSelected(MyFeed.self)
+            .subscribe { item in
+                // coodinator: go to Detail VC
+//                
+//                Observable.just(Reactor.Action.moveToDetail(item))
+//                                    .bind(to: self?.reactor!.action)
+//                                    .disposed(by: self?.disposeBag)
+            }.disposed(by: disposeBag)
+        
+        self.happyTableView.rx.itemSelected
+            .subscribe { indexPath in
+                self.happyTableView.deselectRow(at: indexPath, animated: false)
+            }.disposed(by: disposeBag)
+        
+        // Observable 결합
+                /*
+                Observable.zip(self.tableView.rx.itemSelected, self.tableView.rx.modelSelected(MessageRoomModel.self))
+                    .subscribe(onNext: { [weak self] indexPath, item in
+                        self?.tableView.deselectRow(at: indexPath, animated: false)
+                        Observable.just(Reactor.Action.moveToDetail(item))
+                            .bind(to: self?.reactor!.action)
+                            .disposed(by: self?.disposeBag)
+                    }).disposed(by: self.disposeBag)
+                */
+        
+    }
+   
+}

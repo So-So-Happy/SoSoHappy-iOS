@@ -15,6 +15,7 @@ public protocol CalendarCoordinatorInterface: AnyObject {
 }
 
 final class CalendarCoordinator: Coordinator {
+    
     var type: CoordinatorType { .main }
     
     var parentCoordinator: Coordinator?
@@ -43,8 +44,11 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
     }
     
     func pushListView(date: Date) {
-        let viewController = makeHappyListViewController(date: date)
-        navigationController.pushViewController(viewController, animated: false)
+        let coordinator = HappyListCoordinator()
+        coordinator.parentCoordinator = self
+        coordinator.finishDelegate = self
+        childCoordinators.append(coordinator)
+        coordinator.makeHappyListViewController(date: date)
     }
     
     func dismiss() {
@@ -71,15 +75,15 @@ extension CalendarCoordinator {
         
         return viewController
     }
-    
+        
     func makeAlarmViewController() -> UIViewController {
         let viewController = AlertViewController()
         return viewController
     }
-    
-    func makeHappyListViewController(date: Date) -> UIViewController {
-        let viewController = HappyListViewController(reactor: HappyListViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository(), currentPage: date), currentPage: date)
-        return viewController
-    }
 }
 
+extension CalendarCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        childDidFinish(childCoordinator, parent: self)
+    }
+}
