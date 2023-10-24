@@ -96,6 +96,12 @@ private extension RecommendView {
     }
 }
 
+private extension RecommendView {
+    func setRecommendText() {
+        
+    }
+}
+
 // MARK: - Action
 private extension RecommendView {
     

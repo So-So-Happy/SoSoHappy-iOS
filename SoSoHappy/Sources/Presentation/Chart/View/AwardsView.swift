@@ -72,6 +72,10 @@ final class AwardsView: UIView {
 // MARK: - Layout & Attribute
 private extension AwardsView {
     
+    func setCategory() {
+        
+    }
+    
     //  MARK: 뷰 구성요소 세팅
     private func setUpView() {
         addSubview(label)
@@ -154,5 +158,11 @@ private extension AwardsView {
         }
         
         return stackView
+    }
+}
+
+extension AwardsView {
+    func setAwardsCategories() {
+        
     }
 }
