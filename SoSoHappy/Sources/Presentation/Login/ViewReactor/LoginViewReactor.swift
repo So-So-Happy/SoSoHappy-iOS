@@ -44,8 +44,6 @@ class LoginViewReactor: Reactor {
     
     // MARK: - 액션에 대응하는 변이를 정의 (처리 단위)
     enum Mutation {
-        case getAuthorizeCode(AuthCodeResponse)
-        
         case kakaoLogin
         case googleLogin
         case appleLogin
@@ -82,18 +80,14 @@ class LoginViewReactor: Reactor {
         case .tapKakaoLogin:
             return .concat([
                 Observable.just(Mutation.kakaoLoading(true)),
-                userRepository.getAuthorizeCode()
-                    .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithKakao(),
-                .just(Mutation.kakaoLoading(false)),
-                .just(Mutation.clearErrorAlert)
+                Observable.just(Mutation.kakaoLoading(false)),
+                Observable.just(Mutation.clearErrorAlert)
             ])
             
         case .tapGoogleLogin:
             return .concat([
                 Observable.just(Mutation.googleLoading(true)),
-                userRepository.getAuthorizeCode()
-                    .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithGoogle(),
                 Observable.just(Mutation.googleLoading(false)),
                 Observable.just(Mutation.clearErrorAlert)
@@ -102,8 +96,6 @@ class LoginViewReactor: Reactor {
         case .tapAppleLogin:
             return .concat([
                 Observable.just(Mutation.appleLoading(true)),
-                userRepository.getAuthorizeCode()
-                    .map { Mutation.getAuthorizeCode($0) },
                 self.signinWithApple(),
                 Observable.just(Mutation.appleLoading(false)),
                 Observable.just(Mutation.clearErrorAlert)
@@ -116,9 +108,6 @@ class LoginViewReactor: Reactor {
         var newState = state
         
         switch mutation {
-        case .getAuthorizeCode(let authCode):
-            print("✅ LoginViewReactor reduce() .getAuthorizeCode : \(authCode)")
-            
         case .kakaoLogin:
             newState.isKakaoLoggedIn = true
             
@@ -200,19 +189,28 @@ class LoginViewReactor: Reactor {
             }
     }
     
-    // MARK: - 로그인 성공 후 토큰과 사용자 정보 가져오기 & 키체인에 토큰 저장
-    private func signIn(request: SigninRequest) -> Observable<Mutation> {
-        return userRepository.signIn(request: request)
+    // MARK: - 로그인 요청 후 토큰과 사용자 정보 가져오기 & 키체인에 토큰 저장
+    private func requestSignIn(request: SigninRequest) -> Observable<Mutation> {
+        return self.userRepository.signIn(request: request)
             .do(onNext: { signinResponse in
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail", data: signinResponse.email)
-                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: "signinResponse.nickName")
+                KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "userNickName", data: signinResponse.nickName)
             })
-            .flatMap { [weak self] signinResponse -> Observable<Mutation> in
-                guard self != nil else { return .error(BaseError.unknown) }
+            .flatMap { signinResponse -> Observable<Mutation> in
                 print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")
                 return .just(.goToSignUp(true))
+            }
+    }
+    
+    // MARK: - 인증 코드 받고 로그인
+    private func signIn(request: SigninRequest) -> Observable<Mutation> {
+        return userRepository.getAuthorizeCode()
+            .flatMap { [weak self] response -> Observable<Mutation> in
+                guard let self = self else { return .error(BaseError.unknown) }
+                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
+                return requestSignIn(request: request)
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
