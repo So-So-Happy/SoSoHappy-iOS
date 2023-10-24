@@ -10,7 +10,7 @@ import RxSwift
 
 protocol UserRepositoryProtocol {
     func getAuthorizeCode() -> Observable<AuthCodeResponse>
-    func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse>
+    func checkDuplicateNickname(request: CheckNickNameRequest) -> Observable<CheckNickNameResponse>
     func setProfile(profile: Profile) -> Observable<SetProfileResponse>
     func resign(email: ResignRequest) -> Observable<ResignResponse>
     func getRefreshToken() -> Observable<AuthResponse>

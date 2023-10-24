@@ -16,18 +16,11 @@ final class SignUpDescriptionStackView: UIView {
         spacing: 18
     )
     
-    private lazy var appNameLabel = UILabel().then {
-        $0.text = "소소해피"
-        $0.textColor = .darkGray
-        $0.font = .systemFont(ofSize: 36, weight: .bold)
-        $0.setLineSpacing(kernValue: 9, alignment: .center)
-    }
-    
     private lazy var setProfileGuideLabel = UILabel().then {
         $0.text = "서비스 이용을 위해 프로필을 설정해주세요."
         $0.textColor = .darkGray
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.font = .systemFont(ofSize: 17, weight: .light)
         $0.numberOfLines = 2
     }
     
@@ -47,8 +40,7 @@ extension SignUpDescriptionStackView {
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        signUpDescriptionStackView.addArrangedSubview(appNameLabel)
+
         signUpDescriptionStackView.addArrangedSubview(setProfileGuideLabel)
     }
 }

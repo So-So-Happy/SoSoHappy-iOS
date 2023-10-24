@@ -62,7 +62,7 @@ enum CoordinatorType{
     case app
     case launchScreen
     case login
-    case signUp
+    case signup
     case tabBar
     case main
     case feed

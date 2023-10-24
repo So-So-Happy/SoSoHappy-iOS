@@ -24,6 +24,7 @@ final class SignUpViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     var contentInset: UIEdgeInsets?
+    private let coordinator: AuthCoordinatorProtocol?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView()
@@ -51,7 +52,8 @@ final class SignUpViewController: UIViewController {
     }
     
     // MARK: Initializing
-    init(reactor: SignUpViewReactor) {
+    init(reactor: SignUpViewReactor, coordinator: AuthCoordinatorProtocol) {
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -72,7 +74,8 @@ extension SignUpViewController {
     private func setLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubviews(contentView)
-        contentView.addSubviews(signUpDescriptionStackView, profileImageEditButton, nickNameSection, selfIntroductionSection, signUpButton)
+        self.view.addSubview(signUpButton)
+        contentView.addSubviews(signUpDescriptionStackView, profileImageEditButton, nickNameSection, selfIntroductionSection)
 
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -86,11 +89,11 @@ extension SignUpViewController {
         
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(36)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(30)
         }
         
         profileImageEditButton.snp.makeConstraints { make in
-            make.top.equalTo(signUpDescriptionStackView.snp.bottom).offset(60)
+            make.top.equalTo(signUpDescriptionStackView.snp.bottom).offset(40)
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
         }
@@ -109,7 +112,7 @@ extension SignUpViewController {
         
         signUpButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(selfIntroductionSection.snp.bottom).offset(40)
+            make.bottomMargin.equalToSuperview().inset(20)
             make.width.equalTo(selfIntroductionSection)
             make.height.equalTo(44)
         }
@@ -118,7 +121,6 @@ extension SignUpViewController {
     // ViewController의 전체적인 속성 설정
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "backgroundColor")
-        self.navigationItem.title = "회원가입"
     }
 }
 
@@ -164,7 +166,7 @@ extension SignUpViewController: View {
             .disposed(by: disposeBag)
         
         signUpButton.rx.tap
-            .map { Reactor.Action.signUp }
+            .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -224,6 +226,33 @@ extension SignUpViewController: View {
             .bind(to: signUpButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
+        reactor.state.compactMap { $0.showFinalAlert }
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    coordinator?.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!") { self.reactor?.action.onNext(.signUp) }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.goToMain }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    coordinator?.pushMainView()
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showErrorAlert }
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                coordinator?.presentErrorAlert(error: error)
+            })
+            .disposed(by: disposeBag)
+        
+        // MARK: RxKeyboard.instance
         RxKeyboard.instance.willShowVisibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let `self` = self else { return }
@@ -247,7 +276,8 @@ extension SignUpViewController: View {
                 } else { // 키보드가 보일 때
                     self.scrollView.contentInset = contentInset
                     self.scrollView.scrollIndicatorInsets = contentInset
-                    self.scrollView.scrollRectToVisible(self.signUpButton.frame, animated: true)
+                    let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
+                    self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
                 
             })

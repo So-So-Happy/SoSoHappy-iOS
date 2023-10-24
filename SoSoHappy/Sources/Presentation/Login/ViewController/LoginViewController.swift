@@ -20,7 +20,7 @@ import GoogleSignIn
 
 final class LoginViewController: UIViewController, View {
     
-    private let coordinator: LoginCoordinator?
+    private let coordinator: AuthCoordinatorProtocol?
     private let reactor: LoginViewReactor?
     
     // MARK: - UI Components
@@ -34,7 +34,7 @@ final class LoginViewController: UIViewController, View {
     var disposeBag = DisposeBag()
     
     // MARK: - Init
-    public init(reactor: LoginViewReactor, coordinator: LoginCoordinator) {
+    public init(reactor: LoginViewReactor, coordinator: AuthCoordinatorProtocol) {
         self.reactor = reactor
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
@@ -112,7 +112,7 @@ final class LoginViewController: UIViewController, View {
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
                 guard let self = self else { return }
-                coordinator?.presentErrorAlert(error)
+                coordinator?.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
         
@@ -120,6 +120,7 @@ final class LoginViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
+                // TODO: 로그아웃한 후라면 SignUp 건너뛰기
                 coordinator?.pushSignUpView()
             })
             .disposed(by: disposeBag)
@@ -139,7 +140,7 @@ extension LoginViewController {
         
         appDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(90)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(60)
             make.width.equalTo(appDescriptionStackView.appDescriptionStackView.snp.width)
         }
         

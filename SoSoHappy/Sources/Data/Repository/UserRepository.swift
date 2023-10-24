@@ -80,11 +80,53 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
         }
     }
     
-    func checkDuplicateNickname(nickName: String) -> Observable<CheckNickNameResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.checkDuplicateNickname(nickName: nickName))
-            .map(CheckNickNameResponse.self)
-            .asObservable()
+    // MARK: - 닉네임 중복 검사 함수
+    func checkDuplicateNickname(request: CheckNickNameRequest) -> Observable<CheckNickNameResponse> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.checkDuplicateNickname(nickName: request))
+                .map(CheckNickNameResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(request.nickName) - \(response.isPresent ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
+    
+    // MARK: - 첫 사용자 프로필 생성 함수
+    func setProfile(profile: Profile) -> Observable<SetProfileResponse> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.setProfile(profile: profile))
+                .map(SetProfileResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     func getRefreshToken() -> Observable<AuthResponse> {
@@ -92,14 +134,6 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
         return provider.rx.request(UserAPI.getRefreshToken)
             .map(AuthResponse.self)
             .asObservable()
-    }
-    
-    
-    func setProfile(profile: Profile) -> RxSwift.Observable<SetProfileResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.setProfile(profile: profile))
-                    .map(SetProfileResponse.self)
-                    .asObservable()
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {

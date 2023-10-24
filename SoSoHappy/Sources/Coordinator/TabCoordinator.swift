@@ -125,6 +125,7 @@ final class TabCoordinator: NSObject, Coordinator {
         
         switch tabBarItemType {
         case .home:
+            print("home started ...")
             let calendarCoordinator = CalendarCoordinator(navigationController: tabNavigationController)
             calendarCoordinator.finishDelegate = self
             self.childCoordinators.append(calendarCoordinator)

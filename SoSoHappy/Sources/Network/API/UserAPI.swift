@@ -14,7 +14,7 @@ import Alamofire
 enum UserAPI {
     case getAuthorizeCode(codeChallenge: AuthCodeRequest)
     case signIn(userInfo: SigninRequest)
-    case checkDuplicateNickname(nickName: String)
+    case checkDuplicateNickname(nickName: CheckNickNameRequest)
     case getRefreshToken
     case resign(email: ResignRequest)
     case setProfile(profile: Profile)
@@ -60,7 +60,7 @@ extension UserAPI {
         case .signIn:
             return .post
         case .checkDuplicateNickname:
-            return .post
+            return .get
         case .getRefreshToken:
             return .get
         case .setProfile:
@@ -99,16 +99,19 @@ extension UserAPI {
             return .uploadMultipart(formData)
             
         case .checkDuplicateNickname(let nickName):
-            return .requestParameters(parameters: nickName.toDictionary(), encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: nickName.params, encoding: URLEncoding.queryString)
+            
         case .getRefreshToken:
             return .requestPlain
+            
         case .setProfile(let profile):
-            let imageData =  MultipartFormData(provider: .data(profile.profileImg.jpegData(compressionQuality: 0.1)!), name: "image", fileName: "jpeg", mimeType: "image/jpeg")
+            let imageData =  MultipartFormData(provider: .data(profile.profileImg.jpegData(compressionQuality: 0.1)!), name: "profileImg", fileName: "jpeg", mimeType: "image/jpeg")
             let nickNameData = MultipartFormData(provider: .data(profile.nickName.data(using: .utf8)!), name: "nickname")
             let emailData = MultipartFormData(provider: .data(profile.email.data(using: .utf8)!), name: "email")
             let introData = MultipartFormData(provider: .data(profile.introduction.data(using: .utf8)!), name: "introduction")
-            var formData: [Moya.MultipartFormData] = [imageData, nickNameData, emailData, introData]
+            let formData: [Moya.MultipartFormData] = [emailData, nickNameData, imageData, introData]
             return .uploadMultipart(formData)
+            
         case .resign(let email):
             return .requestJSONEncodable(email)
         case .findProfileImg(let data):

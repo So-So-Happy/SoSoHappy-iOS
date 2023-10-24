@@ -26,8 +26,6 @@ final class GoogleSigninManager: SigninManagerProtocol {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { userInfo, error in
             if let userInfo = userInfo {
-                UserDefaults.standard.setValue(userInfo.user.profile?.email, forKey: "userEmail")
-                
                 let request = SigninRequest(email: userInfo.user.profile?.email ?? "unknownEmail", provider: "google", providerId: userInfo.user.userID ?? "unknownId", codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier", authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode")
                 
                 self.publisher.onNext(request)
