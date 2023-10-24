@@ -57,8 +57,6 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             let email = appleIDCredential.email
-            UserDefaults.standard.setValue(email, forKey: "userEmail") // email validation only at first login
-
             let request = SigninRequest(
                 email: email ?? "email",
                 provider: "apple",

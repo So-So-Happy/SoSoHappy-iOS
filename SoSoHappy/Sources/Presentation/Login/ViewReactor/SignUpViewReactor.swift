@@ -151,7 +151,7 @@ extension SignUpViewReactor {
     // MARK: 프로필 설정 완료 후 서버와의 통신 결과 받아오기 & 키체인에 닉네임 저장
     func setProfile() -> Observable<Mutation> {
         let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
-        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "userEmail") ?? ""
+        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
         let nickName = currentState.nickNameText
         let profileImage = currentState.profileImage
         let intro = trimmedSelfIntroText

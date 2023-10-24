@@ -93,7 +93,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     self.publisher.onError(signInError)
                 }
             } else {
-                guard let authToken = authToken else {
+                guard authToken != nil else {
                     self.publisher.onError(BaseError.custom("authToken is nil"))
                     return
                 }
@@ -139,8 +139,6 @@ final class KakaoSigninManager: SigninManagerProtocol {
     func getUserInfo() {
         UserApi.shared.rx.me()
             .subscribe (onSuccess:{ user in
-                UserDefaults.standard.setValue(user.kakaoAccount?.email, forKey: "userEmail")
-                
                 let request = SigninRequest(
                     email: user.kakaoAccount?.email ?? "unknownEmail",
                     provider: "kakao",
