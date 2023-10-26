@@ -99,7 +99,7 @@ extension UserAPI {
             return .uploadMultipart(formData)
             
         case .checkDuplicateNickname(let nickName):
-            return .requestParameters(parameters: nickName.params, encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: nickName.toDictionary(), encoding: URLEncoding.queryString)
             
         case .getRefreshToken:
             return .requestPlain
@@ -132,9 +132,9 @@ extension UserAPI {
 extension UserAPI: JWTAuthorizable {
     var authorizationType: JWTAuthorizationType? {
         switch self {
-        case .getAuthorizeCode: return .accessToken
-        case .signIn: return .accessToken
-        case .checkDuplicateNickname: return .none
+        case .getAuthorizeCode: return .none
+        case .signIn: return .none
+        case .checkDuplicateNickname: return .accessToken
         case .getRefreshToken: return .refreshToken
         case .setProfile: return .accessToken
         case .resign: return .accessToken
@@ -143,6 +143,7 @@ extension UserAPI: JWTAuthorizable {
         }
     }
 }
+
 
 extension UserAPI {
     public var validationType: ValidationType {

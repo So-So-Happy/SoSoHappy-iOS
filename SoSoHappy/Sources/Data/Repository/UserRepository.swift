@@ -20,7 +20,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     // MARK: - 랜덤 문자열을 만들어서 서버에 인증 코드 발급을 요청하는 함수
     func getAuthorizeCode() -> Observable<AuthCodeResponse> {
         return Observable.create { emitter in
-            let provider = self.accessProvider()
+            let provider = self.makeProvider()
             
             // 랜덤 문자열 생성
             let codeVerifier = String.createRandomString(length: 20)
@@ -50,7 +50,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     // MARK: - 로그인 요청 함수
     func signIn(request: SigninRequest) -> Observable<AuthResponse> {
         return Observable.create { emitter in
-            let provider = self.accessProvider()
+            let provider = self.makeProvider()
             let disposable = provider.rx.request(.signIn(userInfo: request))
                 .map { response in
                     // 헤더 추출 및 매핑
@@ -90,7 +90,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(request.nickName) - \(response.isPresent ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
+                        print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(request.nickname) - \(response.isPresent ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
                         emitter.onNext(response)
                     case .error(let error):
                         emitter.onError(error)

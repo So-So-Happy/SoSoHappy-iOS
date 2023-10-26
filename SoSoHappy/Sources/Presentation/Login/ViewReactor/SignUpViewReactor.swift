@@ -139,7 +139,7 @@ extension SignUpViewReactor {
     
     // MARK: 닉네임 중복 검사
     func checkDuplicateNickname() -> Observable<Mutation> {
-        return userRepository.checkDuplicateNickname(request: CheckNickNameRequest(nickName: currentState.nickNameText))
+        return userRepository.checkDuplicateNickname(request: CheckNickNameRequest(nickname: currentState.nickNameText))
             .do(onNext: { _ in })
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }

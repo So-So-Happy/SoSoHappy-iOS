@@ -32,8 +32,8 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
         let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? "없음"
         let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") ?? "없음"
-        
-        if let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName"), nickName.isEmpty {
+
+        if KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") == nil {
             showAuthFlow(needsIntroView: true)
         } else {
             // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
