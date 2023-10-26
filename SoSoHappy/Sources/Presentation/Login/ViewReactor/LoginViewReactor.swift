@@ -142,12 +142,17 @@ class LoginViewReactor: Reactor {
         return newState
     }
     
-    // MARK: - 카카오 로그인
+    // MARK: - 인증 코드 받은 후 카카오 로그인
     private func signinWithKakao() -> Observable<Mutation> {
-        self.kakaoManager.signin()
-            .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+        return userRepository.getAuthorizeCode()
+            .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                return self.signIn(request: signinRequest)
+                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
+                return self.kakaoManager.signin()
+                    .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+                        guard let self = self else { return .error(BaseError.unknown) }
+                        return self.signIn(request: signinRequest)
+                    }
             }
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
@@ -159,12 +164,17 @@ class LoginViewReactor: Reactor {
             }
     }
     
-    //MARK: - 구글 로그인
+    //MARK: - 인증 코드 받은 후 구글 로그인
     private func signinWithGoogle() -> Observable<Mutation> {
-        self.googleManager.signin()
-            .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+        return userRepository.getAuthorizeCode()
+            .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                return self.signIn(request: signinRequest)
+                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
+                return self.googleManager.signin()
+                    .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+                        guard let self = self else { return .error(BaseError.unknown) }
+                        return self.signIn(request: signinRequest)
+                    }
             }
             .catch { error in
                 print("⚠️ google login error:", error)
@@ -172,12 +182,17 @@ class LoginViewReactor: Reactor {
             }
     }
     
-    // MARK: - 애플 로그인
+    // MARK: - 인증 코드 받은 후 애플 로그인
     private func signinWithApple() -> Observable<Mutation> {
-        return self.appleManager.signin()
-            .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+        return userRepository.getAuthorizeCode()
+            .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                return self.signIn(request: signinRequest)
+                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
+                return self.appleManager.signin()
+                    .flatMap { [weak self] signinRequest -> Observable<Mutation> in
+                        guard let self = self else { return .error(BaseError.unknown) }
+                        return self.signIn(request: signinRequest)
+                    }
             }
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
@@ -190,27 +205,17 @@ class LoginViewReactor: Reactor {
     }
     
     // MARK: - 로그인 요청 후 토큰과 사용자 정보 가져오기 & 키체인에 토큰 저장
-    private func requestSignIn(request: SigninRequest) -> Observable<Mutation> {
+    private func signIn(request: SigninRequest) -> Observable<Mutation> {
         return self.userRepository.signIn(request: request)
             .do(onNext: { signinResponse in
+                print("로그인 성공 후 키체인에 토큰 저장")
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail", data: signinResponse.email)
-                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName", data: signinResponse.nickName)
             })
             .flatMap { signinResponse -> Observable<Mutation> in
                 print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")
                 return .just(.goToSignUp(true))
-            }
-    }
-    
-    // MARK: - 인증 코드 받고 로그인
-    private func signIn(request: SigninRequest) -> Observable<Mutation> {
-        return userRepository.getAuthorizeCode()
-            .flatMap { [weak self] response -> Observable<Mutation> in
-                guard let self = self else { return .error(BaseError.unknown) }
-                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
-                return requestSignIn(request: request)
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
