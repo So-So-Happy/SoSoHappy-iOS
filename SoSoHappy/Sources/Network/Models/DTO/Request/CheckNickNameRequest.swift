@@ -7,14 +7,6 @@
 
 import Foundation
 
-struct CheckNickNameRequest: Codable, Requestable {
-    let nickName: String
-    
-    var params: [String: Any] {
-        let parameters: [String: Any] = [
-            "nickname": nickName
-        ]
-
-        return parameters
-    }
+struct CheckNickNameRequest: Codable {
+    let nickname: String
 }
