@@ -14,7 +14,7 @@ public final class TabBarController: UITabBarController {
         object_setClass(self.tabBar, TabBar.self)
         setTabBar()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -44,7 +44,7 @@ extension TabBarController {
     
     // MARK: Set custom middle button
     private func setupMiddleButton() {
-        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
+        let addButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
         var addButtonFrame = addButton.frame
         addButtonFrame.origin.y = view.bounds.height - addButtonFrame.height - 47
         addButtonFrame.origin.x = view.bounds.width / 2 - addButtonFrame.size.width / 2
@@ -52,9 +52,9 @@ extension TabBarController {
         addButton.layer.cornerRadius = addButtonFrame.height / 2
         view.addSubview(addButton)
         
+        addButton.adjustsImageWhenHighlighted = false
         addButton.setImage(UIImage(named: "naviIcon"), for: .normal)
         addButton.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
-        
         view.layoutIfNeeded()
     }
     
