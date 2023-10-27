@@ -12,30 +12,54 @@ public final class TabBarController: UITabBarController {
     public init() {
         super.init(nibName: nil, bundle: nil)
         object_setClass(self.tabBar, TabBar.self)
-        applyShadow()
+        setTabBar()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        setupMiddleButton()
     }
     
     class TabBar: UITabBar {
-        
         override func sizeThatFits(_ size: CGSize) -> CGSize {
             return CGSize(width: UIScreen.main.bounds.width, height: 96)
         }
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+}
 
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
-    private func applyShadow() {
+// MARK: - Functions
+extension TabBarController {
+    // MARK: Tab bar settings
+    private func setTabBar() {
         tabBar.layer.shadowColor = UIColor.black.cgColor
         tabBar.layer.shadowOpacity = 0.3
         tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
         tabBar.layer.shadowRadius = 0.33
+        tabBar.barTintColor = UIColor.white
     }
     
+    // MARK: Set custom middle button
+    private func setupMiddleButton() {
+        let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
+        var addButtonFrame = addButton.frame
+        addButtonFrame.origin.y = view.bounds.height - addButtonFrame.height - 47
+        addButtonFrame.origin.x = view.bounds.width / 2 - addButtonFrame.size.width / 2
+        addButton.frame = addButtonFrame
+        addButton.layer.cornerRadius = addButtonFrame.height / 2
+        view.addSubview(addButton)
+        
+        addButton.setImage(UIImage(named: "naviIcon"), for: .normal)
+        addButton.addTarget(self, action: #selector(menuButtonAction(sender:)), for: .touchUpInside)
+        
+        view.layoutIfNeeded()
+    }
+    
+    // MARK: Actions
+    @objc private func menuButtonAction(sender: UIButton) {
+        selectedIndex = 2
+    }
 }
