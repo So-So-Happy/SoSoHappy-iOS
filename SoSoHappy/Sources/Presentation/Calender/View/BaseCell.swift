@@ -12,6 +12,10 @@ import ImageSlideshow
 import Then
 import ReactorKit
 
+/*
+ 1. 한번 더 리팩토링하면 좋을 듯 - imageslideshow height
+ */
+
 // MARK: - BaseCell 리팩토링 필요
 class BaseCell: UITableViewCell {
     // MARK: - Properties
@@ -20,6 +24,8 @@ class BaseCell: UITableViewCell {
     static var cellIdentifier: String {
         return String(describing: Self.self)
     }
+    
+    private var imageSlideViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - UI Components
     lazy var cellBackgroundView =  UIView().then {
@@ -65,36 +71,13 @@ class BaseCell: UITableViewCell {
         // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
         if feed.imageList.isEmpty { //image가 없다면
             print("BaseCell 사진 없음(X)")
-//            imageSlideView.isHidden = true
-            
-//            imageSlideView.snp.updateConstraints { make in
-//                make.height.equalTo(0) // Set the height to 0
-//            }
-//            
-            
-            imageSlideView.snp.remakeConstraints { make in
-                make.top.equalTo(contentLabel.snp.bottom).offset(18) // Adjust the spacing as needed
-                make.centerX.equalToSuperview()
-                make.horizontalEdges.equalTo(cellBackgroundView).inset(15) // width 설정 완료
-                make.height.equalTo(0)
-            }
-            
+            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
         
         } else { // image가 있으면
             print("BaseCell 사진 있음(O)")
-//            imageSlideView.isHidden = false
             imageSlideView.setContents(feed: feed)
+            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
             
-//            imageSlideView.snp.updateConstraints { make in
-//                make.height.equalTo(200) // Set the height to its original value
-//            }
-            
-            imageSlideView.snp.remakeConstraints { make in
-                make.top.equalTo(contentLabel.snp.bottom).offset(18) // Adjust the spacing as needed
-                make.centerX.equalToSuperview()
-                make.horizontalEdges.equalTo(cellBackgroundView).inset(15) // width 설정 완료
-                make.height.equalTo(200)
-            }
         }
     }
     
@@ -154,11 +137,16 @@ extension BaseCell {
             make.horizontalEdges.equalTo(cellBackgroundView).inset(15)
         }
         
-//        imageSlideView.snp.makeConstraints { make in
-//            make.top.equalTo(contentLabel.snp.bottom).offset(18) // Adjust the spacing as needed
-//            make.centerX.equalToSuperview()
-//            make.horizontalEdges.equalTo(cellBackgroundView).inset(15) // width 설정 완료
-//            make.height.equalTo(200)
-//        }
+        imageSlideView.snp.makeConstraints { make in
+            make.top.equalTo(contentLabel.snp.bottom).offset(18)
+            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalTo(cellBackgroundView).inset(15)
+        }
+        
+        // Set up the height constraint but do not activate it
+        imageSlideViewHeightConstraint = imageSlideView.heightAnchor.constraint(equalToConstant: 200)
+        imageSlideViewHeightConstraint?.priority = .defaultLow // 상대적으로 낮은 중요도
+        // .defaultLow한 이유
+        // 이미지가 없는 경우에는 이 제약조건을 무시하고 0으로 만들 수 있도록 하기 위함
     }
 }
