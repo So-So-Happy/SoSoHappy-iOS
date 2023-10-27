@@ -142,7 +142,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             print("UserRepository  - findIntroduction")
             let disposable = provider.rx.request(.findIntroduction(request))
                 .map(FindIntroductionResponse.self)
-                .map { $0.introduction }
+                .map { $0.Introduction }
                 .asObservable()
                 .subscribe { event in
                     switch event {
