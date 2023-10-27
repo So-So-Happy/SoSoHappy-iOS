@@ -110,7 +110,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                         print("~~~findOtherfeed response : \(response) ")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("FeedRepository  - findOtherFeed - 에러 남")
+                        print("FeedRepository  - findOtherFeed - 에러 남: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
