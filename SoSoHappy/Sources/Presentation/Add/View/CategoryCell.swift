@@ -66,7 +66,7 @@ extension CategoryCell {
                 // Increase the cell size and add a shadow
                 categoryImageView.transform = CGAffineTransform(scaleX: selectedScale, y: selectedScale)
                 layer.shadowColor = UIColor.black.cgColor
-                layer.shadowOpacity = 1
+                layer.shadowOpacity = 0.7
                 layer.shadowOffset = CGSize(width: 8, height: 10) //0, 3
                 layer.shadowRadius = 5 // 5
             } else {
