@@ -34,7 +34,7 @@ final class FeedDetailCoordinator: FeedDetailCoordinatorInterface {
     
     func start() {
         print("FeedDetailCoordinator START")
-        let feedReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository())
+        let feedReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
         let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
 
         navigationController.pushViewController(feedDetailVC, animated: true)

@@ -37,7 +37,11 @@ final class FeedCoordinator: FeedCoordinatorInterface {
     
     // 실행했을 때 나오는 화면
     func start() {
-        let feedViewReactor = FeedViewReactor(feedRepository: FeedRepository())
+        let feedViewReactor = FeedViewReactor(
+            feedRepository: FeedRepository(),
+            userRepository: UserRepository(),
+            imageCacheManager: ImageCacheManager.shared)
+        
         let feedVC = FeedViewController(reactor: feedViewReactor, coordinator: self)
         navigationController.pushViewController(feedVC, animated: true)
     }
