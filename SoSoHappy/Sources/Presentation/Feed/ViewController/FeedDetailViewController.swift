@@ -58,7 +58,7 @@ final class FeedDetailViewController: BaseDetailViewController {
     }
 }
 
-//MARK: -  setLayoutForDetail & setFeed
+//MARK: -  setLayoutForDetail
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         print("FeedDetailViewController - setLayoutForDetail")
