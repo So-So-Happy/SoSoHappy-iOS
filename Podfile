@@ -22,6 +22,7 @@ target 'SoSoHappy' do
   pod 'RxKeyboard'
   pod 'RxDataSources', '~> 5.0'
   pod 'Starscream', '~> 4.0.6'
+  pod 'NVActivityIndicatorView'
 
   # Pods for SoSoHappy
 
