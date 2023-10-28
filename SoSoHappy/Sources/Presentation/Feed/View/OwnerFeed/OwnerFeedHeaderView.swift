@@ -46,11 +46,11 @@ class OwnerFeedHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(with profile: ProfileTemp) {
+    func update(with profile: Profile) {
 //        print("OwnerFeedHeaderView - update function")
-        profileImageWithBackgroundView.profileImageView.image = profile.profileImage
-        profileNickNameLabel.text = profile.profileNickName
-        profileSelfIntroduction.text = profile.selfIntroduction
+        profileImageWithBackgroundView.profileImageView.image = profile.profileImg
+        profileNickNameLabel.text = profile.nickName
+        profileSelfIntroduction.text = profile.introduction
         profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center) //위에 쓰면 적용이 안되길래 여기에 씀
         dashImageView.image = UIImage(named: "dashImage4")
     }
@@ -70,6 +70,9 @@ extension OwnerFeedHeaderView {
         
         stackView.addArrangedSubview(profileImageWithBackgroundView)
         stackView.addArrangedSubview(profileNickNameLabel)
+        profileNickNameLabel.snp.makeConstraints { make in
+            make.height.equalTo(25)
+        }
         
         stackView.addArrangedSubview(profileSelfIntroduction)
         profileSelfIntroduction.snp.makeConstraints { make in
