@@ -23,7 +23,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         setup()
         bindEvent()
-        profileView.update(with: testProfile) // test용
+//        profileView.update(with: testProfile) // test용
     }
 }
 

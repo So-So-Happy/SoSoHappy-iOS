@@ -118,10 +118,14 @@ extension AddStep3ViewController: View {
         reactor.state
             .compactMap { $0.weatherString }
             .bind { [weak self] weather in
+                print("weather type: \(type(of: weather))")
                 guard let self = self else { return }
                 let imageName = weather + "Bg"
                 let image = UIImage(named: imageName)!
-                scrollView.backgroundColor = UIColor(patternImage: image)
+                
+                let opacity: CGFloat = 0.5
+                let color = UIColor(patternImage: image).withAlphaComponent(opacity)
+                scrollView.backgroundColor = color
             }
             .disposed(by: disposeBag)
         

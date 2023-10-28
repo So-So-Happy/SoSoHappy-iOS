@@ -11,6 +11,7 @@ import Then
 import ReactorKit
 import RxSwift
 import RxCocoa
+import NVActivityIndicatorView
 
 /*
  1. refreshControl이 여기에서 꼭 필요가 있을까? (없을 것 같긴 함)
@@ -27,6 +28,9 @@ final class OwnerFeedViewController: UIViewController {
     // MARK: - UI Components
     private lazy var refreshControl = UIRefreshControl()
     private lazy var ownerFeedHeaderView = OwnerFeedHeaderView()
+    
+    // MARK: 로딩 뷰 잘 넣어주기
+    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: .black, padding: 0)
     
     private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
         $0.register(OwnerFeedCell.self, forCellReuseIdentifier: OwnerFeedCell.cellIdentifier)
@@ -69,8 +73,15 @@ extension OwnerFeedViewController {
 
     private func setLayout() {
         view.addSubview(tableView)
+        tableView.addSubview(activityIndicatorView)
+        
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+        
+        activityIndicatorView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
     }
 }
@@ -95,6 +106,22 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.isLoading }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] isLoading in
+                guard let self = self else { return }
+                print("FeedVC - isLoading: \(isLoading), type: \(type(of: isLoading))")
+                if isLoading {
+                    print("FeedVC - animating")
+                    activityIndicatorView.startAnimating()
+                } else {
+                    print("FeedVC - animating stop")
+                    activityIndicatorView.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
+        
         // 이게 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
         reactor.state
             .skip(1)
@@ -106,11 +133,11 @@ extension OwnerFeedViewController: View {
         
         reactor.state
             .skip(1)
-            .map { $0.feeds }
-            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { [weak self] (row,  feed, cell) in
+            .compactMap { $0.userFeeds }
+            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { [weak self] (row,  userFeed, cell) in
                 guard let self = self else { return }
                 print("cell 만드는 중")
-                configureCell(cell, with: feed)
+                configureCell(cell, with: userFeed)
             }
             .disposed(by: disposeBag)
         
@@ -121,24 +148,25 @@ extension OwnerFeedViewController: View {
         
         reactor.state
             .compactMap { $0.selectedFeed }
-            .subscribe(onNext: { [weak self] feed in
+            .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
                 print("여기까지 진행완료")
 //                print("feed: \(feed), type: \(type(of: feed))")
-                self.coordinator?.showDetails(feed: feed)
+                self.coordinator?.showDetails(userFeed: userFeed)
             })
             .disposed(by: disposeBag)
     }
     
-    private func configureCell(_ cell: OwnerFeedCell, with feed: FeedTemp) {
-//        let cellReactor = FeedReactor(feed: feed)
-//        cell.reactor = cellReactor
-//        cell.imageSlideView.tapObservable
-//            .subscribe(onNext: { [weak self] in
-//                guard let self = self else { return }
-//                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-//            })
-//            .disposed(by: cell.disposeBag) // cell.disposeBag ?
+    private func configureCell(_ cell: OwnerFeedCell, with userFeed: UserFeed) {
+        let cellReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
+        cell.reactor = cellReactor
+
+        cell.imageSlideView.tapObservable
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+            })
+            .disposed(by: cell.disposeBag) // cell.disposeBag ?
     }
 }
 

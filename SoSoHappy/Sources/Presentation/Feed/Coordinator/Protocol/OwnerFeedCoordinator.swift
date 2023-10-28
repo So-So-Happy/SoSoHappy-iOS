@@ -8,7 +8,7 @@
 import UIKit
 
 protocol OwnerFeedCoordinatorInterface: Coordinator {
-    func showDetails(feed: FeedTemp)
+    func showDetails(userFeed: UserFeed)
 }
 
 final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
@@ -27,7 +27,7 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
     
     func start() {
         print("OwnerFeedCoordinator START")
-        let ownerFeedViewReactor = OwnerFeedViewReactor(ownerNickName: self.ownerNickName)
+        let ownerFeedViewReactor = OwnerFeedViewReactor(ownerNickName: self.ownerNickName, feedRepository: FeedRepository(), userRepository: UserRepository())
         let ownerFeedVC = OwnerFeedViewController(reactor: ownerFeedViewReactor, coordinator: self)
         navigationController.pushViewController(ownerFeedVC, animated: true)
     }
@@ -39,10 +39,12 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
 
 
 extension OwnerFeedCoordinator {
-    func showDetails(feed: FeedTemp) {
-        print("OwnerFeedCoordinator didSelectCell 메서드 실행")
-//        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feed: feed, navigatingFrom: .ownerFeedViewController)
-//        self.childCoordinators.append(feedDetailCoordinator)
-//        feedDetailCoordinator.start()
+    func showDetails(userFeed: UserFeed) {
+        print("OwnerFeedCoordinator didSelectCell 메서드 실행")        
+        print("cell 선택함")
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, userFeed: userFeed, navigatingFrom: .ownerFeedViewController)
+        
+        self.childCoordinators.append(feedDetailCoordinator)
+        feedDetailCoordinator.start()
     }
 }

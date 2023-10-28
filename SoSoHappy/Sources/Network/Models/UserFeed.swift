@@ -10,7 +10,8 @@ import UIKit
 
 // MARK: profileImage 임시로 넣어놓음
 struct UserFeed: FeedType, Equatable {
-    let profileImage: UIImage? = UIImage(named: "profile")    // 프로필 이미지
+    var profileImage: UIImage? = UIImage(named: "profile")    // 프로필 이미지
+    var selfIntro: String? = nil
     let nickName: String                // 닉네임
     let date: String                    // 날짜 ex. "2023101922401122"
     let weather: String                 // 날씨
@@ -44,6 +45,13 @@ extension UserFeed {
     // MARK: 18분 전
     var timeAgoString: String {
         return dateToDateType.timeAgo()
+    }
+    
+    // MARK: 프로필 이미지 넣은 UserFeed 만들어주는 메서드
+    func with(profileImage: UIImage) -> UserFeed {
+        var updatedFeed = self
+        updatedFeed.profileImage = profileImage
+        return updatedFeed
     }
 }
 

@@ -54,22 +54,21 @@ extension OwnerFeedCell {
 
 extension OwnerFeedCell: View {
     func bind(reactor: FeedReactor) {
-//        guard let currentFeed = reactor.currentState.feed else { return }
-//        setFeedCell(currentFeed)
-//        
-//        heartButton.rx.tap
-//            .map { Reactor.Action.toggleLike }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//        
-//        
-//        reactor.state
-//            .skip(1)
-//            .compactMap { $0.feed?.isLike } // Optional 벗기고 nil 값 filter
-//            .bind { [weak self] isLike in
-//                guard let `self` = self else { return }
-//                heartButton.setHeartButton(isLike)
-//            }
-//            .disposed(by: disposeBag)
+        let currentFeed = reactor.currentState.userFeed
+        setFeedCell(currentFeed)
+
+        heartButton.rx.tap
+            .map { Reactor.Action.toggleLike }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .skip(1)
+            .compactMap { $0.isLike } // Optional 벗기고 nil 값 filter
+            .bind { [weak self] isLike in
+                guard let `self` = self else { return }
+                heartButton.setHeartButton(isLike)
+            }
+            .disposed(by: disposeBag)
     }
 }
