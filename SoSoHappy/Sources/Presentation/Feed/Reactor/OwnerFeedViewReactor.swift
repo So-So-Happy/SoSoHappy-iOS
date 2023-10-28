@@ -107,11 +107,12 @@ final class OwnerFeedViewReactor: Reactor {
             
         case let .isLoading(isLoading):
             state.isLoading = isLoading
+            state.selectedFeed = nil
             
         case let .setProfile(profile):
             print("reduce - setProfile  : \(profile)")
             state.profile = profile
-            state.selectedFeed = nil
+//            state.selectedFeed = nil
             
         case let .setFeeds(feeds):
             print("reduce - setFeeds  : \(feeds)")
