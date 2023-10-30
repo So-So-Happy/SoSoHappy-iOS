@@ -89,7 +89,7 @@ extension SignUpViewController {
         
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(30)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(60)
         }
         
         profileImageEditButton.snp.makeConstraints { make in
@@ -192,7 +192,7 @@ extension SignUpViewController: View {
                 let color: UIColor
                 
                 if let isDuplicate = state.isDuplicate {
-                    text =  isDuplicate ? "이미 사용중인 닉네임입니다" : "멋진 닉네임이네요!"
+                    text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor.systemBlue
                 } else { // nil이면
                     text = ""

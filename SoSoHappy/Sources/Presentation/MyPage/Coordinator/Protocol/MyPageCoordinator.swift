@@ -30,7 +30,6 @@ final class MyPageCoordinator: Coordinator {
         let viewController = MyPageViewController()
         navigationController.pushViewController(viewController, animated: true)
     }
-    
 }
 
 

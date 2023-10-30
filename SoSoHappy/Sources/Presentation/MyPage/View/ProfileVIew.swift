@@ -32,7 +32,7 @@ final class ProfileView: OwnerFeedHeaderView {
             make.height.equalTo(36)
             make.width.equalTo(90)
         }
-        profileImageWithBackgroundView.updateProfileImageSize(background: 130, profile: 100)
+        profileImageWithBackgroundView.updateProfileImageSize(profile: 100)
         profileNickNameLabel.font = .systemFont(ofSize: 20, weight: .bold)
         profileSelfIntroduction.font = .systemFont(ofSize: 14, weight: .light)
     }

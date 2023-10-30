@@ -12,7 +12,7 @@ import ReactorKit
 import RxCocoa
 
 final class ImageEditButtonView: UIView {
-    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 160, profileImageViewwSize: 110)
+    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(profileImageViewwSize: 140)
     
     lazy var cameraButton = UIButton().then {
         $0.backgroundColor = UIColor(named: "cameraColor")

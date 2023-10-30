@@ -21,10 +21,14 @@ final class KeychainService: NSObject {
         return data
     }
     
-    public class func deleteTokenData() {
-        if let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
-           let account = UserDefaults.standard.read(key: .userAccount) as? String,
-           let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
+    public class func deleteTokenData(identifier: String, account: String) {
+//        if let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
+//                   let account = UserDefaults.standard.read(key: .userAccount) as? String,
+//           let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
+//            self.delete(service: identifier, forKey: account, data: token)
+//        }
+        
+        if let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
             self.delete(service: identifier, forKey: account, data: token)
         }
     }

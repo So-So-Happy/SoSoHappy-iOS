@@ -19,7 +19,7 @@ class OwnerFeedHeaderView: UIView {
     )
     
     // 프로필 사진
-    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(backgroundCircleViewSize: 150, profileImageViewwSize: 120)
+    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(profileImageViewwSize: 150)
     
     // 닉네임
     lazy var profileNickNameLabel = UILabel().then {

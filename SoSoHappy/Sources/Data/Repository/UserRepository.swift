@@ -13,7 +13,7 @@ import Alamofire
 
 
 final class UserRepository: UserRepositoryProtocol, Networkable {
-
+    
     // MARK: - Target
     typealias Target = UserAPI
     
@@ -25,7 +25,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             // 랜덤 문자열 생성
             let codeVerifier = String.createRandomString(length: 20)
             UserDefaults.standard.setValue(codeVerifier, forKey: "codeVerifier")
-
+            
             let disposable = provider.rx.request(.getAuthorizeCode(codeChallenge: AuthCodeRequest(codeChallenge: codeVerifier.sha512())))
                 .map(AuthCodeResponse.self)
                 .asObservable()
@@ -59,7 +59,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                     let refreshToken = headers?["authorization-refresh"] ?? ""
                     let email = headers?["email"] ?? ""
                     let nickName = headers?["nickName"] ?? ""
-                   
+                    
                     return AuthResponse(authorization: accessToken, authorizationRefresh: refreshToken, email: email, nickName: nickName)
                 }
                 .asObservable()
@@ -139,8 +139,8 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {
         let provider = makeProvider()
         return provider.rx.request(.resign(email: email))
-                    .map(ResignResponse.self)
-                    .asObservable()
+            .map(ResignResponse.self)
+            .asObservable()
     }
     
     func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage> {
