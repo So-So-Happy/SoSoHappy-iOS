@@ -83,6 +83,11 @@ final class OwnerFeedViewReactor: Reactor {
                             .map { profileImg in
                                 return Profile(email: "", nickName: dstNickname, profileImg: profileImg, introduction: introduction)
                             }
+                            .catch { error in
+                                print("OwnerFeeViewReactor catched error")
+                                let profile =  Profile(email: "", nickName: dstNickname, profileImg: UIImage(named: "profile")!, introduction: introduction)
+                                return Observable.just(profile)
+                            }
                     }
                     .map { Mutation.setProfile($0)},
                 

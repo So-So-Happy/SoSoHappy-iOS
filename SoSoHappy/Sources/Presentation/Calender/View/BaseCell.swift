@@ -86,7 +86,6 @@ class BaseCell: UITableViewCell {
     override func prepareForReuse() {
         print("BaseCell - prepareForReuse")
         super.prepareForReuse()
-        imageSlideView.isHidden = true
         disposeBag = DisposeBag()
     }
 }
