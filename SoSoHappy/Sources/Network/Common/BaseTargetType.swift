@@ -19,7 +19,7 @@ protocol BaseTargetType: TargetType {
 extension BaseTargetType {
     var baseURL: URL {
         // plist 에서 baseURL 뽑아오기
-        return URL(string: "https://sosohappy.net")!
+        return URL(string: Bundle.main.baseURL)!
     }
     
     var sampleData: Data { Data() }
