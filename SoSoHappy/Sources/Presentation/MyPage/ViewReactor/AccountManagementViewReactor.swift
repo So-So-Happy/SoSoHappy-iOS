@@ -71,15 +71,17 @@ class AccountManagementViewReactor: Reactor {
         
         switch mutation {
         case let .showLogoutCheckAlert(bool):
+            newState.showResignCheckAlert = false
             newState.showLogoutCheckAlert = bool
             
         case let .showResignCheckAlert(bool):
+            newState.showLogoutCheckAlert = false
             newState.showResignCheckAlert = bool
             
         case let .showErrorAlert(error):
-            newState.showErrorAlert = error
             newState.showLogoutCheckAlert = false
             newState.showResignCheckAlert = false
+            newState.showErrorAlert = error
             
         case .clearErrorAlert:
             newState.showErrorAlert = nil
