@@ -10,12 +10,11 @@ import SnapKit
 
 final class SettingStackView: UIView {
     // MARK: - UI Components
-    private lazy var alarmCell = SettingCellView()
-    private lazy var darkmodeCell = SettingCellView()
-    private lazy var languageCell = SettingCellView()
-    private lazy var termsCell = SettingCellView()
-    private lazy var policyCell = SettingCellView()
-    private lazy var accountCell = SettingCellView()
+    lazy var alarmCell = SettingCellView()
+    lazy var languageCell = SettingCellView()
+    lazy var termsCell = SettingCellView()
+    lazy var policyCell = SettingCellView()
+    lazy var accountCell = SettingCellView()
     
     private lazy var stackView = UIStackView(
         axis: .vertical,
@@ -48,7 +47,7 @@ extension SettingStackView {
     }
     
     func setLayout() {
-        let views: [SettingCellView] = [alarmCell, darkmodeCell, languageCell, termsCell, policyCell, accountCell]
+        let views: [SettingCellView] = [alarmCell, languageCell, termsCell, policyCell, accountCell]
         
         self.addSubviews(stackView)
         
@@ -63,7 +62,6 @@ extension SettingStackView {
     
     func setUI() {
         alarmCell.setUI(imageName: "alarm", text: "알림")
-        darkmodeCell.setUI(imageName: "darkmode", text: "다크모드")
         languageCell.setUI(imageName: "language", text: "언어")
         termsCell.setUI(imageName: "terms", text: "이용약관")
         policyCell.setUI(imageName: "policy", text: "개인정보 처리방침")

@@ -42,7 +42,12 @@ final class GoogleSigninManager: SigninManagerProtocol {
         return .empty()
     }
     
-    func logout() -> RxSwift.Observable<Void> {
-        return .empty()
+    func logout() -> Observable<Void> {
+        return Observable.create { observer in
+            GIDSignIn.sharedInstance.signOut()
+            observer.onNext(())
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
 }
