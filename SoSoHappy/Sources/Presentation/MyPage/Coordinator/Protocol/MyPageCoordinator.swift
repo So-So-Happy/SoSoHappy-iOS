@@ -14,10 +14,11 @@ public protocol MyPageCoordinatorProtocol {
     func pushToSView()
     func pushPrivatePolicyView()
     func pushAccountManagementView()
+    func goBackToLogin()
 }
 
 final class MyPageCoordinator: Coordinator {
-    var type: CoordinatorType { .main }
+    var type: CoordinatorType { .mypage }
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
@@ -68,6 +69,12 @@ extension MyPageCoordinator: MyPageCoordinatorProtocol {
         let viewController = makeAccountManagementViewController()
         navigationController.pushViewController(viewController, animated: true)
     }
+    
+    func goBackToLogin() {
+        navigationController.viewControllers.removeAll()
+        let coordinator = makeAuthCoordinator()
+        coordinator.start()
+    }
 }
 
 extension MyPageCoordinator {
@@ -97,8 +104,15 @@ extension MyPageCoordinator {
     }
     
     func makeAccountManagementViewController() -> UIViewController {
-        let viewController = AccountManagementViewController()
+        let viewController = AccountManagementViewController(reactor: AccountManagementViewReactor(), coordinator: self)
         return viewController
+    }
+    
+    func makeAuthCoordinator() -> Coordinator {
+        let coordinator = AuthCoordinator(navigationController: navigationController)
+        childCoordinators.append(coordinator)
+        
+        return coordinator
     }
 }
 

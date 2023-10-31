@@ -230,7 +230,7 @@ extension SignUpViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    coordinator?.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!") { self.reactor?.action.onNext(.signUp) }
+                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!", buttonTitle: "계속") { self.reactor?.action.onNext(.signUp) }
                 }
             })
             .disposed(by: disposeBag)
@@ -240,7 +240,7 @@ extension SignUpViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    coordinator?.pushMainView()
+                    coordinator?.pushMainView(firstLogin: true)
                 }
             })
             .disposed(by: disposeBag)
@@ -248,7 +248,7 @@ extension SignUpViewController: View {
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
                 guard let self = self else { return }
-                coordinator?.presentErrorAlert(error: error)
+                CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
         
@@ -284,30 +284,3 @@ extension SignUpViewController: View {
             .disposed(by: disposeBag)
     }
 }
-
-//extension SignUpViewController: ProfileEditReactorDelegate {
-//    func showImagePicker() {
-//        let imagePicker = UIImagePickerController()
-//        imagePicker.allowsEditing = true
-//        imagePicker.sourceType = .photoLibrary
-//
-//        imagePicker.rx.didFinishPickingMediaWithInfo
-//            .map { info in
-//                return SignUpViewReactor.Action.selectedImage(info[.editedImage] as? UIImage)
-//            }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        // Present the image picker
-//        self.present(imagePicker, animated: true, completion: nil)
-//    }
-//}
-
-
-// MARK: - ImagePicker Delegate
-//extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//
-//}
-
-
-

@@ -151,6 +151,7 @@ final class TabCoordinator: NSObject, Coordinator {
     
     private func addTabBarController() {
         // 화면에 추가
+        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
         self.navigationController.pushViewController(self.tabBarController, animated: true)
     }
     

@@ -75,6 +75,7 @@
 		67E1B7C42AF10C6B000EFCE0 /* LanguageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */; };
 		67E1B7C62AF10CA7000EFCE0 /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C52AF10CA7000EFCE0 /* ToSViewController.swift */; };
 		67E1B7C82AF10CCD000EFCE0 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C72AF10CCD000EFCE0 /* PrivatePolicyViewController.swift */; };
+		67E1B7CA2AF134B2000EFCE0 /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
 		67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4C2A8134D800C33988 /* Fonts.swift */; };
 		67E7DB532A81357100C33988 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB522A81357100C33988 /* Network.swift */; };
@@ -306,6 +307,7 @@
 		67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingViewController.swift; sourceTree = "<group>"; };
 		67E1B7C52AF10CA7000EFCE0 /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
 		67E1B7C72AF10CCD000EFCE0 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
+		67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		67E7DB4C2A8134D800C33988 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		67E7DB522A81357100C33988 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -561,6 +563,7 @@
 			children = (
 				06896DF52AC2AB8E001DCCFC /* TabBarController.swift */,
 				67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */,
+				67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1730,6 +1733,7 @@
 				80380C2F2A98DF7F0077048D /* FeedViewController.swift in Sources */,
 				80380C1A2A98DDA40077048D /* FeedCell.swift in Sources */,
 				80380C222A98DE7C0077048D /* NickNameRecentMessageStackView.swift in Sources */,
+				67E1B7CA2AF134B2000EFCE0 /* CustomAlert.swift in Sources */,
 				67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */,
 				67E1B7B92AEC1308000EFCE0 /* AnimationButton.swift in Sources */,
 				06896DF62AC2AB8E001DCCFC /* TabBarController.swift in Sources */,

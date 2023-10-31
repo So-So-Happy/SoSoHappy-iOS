@@ -37,19 +37,19 @@ extension Coordinator {
     }
     
     func findCoordinator(type: CoordinatorType) -> Coordinator? {
-           var stack: [Coordinator] = [self]
-           
-           while !stack.isEmpty {
-               let currentCoordinator = stack.removeLast()
-               if currentCoordinator.type == type {
-                   return currentCoordinator
-               }
-               currentCoordinator.childCoordinators.forEach({ child in
-                   stack.append(child)
-               })
-           }
-           return nil
-       }
+        var stack: [Coordinator] = [self]
+        
+        while !stack.isEmpty {
+            let currentCoordinator = stack.removeLast()
+            if currentCoordinator.type == type {
+                return currentCoordinator
+            }
+            currentCoordinator.childCoordinators.forEach({ child in
+                stack.append(child)
+            })
+        }
+        return nil
+    }
 }
 
 
@@ -61,12 +61,12 @@ protocol CoordinatorFinishDelegate: AnyObject {
 enum CoordinatorType{
     case app
     case launchScreen
-    case login
-    case signup
+    case auth
     case tabBar
     case main
     case feed
     case add
     case chart
     case profile
+    case mypage
 }

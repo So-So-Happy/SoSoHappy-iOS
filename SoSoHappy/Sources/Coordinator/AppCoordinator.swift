@@ -8,16 +8,13 @@
 import UIKit
 
 protocol AppCoordinatorProtocol: Coordinator {
-    func showAuthFlow(needsIntroView: Bool)
+    func showAuthFlow()
     func showMainFlow()
 }
 
 final public class AppCoordinator: AppCoordinatorProtocol {
-    
     var type: CoordinatorType { .app }
-    
     weak var finishDelegate: CoordinatorFinishDelegate?
-    
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
@@ -27,14 +24,13 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func start() {
-        // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
-        let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? "없음"
-        let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
-        let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? "없음"
-        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") ?? "없음"
+        let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? ""
+        let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? ""
+        let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
+        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") ?? ""
 
-        if KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") == nil {
-            showAuthFlow(needsIntroView: true)
+        if nickName.isEmpty || accessToken.isEmpty {
+            showAuthFlow()
         } else {
             // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
             print("================= 사용자 정보 (개발용) =================")
@@ -48,23 +44,16 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         }
     }
     
-    func showAuthFlow(needsIntroView: Bool) {
+    func showAuthFlow() {
         let coordinator = makeAuthCoordinator()
         coordinator.start()
     }
     
     func showMainFlow() {
+        print("showMainFlow")
         let coordinator = makeTabBarCoordinator()
         coordinator.start()
     }
-    
-    func reloadWindow() {
-        childCoordinators.removeAll()
-        self.navigationController.viewControllers.removeAll()
-        
-        showAuthFlow(needsIntroView: false)
-    }
-    
 }
 
 
@@ -93,12 +82,10 @@ extension AppCoordinator: CoordinatorFinishDelegate {
             $0.type != childCoordinator.type
         })
         switch childCoordinator.type {
-        case .login:
+        case .auth:
             showMainFlow()
-            childCoordinators.removeAll()
         case .tabBar:
-            showAuthFlow(needsIntroView: false)
-            
+            showAuthFlow()
         default:
             break
         }

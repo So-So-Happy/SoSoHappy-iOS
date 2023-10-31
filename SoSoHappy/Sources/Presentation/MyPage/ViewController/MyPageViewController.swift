@@ -49,8 +49,8 @@ extension MyPageViewController {
     }
     
     private func setLayout() {
-        self.view.addSubviews(profileView, stackView)
-        self.view.backgroundColor = .white
+        view.addSubviews(profileView, stackView)
+        view.backgroundColor = UIColor(named: "BGgrayColor")
         
         profileView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
