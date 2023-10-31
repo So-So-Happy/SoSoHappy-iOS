@@ -43,6 +43,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 userEmail: \(String(describing: userEmail))")
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
+//            KeychainService.deleteTokenData(identifier: "sosohappy.userInfo", account: "userNickName")
             showMainFlow()
         }
     }

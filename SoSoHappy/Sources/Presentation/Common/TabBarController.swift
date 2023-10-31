@@ -9,10 +9,13 @@ import UIKit
 
 public final class TabBarController: UITabBarController {
     
+    let addButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
+    
     public init() {
         super.init(nibName: nil, bundle: nil)
         object_setClass(self.tabBar, TabBar.self)
         setTabBar()
+        setupMiddleButton()
     }
     
     required init?(coder: NSCoder) {
@@ -21,7 +24,6 @@ public final class TabBarController: UITabBarController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setupMiddleButton()
     }
     
     class TabBar: UITabBar {
@@ -44,7 +46,6 @@ extension TabBarController {
     
     // MARK: Set custom middle button
     private func setupMiddleButton() {
-        let addButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75))
         var addButtonFrame = addButton.frame
         addButtonFrame.origin.y = view.bounds.height - addButtonFrame.height - 47
         addButtonFrame.origin.x = view.bounds.width / 2 - addButtonFrame.size.width / 2

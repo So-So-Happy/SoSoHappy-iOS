@@ -69,6 +69,12 @@
 		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
 		67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */; };
 		67E1B7B92AEC1308000EFCE0 /* AnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */; };
+		67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */; };
+		67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7BE2AF10A93000EFCE0 /* AccountManagementViewController.swift */; };
+		67E1B7C12AF10C3C000EFCE0 /* NotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C02AF10C3C000EFCE0 /* NotificationSettingViewController.swift */; };
+		67E1B7C42AF10C6B000EFCE0 /* LanguageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */; };
+		67E1B7C62AF10CA7000EFCE0 /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C52AF10CA7000EFCE0 /* ToSViewController.swift */; };
+		67E1B7C82AF10CCD000EFCE0 /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7C72AF10CCD000EFCE0 /* PrivatePolicyViewController.swift */; };
 		67E7DB492A8134C200C33988 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB482A8134C200C33988 /* Constants.swift */; };
 		67E7DB4D2A8134D800C33988 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB4C2A8134D800C33988 /* Fonts.swift */; };
 		67E7DB532A81357100C33988 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB522A81357100C33988 /* Network.swift */; };
@@ -82,7 +88,6 @@
 		67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */; };
 		67E7DB842A81383C00C33988 /* MyPageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */; };
 		67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB892A81389C00C33988 /* ChartViewModel.swift */; };
-		67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */; };
 		67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E7DB912A8138EB00C33988 /* MyPageViewController.swift */; };
 		67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 67E7DB972A81420400C33988 /* .swiftlint.yml */; };
 		800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F425F2A794A6D00ACD6C1 /* AppDelegate.swift */; };
@@ -295,6 +300,12 @@
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
 		67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+ Bundle.swift"; sourceTree = "<group>"; };
 		67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
+		67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementViewReactor.swift; sourceTree = "<group>"; };
+		67E1B7BE2AF10A93000EFCE0 /* AccountManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementViewController.swift; sourceTree = "<group>"; };
+		67E1B7C02AF10C3C000EFCE0 /* NotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewController.swift; sourceTree = "<group>"; };
+		67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageSettingViewController.swift; sourceTree = "<group>"; };
+		67E1B7C52AF10CA7000EFCE0 /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
+		67E1B7C72AF10CCD000EFCE0 /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		67E7DB482A8134C200C33988 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		67E7DB4C2A8134D800C33988 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		67E7DB522A81357100C33988 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -308,7 +319,6 @@
 		67E7DB7F2A81381300C33988 /* ChartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB832A81383C00C33988 /* MyPageCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCoordinator.swift; sourceTree = "<group>"; };
 		67E7DB892A81389C00C33988 /* ChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewModel.swift; sourceTree = "<group>"; };
-		67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		67E7DB912A8138EB00C33988 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		67E7DB972A81420400C33988 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		800F425C2A794A6D00ACD6C1 /* SoSoHappy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoSoHappy.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -665,6 +675,27 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		67E1B7BA2AF0E508000EFCE0 /* ViewReactor */ = {
+			isa = PBXGroup;
+			children = (
+				67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */,
+			);
+			path = ViewReactor;
+			sourceTree = "<group>";
+		};
+		67E1B7BD2AF10A72000EFCE0 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */,
+				67E1B7C02AF10C3C000EFCE0 /* NotificationSettingViewController.swift */,
+				67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */,
+				67E1B7C52AF10CA7000EFCE0 /* ToSViewController.swift */,
+				67E1B7C72AF10CCD000EFCE0 /* PrivatePolicyViewController.swift */,
+				67E1B7BE2AF10A93000EFCE0 /* AccountManagementViewController.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
 		67E7DB392A812FF600C33988 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,10 +795,10 @@
 		67E7DB422A8131A100C33988 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				67E1B7BA2AF0E508000EFCE0 /* ViewReactor */,
 				0661C9B22A90A81A0075B5A3 /* View */,
 				67E7DB782A8137D200C33988 /* Coordinator */,
 				67E7DB772A8137CF00C33988 /* ViewController */,
-				67E7DB8E2A8138C500C33988 /* ViewModel */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -943,9 +974,9 @@
 		67E7DB772A8137CF00C33988 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				67E1B7BD2AF10A72000EFCE0 /* Details */,
 				67E7DB912A8138EB00C33988 /* MyPageViewController.swift */,
 				0661C9BB2A92654C0075B5A3 /* SetAppThemeViewController.swift */,
-				6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -986,14 +1017,6 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB892A81389C00C33988 /* ChartViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		67E7DB8E2A8138C500C33988 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				67E7DB8F2A8138D600C33988 /* MyPageViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1628,8 +1651,10 @@
 				06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */,
 				6769C0942AD6D7BE00D1D2CD /* CalenderViewReactor.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
+				67E1B7C82AF10CCD000EFCE0 /* PrivatePolicyViewController.swift in Sources */,
 				8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */,
 				80380C0A2A98DA120077048D /* Ex+UILabel.swift in Sources */,
+				67E1B7C12AF10C3C000EFCE0 /* NotificationSettingViewController.swift in Sources */,
 				0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
@@ -1667,7 +1692,6 @@
 				0613BCD82AA89B2100E2B97F /* UserAPIError.swift in Sources */,
 				80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */,
 				06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */,
-				67E7DB902A8138D600C33988 /* MyPageViewModel.swift in Sources */,
 				808650A02AD686570036CCFB /* Add2Coordinator.swift in Sources */,
 				670224EE2AE680C300179A4F /* CheckNickNameRequest.swift in Sources */,
 				80380C352A98DFF00077048D /* DMListViewController.swift in Sources */,
@@ -1685,6 +1709,7 @@
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				808650F22AD6CCFE0036CCFB /* UpdatePublicStatusResponse.swift in Sources */,
 				808650EA2AD6CCFE0036CCFB /* CheckNickNameResponse.swift in Sources */,
+				67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
 				808650ED2AD6CCFE0036CCFB /* FindOtherFeedResponse.swift in Sources */,
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
@@ -1694,6 +1719,7 @@
 				069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
+				67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */,
 				808650C12AD6CBEA0036CCFB /* Model.swift in Sources */,
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
 				808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */,
@@ -1753,6 +1779,7 @@
 				674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */,
 				808650D22AD6CCDD0036CCFB /* FindFeedRequest.swift in Sources */,
 				808650F12AD6CCFE0036CCFB /* SetProfileResponse.swift in Sources */,
+				67E1B7C62AF10CA7000EFCE0 /* ToSViewController.swift in Sources */,
 				8086509C2AD5B6CC0036CCFB /* CategoryCell.swift in Sources */,
 				672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */,
 				808650D32AD6CCDD0036CCFB /* SigninRequest.swift in Sources */,
@@ -1789,6 +1816,7 @@
 				066871272AAF5EB6009B3E71 /* Ex+Observable.swift in Sources */,
 				80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */,
 				67E7DB662A8136EA00C33988 /* ChartViewController.swift in Sources */,
+				67E1B7C42AF10C6B000EFCE0 /* LanguageSettingViewController.swift in Sources */,
 				67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
