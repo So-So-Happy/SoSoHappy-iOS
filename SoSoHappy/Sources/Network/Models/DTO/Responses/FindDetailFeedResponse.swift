@@ -29,14 +29,13 @@ extension FindDetailFeedResponse {
             return uiImage
         }
         
-        return .init(
-            nickName: nickname,
-            date: String(date),
-            weather: weather,
-            happiness: happiness,
-            categoryList: categoryList,
-            text: text,
-            imageList: uiImageList,
-            isLiked: isLiked)
+        return .init(text: text,
+                     imageList: uiImageList,
+                     categoryList: categoryList,
+                     date: String(date),
+                     weather: weather,
+                     happiness: happiness,
+                     nickName: nickname,
+                     isLiked: isLiked)
     }
 }

@@ -13,3 +13,4 @@ struct FindUserFeedRequest: Codable {
     let page: Int?
     let size: Int?
 }
+

@@ -8,13 +8,14 @@
 import UIKit
 
 public protocol CalendarCoordinatorInterface: AnyObject {
-    func pushAlertView()
-    func pushListView()
+    func pushAlarmView()
+    func pushListView(date: Date)
     func dismiss()
     func finished()
 }
 
 final class CalendarCoordinator: Coordinator {
+    
     var type: CoordinatorType { .main }
     
     var parentCoordinator: Coordinator?
@@ -36,15 +37,18 @@ final class CalendarCoordinator: Coordinator {
 }
 
 extension CalendarCoordinator: CalendarCoordinatorInterface {
-    func pushAlertView() {
-        print("pushed Alert View button")
-        let viewController = makeAlertViewController()
+    
+    func pushAlarmView() {
+        let viewController = makeAlarmViewController()
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    func pushListView(){
-        let viewController = makeFeedListViewController()
-        navigationController.pushViewController(viewController, animated: false)
+    func pushListView(date: Date) {
+        let coordinator = HappyListCoordinator()
+        coordinator.parentCoordinator = self
+        coordinator.finishDelegate = self
+        childCoordinators.append(coordinator)
+        coordinator.makeHappyListViewController(date: date)
     }
     
     func dismiss() {
@@ -71,15 +75,15 @@ extension CalendarCoordinator {
         
         return viewController
     }
-    
-    func makeAlertViewController() -> UIViewController {
+        
+    func makeAlarmViewController() -> UIViewController {
         let viewController = AlertViewController()
-        return viewController
-    }
-    
-    func makeFeedListViewController() -> UIViewController {
-        let viewController = FeedListViewController()
         return viewController
     }
 }
 
+extension CalendarCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        childDidFinish(childCoordinator, parent: self)
+    }
+}

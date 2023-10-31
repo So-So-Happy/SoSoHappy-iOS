@@ -4,9 +4,11 @@
 //
 //  Created by 박희경 on 2023/09/30.
 //
+
 import UIKit
 
-struct MyFeed: FeedType {
+struct MyFeed {
+
     let text: String
     let imageList: [UIImage]
     let categoryList: [String]
@@ -16,7 +18,7 @@ struct MyFeed: FeedType {
     let happiness: Int
     let nickName: String
     let likeNickNameList: [String]
-    
+
     init(text: String,
          imageList: [UIImage],
          categoryList: [String],
@@ -51,6 +53,3 @@ extension MyFeed {
         }
     }
 }
-
-
-

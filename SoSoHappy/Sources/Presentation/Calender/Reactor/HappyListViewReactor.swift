@@ -8,22 +8,53 @@
 import ReactorKit
 
 class HappyListViewReactor: Reactor {
-    enum Action {
-        case fetchRecentSortedFeeds(String) // year + month.
-    }
     
-    enum Mutation {
-        case setFeeds([FeedTemp])
-    }
     
-    struct State {
-        var feeds: [FeedTemp] = []
-    }
-    
+    //MARK: - Properties
     let initialState: State
     
-    init() {
-        initialState = State()
+    private let feedRepository: FeedRepositoryProtocol
+    private let userRepository: UserRepositoryProtocol
+    private var currentPage: Date
+    
+    
+    // MARK: - Init
+    init (feedRepository: FeedRepositoryProtocol,
+          userRepository: UserRepositoryProtocol,
+          currentPage: Date,
+          state: State = State(
+            monthHappinessData: [],
+            currentPage: Date(),
+            date: ""
+         )
+    ) {
+        self.feedRepository = feedRepository
+        self.userRepository = userRepository
+        self.currentPage = currentPage
+        self.initialState = state
+    }
+    
+    // MARK: - Action
+    enum Action {
+        case viewDidLoad
+        case tapNextButton
+        case tapPreviousButton
+        case tapHappyListCell
+    }
+    
+    // MARK: - Mutation
+    enum Mutation {
+        case setFeedList([MyFeed])
+        case setDate(String) // ex) 2023.10
+        case presentDetailView
+    }
+    
+    // MARK: - State
+    struct State {
+        var monthHappinessData: [MyFeed]
+        var currentPage: Date
+        var date: String
+        @Pulse var presentDetailView: Void?
     }
     
     var forTest: [FeedTemp] = [
@@ -44,23 +75,66 @@ class HappyListViewReactor: Reactor {
                                 images: []
                                 )
     ]
+    
+    
     //[UIImage(named: "cafe")!, UIImage(named: "churros")!]
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case let .fetchRecentSortedFeeds(yearAndMonth):
-            // 서버로부터 해당 년도(year) 월(month)의 최신순 feed 받아오기
-            let fetchedFeeds = forTest
-            return Observable.just(.setFeeds(fetchedFeeds))
+        case .viewDidLoad:
+            return .concat([
+                .just(.setDate(currentPage.getFormattedYM())),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map { Mutation.setFeedList($0) }
+            ])
+        case .tapNextButton:
+            let nextPage = moveToNextMonth(currentPage)
+            return .concat([
+                .just(.setDate(nextPage.getFormattedYM())),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map { Mutation.setFeedList($0) }
+            ])
+        case .tapPreviousButton:
+            let previousPage = moveToPreviousMonth(currentPage)
+            return .concat([
+                .just(.setDate(previousPage.getFormattedYM())),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: "wonder"))
+                    .map { Mutation.setFeedList($0) }
+            ])
+        case .tapHappyListCell:
+            return .empty()
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case let .setFeeds(feeds):
-            newState.feeds = feeds
+        case .setFeedList(let feeds):
+            newState.monthHappinessData = feeds
+        case .setDate(let date):
+            newState.date = date
+        case .presentDetailView:
+            newState.presentDetailView = ()
         }
         
         return newState
     }
 }
+
+
+extension HappyListViewReactor {
+    func moveToNextMonth(_ currentPage: Date) -> Date {
+        let calendar = Calendar.current
+        let currentPage = calendar.date(byAdding: .month, value: 1, to: currentPage) ?? Date()
+        return currentPage
+    }
+    
+    func moveToPreviousMonth(_ currentPage: Date) -> Date {
+        let calendar = Calendar.current
+        let currentPage = calendar.date(byAdding: .month, value: -1, to: currentPage) ?? Date()
+        return currentPage
+    }
+    
+}
+
+
+

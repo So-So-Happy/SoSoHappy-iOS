@@ -40,8 +40,7 @@ final class ChartView: UIView, ChartViewDelegate {
     
     //  MARK: - 뷰 구성요소 세팅
     private func setUpView() {
-        addSubview(graphLabel)
-        addSubview(segmentedControl)
+        addSubviews(graphLabel, segmentedControl)
         setGraph()
     }
     
@@ -103,4 +102,11 @@ final class ChartView: UIView, ChartViewDelegate {
         
         addSubview(graphView)
     }
+}
+
+extension ChartView {
+    func updateChartData() {
+        
+    }
+    
 }

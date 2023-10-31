@@ -33,6 +33,7 @@
 		067179F62ADCFFAC007252AE /* FindDetailFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */; };
 		067179F82ADD0426007252AE /* UserFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F72ADD0426007252AE /* UserFeed.swift */; };
 		067179FA2ADD04D4007252AE /* FindDetailFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */; };
+		067179FC2ADD83AC007252AE /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 067179FB2ADD83AC007252AE /* Config.xcconfig */; };
 		06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DED2AC2A804001DCCFC /* AppCoordinator.swift */; };
 		06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DEF2AC2A817001DCCFC /* Coordinator.swift */; };
 		06896DF22AC2A81F001DCCFC /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */; };
@@ -44,6 +45,9 @@
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
 		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
+		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
+		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
+		06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */; };
 		06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC953A2AD62929003FFE52 /* AlertViewController.swift */; };
 		06EC953D2AD6297E003FFE52 /* FeedListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06EC953C2AD6297E003FFE52 /* FeedListViewController.swift */; };
 		06F685EE2A8674B60096EBF3 /* Ex+UIStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */; };
@@ -242,6 +246,7 @@
 		067179F52ADCFFAC007252AE /* FindDetailFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDetailFeedRequest.swift; sourceTree = "<group>"; };
 		067179F72ADD0426007252AE /* UserFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeed.swift; sourceTree = "<group>"; };
 		067179F92ADD04D4007252AE /* FindDetailFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindDetailFeedResponse.swift; sourceTree = "<group>"; };
+		067179FB2ADD83AC007252AE /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06896DED2AC2A804001DCCFC /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		06896DEF2AC2A817001DCCFC /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		06896DF12AC2A81F001DCCFC /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
@@ -260,6 +265,9 @@
 		069D7AF82AD0344300C815F1 /* HappinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappinessLevel.swift; sourceTree = "<group>"; };
 		069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
+		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
+		06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewReactor.swift; sourceTree = "<group>"; };
 		06EC953A2AD62929003FFE52 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		06EC953C2AD6297E003FFE52 /* FeedListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListViewController.swift; sourceTree = "<group>"; };
 		06F685ED2A8674B60096EBF3 /* Ex+UIStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIStackView.swift"; sourceTree = "<group>"; };
@@ -555,6 +563,14 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		06D825EE2AE3AE0D00319D1A /* Reactor */ = {
+			isa = PBXGroup;
+			children = (
+				06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */,
+			);
+			path = Reactor;
+			sourceTree = "<group>";
+		};
 		403C88CF55CF0D2A33042714 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,6 +769,7 @@
 		67E7DB402A81318F00C33988 /* Chart */ = {
 			isa = PBXGroup;
 			children = (
+				06D825EE2AE3AE0D00319D1A /* Reactor */,
 				6780252F2A950856004123AA /* View */,
 				67E7DB722A8137B200C33988 /* Coordinator */,
 				67E7DB752A8137C400C33988 /* ViewController */,
@@ -936,6 +953,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB652A8136EA00C33988 /* ChartViewController.swift */,
+				06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -962,6 +980,7 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */,
+				06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -1244,8 +1263,8 @@
 			children = (
 				808650DB2AD6CCFB0036CCFB /* AnalysisHappinessResponse.swift */,
 				808650E32AD6CCFD0036CCFB /* AuthResponse.swift */,
-				808650DA2AD6CCFB0036CCFB /* CheckNickNameResponse.swift */,
 				808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */,
+				808650DA2AD6CCFB0036CCFB /* CheckNickNameResponse.swift */,
 				808650D82AD6CCFB0036CCFB /* FindDayFeedResponse.swift */,
 				808650DC2AD6CCFC0036CCFB /* FindHappinessResponse.swift */,
 				808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */,
@@ -1690,6 +1709,7 @@
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */,
+				06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
@@ -1730,6 +1750,7 @@
 				802C6CAA2AB87C11001142B4 /* FeedViewReactor.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
 				8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */,
+				06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */,
 				80AD687A2AC1A14700DD3D5F /* BaseError.swift in Sources */,
 				802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */,
 				80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */,
@@ -1781,6 +1802,7 @@
 				06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */,
 				808650F02AD6CCFE0036CCFB /* FindUserFeedResponse.swift in Sources */,
 				0613BCDA2AA8AC4200E2B97F /* NetworkLoggerPlugin.swift in Sources */,
+				06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */,
 				808650EB2AD6CCFE0036CCFB /* AnalysisHappinessResponse.swift in Sources */,
 				067179F82ADD0426007252AE /* UserFeed.swift in Sources */,
 				80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */,

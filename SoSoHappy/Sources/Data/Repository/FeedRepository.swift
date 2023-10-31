@@ -21,6 +21,12 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     // MARK: - Target
     typealias Target = FeedAPI
     
+//    private let provider: MoyaProvider<Target>
+//    
+//    init() {
+//        self.provider = self.accessProvider()
+//    }
+//    
     func saveFeed(feed: MyFeed) -> Observable<SaveFeedResponse> {
         let provider = accessProvider()
         return provider.rx.request(.saveFeed(feed))
@@ -42,7 +48,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findMonthFeed(request))
                 .map([FindAccountFeedResponse].self)
-                .map { $0.map { $0.toDomain() } }
+                .map { $0.map { $0.toDomain() }}
                 .asObservable()
                 .subscribe { event in
                     switch event {
@@ -84,13 +90,12 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                     case .completed:
                         emitter.onCompleted()
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
-    }
     
     /// findOtherFeed: 피드 전체 데이터 fetch
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]> {
@@ -115,10 +120,10 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                     case .completed:
                         emitter.onCompleted()
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
     }
@@ -140,13 +145,27 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                     case .completed:
                         emitter.onCompleted()
                     }
+
+                return Disposables.create() {
+                    disposable.dispose()
                 }
-            
-            return Disposables.create() {
-                disposable.dispose()
             }
         }
-    }
+    
+    // 이 코드 가능하면 이걸로 change
+//    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]> {
+//           return self.provider.rx
+//               .request(.findUserFeed(request))
+//               .map(FindUserFeedResponse.self)
+//               .map { $0.content.map { $0.toDomain() } }
+//               .asObservable()
+//               .do(onSuccess: { response in
+//                   print("findUserFeed success: \(response)")
+//               })
+//               .catchError { error in
+//                   return Observable.error(error)
+//               }
+//       }
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
         let provider = accessProvider()
@@ -155,17 +174,17 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             .asObservable()
     }
     
-    func findMonthHappiness(request: HappinessRequest) -> Observable<FindMonthFeedResponse> {
+    func findMonthHappiness(request: HappinessRequest) -> Observable<[FindHappinessResponse]> {
         let provider = accessProvider()
         return provider.rx.request(.findMonthHappiness(request))
-            .map(FindMonthFeedResponse.self)
+            .map([FindHappinessResponse].self)
             .asObservable()
     }
     
-    func findYearHappiness(request: HappinessRequest) -> Observable<FindDayFeedResponse> {
+    func findYearHappiness(request: HappinessRequest) -> Observable<[FindHappinessResponse]> {
         let provider = accessProvider()
         return provider.rx.request(.findYearHappiness(request))
-            .map(FindDayFeedResponse.self)
+            .map([FindHappinessResponse].self)
             .asObservable()
     }
     

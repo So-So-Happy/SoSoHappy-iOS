@@ -92,9 +92,9 @@
 			</array>
 		</dict>
 	</dict>
-	<key>UPDATE_LIKE_PATH</key>
-	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
+	<key>UPDATE_LIKE_PATH</key>
+	<string>${UPDATE_LIKE_PATH}</string>
 </dict>
 </plist>
