@@ -25,11 +25,13 @@ class AccountManagementViewController: UIViewController {
         $0.setTitle("로그아웃", for: .normal)
         $0.contentHorizontalAlignment = .left
         $0.setTitleColor(.darkGray, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     private lazy var resignButton = UIButton().then {
         $0.setTitle("회원탈퇴", for: .normal)
         $0.contentHorizontalAlignment = .left
         $0.setTitleColor(.systemRed, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     
     // MARK: - Init
