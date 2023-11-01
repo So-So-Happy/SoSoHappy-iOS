@@ -34,7 +34,7 @@ final class SignUpViewController: UIViewController {
     
     private lazy var contentView = UIView()
     private lazy var signUpDescriptionStackView = SignUpDescriptionStackView()
-    private lazy var profileImageEditButton = ImageEditButtonView()
+    private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
     private lazy var nickNameSection = NickNameStackView()
     private lazy var selfIntroductionSection = SelfIntroductionStackView()
     private lazy var signUpButton = HappyButton().then {
@@ -129,7 +129,7 @@ extension SignUpViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: SignUpViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        profileImageEditButton.cameraButton.rx.tap
+        profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true

@@ -12,9 +12,12 @@ import ReactorKit
 import RxCocoa
 
 final class ImageEditButtonView: UIView {
-    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(profileImageViewwSize: 140)
+    // MARK: - Properties
+    var image: String
     
-    lazy var cameraButton = UIButton().then {
+    lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(profileImageViewwSize: 130)
+    
+    lazy var editButton = UIButton().then {
         $0.backgroundColor = UIColor(named: "cameraColor")
         $0.layer.cornerRadius = 20
         $0.layer.borderColor = UIColor.white.cgColor
@@ -24,7 +27,7 @@ final class ImageEditButtonView: UIView {
         }
         
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "camera.fill")
+        imageView.image = UIImage(systemName: image)
         imageView.tintColor = .white
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(20)
@@ -36,11 +39,12 @@ final class ImageEditButtonView: UIView {
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(image: String) {
+        self.image = image
+        super.init(frame: .zero)
         setView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -54,7 +58,7 @@ extension ImageEditButtonView {
     
     private func addSubviews() {
         self.addSubview(profileImageWithBackgroundView)
-        self.addSubview(cameraButton)
+        self.addSubview(editButton)
     }
     
     private func setLayout() {
@@ -62,8 +66,8 @@ extension ImageEditButtonView {
             make.center.equalToSuperview()
         }
         
-        cameraButton.snp.makeConstraints { make in
-            make.right.bottom.equalToSuperview()
+        editButton.snp.makeConstraints { make in
+            make.right.bottom.equalToSuperview().inset(7)
         }
     }
 }
