@@ -119,6 +119,13 @@ extension AccountManagementViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showErrorAlert }
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                CustomAlert.presentErrorAlert(error: error)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
