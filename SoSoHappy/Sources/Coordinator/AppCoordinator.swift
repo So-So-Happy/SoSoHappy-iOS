@@ -27,7 +27,8 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? ""
         let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? ""
         let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
-        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") ?? ""
+        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
 
         if nickName.isEmpty || accessToken.isEmpty {
             showAuthFlow()
@@ -39,7 +40,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 userEmail: \(String(describing: userEmail))")
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
-//            KeychainService.deleteTokenData(identifier: "sosohappy.userInfo", account: "userNickName")
             showMainFlow()
         }
     }
