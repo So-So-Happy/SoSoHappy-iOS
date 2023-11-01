@@ -9,20 +9,19 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
+import ReactorKit
 
 final class MyPageViewController: UIViewController {
     // MARK: - Properties
-    private let reactor: AccountManagementViewReactor?
     private let coordinator: MyPageCoordinatorProtocol?
     let tabController = TabBarController()
-    
     var disposeBag = DisposeBag()
-    var testProfile = Profile(email: "mlnjv016@gmail.com", nickName: "Riru", profileImg: UIImage(named: "happy4")!, introduction: "아 배고파")
     
-    init(reactor: AccountManagementViewReactor, coordinator: MyPageCoordinatorProtocol) {
-        self.reactor = reactor
+    // MARK: - Init
+    init(reactor: MypageViewReactor, coordinator: MyPageCoordinatorProtocol) {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
@@ -33,17 +32,64 @@ final class MyPageViewController: UIViewController {
     private lazy var profileView = ProfileView()
     private lazy var stackView = SettingStackView()
 
+    // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         bindEvent()
-        profileView.update(with: testProfile) // test용
+    }
+}
+
+// MARK: - Reactor (bind func)
+extension MyPageViewController: View {
+    // MARK: Reactor를 설정하는 메서드
+    func bind(reactor: MypageViewReactor) {
+        bindActions(reactor)
+        bindState(reactor)
+    }
+    
+    // MARK: bind actions
+    private func bindActions(_ reactor: MypageViewReactor) {
+        self.rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: bind state (Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트)
+    private func bindState(_ reactor: MypageViewReactor) {
+        reactor.state.compactMap { $0.profile }
+            .subscribe(onNext: { [weak self] image in
+                guard let self = self else { return }
+                profileView.profileImage.profileImageWithBackgroundView.profileImageView.image = image
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.intro }
+            .subscribe(onNext: { [weak self] intro in
+                guard let self = self else { return }
+                profileView.introLabel.text = intro
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.email }
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self else { return }
+                profileView.emailLabel.text = text
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.nickName }
+            .subscribe(onNext: { [weak self] text in
+                guard let self = self else { return }
+                profileView.nickNameLabel.text = text
+            })
+            .disposed(by: disposeBag)
     }
 }
 
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension MyPageViewController {
-    // MARK: - Layout
     private func setup() {
         setLayout()
     }
@@ -53,24 +99,25 @@ extension MyPageViewController {
         view.backgroundColor = UIColor(named: "BGgrayColor")
         
         profileView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.horizontalEdges.equalToSuperview().inset(10)
+            $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(25)
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom)
+            $0.top.equalTo(profileView.snp.bottom).offset(40)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
         }
     }
 }
 
+// MARK: - Set RxSwift without Reactor
 extension MyPageViewController {
     // Reactor를 거치지 않고 바로 바인딩 되는 단순 이벤트를 정의합니다.
     // 보통 coordinator로 네비게이션하는 일은 reactor가 필요 X
     func bindEvent() {
-        self.profileView.profileSetButton.rx.tap
+        self.profileView.profileImage.editButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.coordinator?.pushProfileEditView()
             })

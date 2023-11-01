@@ -107,9 +107,6 @@ class SignUpViewReactor: Reactor {
             newState.selfIntroText = String(text.prefix(60))    // 60자 제한
             
         case let .isDuplicate(bool):
-            if !bool {
-                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickname", data: currentState.nickNameText)
-            }
             newState.isDuplicate = bool
             
         case let .showFinalAlert(bool) :
@@ -155,10 +152,11 @@ extension SignUpViewReactor {
         let nickName = currentState.nickNameText
         let profileImage = currentState.profileImage
         let intro = trimmedSelfIntroText
+        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
         
         return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
             .do(onNext: { signupResponse in
-                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName", data: nickName)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName", data: nickName)
             })
             .flatMap { [weak self] signupResponse -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }

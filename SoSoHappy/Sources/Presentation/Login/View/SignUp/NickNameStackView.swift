@@ -50,8 +50,8 @@ final class NickNameStackView: UIView {
             make.height.equalTo(40)
             make.width.equalTo(70)
         }
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
     
     lazy var warningMessageLabel = UILabel().then {

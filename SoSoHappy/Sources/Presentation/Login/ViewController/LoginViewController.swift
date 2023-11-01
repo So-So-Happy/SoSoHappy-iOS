@@ -121,7 +121,8 @@ final class LoginViewController: UIViewController, View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 // TODO: 로그아웃한 후라면 SignUp 건너뛰기
-                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userNickName") == nil
+                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == nil
                 if isFirstLogin {
                     coordinator?.pushSignUpView()
                 } else {

@@ -25,11 +25,13 @@ class AccountManagementViewController: UIViewController {
         $0.setTitle("로그아웃", for: .normal)
         $0.contentHorizontalAlignment = .left
         $0.setTitleColor(.darkGray, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     private lazy var resignButton = UIButton().then {
         $0.setTitle("회원탈퇴", for: .normal)
         $0.contentHorizontalAlignment = .left
         $0.setTitleColor(.systemRed, for: .normal)
+        $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     
     // MARK: - Init
@@ -115,6 +117,13 @@ extension AccountManagementViewController: View {
                 if isClicked {
                     CustomAlert.presentCheckAlert(title: "정말 회원탈퇴 하시겠습니까?", message: "이후에 재로그인이 불가능해요.", buttonTitle: "확인") { self.reactor?.action.onNext(.resign) }
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showErrorAlert }
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
     }

@@ -61,11 +61,11 @@ extension SettingStackView {
     
     
     func setUI() {
-        alarmCell.setUI(imageName: "alarm", text: "알림")
-        languageCell.setUI(imageName: "language", text: "언어")
-        termsCell.setUI(imageName: "terms", text: "이용약관")
-        policyCell.setUI(imageName: "policy", text: "개인정보 처리방침")
-        accountCell.setUI(imageName: "account", text: "계정 관리")
+        alarmCell.setUI(imageName: "bell", text: "알림")
+        languageCell.setUI(imageName: "globe", text: "언어")
+        termsCell.setUI(imageName: "checkmark.shield", text: "이용약관")
+        policyCell.setUI(imageName: "hand.raised", text: "개인정보 처리방침")
+        accountCell.setUI(imageName: "lock.circle", text: "계정 관리")
     }
     
     func addCells(views: [SettingCellView]) {

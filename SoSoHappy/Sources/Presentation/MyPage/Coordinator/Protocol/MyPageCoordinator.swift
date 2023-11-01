@@ -30,7 +30,7 @@ final class MyPageCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = MyPageViewController(reactor: AccountManagementViewReactor(), coordinator: self)
+        let viewController = MyPageViewController(reactor: MypageViewReactor(), coordinator: self)
         navigationController.pushViewController(viewController, animated: true)
     }
     

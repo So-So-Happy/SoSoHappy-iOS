@@ -1,5 +1,5 @@
 //
-//  ProfileVIew.swift
+//  ProfileView.swift
 //  SoSoHappy
 //
 //  Created by 박희경 on 2023/08/19.
@@ -7,16 +7,27 @@
 
 import UIKit
 import SnapKit
+import Then
 
-final class ProfileView: OwnerFeedHeaderView {
-    lazy var profileSetButton = HappyButton().then {
-        $0.setTitle("프로필 설정", for: .normal)
-        $0.titleLabel?.textColor = .white
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        $0.layer.cornerRadius = 16
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+final class ProfileView: UIView {
+    
+    // MARK: - UI Components
+    lazy var profileImage = ImageEditButtonView(image: "pencil")
+    lazy var nickNameLabel = UILabel().then {
+        $0.textAlignment = .center
+        $0.font = .systemFont(ofSize: 25, weight: .bold)
+    }
+    lazy var emailLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 12, weight: .light)
+        $0.textColor = .gray
+    }
+    lazy var introLabel = UILabel().then {
+        $0.font = .systemFont(ofSize: 15, weight: .regular)
+        $0.textColor = .darkGray
+        $0.numberOfLines = 0
     }
 
+    // MARK: Initializing
     override init(frame: CGRect) {
         super.init(frame: frame)
         setProfileView()
@@ -25,15 +36,34 @@ final class ProfileView: OwnerFeedHeaderView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+}
+
+// MARK: -  Layout (Add Subviews, Constraints) & Attribute
+extension ProfileView {
     func setProfileView() {
-        stackView.insertArrangedSubview(profileSetButton, at: 3)
-        profileSetButton.snp.makeConstraints { make in
-            make.height.equalTo(36)
-            make.width.equalTo(90)
+        addSubviews(profileImage, nickNameLabel, emailLabel, introLabel)
+        
+        profileImage.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(150)
         }
-        profileImageWithBackgroundView.updateProfileImageSize(profile: 100)
-        profileNickNameLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        profileSelfIntroduction.font = .systemFont(ofSize: 14, weight: .light)
+        
+        nickNameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        
+        emailLabel.snp.makeConstraints { make in
+            make.top.equalTo(nickNameLabel.snp.bottom).offset(3)
+            make.centerX.equalToSuperview()
+        }
+        
+        introLabel.snp.makeConstraints { make in
+            make.top.equalTo(emailLabel.snp.bottom).offset(13)
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
     }
 }
+

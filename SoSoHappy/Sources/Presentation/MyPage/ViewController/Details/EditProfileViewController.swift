@@ -24,7 +24,7 @@ final class EditProfileViewController: UIViewController {
         $0.keyboardDismissMode = .onDrag // 스크롤시 키보드 내리기
     }
     private lazy var contentView = UIView()
-    private lazy var profileImageEditButton = ImageEditButtonView()
+    private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
     private lazy var nickNameSection = NickNameStackView()
     private lazy var selfIntroductionSection = SelfIntroductionStackView()
     private lazy var saveButton = HappyButton().then {
@@ -32,8 +32,8 @@ final class EditProfileViewController: UIViewController {
         $0.titleLabel?.textColor = .white
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         $0.layer.cornerRadius = 8
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
 
     // MARK: Initializing
@@ -93,14 +93,14 @@ extension EditProfileViewController {
         }
 
         profileImageEditButton.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(60)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(20)
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
         }
         
         nickNameSection.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(profileImageEditButton.snp.bottom).offset(56)
+            make.top.equalTo(profileImageEditButton.snp.bottom).offset(50)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
@@ -129,7 +129,7 @@ extension EditProfileViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: SignUpViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        profileImageEditButton.cameraButton.rx.tap
+        profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true
