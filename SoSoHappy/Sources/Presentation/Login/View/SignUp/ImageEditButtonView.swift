@@ -18,7 +18,7 @@ final class ImageEditButtonView: UIView {
     lazy var profileImageWithBackgroundView = ProfileImageWithBackgroundView(profileImageViewwSize: 130)
     
     lazy var editButton = UIButton().then {
-        $0.backgroundColor = UIColor(named: "cameraColor")
+        $0.backgroundColor = UIColor(named: "AccentColor")
         $0.layer.cornerRadius = 20
         $0.layer.borderColor = UIColor.white.cgColor
         $0.layer.borderWidth = 2
@@ -29,8 +29,9 @@ final class ImageEditButtonView: UIView {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: image)
         imageView.tintColor = .white
+        imageView.contentMode = .scaleAspectFit
         imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(20)
+            make.width.height.equalTo(23)
         }
         
         $0.addSubview(imageView)

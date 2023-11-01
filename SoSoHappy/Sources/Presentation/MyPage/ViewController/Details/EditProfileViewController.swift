@@ -32,8 +32,8 @@ final class EditProfileViewController: UIViewController {
         $0.titleLabel?.textColor = .white
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         $0.layer.cornerRadius = 8
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
 
     // MARK: Initializing
@@ -93,14 +93,14 @@ extension EditProfileViewController {
         }
 
         profileImageEditButton.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(60)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(20)
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
         }
         
         nickNameSection.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(profileImageEditButton.snp.bottom).offset(56)
+            make.top.equalTo(profileImageEditButton.snp.bottom).offset(50)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
