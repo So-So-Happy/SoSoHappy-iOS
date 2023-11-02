@@ -17,10 +17,14 @@ class AccountManagementViewReactor: Reactor {
     private let appleManager = AppleSigninManager()
     private let googleManager = GoogleSigninManager()
     private let userRepository = UserRepository()
+    let email: String
+    let provider: String
     
     // MARK: - Init
     init(state: State = State()) {
         self.initialState = state
+        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
+        self.provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
     }
     
     // MARK: - Action
@@ -61,7 +65,7 @@ class AccountManagementViewReactor: Reactor {
             return .concat([logout(), .just(Mutation.clearErrorAlert)])
             
         case .resign:
-            return .concat([.just(Mutation.clearErrorAlert)])
+            return .concat([resign(), .just(Mutation.clearErrorAlert)])
         }
     }
     
@@ -97,13 +101,74 @@ class AccountManagementViewReactor: Reactor {
     
     // MARK: - 로그아웃
     private func logout() -> Observable<Mutation> {
-        return googleManager.logout()
+        switch provider {
+        case "kakao":
+            return kakaoManager.logout()
+                .do(onNext: { _ in
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
+                })
+                .flatMap { logoutResponse -> Observable<Mutation> in
+                    return .just(.goToLoginView(true))
+                }
+                .catch { return .just(.showErrorAlert($0)) }
+            
+        case "google":
+            return googleManager.logout()
+                .do(onNext: { _ in
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
+                })
+                .flatMap { logoutResponse -> Observable<Mutation> in
+                    return .just(.goToLoginView(true))
+                }
+                .catch { return .just(.showErrorAlert($0)) }
+            
+        case "apple":
+            return appleManager.logout()
+                .do(onNext: { _ in
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
+                    KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
+                })
+                .flatMap { logoutResponse -> Observable<Mutation> in
+                    return .just(.goToLoginView(true))
+                }
+                .catch { return .just(.showErrorAlert($0)) }
+           
+        default:
+            return .just(.showErrorAlert("Something's wrong." as! Error))
+        }
+    }
+    
+    // MARK: - 회원탈퇴
+    private func resignWithSocialAccount() -> Observable<Mutation> {
+        switch provider {
+        case "kakao":
+            return kakaoManager.resign()
+                .flatMap { return self.resign() }
+        case "google":
+            return resign()
+            
+        case "apple":
+            return resign()
+        default:
+            return .just(.showErrorAlert("Something's wrong." as! Error))
+            
+        }
+    }
+    
+    func resign() -> Observable<Mutation> {
+        return userRepository.resign(email: ResignRequest(email: self.email))
             .do(onNext: { _ in
+                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
+                KeychainService.deleteTokenData(identifier: "sosohappy.userInfo", account: "userEmail")
+                KeychainService.deleteTokenData(identifier: "sosohappy.userInfo\(provider)", account: "userNickName")
             })
-            .flatMap { signinResponse -> Observable<Mutation> in
-                return .just(.goToLoginView(true))
+            .flatMap { resignResponse -> Observable<Mutation> in
+                guard resignResponse.success else { return .just(.showErrorAlert("이메일 오류로 인해 회원탈퇴가 정상적으로 완료되지 않았습니다." as! Error)) }
+                return .just(.goToLoginView(resignResponse.success))
             }
             .catch { return .just(.showErrorAlert($0)) }
     }

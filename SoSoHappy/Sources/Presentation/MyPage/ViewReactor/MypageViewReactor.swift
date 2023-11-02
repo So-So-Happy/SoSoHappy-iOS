@@ -19,7 +19,7 @@ class MypageViewReactor: Reactor {
     let email: String
     
     // MARK: - Init
-    init(state: State = State(profile: UIImage(), nickName: "", email: "", intro: "")) {
+    init(state: State = State(profile: UIImage(), nickName: " ", email: " ", intro: " ")) {
         self.initialState = state
         self.provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
         self.nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
