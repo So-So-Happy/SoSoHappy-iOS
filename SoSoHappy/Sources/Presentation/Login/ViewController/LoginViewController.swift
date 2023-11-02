@@ -126,7 +126,7 @@ final class LoginViewController: UIViewController, View {
                 if isFirstLogin {
                     coordinator?.pushSignUpView()
                 } else {
-                    coordinator?.pushMainView(firstLogin: isFirstLogin)
+                    coordinator?.pushMainView()
                 }
             })
             .disposed(by: disposeBag)

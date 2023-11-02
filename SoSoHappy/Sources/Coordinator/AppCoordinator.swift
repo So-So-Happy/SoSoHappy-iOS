@@ -50,7 +50,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func showMainFlow() {
-        print("showMainFlow")
         let coordinator = makeTabBarCoordinator()
         coordinator.start()
     }
@@ -84,6 +83,7 @@ extension AppCoordinator: CoordinatorFinishDelegate {
         switch childCoordinator.type {
         case .auth:
             showMainFlow()
+            childCoordinators.removeAll()
         case .tabBar:
             showAuthFlow()
         default:

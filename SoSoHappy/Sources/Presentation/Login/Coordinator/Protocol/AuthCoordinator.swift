@@ -10,7 +10,7 @@ import UIKit
 public protocol AuthCoordinatorProtocol {
     func pushLoginView()
     func pushSignUpView()
-    func pushMainView(firstLogin: Bool)
+    func pushMainView()
 }
 
 final class AuthCoordinator: Coordinator {
@@ -46,13 +46,10 @@ extension AuthCoordinator: AuthCoordinatorProtocol {
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func pushMainView(firstLogin: Bool) {
-        if firstLogin {
-            finishDelegate?.coordinatorDidFinish(childCoordinator: self)
-        } else {
-            let appCoordinator = AppCoordinator(navigationController: navigationController)
-            appCoordinator.start()
-        }
+    func pushMainView() {
+        navigationController.viewControllers.removeAll()
+        let appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator.start()
     }
 }
 

@@ -239,8 +239,9 @@ extension SignUpViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
+                print("goToMain", result)
                 if result {
-                    coordinator?.pushMainView(firstLogin: true)
+                    coordinator?.pushMainView()
                 }
             })
             .disposed(by: disposeBag)

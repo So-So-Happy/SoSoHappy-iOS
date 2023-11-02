@@ -137,10 +137,26 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.resign(email: email))
-            .map(ResignResponse.self)
-            .asObservable()
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.resign(email: email))
+                .map(ResignResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     // MARK: - 프로필 사진 조회

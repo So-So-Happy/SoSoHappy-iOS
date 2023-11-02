@@ -112,13 +112,18 @@ extension UserAPI {
             let formData: [Moya.MultipartFormData] = [emailData, nickNameData, imageData, introData]
             return .uploadMultipart(formData)
             
-        case .resign(let email):
-            return .requestJSONEncodable(email)
+        case .resign(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let email = data.email.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(email), name: "email"))
+            return .uploadMultipart(formData)
+            
         case .findProfileImg(let data):
             var formData: [Moya.MultipartFormData] = []
             let nickname = data.nickname.data(using: .utf8)!
             formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
             return .uploadMultipart(formData)
+            
         case .findIntroduction(let data):
             var formData: [Moya.MultipartFormData] = []
             let nickname = data.nickname.data(using: .utf8)!
