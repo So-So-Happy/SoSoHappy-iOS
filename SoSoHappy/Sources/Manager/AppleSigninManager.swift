@@ -31,7 +31,7 @@ final class AppleSigninManager: NSObject, SigninManagerProtocol {
         return self.publisher
     }
     
-    func signout() -> Observable<Void> {
+    func resign() -> Observable<Void> {
         // 애플에서는 회원탈퇴 API를 제공하지 않습니다.
         return .create { observer in
             observer.onNext(())

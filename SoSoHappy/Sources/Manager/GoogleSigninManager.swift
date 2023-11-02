@@ -38,7 +38,7 @@ final class GoogleSigninManager: SigninManagerProtocol {
         return self.publisher
     }
     
-    func signout() -> RxSwift.Observable<Void> {
+    func resign() -> RxSwift.Observable<Void> {
         return .empty()
     }
     

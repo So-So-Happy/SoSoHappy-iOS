@@ -47,7 +47,6 @@ extension AuthCoordinator: AuthCoordinatorProtocol {
     }
     
     func pushMainView() {
-        navigationController.viewControllers.removeAll()
         let appCoordinator = AppCoordinator(navigationController: navigationController)
         appCoordinator.start()
     }
