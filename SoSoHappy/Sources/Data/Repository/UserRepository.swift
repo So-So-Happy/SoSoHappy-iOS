@@ -90,7 +90,6 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(request.nickname) - \(response.isPresent ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
                         emitter.onNext(response)
                     case .error(let error):
                         emitter.onError(error)

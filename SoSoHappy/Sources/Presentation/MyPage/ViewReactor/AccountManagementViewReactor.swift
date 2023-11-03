@@ -23,8 +23,8 @@ class AccountManagementViewReactor: Reactor {
     // MARK: - Init
     init(state: State = State()) {
         self.initialState = state
-        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
         self.provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(self.provider)", forKey: "userEmail") ?? ""
     }
     
     // MARK: - Action
@@ -163,7 +163,7 @@ class AccountManagementViewReactor: Reactor {
                 let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
-                KeychainService.deleteTokenData(identifier: "sosohappy.userInfo", account: "userEmail")
+                KeychainService.deleteTokenData(identifier: "sosohappy.userInfo\(provider)", account: "userEmail")
                 KeychainService.deleteTokenData(identifier: "sosohappy.userInfo\(provider)", account: "userNickName")
             })
             .flatMap { resignResponse -> Observable<Mutation> in

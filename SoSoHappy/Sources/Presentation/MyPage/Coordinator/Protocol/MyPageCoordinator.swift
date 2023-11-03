@@ -15,6 +15,7 @@ public protocol MyPageCoordinatorProtocol {
     func pushPrivatePolicyView()
     func pushAccountManagementView()
     func goBackToLogin()
+    func goBackToMypage()
 }
 
 final class MyPageCoordinator: Coordinator {
@@ -75,11 +76,15 @@ extension MyPageCoordinator: MyPageCoordinatorProtocol {
         let coordinator = makeAuthCoordinator()
         coordinator.start()
     }
+    
+    func goBackToMypage() {
+        navigationController.popToRootViewController(animated: true)
+    }
 }
 
 extension MyPageCoordinator {
     func makeProfileEditViewController() -> UIViewController {
-        let viewController = EditProfileViewController(reactor: SignUpViewReactor())
+        let viewController = EditProfileViewController(reactor: EditProfileViewReactor(), coordinator: self)
         return viewController
     }
     

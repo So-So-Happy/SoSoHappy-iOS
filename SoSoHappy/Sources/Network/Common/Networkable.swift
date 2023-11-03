@@ -34,7 +34,9 @@ extension Networkable {
             
             let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? "없음"
             let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
-            let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? "없음"
+            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+            let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
+            
             return HeaderType(email: userEmail, accessToken: accessToken, refreshToken: refreshToken)
         }
         

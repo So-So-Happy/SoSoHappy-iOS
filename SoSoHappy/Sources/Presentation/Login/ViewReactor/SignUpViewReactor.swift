@@ -13,7 +13,7 @@ class SignUpViewReactor: Reactor {
     
     // MARK: - Class member property
     let disposeBag = DisposeBag()
-    let initialState: State
+    var initialState: State
     private let userRepository = UserRepository()
     
     // MARK: - Action
@@ -34,7 +34,7 @@ class SignUpViewReactor: Reactor {
         case isDuplicate(Bool)
         case showFinalAlert(Bool)
         case showErrorAlert(Error)
-        case clearErrorAlert
+        case clearAlert
         case goToMain(Bool)
     }
     
@@ -48,6 +48,7 @@ class SignUpViewReactor: Reactor {
         var showErrorAlert: Error?
     
         var goToMain: Bool?
+        var isSameNickName: Bool
     }
     
     // MARK: - Init
@@ -55,7 +56,7 @@ class SignUpViewReactor: Reactor {
         initialState = State (
             profileImage: UIImage(named: "profile")!,
             nickNameText: "",
-            selfIntroText: ""
+            selfIntroText: "", isSameNickName: true
         )
     }
     
@@ -72,14 +73,13 @@ class SignUpViewReactor: Reactor {
             return Observable.just(Mutation.setSelfIntroText(text))
             
         case .checkDuplicate:
-            return .concat([checkDuplicateNickname(), .just(Mutation.clearErrorAlert)])
+            return .concat([checkDuplicateNickname(), .just(Mutation.clearAlert)])
             
         case .tapSignUpButton:
-            return Observable.just(Mutation.showFinalAlert(true))
+            return .concat([.just(Mutation.showFinalAlert(true)), .just(Mutation.clearAlert)])
         
         case .signUp:
-            return .concat([setProfile(), .just(Mutation.clearErrorAlert)])
-        
+            return .concat([setProfile(), .just(Mutation.clearAlert)])
         }
     }
     
@@ -103,10 +103,17 @@ class SignUpViewReactor: Reactor {
                 newState.isDuplicate = nil
             }
             
+            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+            let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName")
+            let isSameNickname = nickNameFromKeychain == newText
+            
+            newState.isSameNickName = isSameNickname
+            
         case let .setSelfIntroText(text):
             newState.selfIntroText = String(text.prefix(60))    // 60자 제한
             
         case let .isDuplicate(bool):
+            print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(newState.nickNameText) - \(bool ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
             newState.isDuplicate = bool
             
         case let .showFinalAlert(bool) :
@@ -123,8 +130,9 @@ class SignUpViewReactor: Reactor {
             newState.showErrorAlert = error
             newState.showFinalAlert = false
             
-        case .clearErrorAlert:
+        case .clearAlert:
             newState.showErrorAlert = nil
+            newState.showFinalAlert = nil
         }
         
         return newState
@@ -140,19 +148,24 @@ extension SignUpViewReactor {
             .do(onNext: { _ in })
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
-                return .just(.isDuplicate(Bool(response.isPresent)))
+                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+                guard let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName"), nickNameFromKeychain == self?.currentState.nickNameText else {
+                    return .just(.isDuplicate(Bool(response.isPresent)))
+                }
+                return .just(.isDuplicate(false))
+                
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
     
     // MARK: 프로필 설정 완료 후 서버와의 통신 결과 받아오기 & 키체인에 닉네임 저장
     func setProfile() -> Observable<Mutation> {
-        let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces() // 뒤에 위치한 공백 제거 selfIntroText 넘겨줄 것
-        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
+        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces()
+        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
         let nickName = currentState.nickNameText
         let profileImage = currentState.profileImage
         let intro = trimmedSelfIntroText
-        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
         
         return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
             .do(onNext: { signupResponse in

@@ -50,8 +50,8 @@ extension MyPageViewController: View {
     
     // MARK: bind actions
     private func bindActions(_ reactor: MypageViewReactor) {
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
