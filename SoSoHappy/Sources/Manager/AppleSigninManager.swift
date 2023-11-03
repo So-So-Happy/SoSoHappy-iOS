@@ -55,7 +55,7 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
             var email = ""
-            let emailFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail")?.split(separator: "+")[0] ?? ""
+            let emailFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfoapple", forKey: "userEmail")?.split(separator: "+")[0] ?? ""
             
             if emailFromKeychain.isEmpty {
                 email = appleIDCredential.email ?? ""
