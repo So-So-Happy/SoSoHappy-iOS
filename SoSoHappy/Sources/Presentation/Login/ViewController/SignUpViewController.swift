@@ -42,8 +42,8 @@ final class SignUpViewController: UIViewController {
         $0.titleLabel?.textColor = .white
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         $0.layer.cornerRadius = 8
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
     
     override func viewDidLoad() {
