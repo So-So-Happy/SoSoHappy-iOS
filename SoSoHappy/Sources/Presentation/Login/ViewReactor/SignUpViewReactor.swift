@@ -107,6 +107,7 @@ class SignUpViewReactor: Reactor {
             newState.selfIntroText = String(text.prefix(60))    // 60자 제한
             
         case let .isDuplicate(bool):
+            print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(newState.nickNameText) - \(bool ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
             newState.isDuplicate = bool
             
         case let .showFinalAlert(bool) :

@@ -197,7 +197,7 @@ extension EditProfileViewController: View {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor.systemBlue
                 } else { // nil이면
-                    text = ""
+                    text = " "
                     color = .systemBlue
                 }
                 
@@ -222,8 +222,10 @@ extension EditProfileViewController: View {
         
         reactor.state
             .map {
-                guard let isDuplicate = $0.isDuplicate else { return false }
-                return !$0.selfIntroText.isEmpty && !isDuplicate
+                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+                let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName")
+                let isSameNickname = nickNameFromKeychain == self.nickNameSection.nickNameTextField.text
+                return (!$0.selfIntroText.isEmpty && !($0.isDuplicate ?? true)) || isSameNickname
             }
             .bind(to: saveButton.rx.isEnabled)
             .disposed(by: disposeBag)
