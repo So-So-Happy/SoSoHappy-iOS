@@ -32,7 +32,6 @@ final class AppleSigninManager: NSObject, SigninManagerProtocol {
     }
     
     func resign() -> Observable<Void> {
-        // 애플에서는 회원탈퇴 API를 제공하지 않습니다.
         return .create { observer in
             observer.onNext(())
             observer.onCompleted()
@@ -42,7 +41,6 @@ final class AppleSigninManager: NSObject, SigninManagerProtocol {
     }
     
     func logout() -> Observable<Void> {
-        // 애플에서는 로그아웃 API를 제공하지 않습니다.
         return .create { observer in
             observer.onNext(())
             observer.onCompleted()
@@ -56,9 +54,16 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             let userIdentifier = appleIDCredential.user
-            let email = appleIDCredential.email
+            var email = ""
+            let emailFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail")?.split(separator: "+")[0] ?? ""
+            
+            if emailFromKeychain.isEmpty {
+                email = appleIDCredential.email ?? ""
+            } else { email = String(emailFromKeychain) }
+            print("email", email)
+            print("id", appleIDCredential.identityToken?.base64EncodedString() ?? "id")
             let request = SigninRequest(
-                email: email ?? "email",
+                email: email,
                 provider: "apple",
                 providerId: userIdentifier,
                 codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
