@@ -15,7 +15,7 @@ class MypageViewReactor: Reactor {
     let initialState: State
     private let userRepository = UserRepository()
     let provider: String
-    let nickName: String
+    var nickName: String
     let email: String
     
     // MARK: - Init
@@ -23,12 +23,12 @@ class MypageViewReactor: Reactor {
         self.initialState = state
         self.provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
         self.nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
-        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? ""
+        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
     }
     
     // MARK: - Action
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
     }
     
     // MARK: - Mutation (처리 단위)
@@ -50,7 +50,8 @@ class MypageViewReactor: Reactor {
     // MARK: - Mutate action
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
+            self.nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
             return .concat([
                 getProfileImg(),
                 getIntroduction(),
@@ -85,6 +86,7 @@ extension MypageViewReactor {
         return userRepository.findProfileImg(request: FindProfileImgRequest(nickname: self.nickName))
             .flatMap { [weak self] image -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userProfile", data: (image.pngData()?.base64EncodedString(options: .lineLength64Characters))!)
                 return .just(.setProfileImage(image))
             }
     }
@@ -93,6 +95,7 @@ extension MypageViewReactor {
         return userRepository.findIntroduction(request: FindIntroductionRequest(nickname: self.nickName))
             .flatMap { [weak self] intro -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userIntro", data: intro)
                 return .just(.setIntro(intro))
             }
     }

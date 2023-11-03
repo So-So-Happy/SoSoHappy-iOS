@@ -18,6 +18,7 @@ final class EditProfileViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     var contentInset: UIEdgeInsets?
+    private let coordinator: MyPageCoordinatorProtocol?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
@@ -37,7 +38,8 @@ final class EditProfileViewController: UIViewController {
     }
 
     // MARK: Initializing
-    init(reactor: SignUpViewReactor) {
+    init(reactor: EditProfileViewReactor, coordinator: MyPageCoordinatorProtocol) {
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -127,7 +129,7 @@ extension EditProfileViewController {
 // MARK: - ReactorKit - bind func
 extension EditProfileViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
-    func bind(reactor: SignUpViewReactor) {
+    func bind(reactor: EditProfileViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
         profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
@@ -224,6 +226,25 @@ extension EditProfileViewController: View {
                 return !$0.selfIntroText.isEmpty && !isDuplicate
             }
             .bind(to: saveButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showFinalAlert }
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.goToMain }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    coordinator?.goBackToMypage()
+                }
+            })
             .disposed(by: disposeBag)
 
         RxKeyboard.instance.willShowVisibleHeight
