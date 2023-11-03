@@ -20,7 +20,7 @@ class EditProfileViewReactor: SignUpViewReactor {
         initialState = State (
             profileImage: UIImage(data: Data(base64Encoded: imageString, options: .ignoreUnknownCharacters)!)!,
             nickNameText: nickName,
-            selfIntroText: intro
+            selfIntroText: intro, isSameNickName: true
         )
     }
 }

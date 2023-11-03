@@ -48,6 +48,7 @@ class SignUpViewReactor: Reactor {
         var showErrorAlert: Error?
     
         var goToMain: Bool?
+        var isSameNickName: Bool
     }
     
     // MARK: - Init
@@ -55,7 +56,7 @@ class SignUpViewReactor: Reactor {
         initialState = State (
             profileImage: UIImage(named: "profile")!,
             nickNameText: "",
-            selfIntroText: ""
+            selfIntroText: "", isSameNickName: true
         )
     }
     
@@ -79,7 +80,6 @@ class SignUpViewReactor: Reactor {
         
         case .signUp:
             return .concat([setProfile(), .just(Mutation.clearAlert)])
-        
         }
     }
     
@@ -102,6 +102,12 @@ class SignUpViewReactor: Reactor {
             if currentState.nickNameText != newText {
                 newState.isDuplicate = nil
             }
+            
+            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+            let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName")
+            let isSameNickname = nickNameFromKeychain == newText
+            
+            newState.isSameNickName = isSameNickname
             
         case let .setSelfIntroText(text):
             newState.selfIntroText = String(text.prefix(60))    // 60자 제한

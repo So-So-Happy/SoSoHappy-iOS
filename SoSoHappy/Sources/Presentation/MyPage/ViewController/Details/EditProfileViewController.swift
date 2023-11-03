@@ -184,7 +184,7 @@ extension EditProfileViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { !$0.nickNameText.isEmpty }
+            .map { !$0.nickNameText.isEmpty && !$0.isSameNickName }
             .bind(to: nickNameSection.duplicateCheckButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
@@ -221,12 +221,7 @@ extension EditProfileViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map {
-                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-                let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName")
-                let isSameNickname = nickNameFromKeychain == self.nickNameSection.nickNameTextField.text
-                return (!$0.selfIntroText.isEmpty && !($0.isDuplicate ?? true)) || isSameNickname
-            }
+            .map { (!$0.selfIntroText.isEmpty && !($0.isDuplicate ?? true)) || $0.isSameNickName }
             .bind(to: saveButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
