@@ -64,8 +64,6 @@ class BaseDetailViewController: UIViewController {
         print("BaseDetailViewController - setFeed")
         let bgName: String = feed.weather + "Bg"
         let image = UIImage(named: bgName)!
-        let opacity: CGFloat = 0.5
-        let color = UIColor(patternImage: image).withAlphaComponent(opacity)
         scrollView.backgroundColor = UIColor(patternImage: image)
         
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 50)
