@@ -24,7 +24,10 @@ final class OwnerFeedViewReactor: Reactor {
     enum Mutation {
         case setRefreshing(Bool)
         case isLoading(Bool) // 로딩 띄울 때 쓰려고 일단 만들어 놓음
-        case setProfile(Profile)
+//        case setNickName(String)
+        case setProfileImage(UIImage)
+        case setSelfIntroduction(String)
+//        case setProfile(Profile)
         case setFeeds([UserFeed])
         case selectedCell(index: Int)
     }
@@ -33,6 +36,8 @@ final class OwnerFeedViewReactor: Reactor {
         var isRefreshing: Bool = false
         var isLoading: Bool? // 로딩 띄울 때 쓰려고 일단 만들어 놓음
         var profile: Profile?
+        var profileImage: UIImage?
+        var selfIntroduction: String?
         var userFeeds: [UserFeed]?
         var selectedFeed: UserFeed?
         var ownerNickName: String
@@ -48,24 +53,23 @@ final class OwnerFeedViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+           
+            
         case .refresh:
             let srcNickname: String = "디저트러버" // 조회하는 유저 nickname
             let dstNickname: String = currentState.ownerNickName // 조회 대상 nickname
             
             return .concat([
                 .just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                // HEADER - 프로필 이미지, 닉네임, 한 줄 소개
-                userRepository.findIntroduction(request: FindIntroductionRequest(nickname: dstNickname))
-                    .flatMap { introduction in
-                        return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: dstNickname))
-                            .map { profileImg in
-                                return Profile(email: "", nickName: dstNickname, profileImg: profileImg, introduction: introduction)
-                            }
-                    }
-                    .map { Mutation.setProfile($0)},
                 
-                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
-                    .map { Mutation.setFeeds($0) },
+                fetchUserInformation(),
+                
+//                fetchProfileImage(owner: currentState.ownerNickName),
+//                fetchSelfIntroduction(owner: currentState.ownerNickName),
+//                
+//                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
+//                    .map { Mutation.setFeeds($0) }
+//                    .delay(.seconds(1), scheduler: MainScheduler.instance),
                 
                 .just(.setRefreshing(false))
             ])
@@ -77,23 +81,14 @@ final class OwnerFeedViewReactor: Reactor {
             
             return .concat([
                 .just(.isLoading(true)),
-                userRepository.findIntroduction(request: FindIntroductionRequest(nickname: dstNickname))
-                    .flatMap { introduction in
-                        return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: dstNickname))
-                            .map { profileImg in
-                                return Profile(email: "", nickName: dstNickname, profileImg: profileImg, introduction: introduction)
-                            }
-                            .catch { error in
-                                print("OwnerFeeViewReactor catched error")
-                                let profile =  Profile(email: "", nickName: dstNickname, profileImg: UIImage(named: "profile")!, introduction: introduction)
-                                return Observable.just(profile)
-                            }
-                    }
-                    .map { Mutation.setProfile($0)},
                 
-                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
-                    .map { Mutation.setFeeds($0) }
-                    .delay(.seconds(1), scheduler: MainScheduler.instance),
+                fetchUserInformation(),
+//                fetchProfileImage(owner: currentState.ownerNickName),
+//                fetchSelfIntroduction(owner: currentState.ownerNickName),
+//                
+//                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
+//                    .map { Mutation.setFeeds($0) }
+//                    .delay(.seconds(1), scheduler: MainScheduler.instance),
                 
                 .just(.isLoading(false))
                 
@@ -105,58 +100,93 @@ final class OwnerFeedViewReactor: Reactor {
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
-        var state = state
+        var newState = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
-            state.isRefreshing = isRefreshing
+            newState.isRefreshing = isRefreshing
             
         case let .isLoading(isLoading):
-            state.isLoading = isLoading
-            state.selectedFeed = nil
+            newState.isLoading = isLoading
+            newState.selectedFeed = nil
             
-        case let .setProfile(profile):
-            print("reduce - setProfile  : \(profile)")
-            state.profile = profile
-//            state.selectedFeed = nil
+        case let .setProfileImage(profileImage):
+            newState.profileImage = profileImage
+            newState.ownerNickName = state.ownerNickName
+            
+        case let .setSelfIntroduction(selfIntro):
+            newState.selfIntroduction = selfIntro
+            newState.profile = Profile(email: "", nickName: currentState.ownerNickName, profileImg: currentState.profileImage ?? UIImage(named: "profile")!, introduction: selfIntro)
             
         case let .setFeeds(feeds):
             print("reduce - setFeeds  : \(feeds)")
-            state.userFeeds = feeds
+            newState.userFeeds = feeds
 //            state.selectedFeed = nil
             
         case let .selectedCell(index):
             print("선택했음")
             if let userFeeds = state.userFeeds {
-                state.selectedFeed = userFeeds[index]
+                newState.selectedFeed = userFeeds[index]
             }
         }
         
-        return state
+        return newState
     }
 }
 
-
-/*
- case .fetchFeeds:
-     // MARK: 일단은 Loading 없이 이렇게 처리함 (실제로 서버 연결해보면서 확인해보기)
-     let fetchedFeeds: [FeedTemp] = []
-     let profile = testProfile
-     
-     return Observable.concat([
-         Observable.just(Mutation.profile(profile)),
-         Observable.just(Mutation.setFeeds(fetchedFeeds))
-     ])
-     
- case .refresh:
-     let fetchedFeeds: [FeedTemp] = []
-     let profile = testProfile
-     print("refreshed")
-     return Observable.concat([
-         Observable.just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-         //              UserService.users().map(Mutation.setUsers),
-         // user 프로필도 불러와야 함
-         Observable.just(Mutation.profile(profile)),
-         Observable.just(Mutation.setFeeds(fetchedFeeds)), // 통신해서 받아온 feed들을 Mutation.setFeeds로 map
-         Observable.just(.setRefreshing(false))
-     ])
- */
+extension OwnerFeedViewReactor {
+    func fetchUserInformation() -> Observable<Mutation> {
+        
+        let srcNickname: String = "디저트러버" // 조회하는 유저 nickname
+        let dstNickname: String = currentState.ownerNickName // 조회 대상 nickname
+        
+        return .concat([
+            fetchProfileImage(owner: currentState.ownerNickName),
+            fetchSelfIntroduction(owner: currentState.ownerNickName),
+            feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
+                .map { Mutation.setFeeds($0) }
+                .delay(.seconds(1), scheduler: MainScheduler.instance)
+        ])
+    }
+    
+    
+    
+    
+    private func fetchProfileImage(owner dstNickname: String) -> Observable<Mutation> {
+        if let cachedImage = ImageCache.shared.cache[dstNickname] {
+            print("⭕️ 사진 캐시에 있음 - Owner Feed View REACTOR nickname : \(dstNickname)")
+            
+            return .just(.setProfileImage(cachedImage))
+        }
+        
+        return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: dstNickname))
+            .map {
+                ImageCache.shared.cache[dstNickname] = $0
+                return Mutation.setProfileImage($0)
+            }
+            .catch { error in
+                print("🚫 Owner feed view reactor findProfileImg error : \(error.localizedDescription), error nickname : \(dstNickname)")
+                
+                return .just(.setProfileImage(UIImage(named: "profile")!))
+            }
+    }
+    
+    private func fetchSelfIntroduction(owner dstNickname: String) -> Observable<Mutation> {
+        
+        if let cachedSelfIntro = SelfIntroductionCache.shared.cache[dstNickname] {
+            print("⭕️ 자기소개 캐시에 있음 - Owner Feed View REACTOR nickname : \(dstNickname), \(cachedSelfIntro)")
+            
+            return .just(.setSelfIntroduction(cachedSelfIntro))
+        }
+        
+        return userRepository.findIntroduction(request: FindIntroductionRequest(nickname: dstNickname))
+            .map {
+                SelfIntroductionCache.shared.cache[dstNickname] = $0
+                return Mutation.setSelfIntroduction($0)
+            }
+            .catch { error in
+                print("🚫 Owner feed view reactor findIntroduction error : \(error.localizedDescription), error nickname : \(dstNickname)")
+                
+                return .just(.setSelfIntroduction(""))
+            }
+    }
+}

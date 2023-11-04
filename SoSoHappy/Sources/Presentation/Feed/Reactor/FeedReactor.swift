@@ -40,16 +40,26 @@ final class FeedReactor: Reactor {
             let dstNickname: String = currentState.userFeed.nickName // 피드 주인 닉네임
             let srcNickname: String = "디저트 러버" // 조회하는 유저 닉네임
             let date: Int64 = currentState.userFeed.dateFormattedInt64 // 피드의 date
-//            return feedRepository.findDetailFeed(request: FindDetailFeedRequest(date: date, dstNickname: dstNickname, srcNickname: srcNickname))
-//                .map { Mutation.setUserFeed($0) }
             
             return feedRepository.findDetailFeed(request: FindDetailFeedRequest(date: date, dstNickname: dstNickname, srcNickname: srcNickname))
                 .flatMap { userFeed in // 이벤트 순서 유지,
+                    if let cachedImage = ImageCache.shared.cache[userFeed.nickName] {
+                        print("⭕️ 캐시에 있음 - feed REACTOR nickname : \(userFeed.nickName)")
+                        var userFeedWithCachedProfileImage = userFeed
+                        userFeedWithCachedProfileImage.profileImage = cachedImage
+                        return Observable.just(userFeedWithCachedProfileImage)
+                    }
+                    print("feed REACTOR if let 밖")
                     return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: userFeed.nickName))
                         .map { profileImage in
                             var userFeedWithProfileImage = userFeed
                             userFeedWithProfileImage.profileImage = profileImage
+                            ImageCache.shared.cache[userFeed.nickName] = profileImage
                             return userFeedWithProfileImage
+                        }
+                        .catch { error in
+                            print("🚫 Feed reactor findProfileImg error : \(error.localizedDescription), error nickname : \(userFeed.nickName)")
+                            return Observable.just(userFeed)
                         }
                 }
                 .map { Mutation.setUserFeed($0) }
