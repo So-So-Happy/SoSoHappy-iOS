@@ -8,5 +8,5 @@
 import Foundation
 
 struct FindIntroductionResponse: Decodable {
-    let Introduction: String
+    let introduction: String
 }
