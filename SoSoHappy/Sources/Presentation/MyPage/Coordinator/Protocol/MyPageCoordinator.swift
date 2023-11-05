@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 public protocol MyPageCoordinatorProtocol {
     func pushProfileEditView()
@@ -58,12 +59,12 @@ extension MyPageCoordinator: MyPageCoordinatorProtocol {
     
     func pushToSView() {
         let viewController = makeToSViewController()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController.present(viewController, animated: true, completion: nil)
     }
     
     func pushPrivatePolicyView() {
         let viewController = makePrivatePolicyViewController()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController.present(viewController, animated: true, completion: nil)
     }
     
     func pushAccountManagementView() {
@@ -99,13 +100,15 @@ extension MyPageCoordinator {
     }
     
     func makeToSViewController() -> UIViewController {
-        let viewController = ToSViewController()
-        return viewController
+        let url = URL(string: Bundle.main.tosPath)!
+        let safariViewController = SFSafariViewController(url: url)
+        return safariViewController
     }
     
     func makePrivatePolicyViewController() -> UIViewController {
-        let viewController = PrivatePolicyViewController()
-        return viewController
+        let url = URL(string: Bundle.main.privatePolicyPath)!
+        let safariViewController = SFSafariViewController(url: url)
+        return safariViewController
     }
     
     func makeAccountManagementViewController() -> UIViewController {

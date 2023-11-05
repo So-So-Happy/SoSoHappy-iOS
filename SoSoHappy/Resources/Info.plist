@@ -21,6 +21,10 @@
 			</array>
 		</dict>
 	</array>
+	<key>TOS_PATH</key>
+	<string>${TOS_PATH}</string>
+	<key>PRIVATE_POLICY_PATH</key>
+	<string>${PRIVATE_POLICY_PATH}</string>
 	<key>ANALYSIS_HAPPINESS_PATH</key>
 	<string>${ANALYSIS_HAPPINESS_PATH}</string>
 	<key>BASE_URL</key>
