@@ -21,11 +21,33 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     // MARK: - Target
     typealias Target = FeedAPI
     
-    func saveFeed(feed: MyFeed) -> Observable<SaveFeedResponse> {
-        let provider = accessProvider()
-        return provider.rx.request(.saveFeed(feed))
-            .map(SaveFeedResponse.self)
-            .asObservable()
+    // MARK: 이미지 넣는거 성공하면 동환님이랑 이 경로 설정에 대해서 이야기 해보기
+    // FeedAPI
+    func saveFeed(request: SaveFeedRequest) -> Observable<SaveFeedResponse> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.saveFeed(request))
+                .map(SaveFeedResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("saveFeed - success : \(response.message)")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("saveFeed - error: \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        print("saveFeed - completed")
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+
     }
     
     func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed> {
@@ -67,7 +89,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     /// findDetailFeed: 디테일 피드 데이터 fetch
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed> {
         return Observable.create { emitter in
-            print("findDetailFeed 메서드 시작")
+//            print("findDetailFeed 메서드 시작")
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findDetailFeed(request))
                 .map(FindDetailFeedResponse.self)
@@ -76,10 +98,10 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("findDetailFeed success : \(response)")
+//                        print("findDetailFeed success : \(response)")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("findDetailFeed error : \(error.localizedDescription)")
+//                        print("findDetailFeed error : \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
@@ -94,23 +116,23 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     
     /// findOtherFeed: 피드 전체 데이터 fetch
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]> {
-        print("여기 FeedRepository  - findOtherFeed")
+//        print("여기 FeedRepository  - findOtherFeed")
         return Observable.create { emitter in
             let provider = self.accessProvider()
-            print("FeedRepository  - findOtherFeed - Observable")
+//            print("FeedRepository  - findOtherFeed - Observable")
             let disposable = provider.rx.request(.findOtherFeed(request))
                 .debug()
                 .map(FindOtherFeedResponse.self)
                 .map { $0.content.map { $0.toDomain() }}
                 .asObservable()
                 .subscribe { event in
-                    print("event: \(event)")
+//                    print("event: \(event)")
                     switch event {
                     case .next(let response):
-                        print("~~~findOtherfeed response : \(response) ")
+//                        print("~~~findOtherfeed response : \(response) ")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("FeedRepository  - findOtherFeed - 에러 남: \(error.localizedDescription)")
+//                        print("FeedRepository  - findOtherFeed - 에러 남: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
