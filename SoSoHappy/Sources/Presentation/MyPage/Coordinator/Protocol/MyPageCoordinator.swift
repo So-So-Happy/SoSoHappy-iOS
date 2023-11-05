@@ -100,13 +100,13 @@ extension MyPageCoordinator {
     }
     
     func makeToSViewController() -> UIViewController {
-        let url = URL(string: "https://glamorous-caption-ecd.notion.site/c6066a35543443dc991ee71a670f9b1b")!
+        let url = URL(string: Bundle.main.tosPath)!
         let safariViewController = SFSafariViewController(url: url)
         return safariViewController
     }
     
     func makePrivatePolicyViewController() -> UIViewController {
-        let url = URL(string: "https://glamorous-caption-ecd.notion.site/0b6f42e8f5ed4934a49566b919f428f9")!
+        let url = URL(string: Bundle.main.privatePolicyPath)!
         let safariViewController = SFSafariViewController(url: url)
         return safariViewController
     }
