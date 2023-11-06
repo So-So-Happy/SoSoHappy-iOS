@@ -8,8 +8,19 @@
 
 import UIKit
 
+enum AddNavigationSource {
+    case addstep2
+    case addstep3
+}
+
+
 protocol AddCoordinatorInterface: Coordinator {
-    func showNextAdd(reactor: AddViewReactor)
+    func dismiss()
+    func showNextAdd(reactor: AddViewReactor, navigateTo: AddNavigationSource)
+    func navigateBack()
+    func showAlbum()
+    func showToastMessage(isSuccess: Bool)
+    
 }
 
 final class AddCoordinator: AddCoordinatorInterface {
@@ -19,33 +30,63 @@ final class AddCoordinator: AddCoordinatorInterface {
     var navigationController: UINavigationController
     var finishDelegate: CoordinatorFinishDelegate?
     
-    var tabBarController: UITabBarController
-    
-    init(navigationController: UINavigationController = UINavigationController(), tabBarController: UITabBarController ) {
+    init(navigationController: UINavigationController = UINavigationController() ) {
         self.navigationController = navigationController
-        self.tabBarController = tabBarController
     }
     
     func start() {
-        let addViewReactor = AddViewReactor()
+        let addViewReactor = AddViewReactor(feedRepository: FeedRepository())
         let addStep1VC = AddStep1ViewController(reactor: addViewReactor, coordinator: self)
+        addStep1VC.title = "소소해피 기록"
         navigationController.pushViewController(addStep1VC, animated: true)
-    }
-    
-    func finish() {
-        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+        print("🗂️ 쌓여 있는 AddCoordinator -  VC: \(navigationController.viewControllers.count)개")
+        print("ADD coordinator count - start: \(parentCoordinator?.childCoordinators.count)")
     }
 }
 
 extension AddCoordinator {
-    func showNextAdd(reactor: AddViewReactor) {
-        print("[Coordinator] AddStep1 - shoNextAdd")
-        print("reactor.initialState.selectedWeather: \(reactor.currentState.selectedWeather)")
-        print("reactor.initialState.selectedHappiness : \(reactor.currentState.selectedHappiness)")
-        let add2Coordinator = Add2Coordinator(navigationController: self.navigationController, reactor: reactor)
-        self.childCoordinators.append(add2Coordinator)
-        add2Coordinator.start()
+    // MARK: 모달 내리기
+    func dismiss() {
+        print("dismissed")
+        navigationController.dismiss(animated: true)
+        print("🗂️ Dismiss 후 쌓여 있는 AddCoordinator -  VC: \(navigationController.viewControllers.count)개")
+        // 이걸 해줘야 하나? 이걸 안해주면 Add 볼 때마다 addCoordinator가 추가가 됨
+        
+        parentCoordinator?.childDidFinish(self, parent: parentCoordinator)
+        print("ADD coordinator count - dismiss : \(parentCoordinator?.childCoordinators.count)")
+    }
+    
+    // MARK: 다음 VC로 이동
+    func showNextAdd(reactor: AddViewReactor, navigateTo: AddNavigationSource) {
+        switch navigateTo {
+        case .addstep2:
+            let addStep2VC = AddStep2ViewController(reactor: reactor, coordinator: self)
+            addStep2VC.title = "소소해피 기록"
+            navigationController.pushViewController(addStep2VC, animated: true)
+            print("🗂️ 쌓여 있는 AddCoordinator  addstep2-  VC: \(navigationController.viewControllers.count)개")
+        case .addstep3:
+            let addStep3VC = AddStep3ViewController(reactor: reactor, coordinator: self)
+            addStep3VC.title = "소소해피 기록"
+            navigationController.pushViewController(addStep3VC, animated: true)
+            print("🗂️ 쌓여 있는 AddCoordinator  addStep3-  VC: \(navigationController.viewControllers.count)개")
+        }
+    }
+    
+    // MARK: 이전 VC로 돌아가기
+    func navigateBack() {
+        navigationController.popViewController(animated: true)
+    }
+   
+}
+// MARK: - AddStep3에서 사용될 메서드
+extension AddCoordinator {
+    // MARK: AddStep3에서 album 모달로 보여주는 메서드
+    func showAlbum() {
+        
+    }
+    
+    // MARK: 등록 성공 여부를 나타내는 toast message 띄우기
+    func showToastMessage(isSuccess: Bool) {
+        
     }
 }
-
-
