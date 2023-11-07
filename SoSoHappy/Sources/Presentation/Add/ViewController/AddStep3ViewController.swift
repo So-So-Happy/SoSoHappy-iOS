@@ -23,7 +23,7 @@ import RxKeyboard
  
  4. textView가 isEmpty - false일 경우 "저장"버튼 activate (완료)
  5. textView placeholder '오늘의 소소한 행복을 기록해주세요'
- 5-1. 글자 수 제한 3000자
+ 5-1. 글자 수 제한 3000자 (완료)
  
  6. 토스트 메시지
     - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss
@@ -37,6 +37,7 @@ import RxKeyboard
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
+    var count = 0
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
@@ -65,9 +66,15 @@ final class AddStep3ViewController: BaseDetailViewController {
         $0.font = UIFont.systemFont(ofSize: 13)
         $0.textColor = .lightGray
         $0.textAlignment = .right
-        $0.text = "(0 / 3000)"
+//        $0.text = "(0 / 3000)"
     }
-
+    
+    private lazy var placeholderLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: 16)
+        $0.textColor = .lightGray
+        $0.textAlignment = .left
+           $0.text = "소소한 행복을 기록해보세요~"
+       }
     
     override func viewDidLoad() {
         //        view.backgroundColor = .systemYellow
@@ -105,7 +112,7 @@ extension AddStep3ViewController {
     private func setLayout() {
         self.contentView.addSubview(statusBarStackView)
         self.contentView.addSubview(textCountLabel)
-        
+        textView.addSubview(placeholderLabel)
         imageSlideView.addSubviews(removeImageButton)
         
         statusBarStackView.snp.makeConstraints { make in
@@ -125,13 +132,20 @@ extension AddStep3ViewController {
         
         // 글자 수
         textCountLabel.snp.makeConstraints { make in
-            make.top.equalTo(contentBackground.snp.bottom).offset(14)
-            make.right.equalTo(contentBackground)
+            make.top.equalTo(contentBackground.snp.bottom).offset(10)
+            make.right.equalTo(contentBackground).inset(5)
         }
         
+        // 선택한 이미지 제거 버튼
         removeImageButton.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().inset(3)
+            make.left.top.equalToSuperview().inset(14)
             make.size.equalTo(24)
+        }
+        
+        // placeholder
+        placeholderLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(5)
+            make.top.equalToSuperview().offset(10)
         }
     }
 }
@@ -147,17 +161,31 @@ extension AddStep3ViewController: View {
         
         textView.rx.text.orEmpty // orEmpty nil일 경우 빈 문자열로 반환
             .skip(1)
-            .debounce(.milliseconds(500), scheduler: MainScheduler.instance)
+            // .debounce : 마지막 방출된 것으로부터 100 milisecond가 지나고 reactor로 보냄
+            // 100개의 글자를 작성한다고 했을 때 debounce를 주면 reactor에 85번, 안 하면 100번
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .map { Reactor.Action.setContent($0) }
+            .map {
+                self.count += 1
+                print("count: \(self.count)")
+                return Reactor.Action.setContent($0)
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        textView.rx.text.orEmpty
+            .map { !$0.isEmpty } // Invert the condition to hide when empty
+            .distinctUntilChanged()
+            .debug()
+            .bind(to: placeholderLabel.rx.isHidden)
+            .disposed(by: disposeBag)
         
+       
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [scrollView] keyboardVisibleHeight in
                 print("visibleHeight: \(keyboardVisibleHeight)") // 380, 0
                 if keyboardVisibleHeight > 0 {
-                    scrollView.contentInset.bottom = keyboardVisibleHeight
+                    scrollView.contentInset.bottom = keyboardVisibleHeight + 15
                 } else {
                     scrollView.contentInset.bottom = .zero
                 }
@@ -206,21 +234,27 @@ extension AddStep3ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.dateString }
-            .bind(to: self.dateLabel.rx.text)
-            .disposed(by: disposeBag)
-        
+        // 행복 + 카테고리
         reactor.state
             .compactMap { $0.happyAndCategory }
+            .distinctUntilChanged()
             .bind { [weak self] happyAndCategory in
                 guard let self = self else { return }
                 categoryStackView.addImageViews(images: happyAndCategory, imageSize: 62)
             }
             .disposed(by: disposeBag)
         
+        // 날짜
+        reactor.state
+            .map { $0.dateString }
+            .distinctUntilChanged()
+            .bind(to: self.dateLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // 날씨 배경
         reactor.state
             .compactMap { $0.weatherString }
+            .distinctUntilChanged()
             .bind { [weak self] weather in
                 print("weather type: \(type(of: weather))")
                 guard let self = self else { return }
@@ -232,15 +266,24 @@ extension AddStep3ViewController: View {
             }
             .disposed(by: disposeBag)
         
-        // MARK: isPrivate에 따라서 자물쇠 image 변경 
+        // 작성 글
+        reactor.state
+            .map { "(\($0.content.count) / 3000)" }
+            .distinctUntilChanged()
+            .bind(to: self.textCountLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        // isPrivate에 따라서 자물쇠 image 변경
         reactor.state
             .map { $0.isPrivate }
+            .distinctUntilChanged()
             .bind { [weak self] isPrivate in
                 guard let self = self else { return }
                 addKeyboardToolBar.setPrivateTo(isPrivate)
             }
             .disposed(by: disposeBag)
         
+        // 저장 버튼 활성화
         reactor.state
             .map { !$0.content.isEmpty }
             .distinctUntilChanged()
@@ -249,6 +292,7 @@ extension AddStep3ViewController: View {
         
         reactor.state
             .compactMap { $0.selectedImages }
+            .distinctUntilChanged()
             .bind { [weak self] images in
                 guard let self = self else { return }
                 print("images.count : \(images.count)")
