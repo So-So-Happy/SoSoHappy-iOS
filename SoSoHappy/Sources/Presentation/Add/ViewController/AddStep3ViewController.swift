@@ -37,15 +37,12 @@ import RxKeyboard
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
-    private var didSetupViewConstraints = false
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
-    
-    let toolBar = AddKeyboardToolBar2()
 
     private lazy var backButton = UIButton().then {
         $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -92,14 +89,13 @@ extension AddStep3ViewController {
     
     private func setAttributes() {
         textView.isUserInteractionEnabled = true
-//        textView.inputAccessoryView = addKeyboardToolBar
+        textView.inputAccessoryView = addKeyboardToolBar
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         print("editable \(textView.isEditable)")
     }
     
     private func setLayout() {
-        self.view.addSubview(toolBar)
         self.scrollView.addSubview(statusBarStackView)
         imageSlideView.addSubviews(removeImageButton)
         
@@ -116,11 +112,6 @@ extension AddStep3ViewController {
         removeImageButton.snp.makeConstraints { make in
             make.left.top.equalToSuperview().inset(14)
             make.size.equalTo(24)
-        }
-        
-        toolBar.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(self.view.snp.bottom)
         }
     }
 }
@@ -179,11 +170,6 @@ extension AddStep3ViewController: View {
 //            })
 //            .disposed(by: disposeBag)
         
-
-        
-        
-        
-        // MARK: 원래 사용하던 부분
         RxKeyboard.instance.frame
             .drive(onNext: { [weak self] frame in
                 print("frame: \(frame)")
@@ -193,28 +179,17 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] keyboardVisibleHeight in
-                guard let self = self else { return }
+            .drive(onNext: { [scrollView] keyboardVisibleHeight in
                 print("visibleHeight: \(keyboardVisibleHeight)") // 380, 0
                 if keyboardVisibleHeight > 0 {
-                    toolBar.snp.updateConstraints { make in
-                        make.bottom.equalTo(self.view.snp.bottom).offset(-keyboardVisibleHeight)
-                    }
-                    
-                    
                     scrollView.contentInset.bottom = keyboardVisibleHeight
                 } else {
-                    toolBar.snp.updateConstraints { make in
-                        make.bottom.equalTo(self.view.snp.bottom)
-                    }
-                    
                     scrollView.contentInset.bottom = .zero
                 }
             })
             .disposed(by: disposeBag)
+
         
-        
-    
         
         addKeyboardToolBar.photoBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
@@ -311,33 +286,6 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
 
     }
-    
-    override func updateViewConstraints() {
-      super.updateViewConstraints()
-      guard !self.didSetupViewConstraints else { return }
-      self.didSetupViewConstraints = true
-
-      self.scrollView.snp.makeConstraints { make in
-        make.edges.equalTo(0)
-      }
-      self.toolBar.snp.makeConstraints { make in
-        make.left.right.equalTo(0)
-        if #available(iOS 11.0, *) {
-          make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-        } else {
-          make.bottom.equalTo(self.bottomLayoutGuide.snp.top)
-        }
-      }
-    }
-    
-    override func viewDidLayoutSubviews() {
-      super.viewDidLayoutSubviews()
-      if self.scrollView.contentInset.bottom == 0 {
-        self.scrollView.contentInset.bottom = 44
-        self.scrollView.scrollIndicatorInsets.bottom = self.scrollView.contentInset.bottom
-      }
-    }
-    
 }
 
 // MARK: - PHPickerViewControllerDelegate & picker preseent
