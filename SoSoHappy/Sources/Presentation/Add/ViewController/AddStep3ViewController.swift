@@ -60,6 +60,13 @@ final class AddStep3ViewController: BaseDetailViewController {
         $0.layer.shadowOpacity = 0.3
         $0.layer.shadowRadius = 3
     }
+    
+    lazy var textCountLabel = UILabel().then {
+        $0.font = UIFont.systemFont(ofSize: 13)
+        $0.textColor = .lightGray
+        $0.textAlignment = .right
+        $0.text = "(0 / 3000)"
+    }
 
     
     override func viewDidLoad() {
@@ -96,7 +103,9 @@ extension AddStep3ViewController {
     }
     
     private func setLayout() {
-        self.scrollView.addSubview(statusBarStackView)
+        self.contentView.addSubview(statusBarStackView)
+        self.contentView.addSubview(textCountLabel)
+        
         imageSlideView.addSubviews(removeImageButton)
         
         statusBarStackView.snp.makeConstraints { make in
@@ -109,8 +118,19 @@ extension AddStep3ViewController {
             make.top.equalToSuperview().offset(80)
         }
         
+        // 이미지 설정
+        imageSlideView.snp.updateConstraints { make in
+            make.top.equalTo(contentBackground.snp.bottom).offset(36)
+        }
+        
+        // 글자 수
+        textCountLabel.snp.makeConstraints { make in
+            make.top.equalTo(contentBackground.snp.bottom).offset(14)
+            make.right.equalTo(contentBackground)
+        }
+        
         removeImageButton.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().inset(14)
+            make.left.top.equalToSuperview().inset(3)
             make.size.equalTo(24)
         }
     }
@@ -133,51 +153,6 @@ extension AddStep3ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-//        textView.rx.text.orEmpty
-//            .compactMap { [weak self] _ in
-//                return self?.textView.contentSize.height
-//            }
-//            .distinctUntilChanged()
-//            .subscribe(onNext: { [weak self] height in
-//                print("textview height: \(height)")
-//                if height > 110 {
-//                    let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: height - 93, right: 0)
-//                    self?.scrollView.contentInset = contentInset
-//                    self?.scrollView.scrollIndicatorInsets = contentInset
-//                    if let targetRect = self?.imageSlideView.frame.insetBy(dx: 0, dy: -50) {
-//                        print("if - let")
-//                        self?.scrollView.scrollRectToVisible(targetRect, animated: true)
-//                    }
-//                }
-//            })
-//            .disposed(by: disposeBag)
-        
-//        
-//        RxKeyboard.instance.isHidden
-//            .skip(1)
-//            .drive(onNext: { [weak self] isHidden in
-//                if isHidden { // 키보드가 안 보일 때
-//                    print("키보드 안 보인다")
-//                    self?.scrollView.scrollIndicatorInsets = .zero
-//                    self?.scrollView.contentInset = .zero
-//                } else { // 키보드 보일대
-//                    print("키보드 보인다")
-//                    let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
-//                    self?.scrollView.contentInset = contentInset
-//                    self?.scrollView.scrollIndicatorInsets = contentInset
-//                    
-//                }
-//            })
-//            .disposed(by: disposeBag)
-        
-        RxKeyboard.instance.frame
-            .drive(onNext: { [weak self] frame in
-                print("frame: \(frame)")
-                // 키보드 올라올 때 : (0.0, 472.0, 393.0, 380.0)
-                // 키보드 내려갈 때 : (0.0, 852.0, 393.0, 380.0)
-            })
-            .disposed(by: disposeBag)
-        
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [scrollView] keyboardVisibleHeight in
                 print("visibleHeight: \(keyboardVisibleHeight)") // 380, 0
@@ -189,8 +164,6 @@ extension AddStep3ViewController: View {
             })
             .disposed(by: disposeBag)
 
-        
-        
         addKeyboardToolBar.photoBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -211,7 +184,6 @@ extension AddStep3ViewController: View {
                 guard let self = self else { return }
                 print("keyboardDownBarButton tapped")
                 self.view.endEditing(true)
-                //                toolBar.isHidden = true
             })
             .disposed(by: disposeBag)
         
