@@ -7,8 +7,9 @@
 
 import UIKit
 
+//  MARK: .add에 UITabBarItem을 disable 시키고 tabBarController의 addButton이 핸들링하도록 함.
+// MARK: - TabBarPage
 enum TabBarPage: String, CaseIterable {
-    
     case home
     case chart
     case add
@@ -67,24 +68,39 @@ protocol TabCoordinatorProtocol {
     func currentPage() -> TabBarPage?
 }
 
+// MARK: - TabCoordinator
 final class TabCoordinator: NSObject, Coordinator {
     var type: CoordinatorType { .tabBar }
     var finishDelegate: CoordinatorFinishDelegate?
-    var tabBarController: UITabBarController
+    var tabBarController: TabBarController
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
+    weak var addButtonDelegate: TabBarAddButtonDelegate?
     
     required init(
         _ navigationController: UINavigationController,
-        tabBarController: UITabBarController = TabBarController()
+        tabBarController: TabBarController = TabBarController()
     ){
+        
         self.navigationController = navigationController
         self.tabBarController = tabBarController
+        super.init()
+        self.tabBarController.addDelegate = self
     }
     
-    // 탭바 아이템 생성
+    // UITabBarItem 생성
     private func createTabBarItem(of page: TabBarPage) -> UITabBarItem {
+        // MARK: .add는 그냥 위치만 잡아주는 용도로 일단 사용했음
+        if page == .add {
+            let item = UITabBarItem(title: page.pageTitleValue(),
+                                    image: page.pageIconImage(),
+                                    tag: page.pageOrderNumber())
+            item.isEnabled = false
+            return item
+        }
+        
+        
         return UITabBarItem(title: page.pageTitleValue(),
                             image: page.pageIconImage(),
                             tag: page.pageOrderNumber()
@@ -121,13 +137,11 @@ final class TabCoordinator: NSObject, Coordinator {
             chartCoordinator.start()
             
         case .add:
-            let addCoordinator = AddCoordinator(navigationController: tabNavigationController, tabBarController: UITabBarController())
-            addCoordinator.finishDelegate = self
-            self.childCoordinators.append(addCoordinator)
-            addCoordinator.start()
+            break
             
         case .feed:
             let feedCoordinator = FeedCoordinator(navigationController: tabNavigationController)
+            feedCoordinator.parentCoordinator = self
             feedCoordinator.finishDelegate = self
             self.childCoordinators.append(feedCoordinator)
             feedCoordinator.start()
@@ -155,19 +169,20 @@ final class TabCoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        // 1. 탭바 아이템 리스트 생성
+        //  MARK: 탭바에 넣고 싶은 item들
         let pages: [TabBarPage] = TabBarPage.allCases
+    
         
-        // 2. 탭바 아이템 생성
+        // 2. pages에 해당하는 UITabBar item들 생성
         let tabBarItems: [UITabBarItem] = pages.map {
             self.createTabBarItem(of: $0)
         }
-        // 3. 탭바별 navigation controller 생성
+        // 3. UITabBar item별 navigation controller 생성
         let controllers: [UINavigationController] = tabBarItems.map {
             self.createTabNavigationController(tabBarItem: $0)
         }
         
-        // 4. 탭바 별로 코디네이터 생성
+        // 4. 탭바 별로 코디네이터 생성 후 start
         let _ = controllers.map {
             self.startTabCoordinator(tabNavigationController: $0)
         }
@@ -185,5 +200,21 @@ extension TabCoordinator: CoordinatorFinishDelegate {
         self.childCoordinators.removeAll()
         self.navigationController.viewControllers.removeAll()
         self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
+}
+
+
+extension TabCoordinator: TabBarAddButtonDelegate {
+    func addButtonTapped() {
+        print("add!!")
+        
+        let addCoordinator = AddCoordinator(navigationController: UINavigationController())
+        addCoordinator.parentCoordinator = self
+        addCoordinator.finishDelegate = self
+        print("ADD coordinator count - \(self.childCoordinators.count)")
+        self.childCoordinators.append(addCoordinator)
+        addCoordinator.start()
+        addCoordinator.navigationController.modalPresentationStyle = .fullScreen
+        tabBarController.present(addCoordinator.navigationController, animated: true)
     }
 }
