@@ -18,8 +18,8 @@ import RxKeyboard
 
  
  ## 사진 관련
- 1. 갤러리 연결
- 2. 사진 표시
+ 1. 갤러리 연결 (완료)
+ 2. 사진 표시 (완료)
  3. 등록한 사진 제거할 수 있도록
  ----------
  
@@ -242,7 +242,9 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         removeImageButton.rx.tap
-            .map { Reactor.Action.setSelectedImages([])}
+            .map {
+                return Reactor.Action.setSelectedImages([])
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -303,7 +305,10 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap { $0.selectedImages }
+            .compactMap {
+                print("selectedImages : \($0.selectedImages)")
+                return $0.selectedImages
+            }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
@@ -345,6 +350,12 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         
         let existingSelection = self.selection
         var newSelection = [String: PHPickerResult]()
+        let newSelectedAssetIdentifiers: [String] = results.map(\.assetIdentifier!)
+        
+        if selectedAssetIdentifiers == newSelectedAssetIdentifiers {
+            print("Cancel Button : \(selectedAssetIdentifiers)")
+            return
+        }
         
         for result in results { // 일단 들어온 모든 asset들이 다 asset Identifier는 가지고 있음
             let identifier = result.assetIdentifier!
@@ -353,7 +364,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         }
         
         selection = newSelection
-        selectedAssetIdentifiers = results.map(\.assetIdentifier!) // 순서 저장
+        selectedAssetIdentifiers = newSelectedAssetIdentifiers // 순서 저장
         
         if selection.isEmpty { // selected 된게 없음
             self.reactor?.action.onNext(.setSelectedImages([]))
