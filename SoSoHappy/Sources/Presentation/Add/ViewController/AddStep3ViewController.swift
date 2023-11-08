@@ -15,29 +15,42 @@ import PhotosUI
 import RxKeyboard
 
 /*
- 1. 갤러리 연결 (자료 다시 읽고 수정하기)
- 2. 사진 표시 (완료)
+
  
- 3. input accessary view 지연 문제 해결 필요
+ ## 사진 관련
+ 1. 갤러리 연결
+ 2. 사진 표시
+ 3. 등록한 사진 제거할 수 있도록
+ ----------
+ 
+ 3. input accessary view 지연 문제 해결 필요 (시뮬에서만 그런 것 같기도 함)
  3 - 1. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함 (완료)
  
  4. textView가 isEmpty - false일 경우 "저장"버튼 activate (완료)
- 5. textView placeholder '오늘의 소소한 행복을 기록해주세요'
- 5-1. 글자 수 제한 3000자 (완료)
+ 5. textView placeholder '오늘의 소소한 행복을 기록해주세요' (완료)
+ 5-1. 글자 수 제한 3000자
+ 5-2. 글자 counting label 추가
  
  6. 토스트 메시지
     - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss
     - 실패하면 '등록하지 못했습니다?"
+    - 와이파이 연결 안되어 있으면 '네트워크에 연결할 수 없습니다'
  
  
- 7. 사진 등록한거 제거할 수 있도록 (완료)
  
  */
 
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
-    var count = 0
+    
+    // Identifier와 PHPickerResult (이미지 데이터를 저장하기 위해 만들어줌)
+    private var selection = [String: PHPickerResult]()
+    
+    // 선택한 사진의 순서에 맞게 Identifier들을 배열로 저장
+    // selection은 Dictionary이기 때문에 순서가 없음. 그래서 따로 식별자를 담을 배열 생성 (주 용도 - 순서)
+    private var selectedAssetIdentifiers = [String]()
+
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
@@ -162,14 +175,10 @@ extension AddStep3ViewController: View {
         textView.rx.text.orEmpty // orEmpty nil일 경우 빈 문자열로 반환
             .skip(1)
             // .debounce : 마지막 방출된 것으로부터 100 milisecond가 지나고 reactor로 보냄
-            // 100개의 글자를 작성한다고 했을 때 debounce를 주면 reactor에 85번, 안 하면 100번
+            // 100개의 글자를 작성한다고 했을 때 debounce를 주면 reactor에 100이하 전달, 안 하면 100번
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .map {
-                self.count += 1
-                print("count: \(self.count)")
-                return Reactor.Action.setContent($0)
-            }
+            .map { Reactor.Action.setContent($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -304,46 +313,74 @@ extension AddStep3ViewController: View {
     }
 }
 
+
 // MARK: - PHPickerViewControllerDelegate & picker preseent
+// 권한 요청이 필요없음
+// iOS 14이상부터 지원 가능
 extension AddStep3ViewController: PHPickerViewControllerDelegate {
     private func setAndPresentPicker() {
-        var configuation = PHPickerConfiguration(photoLibrary: PHPhotoLibrary.shared())
-        configuation.selectionLimit = 2 // 최대 3개 제한
-        configuation.filter = .images
+        // configuation - 설정
+        var configuation = PHPickerConfiguration(photoLibrary: .shared())
+        configuation.selectionLimit = 2 // 선택 최대 2개 제한
+        configuation.filter = .images // image만 표시 (이외에도 video, live photo 등이 있음)
+        configuation.selection = .ordered // 선택한 순서대로 번호 표시 iOS 15부터 가능
+        configuation.preferredAssetRepresentationMode = .current
+        
+        // 선택했던 이미지를 기억해 표시하도록
+        configuation.preselectedAssetIdentifiers = selectedAssetIdentifiers // [String]
+        
         let picker = PHPickerViewController(configuration: configuation)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
 
-    // MARK: 선택한 asset
+    // MARK: picker가 닫힐 때 호출됨
+    // PHPickerResult - itemProviders(load and display photos) , asset identifiers
+    // 미리 선택되어 있던 asset의 item provider은 empty
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-
-        var selectedImages: [UIImage] = [] // Create a local array to store selected images
-
+        picker.dismiss(animated: true) // 1. picker dismiss
+        
+        // Picker 작업이 끝난 후, 새로 만들어질 selections를 담을 변수 생성
+        let existingSelectio: [String: PHPickerResult] = self.selection
+        var newSelection = [String: PHPickerResult]()
+        
         for result in results {
-            let itemProvider = result.itemProvider
-            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
+            let identifier = result.assetIdentifier!
+            // PHPickerResult : itemProvier & assetIdentifier (사진과 식별자)
+            newSelection[identifier] = existingSelectio[identifier] ?? result
+        }
+         
+        self.selection = newSelection
+        // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
+        // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다. (기억하는 용도)
+        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+        
+        var selectedImages: [UIImage] = [] // 2. 선택한 UIImage를 담고 있을 임시 변수
+        
+        for assetIdentifier in selectedAssetIdentifiers {
+            // item provider : 선택한 item에 대한 representations, background async
+            let itemProvider = selection[assetIdentifier]!.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) { // UIImage 타입으로 로드할 수 있는지 먼저 체크
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in // 로드
                     if let error {
                         print("Error loading image: \(error.localizedDescription)")
                     }
+                    
                     if let selectedImage = image as? UIImage {
                         selectedImages.append(selectedImage)
                     }
-
-                    // Check if this is the last image being loaded
+                    
                     if selectedImages.count == results.count {
                         // Update the property of your view controller with all selected images
                         // UI와 관련된 self.reactor?.action.onNext(.setSelectedImages은
                         // main thread에서 처리가 되어야 한다.
                         DispatchQueue.main.async {
                             self.reactor?.action.onNext(.setSelectedImages(selectedImages))
-                            print("images.count - \(selectedImages.count)")
                         }
                     }
                 }
             }
-        }
+        } // for문
+        
     }
 }
