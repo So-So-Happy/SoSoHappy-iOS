@@ -20,14 +20,14 @@ import RxKeyboard
  ## 사진 관련
  1. 갤러리 연결 (완료)
  2. 사진 표시 (완료)
- 3. 등록한 사진 제거할 수 있도록
+ 3. 등록한 사진 제거할 수 있도록 (완료)
  ----------
- 
- 3. input accessary view 지연 문제 해결 필요 (시뮬에서만 그런 것 같기도 함)
- 3 - 1. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함 (완료)
+
+ 3. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함
  
  4. textView가 isEmpty - false일 경우 "저장"버튼 activate (완료)
  5. textView placeholder '오늘의 소소한 행복을 기록해주세요' (완료)
+ 
  5-1. 글자 수 제한 3000자
  5-2. 글자 counting label 추가
  
@@ -36,6 +36,7 @@ import RxKeyboard
     - 실패하면 '등록하지 못했습니다?"
     - 와이파이 연결 안되어 있으면 '네트워크에 연결할 수 없습니다'
  
+ 7. dismiss coordinator 잘 핸들링해주기 (제거할거 제거하고)
  
  
  */
@@ -43,9 +44,6 @@ import RxKeyboard
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
-    var test: [PHPickerResult] = []
-    var count: Int = 0
-    var testString: [String] = []
     
     // Identifier와 PHPickerResult (이미지 데이터를 저장하기 위해 만들어줌)
     private var selection = [String: PHPickerResult]()
@@ -241,11 +239,28 @@ extension AddStep3ViewController: View {
             })
             .disposed(by: disposeBag)
         
+        // imageSlideView 위에 있는 remove button 클릭 시
+        // 1. 순서를 담고 있는 selectedAssetIdentifiers 비워주기
+        // 2.
         removeImageButton.rx.tap
             .map {
+                self.selectedAssetIdentifiers = []
+                self.selection = [:]
+                
                 return Reactor.Action.setSelectedImages([])
             }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // MARK: 작업용 (임시)
+        categoryStackView.rx.tapGesture()
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                print("AddStep3 - show 앨범")
+//                self.view.endEditing(true)
+                setAndPresentPicker()
+                
+            })
             .disposed(by: disposeBag)
         
         // 행복 + 카테고리
@@ -361,6 +376,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
             let identifier = result.assetIdentifier!
             // preselcted된 거는 미리 PHPickerResult가 있어서 그거 넣어줌
             newSelection[identifier] = existingSelection[identifier] ?? result
+            print("result.itemProvider : \(result.itemProvider)")
         }
         
         selection = newSelection
