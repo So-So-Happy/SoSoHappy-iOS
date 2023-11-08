@@ -305,8 +305,7 @@ extension AddStep3ViewController: View {
         reactor.state
             .compactMap { $0.selectedImages }
             .distinctUntilChanged()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] images in
+            .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
                 print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
@@ -352,124 +351,64 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
             // preselcted된 거는 미리 PHPickerResult가 있어서 그거 넣어줌
             newSelection[identifier] = existingSelection[identifier] ?? result
         }
-
+        
         selection = newSelection
         selectedAssetIdentifiers = results.map(\.assetIdentifier!) // 순서 저장
-
-
         
         if selection.isEmpty { // selected 된게 없음
             self.reactor?.action.onNext(.setSelectedImages([]))
         } else {
-            displayImage()
+            loadAndAppendImages()
             
         }
     }
     
-    private func displayImage() {
+    // MARK: Dipatch Group 사용하는 이유
+    // 사진 로드가 완료되는 시점이 사용자가 선택한 이미지 순서대로 일어나지 않는다.
+    // 따라서, 사진을 다 받아온 후 원래 순서에 맞게 바꾸기
+    private func loadAndAppendImages() {
         var selectedImages: [UIImage] = []
-        let dispatchGroup = DispatchGroup()
+        let dispatchGroup = DispatchGroup() // 비동기 작업 추적, 모든 작업이 끝났을 대 알림
         // identifier와 이미지로 dictionary를 만듬 (selectedAssetIdentifiers의 순서에 따라 이미지를 받을 예정입니다.)
         var imagesDict = [String: UIImage]()
-
-        for (identifier, result) in self.selection {
-            
+        
+        for assetIdentifier in selectedAssetIdentifiers {
+            // Dispatch Group에 들어가며 task + 1
             dispatchGroup.enter()
-                        
-            let itemProvider = result.itemProvider
+            print("ENTER")
+            
+            let itemProvider = selection[assetIdentifier]!.itemProvider
             // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 // 로드 핸들러를 통해 UIImage를 처리해 줍시다. (비동기적으로 동작)
+                // loadObject가 완료되면 클로저 실행
                 itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                     
-                    guard let image = image as? UIImage else { return }
-                    
-                    imagesDict[identifier] = image
-                    dispatchGroup.leave()
+                    if let image = image as? UIImage {
+                        imagesDict[assetIdentifier] = image
+                    }
+                    // Dispatch Group에 나오면 task - 1
+                    print("Leave")
+                    dispatchGroup.leave() // 비동기 작업 완료 DispactchGroup에 알림
                 }
             }
         }
         
+        // task가 0이 되었을 때 실행
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            
+            print("Nofity")
             guard let self = self else { return }
             
             // 먼저 스택뷰의 서브뷰들을 모두 제거함
-        
+            
             // 선택한 이미지의 순서대로 정렬하여 스택뷰에 올리기
             for identifier in self.selectedAssetIdentifiers {
-                guard let image = imagesDict[identifier] else { return }
-                selectedImages.append(image)
+                if let image = imagesDict[identifier] {
+                    selectedImages.append(image)
+                }
             }
             
             reactor?.action.onNext(.setSelectedImages(selectedImages))
         }
     }
-    
-//    private func loadSelctedImages() {
-//        var selectedImages: [UIImage] = []
-//        
-//        for assetIdentifier in selectedAssetIdentifiers { //순서 따라서 해주기 위해
-//            let itemProvider = selection[assetIdentifier]!.itemProvider
-//            if itemProvider.canLoadObject(ofClass: UIImage.self) {
-//                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
-//                    if let image = image as? UIImage {
-//                        selectedImages.append(image)
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
-
-/*
- // MARK: picker가 닫힐 때 호출됨
- // PHPickerResult - itemProviders(load and display photos) , asset identifiers
- // 미리 선택되어 있던 asset의 item provider은 empty
- func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-     picker.dismiss(animated: true) // 1. picker dismiss
-     
-     // Picker 작업이 끝난 후, 새로 만들어질 selections를 담을 변수 생성
-     let existingSelectio: [String: PHPickerResult] = self.selection
-     var newSelection = [String: PHPickerResult]()
-     
-     for result in results {
-         let identifier = result.assetIdentifier!
-         // PHPickerResult : itemProvier & assetIdentifier (사진과 식별자)
-         newSelection[identifier] = existingSelectio[identifier] ?? result
-     }
-      
-     self.selection = newSelection
-     // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
-     // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다. (기억하는 용도)
-     selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
-     
-     var selectedImages: [UIImage] = [] // 2. 선택한 UIImage를 담고 있을 임시 변수
-     
-     for assetIdentifier in selectedAssetIdentifiers {
-         // item provider : 선택한 item에 대한 representations, background async
-         let itemProvider = selection[assetIdentifier]!.itemProvider
-         if itemProvider.canLoadObject(ofClass: UIImage.self) { // UIImage 타입으로 로드할 수 있는지 먼저 체크
-             itemProvider.loadObject(ofClass: UIImage.self) { image, error in // 로드
-                 if let error {
-                     print("Error loading image: \(error.localizedDescription)")
-                 }
-                 
-                 if let selectedImage = image as? UIImage {
-                     selectedImages.append(selectedImage)
-                 }
-                 
-                 if selectedImages.count == results.count {
-                     // Update the property of your view controller with all selected images
-                     // UI와 관련된 self.reactor?.action.onNext(.setSelectedImages은
-                     // main thread에서 처리가 되어야 한다.
-                     DispatchQueue.main.async {
-                         self.reactor?.action.onNext(.setSelectedImages(selectedImages))
-                     }
-                 }
-             }
-         }
-     } // for문
-     
- }
- */
