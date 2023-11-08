@@ -23,13 +23,16 @@ import RxKeyboard
  3. 등록한 사진 제거할 수 있도록 (완료)
  ----------
 
- 3. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함
+ 3. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함 (완료)
  
  4. textView가 isEmpty - false일 경우 "저장"버튼 activate (완료)
  5. textView placeholder '오늘의 소소한 행복을 기록해주세요' (완료)
  
  5-1. 글자 수 제한 3000자
- 5-2. 글자 counting label 추가
+ 일단은 5글자로 해서 잘 작동하는지 확인하고 3000자 설정하자
+ 5-2. 글자 counting label 추가 (완료)
+ 
+ --- 오늘 딱 여기까지만 하고 바로 취침
  
  6. 토스트 메시지
     - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss
@@ -177,8 +180,18 @@ extension AddStep3ViewController: View {
             .skip(1)
             // .debounce : 마지막 방출된 것으로부터 100 milisecond가 지나고 reactor로 보냄
             // 100개의 글자를 작성한다고 했을 때 debounce를 주면 reactor에 100이하 전달, 안 하면 100번
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
+//            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
+            .map { text in
+                if text.count > 10 {
+                    let limitedText = String(text.prefix(10))
+                    self.textView.text = limitedText
+                    return limitedText
+                } else {
+                    return text
+                }
+            }
             .distinctUntilChanged()
+            .debug()
             .map { Reactor.Action.setContent($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -186,7 +199,6 @@ extension AddStep3ViewController: View {
         textView.rx.text.orEmpty
             .map { !$0.isEmpty } // Invert the condition to hide when empty
             .distinctUntilChanged()
-            .debug()
             .bind(to: placeholderLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
@@ -205,7 +217,7 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.photoBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("AddStep3 - show 앨범")
+//                print("AddStep3 - show 앨범")
                 self.view.endEditing(true)
                 setAndPresentPicker()
                 
@@ -220,7 +232,7 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.keyboardDownBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("keyboardDownBarButton tapped")
+//                print("keyboardDownBarButton tapped")
                 self.view.endEditing(true)
             })
             .disposed(by: disposeBag)
@@ -234,7 +246,7 @@ extension AddStep3ViewController: View {
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("AddStep3 - navigate Back")
+//                print("AddStep3 - navigate Back")
                 coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
@@ -253,15 +265,13 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         // MARK: 작업용 (임시)
-        categoryStackView.rx.tapGesture()
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                print("AddStep3 - show 앨범")
-//                self.view.endEditing(true)
-                setAndPresentPicker()
-                
-            })
-            .disposed(by: disposeBag)
+//        categoryStackView.rx.tapGesture()
+//            .subscribe(onNext: { [weak self] _ in
+//                guard let self = self else { return }
+//                print("AddStep3 - show 앨범")
+//                setAndPresentPicker()
+//            })
+//            .disposed(by: disposeBag)
         
         // 행복 + 카테고리
         reactor.state
@@ -285,7 +295,7 @@ extension AddStep3ViewController: View {
             .compactMap { $0.weatherString }
             .distinctUntilChanged()
             .bind { [weak self] weather in
-                print("weather type: \(type(of: weather))")
+//                print("weather type: \(type(of: weather))")
                 guard let self = self else { return }
                 let imageName = weather + "Bg"
                 let image = UIImage(named: imageName)!
@@ -321,13 +331,13 @@ extension AddStep3ViewController: View {
         
         reactor.state
             .compactMap {
-                print("selectedImages : \($0.selectedImages)")
+//                print("selectedImages : \($0.selectedImages)")
                 return $0.selectedImages
             }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-                print("images.count : \(images.count)")
+//                print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
@@ -360,7 +370,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
     // 선택한 순서대로 results에 들어오네
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         var selectedImages: [UIImage] = []
-        print("picker delegate method called - results.count : \(results.count)")
+//        print("picker delegate method called - results.count : \(results.count)")
         picker.dismiss(animated: true)
         
         let existingSelection = self.selection
@@ -368,7 +378,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         let newSelectedAssetIdentifiers: [String] = results.map(\.assetIdentifier!)
         
         if selectedAssetIdentifiers == newSelectedAssetIdentifiers {
-            print("Cancel Button : \(selectedAssetIdentifiers)")
+//            print("Cancel Button : \(selectedAssetIdentifiers)")
             return
         }
         
@@ -376,7 +386,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
             let identifier = result.assetIdentifier!
             // preselcted된 거는 미리 PHPickerResult가 있어서 그거 넣어줌
             newSelection[identifier] = existingSelection[identifier] ?? result
-            print("result.itemProvider : \(result.itemProvider)")
+//            print("result.itemProvider : \(result.itemProvider)")
         }
         
         selection = newSelection
@@ -393,6 +403,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
     // MARK: Dipatch Group 사용하는 이유
     // 사진 로드가 완료되는 시점이 사용자가 선택한 이미지 순서대로 일어나지 않는다.
     // 따라서, 사진을 다 받아온 후 원래 순서에 맞게 바꾸기
+    // Enter, Enter - Leave, Leave
     private func loadAndAppendImages() {
         var selectedImages: [UIImage] = []
         let dispatchGroup = DispatchGroup() // 비동기 작업 추적, 모든 작업이 끝났을 대 알림
@@ -402,7 +413,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         for assetIdentifier in selectedAssetIdentifiers {
             // Dispatch Group에 들어가며 task + 1
             dispatchGroup.enter()
-            print("ENTER")
+//            print("ENTER")
             
             let itemProvider = selection[assetIdentifier]!.itemProvider
             // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
@@ -415,7 +426,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
                         imagesDict[assetIdentifier] = image
                     }
                     // Dispatch Group에 나오면 task - 1
-                    print("Leave")
+//                    print("Leave")
                     dispatchGroup.leave() // 비동기 작업 완료 DispactchGroup에 알림
                 }
             }
@@ -423,7 +434,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         
         // task가 0이 되었을 때 실행
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-            print("Nofity")
+//            print("Nofity")
             guard let self = self else { return }
             
             // 먼저 스택뷰의 서브뷰들을 모두 제거함
