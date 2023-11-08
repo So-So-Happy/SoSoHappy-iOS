@@ -43,6 +43,9 @@ import RxKeyboard
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
+    var test: [PHPickerResult] = []
+    var count: Int = 0
+    var testString: [String] = []
     
     // Identifier와 PHPickerResult (이미지 데이터를 저장하기 위해 만들어줌)
     private var selection = [String: PHPickerResult]()
@@ -302,12 +305,13 @@ extension AddStep3ViewController: View {
         reactor.state
             .compactMap { $0.selectedImages }
             .distinctUntilChanged()
-            .bind { [weak self] images in
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] images in
                 guard let self = self else { return }
                 print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
-            }
+            })
             .disposed(by: disposeBag)
 
     }
@@ -328,59 +332,144 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         
         // 선택했던 이미지를 기억해 표시하도록
         configuation.preselectedAssetIdentifiers = selectedAssetIdentifiers // [String]
-        
         let picker = PHPickerViewController(configuration: configuation)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
-
-    // MARK: picker가 닫힐 때 호출됨
-    // PHPickerResult - itemProviders(load and display photos) , asset identifiers
-    // 미리 선택되어 있던 asset의 item provider은 empty
+    
+    // picker cancel, add 둘 다 호출 됨
+    // 선택한 순서대로 results에 들어오네
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true) // 1. picker dismiss
+        var selectedImages: [UIImage] = []
+        print("picker delegate method called - results.count : \(results.count)")
+        picker.dismiss(animated: true)
         
-        // Picker 작업이 끝난 후, 새로 만들어질 selections를 담을 변수 생성
-        let existingSelectio: [String: PHPickerResult] = self.selection
+        let existingSelection = self.selection
         var newSelection = [String: PHPickerResult]()
         
-        for result in results {
+        for result in results { // 일단 들어온 모든 asset들이 다 asset Identifier는 가지고 있음
             let identifier = result.assetIdentifier!
-            // PHPickerResult : itemProvier & assetIdentifier (사진과 식별자)
-            newSelection[identifier] = existingSelectio[identifier] ?? result
+            // preselcted된 거는 미리 PHPickerResult가 있어서 그거 넣어줌
+            newSelection[identifier] = existingSelection[identifier] ?? result
         }
-         
-        self.selection = newSelection
-        // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
-        // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다. (기억하는 용도)
-        selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+
+        selection = newSelection
+        selectedAssetIdentifiers = results.map(\.assetIdentifier!) // 순서 저장
+
+
         
-        var selectedImages: [UIImage] = [] // 2. 선택한 UIImage를 담고 있을 임시 변수
-        
-        for assetIdentifier in selectedAssetIdentifiers {
-            // item provider : 선택한 item에 대한 representations, background async
-            let itemProvider = selection[assetIdentifier]!.itemProvider
-            if itemProvider.canLoadObject(ofClass: UIImage.self) { // UIImage 타입으로 로드할 수 있는지 먼저 체크
-                itemProvider.loadObject(ofClass: UIImage.self) { image, error in // 로드
-                    if let error {
-                        print("Error loading image: \(error.localizedDescription)")
-                    }
+        if selection.isEmpty { // selected 된게 없음
+            self.reactor?.action.onNext(.setSelectedImages([]))
+        } else {
+            displayImage()
+            
+        }
+    }
+    
+    private func displayImage() {
+        var selectedImages: [UIImage] = []
+        let dispatchGroup = DispatchGroup()
+        // identifier와 이미지로 dictionary를 만듬 (selectedAssetIdentifiers의 순서에 따라 이미지를 받을 예정입니다.)
+        var imagesDict = [String: UIImage]()
+
+        for (identifier, result) in self.selection {
+            
+            dispatchGroup.enter()
+                        
+            let itemProvider = result.itemProvider
+            // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                // 로드 핸들러를 통해 UIImage를 처리해 줍시다. (비동기적으로 동작)
+                itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                     
-                    if let selectedImage = image as? UIImage {
-                        selectedImages.append(selectedImage)
-                    }
+                    guard let image = image as? UIImage else { return }
                     
-                    if selectedImages.count == results.count {
-                        // Update the property of your view controller with all selected images
-                        // UI와 관련된 self.reactor?.action.onNext(.setSelectedImages은
-                        // main thread에서 처리가 되어야 한다.
-                        DispatchQueue.main.async {
-                            self.reactor?.action.onNext(.setSelectedImages(selectedImages))
-                        }
-                    }
+                    imagesDict[identifier] = image
+                    dispatchGroup.leave()
                 }
             }
-        } // for문
+        }
         
+        dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
+            
+            guard let self = self else { return }
+            
+            // 먼저 스택뷰의 서브뷰들을 모두 제거함
+        
+            // 선택한 이미지의 순서대로 정렬하여 스택뷰에 올리기
+            for identifier in self.selectedAssetIdentifiers {
+                guard let image = imagesDict[identifier] else { return }
+                selectedImages.append(image)
+            }
+            
+            reactor?.action.onNext(.setSelectedImages(selectedImages))
+        }
     }
+    
+//    private func loadSelctedImages() {
+//        var selectedImages: [UIImage] = []
+//        
+//        for assetIdentifier in selectedAssetIdentifiers { //순서 따라서 해주기 위해
+//            let itemProvider = selection[assetIdentifier]!.itemProvider
+//            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+//                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, error in
+//                    if let image = image as? UIImage {
+//                        selectedImages.append(image)
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
+
+/*
+ // MARK: picker가 닫힐 때 호출됨
+ // PHPickerResult - itemProviders(load and display photos) , asset identifiers
+ // 미리 선택되어 있던 asset의 item provider은 empty
+ func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+     picker.dismiss(animated: true) // 1. picker dismiss
+     
+     // Picker 작업이 끝난 후, 새로 만들어질 selections를 담을 변수 생성
+     let existingSelectio: [String: PHPickerResult] = self.selection
+     var newSelection = [String: PHPickerResult]()
+     
+     for result in results {
+         let identifier = result.assetIdentifier!
+         // PHPickerResult : itemProvier & assetIdentifier (사진과 식별자)
+         newSelection[identifier] = existingSelectio[identifier] ?? result
+     }
+      
+     self.selection = newSelection
+     // Picker에서 선택한 이미지의 Identifier들을 저장 (assetIdentifier은 옵셔널 값이라서 compactMap 받음)
+     // 위의 PHPickerConfiguration에서 사용하기 위해서 입니다. (기억하는 용도)
+     selectedAssetIdentifiers = results.compactMap { $0.assetIdentifier }
+     
+     var selectedImages: [UIImage] = [] // 2. 선택한 UIImage를 담고 있을 임시 변수
+     
+     for assetIdentifier in selectedAssetIdentifiers {
+         // item provider : 선택한 item에 대한 representations, background async
+         let itemProvider = selection[assetIdentifier]!.itemProvider
+         if itemProvider.canLoadObject(ofClass: UIImage.self) { // UIImage 타입으로 로드할 수 있는지 먼저 체크
+             itemProvider.loadObject(ofClass: UIImage.self) { image, error in // 로드
+                 if let error {
+                     print("Error loading image: \(error.localizedDescription)")
+                 }
+                 
+                 if let selectedImage = image as? UIImage {
+                     selectedImages.append(selectedImage)
+                 }
+                 
+                 if selectedImages.count == results.count {
+                     // Update the property of your view controller with all selected images
+                     // UI와 관련된 self.reactor?.action.onNext(.setSelectedImages은
+                     // main thread에서 처리가 되어야 한다.
+                     DispatchQueue.main.async {
+                         self.reactor?.action.onNext(.setSelectedImages(selectedImages))
+                     }
+                 }
+             }
+         }
+     } // for문
+     
+ }
+ */
