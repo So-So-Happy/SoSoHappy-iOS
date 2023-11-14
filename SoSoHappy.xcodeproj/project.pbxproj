@@ -61,6 +61,7 @@
 		670224EE2AE680C300179A4F /* CheckNickNameRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670224ED2AE680C300179A4F /* CheckNickNameRequest.swift */; };
 		671F97DD2AF23A7C00222811 /* MypageViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F97DC2AF23A7C00222811 /* MypageViewReactor.swift */; };
 		671F97DF2AF4EE6100222811 /* EditProfileViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F97DE2AF4EE6100222811 /* EditProfileViewReactor.swift */; };
+		671F97E12AFB940100222811 /* NotificationSettingViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F97E02AFB940100222811 /* NotificationSettingViewReactor.swift */; };
 		672898662A9C9F5F001FB8A3 /* AwardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898652A9C9F5F001FB8A3 /* AwardsView.swift */; };
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
@@ -290,6 +291,7 @@
 		670224ED2AE680C300179A4F /* CheckNickNameRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckNickNameRequest.swift; sourceTree = "<group>"; };
 		671F97DC2AF23A7C00222811 /* MypageViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageViewReactor.swift; sourceTree = "<group>"; };
 		671F97DE2AF4EE6100222811 /* EditProfileViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewReactor.swift; sourceTree = "<group>"; };
+		671F97E02AFB940100222811 /* NotificationSettingViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingViewReactor.swift; sourceTree = "<group>"; };
 		672898652A9C9F5F001FB8A3 /* AwardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsView.swift; sourceTree = "<group>"; };
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
@@ -698,6 +700,7 @@
 				67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */,
 				671F97DC2AF23A7C00222811 /* MypageViewReactor.swift */,
 				671F97DE2AF4EE6100222811 /* EditProfileViewReactor.swift */,
+				671F97E02AFB940100222811 /* NotificationSettingViewReactor.swift */,
 			);
 			path = ViewReactor;
 			sourceTree = "<group>";
@@ -1730,6 +1733,7 @@
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				808650F22AD6CCFE0036CCFB /* UpdatePublicStatusResponse.swift in Sources */,
 				808650EA2AD6CCFE0036CCFB /* CheckNickNameResponse.swift in Sources */,
+				671F97E12AFB940100222811 /* NotificationSettingViewReactor.swift in Sources */,
 				67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
 				808650ED2AD6CCFE0036CCFB /* FindOtherFeedResponse.swift in Sources */,
