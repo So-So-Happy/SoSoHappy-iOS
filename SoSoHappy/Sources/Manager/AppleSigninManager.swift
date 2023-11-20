@@ -7,6 +7,7 @@
 
 import RxSwift
 import AuthenticationServices
+import JWTDecode
 
 final class AppleSigninManager: NSObject, SigninManagerProtocol {
     private var publisher = PublishSubject<SigninRequest>()
@@ -52,28 +53,27 @@ final class AppleSigninManager: NSObject, SigninManagerProtocol {
 
 extension AppleSigninManager: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            let userIdentifier = appleIDCredential.user
-            var email = ""
-            let emailFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfoapple", forKey: "userEmail")?.split(separator: "+")[0] ?? ""
-            
-            if emailFromKeychain.isEmpty {
-                email = appleIDCredential.email ?? ""
-            } else { email = String(emailFromKeychain) }
-            print("email", email)
-            print("id", appleIDCredential.identityToken?.base64EncodedString() ?? "id")
-            let request = SigninRequest(
-                email: email,
-                provider: "apple",
-                providerId: userIdentifier,
-                codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
-                authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode",
-                authorizationCode: String(data: appleIDCredential.authorizationCode!, encoding: .utf8) ?? "", deviceToken: ""
-            )
-            
-            self.publisher.onNext(request)
-            self.publisher.onCompleted()
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        let userIdentifier = appleIDCredential.user
+        var email = appleIDCredential.email ?? ""
+        if email.isEmpty {
+            if let tokenString = String(data: appleIDCredential.identityToken ?? Data(), encoding: .utf8) {
+                let decodedToken = try? decode(jwt: tokenString)
+                email = decodedToken?["email"].string ?? ""
+            }
         }
+
+        let request = SigninRequest(
+            email: email,
+            provider: "apple",
+            providerId: userIdentifier,
+            codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
+            authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode",
+            authorizationCode: appleIDCredential.authorizationCode!.base64EncodedString(), deviceToken: ""
+        )
+        
+        self.publisher.onNext(request)
+        self.publisher.onCompleted()
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
