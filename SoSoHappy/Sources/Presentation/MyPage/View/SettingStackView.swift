@@ -11,7 +11,6 @@ import SnapKit
 final class SettingStackView: UIView {
     // MARK: - UI Components
     lazy var alarmCell = SettingCellView()
-    lazy var languageCell = SettingCellView()
     lazy var termsCell = SettingCellView()
     lazy var policyCell = SettingCellView()
     lazy var accountCell = SettingCellView()
@@ -26,13 +25,11 @@ final class SettingStackView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-//        addImageViews(images: images)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
-//        addImageViews(images: images)
     }
 }
 
@@ -47,7 +44,7 @@ extension SettingStackView {
     }
     
     func setLayout() {
-        let views: [SettingCellView] = [alarmCell, languageCell, termsCell, policyCell, accountCell]
+        let views: [SettingCellView] = [alarmCell, termsCell, policyCell, accountCell]
         
         self.addSubviews(stackView)
         
@@ -62,7 +59,6 @@ extension SettingStackView {
     
     func setUI() {
         alarmCell.setUI(imageName: "bell", text: "알림")
-        languageCell.setUI(imageName: "globe", text: "언어")
         termsCell.setUI(imageName: "checkmark.shield", text: "이용약관")
         policyCell.setUI(imageName: "hand.raised", text: "개인정보 처리방침")
         accountCell.setUI(imageName: "lock.circle", text: "계정 관리")
@@ -73,7 +69,6 @@ extension SettingStackView {
             self.stackView.addArrangedSubview(view)
             view.snp.makeConstraints {
                 $0.horizontalEdges.equalToSuperview()
-//                $0.width.equalToSuperview()
                 $0.height.equalTo(30)
             }
         }

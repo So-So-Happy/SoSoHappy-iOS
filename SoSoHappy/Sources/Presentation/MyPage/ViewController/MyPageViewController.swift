@@ -105,7 +105,7 @@ extension MyPageViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom).offset(40)
+            $0.top.equalTo(profileView.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
         }
@@ -127,13 +127,6 @@ extension MyPageViewController {
             .when(.recognized)
             .subscribe(onNext: { _ in
                 self.coordinator?.pushNotificationView()
-            })
-            .disposed(by: disposeBag)
-        
-        self.stackView.languageCell.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { _ in
-                self.coordinator?.pushLanguageView()
             })
             .disposed(by: disposeBag)
         
