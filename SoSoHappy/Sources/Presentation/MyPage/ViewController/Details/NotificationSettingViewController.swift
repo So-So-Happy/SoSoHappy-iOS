@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import Then
+import ReactorKit
 
 class NotificationSettingViewController: UIViewController {
 
@@ -15,33 +16,29 @@ class NotificationSettingViewController: UIViewController {
     private let coordinator: MyPageCoordinatorProtocol?
     var disposeBag = DisposeBag()
     
-    lazy var alarmLabel = UILabel().then {
-        $0.text = "리마인더 알림 설정"
-        $0.font = .systemFont(ofSize: 16)
-        $0.textColor = .darkGray
-    }
-    lazy var alarmSwitch = UISwitch()
-    lazy var timePicker = UIDatePicker().then {
-        $0.datePickerMode = .time
-        $0.isHidden = true
-        $0.alpha = 0.0
-    }
-    
     // MARK: - Init
-    public init(coordinator: MyPageCoordinatorProtocol) {
+    public init(reactor: NotificationSettingViewReactor, coordinator: MyPageCoordinatorProtocol) {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - UI Components
+    lazy var alarmLabel = UILabel().then {
+        $0.text = "알림 설정"
+        $0.font = .systemFont(ofSize: 16)
+        $0.textColor = .darkGray
+    }
+    lazy var alarmSwitch = UISwitch()
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        alarmSwitch.addTarget(self, action: #selector(switchStateChanged), for: .valueChanged)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +58,69 @@ class NotificationSettingViewController: UIViewController {
     }
 }
 
+// MARK: - Reactor (bind func)
+extension NotificationSettingViewController: View {
+    // MARK: Reactor를 설정하는 메서드
+    func bind(reactor: NotificationSettingViewReactor) {
+        bindActions(reactor)
+        bindState(reactor)
+    }
+    
+    // MARK: bind actions
+    private func bindActions(_ reactor: NotificationSettingViewReactor) {
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        alarmSwitch.rx.controlEvent(.valueChanged)
+            .withLatestFrom(alarmSwitch.rx.value)
+            .map { isOn in Reactor.Action.tapSwitch(isOn) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    // MARK: bind state (Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트)
+    private func bindState(_ reactor: NotificationSettingViewReactor) {
+        reactor.state.compactMap { $0.firstSwitch }
+            .subscribe(onNext: { [weak self] isOn in
+                guard let self = self else { return }
+                self.alarmSwitch.setOn(isOn, animated: false)
+            })
+            .disposed(by: disposeBag)
+                
+        reactor.state.compactMap { $0.onSwitch }
+            .subscribe(onNext: { [weak self] isOn in
+                guard let self = self else { return }
+                if isOn {
+                    UNUserNotificationCenter.current().getNotificationSettings { settings in
+                        switch settings.authorizationStatus {
+                        case .authorized:
+                            DispatchQueue.main.async {
+                                self.alarmSwitch.setOn(true, animated: false)
+                            }
+                            
+                        case .denied:
+                            DispatchQueue.main.async {
+                                CustomAlert.presentCheckAlert(title: "알림 허용이 되어있지 않습니다.", message: "설정으로 이동하여 알림 허용을 하시겠습니까?", buttonTitle: "확인") {
+                                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                                    
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                                self.alarmSwitch.setOn(false, animated: false)
+                            }
+                        default:
+                            break
+                        }
+                    }
+                } else { self.alarmSwitch.setOn(false, animated: false) }
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
 //MARK: - Add Subviews & Constraints
 extension NotificationSettingViewController {
     private func setup() {
@@ -73,7 +133,7 @@ extension NotificationSettingViewController {
     }
 
     private func setLayout() {
-        view.addSubviews(alarmLabel, alarmSwitch, timePicker)
+        view.addSubviews(alarmLabel, alarmSwitch)
         
         alarmLabel.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).inset(20)
@@ -83,52 +143,6 @@ extension NotificationSettingViewController {
         alarmSwitch.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide).inset(15)
             make.trailing.equalToSuperview().inset(30)
-        }
-        
-        timePicker.snp.makeConstraints { make in
-            make.top.equalTo(alarmSwitch.snp.bottom).offset(15)
-            make.leading.trailing.equalToSuperview().inset(30)
-        }
-    }
-    
-    @objc func switchStateChanged() {
-        if alarmSwitch.isOn {
-            UNUserNotificationCenter.current().getNotificationSettings { settings in
-                switch settings.authorizationStatus {
-                case .authorized:
-                    print("알림이 허용됨")
-                    DispatchQueue.main.async {
-                        self.timePicker.isHidden = false
-                        UIView.animate(withDuration: 0.3) {
-                            self.timePicker.alpha = 1.0
-                        }
-                    }
-                case .denied:
-                    print("알림이 거부됨")
-                    DispatchQueue.main.async {
-                        CustomAlert.presentCheckAlert(title: "알림 허용이 되어있지 않습니다.", message: "설정으로 이동하여 알림 허용을 하시겠습니까?", buttonTitle: "확인") {
-                            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-                            
-                            if UIApplication.shared.canOpenURL(url) {
-                                UIApplication.shared.open(url)
-                            }
-                        }
-                        self.alarmSwitch.setOn(false, animated: false)
-                    }
-                case .notDetermined:
-                    print("아직 알림 권한이 결정되지 않음")
-                default:
-                    break
-                }
-            }
-        } else {
-            DispatchQueue.main.async {
-                UIView.animate(withDuration: 0.3) {
-                    self.timePicker.alpha = 0.0
-                } completion: { _ in
-                    self.timePicker.isHidden = true
-                }
-            }
         }
     }
 }

@@ -90,7 +90,7 @@ extension MyPageCoordinator {
     }
     
     func makeNotificationViewController() -> UIViewController {
-        let viewController = NotificationSettingViewController(coordinator: self)
+        let viewController = NotificationSettingViewController(reactor: NotificationSettingViewReactor(), coordinator: self)
         return viewController
     }
     
