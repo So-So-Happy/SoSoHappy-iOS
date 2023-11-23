@@ -90,7 +90,6 @@ extension MyPageViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
                 guard let self = self else { return }
-                
                 profileView.introLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton2") : .clear
                 profileView.emailLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton1") : .clear
                 profileView.nickNameLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton3") : .clear
@@ -122,7 +121,7 @@ extension MyPageViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom).offset(40)
+            $0.top.equalTo(profileView.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
         }
@@ -144,13 +143,6 @@ extension MyPageViewController {
             .when(.recognized)
             .subscribe(onNext: { _ in
                 self.coordinator?.pushNotificationView()
-            })
-            .disposed(by: disposeBag)
-        
-        self.stackView.languageCell.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { _ in
-                self.coordinator?.pushLanguageView()
             })
             .disposed(by: disposeBag)
         

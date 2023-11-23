@@ -37,6 +37,9 @@ class MypageViewReactor: Reactor {
         case setNickName(String)
         case setEmail(String)
         case setIntro(String)
+        
+        case setProfile
+        case loadingProfile(Bool)
     }
     
     // MARK: - State (뷰의 상태)
@@ -45,6 +48,9 @@ class MypageViewReactor: Reactor {
         var nickName: String
         var email: String
         var intro: String
+        
+        var showProfile = true
+        var isProfileLoading = false
     }
     
     // MARK: - Mutate action
@@ -52,11 +58,15 @@ class MypageViewReactor: Reactor {
         switch action {
         case .viewWillAppear:
             self.nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+            let intro = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userIntro") ?? ""
+            
             return .concat([
+                .just(.loadingProfile(currentState.intro != intro || currentState.nickName != self.nickName)),
                 getProfileImg(),
                 getIntroduction(),
                 .just(.setNickName(self.nickName)),
-                .just(.setEmail(String(self.email.split(separator: "+")[0])))
+                .just(.setEmail(String(self.email.split(separator: "+")[0]))),
+                .just(.loadingProfile(false))
             ])
         }
     }
@@ -74,6 +84,11 @@ class MypageViewReactor: Reactor {
             newState.email = email
         case .setIntro(let intro):
             newState.intro = intro
+        case .setProfile:
+            newState.showProfile = true
+        case .loadingProfile(let shouldShow):
+            newState.isProfileLoading = shouldShow
+            if !shouldShow { newState.showProfile = false }
         }
         
         return newState

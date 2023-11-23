@@ -26,8 +26,13 @@ final class LoginViewController: UIViewController, View {
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
-        $0.image = UIImage(named: "naviIcon")
+        $0.image = UIImage(named: "loginImage")
         $0.contentMode = .scaleAspectFit    // 비율 유지
+    }
+    private lazy var loginLabel = UILabel().then {
+        $0.text = "SNS 계정으로 간편 가입하기"
+        $0.textColor = .darkGray
+        $0.font = .systemFont(ofSize: 15, weight: .semibold)
     }
     private lazy var logInButtonStackView = LogInButtonStackView()
     
@@ -141,23 +146,29 @@ extension LoginViewController {
     
     // Add SubViews & Contstraints
     private func setLayout() {
-        self.view.addSubviews(appDescriptionStackView, appIconImageView, logInButtonStackView)
+        self.view.addSubviews(appDescriptionStackView, appIconImageView, loginLabel, logInButtonStackView)
         
         appDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(80)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(100)
             make.width.equalTo(appDescriptionStackView.appDescriptionStackView.snp.width)
         }
         
         appIconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.size.equalTo(150)
-            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(25)
+            make.width.equalToSuperview()
+            make.height.equalTo(100)
+            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(45)
+        }
+        
+        loginLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(appIconImageView.snp.bottom).offset(190)
         }
         
         logInButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(appIconImageView.snp.bottom).offset(100)
+            make.top.equalTo(loginLabel.snp.bottom).offset(20)
             make.width.equalTo(appDescriptionStackView.snp.width)
         }
         
