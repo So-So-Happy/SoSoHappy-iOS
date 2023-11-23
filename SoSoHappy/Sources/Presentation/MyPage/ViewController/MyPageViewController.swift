@@ -85,6 +85,23 @@ extension MyPageViewController: View {
                 profileView.nickNameLabel.text = text
             })
             .disposed(by: disposeBag)
+        
+        reactor.state.map { $0.isProfileLoading }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] shouldRun in
+                guard let self = self else { return }
+                
+                profileView.introLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton") : .clear
+                profileView.emailLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton") : .clear
+                profileView.nickNameLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton") : .clear
+                
+                if shouldRun {
+                    profileView.introLabel.text = "\t\t\t\t"
+                    profileView.emailLabel.text = "\t\t\t\t\t"
+                    profileView.nickNameLabel.text = "\t\t\t"
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -105,7 +122,7 @@ extension MyPageViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(profileView.snp.bottom).offset(40)
+            $0.top.equalTo(profileView.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
         }
@@ -127,13 +144,6 @@ extension MyPageViewController {
             .when(.recognized)
             .subscribe(onNext: { _ in
                 self.coordinator?.pushNotificationView()
-            })
-            .disposed(by: disposeBag)
-        
-        self.stackView.languageCell.rx.tapGesture()
-            .when(.recognized)
-            .subscribe(onNext: { _ in
-                self.coordinator?.pushLanguageView()
             })
             .disposed(by: disposeBag)
         

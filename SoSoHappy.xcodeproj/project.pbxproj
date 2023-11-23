@@ -2019,7 +2019,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z8GC9N3WDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SoSoHappy/Resources/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"소소해피\"가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.";
@@ -2055,7 +2055,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = Z8GC9N3WDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SoSoHappy/Resources/Info.plist;
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"소소해피\"가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.";

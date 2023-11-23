@@ -53,12 +53,13 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             let provider = self.makeProvider()
             let disposable = provider.rx.request(.signIn(userInfo: request))
                 .map { response in
-                    // 헤더 추출 및 매핑
-                    let headers = response.response?.allHeaderFields as? [String: String]
-                    let accessToken = headers?["Authorization"] ?? ""
-                    let refreshToken = headers?["authorization-refresh"] ?? ""
-                    let email = headers?["email"] ?? ""
-                    let nickName = headers?["nickName"] ?? ""
+                    let header = response.response?.allHeaderFields as? [String: String]
+                    let accessToken = header?["Authorization"] ?? ""
+                    let refreshToken = header?["authorization-refresh"] ?? ""
+                    let email = header?["email"] ?? ""
+
+                    let decodedNickname = try? JSONDecoder().decode(NickNameResponse.self, from: response.data)
+                    let nickName = decodedNickname?.nickname ?? ""
                     
                     return AuthResponse(authorization: accessToken, authorizationRefresh: refreshToken, email: email, nickName: nickName)
                 }

@@ -15,3 +15,7 @@ struct AuthResponse: Decodable {
     let email: String
     let nickName: String
 }
+
+struct NickNameResponse: Decodable {
+    let nickname: String
+}
