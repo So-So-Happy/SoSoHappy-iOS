@@ -170,6 +170,7 @@ extension SignUpViewReactor {
         return userRepository.setProfile(profile: Profile(email: email, nickName: nickName, profileImg: profileImage, introduction: intro))
             .do(onNext: { signupResponse in
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName", data: nickName)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userIntro", data: intro)
             })
             .flatMap { [weak self] signupResponse -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
