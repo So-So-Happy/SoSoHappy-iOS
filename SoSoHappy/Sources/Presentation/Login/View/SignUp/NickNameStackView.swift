@@ -36,9 +36,8 @@ final class NickNameStackView: UIView {
         $0.font = UIFont.systemFont(ofSize: 15)
         $0.clearButtonMode = .always
         $0.layer.cornerRadius = 8
-        $0.snp.makeConstraints { make in
-            make.height.equalTo(40)
-        }
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 7, height: $0.frame.height))
+        $0.leftViewMode = .always
     }
     
     lazy var duplicateCheckButton = HappyButton().then {
@@ -72,21 +71,21 @@ final class NickNameStackView: UIView {
 extension NickNameStackView {
     private func setStackView() {
         addSubview(nickNameStackView)
-        nickNameStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         nickNameStackView.addArrangedSubview(nickNameGuideLabel)
-        
-        // nickNameTextFieldWithButtonStackView에 텍스트 필드와 중복 버튼 추가
+        nickNameStackView.addArrangedSubview(nickNameTextFieldWithButtonStackView)
+        nickNameStackView.addArrangedSubview(warningMessageLabel)
         nickNameTextFieldWithButtonStackView.addArrangedSubview(nickNameTextField)
         nickNameTextFieldWithButtonStackView.addArrangedSubview(duplicateCheckButton)
         
-        nickNameStackView.addArrangedSubview(nickNameTextFieldWithButtonStackView)
+        nickNameStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         nickNameTextFieldWithButtonStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
         }
-        nickNameStackView.addArrangedSubview(warningMessageLabel)
+        nickNameTextField.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
     }
 }
 
