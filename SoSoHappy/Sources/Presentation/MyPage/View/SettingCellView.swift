@@ -15,7 +15,7 @@ final class SettingCellView: UIView {
     }
     private lazy var textLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 16)
-        $0.textColor = UIColor(rgb: 0x626262)
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     override init(frame: CGRect) {

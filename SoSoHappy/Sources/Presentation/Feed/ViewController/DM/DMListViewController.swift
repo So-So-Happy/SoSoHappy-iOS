@@ -17,7 +17,7 @@ class DMListViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(DMListCell.self, forCellReuseIdentifier: DMListCell.cellIdentifer)
 //        tableView.refreshControl = self.refreshControl
-        tableView.backgroundColor = UIColor(named: "backgroundColor")
+        tableView.backgroundColor = UIColor(named: "BGgrayColor")
 //        tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100

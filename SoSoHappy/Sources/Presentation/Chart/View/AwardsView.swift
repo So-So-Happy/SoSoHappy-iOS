@@ -14,7 +14,7 @@ final class AwardsView: UIView {
     // MARK: - Properties
     private lazy var label = UILabel().then {
         $0.text = "오늘도 행복하셨나요?"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = .boldSystemFont(ofSize: 15)
     }
     

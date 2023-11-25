@@ -19,7 +19,7 @@ final class NickNameStackView: UIView {
     
     private lazy var nickNameGuideLabel = UILabel().then {
         $0.text = "닉네임을 입력해주세요. (최대 10자)"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15, weight: .light)
     }
@@ -32,7 +32,7 @@ final class NickNameStackView: UIView {
     )
     
     lazy var nickNameTextField = UITextField().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         $0.font = UIFont.systemFont(ofSize: 15)
         $0.clearButtonMode = .always
         $0.layer.cornerRadius = 8
@@ -43,7 +43,7 @@ final class NickNameStackView: UIView {
     
     lazy var duplicateCheckButton = HappyButton().then {
         $0.setTitle("중복 검사", for: .normal)
-        $0.titleLabel?.textColor = .white
+        $0.titleLabel?.textColor = UIColor(named: "CellColor")
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         $0.layer.cornerRadius = 8
         $0.snp.makeConstraints { make in

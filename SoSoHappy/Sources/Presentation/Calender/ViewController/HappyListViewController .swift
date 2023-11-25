@@ -25,7 +25,7 @@ final class HappyListViewController : UIViewController {
     // MARK: - UI Components
     private lazy var happyTableView = UITableView().then {
         $0.register(HappyListCell.self, forCellReuseIdentifier: HappyListCell.cellIdentifier)
-        $0.backgroundColor = UIColor(named: "backgroundColor")
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.separatorStyle = .none
         $0.estimatedRowHeight = 30
         $0.rowHeight = UITableView.automaticDimension
@@ -34,7 +34,7 @@ final class HappyListViewController : UIViewController {
     private lazy var yearMonthLabel = UILabel().then {
         $0.text = "2023.07"
         $0.font = .systemFont(ofSize: 22)
-        $0.textColor = UIColor(rgb: 0x626262)
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var previousButton = UIButton().then({
@@ -78,7 +78,7 @@ final class HappyListViewController : UIViewController {
 // MARK: - Layout & Attribute
 private extension HappyListViewController  {
     private func setLayout() {
-        self.view.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        self.view.backgroundColor = UIColor(named: "BGgrayColor")
         self.view.addSubviews(happyTableView, yearMonthLabel, nextButton, previousButton)
         
         self.yearMonthLabel.snp.makeConstraints {

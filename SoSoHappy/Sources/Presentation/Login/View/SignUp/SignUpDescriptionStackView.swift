@@ -18,7 +18,7 @@ final class SignUpDescriptionStackView: UIView {
     
     private lazy var setProfileGuideLabel = UILabel().then {
         $0.text = "서비스 이용을 위해 프로필을 설정해주세요."
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 17, weight: .light)
         $0.numberOfLines = 2

@@ -24,14 +24,13 @@ final class AppDescriptionStackView: UIView {
     
     private lazy var appNameLabel = UILabel().then {
         $0.text = "소소해피"
-        $0.textColor = .black
         $0.font = .systemFont(ofSize: 40, weight: .black)
         $0.setLineSpacing(kernValue: 1, alignment: .center)
     }
     
     private lazy var appDescription = UILabel().then {
         $0.text = "소확행을 모아 대확행을 만든다.\n하루하루 소소한 행복을 찾아 기록해보세요!"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = .systemFont(ofSize: 14, weight: .light)
         $0.numberOfLines = 2
         $0.setLineSpacing(lineSpacing: 5, alignment: .center)

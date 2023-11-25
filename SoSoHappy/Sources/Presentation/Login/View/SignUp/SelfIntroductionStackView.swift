@@ -23,13 +23,13 @@ final class SelfIntroductionStackView: UIView {
     
     private lazy var selfIntroductionGuideLabel = UILabel().then {
         $0.text = "한 줄 소개를 입력해주세요."
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15, weight: .light)
     }
 
     lazy var selfIntroductionTextView = UITextView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         // clear button?
         $0.font = UIFont.systemFont(ofSize: 14)
         $0.layer.cornerRadius = 8
@@ -40,7 +40,7 @@ final class SelfIntroductionStackView: UIView {
     
     lazy var textCountLabel = UILabel().then {
         $0.font = UIFont.systemFont(ofSize: 13)
-        $0.textColor = .lightGray
+        $0.textColor = UIColor(named: "LightGrayTextColor")
         $0.textAlignment = .right
     }
 

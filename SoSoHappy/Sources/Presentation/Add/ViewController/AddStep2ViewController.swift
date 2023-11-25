@@ -24,12 +24,12 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     
     private lazy var categoryIntoLabel = UILabel().then {
         $0.text = "오늘 당신을 행복하게 해준 것은?"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var categorySelectionCautionLabel = UILabel().then {
         $0.text = "최대 3개까지 선택할 수 있어요!"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.systemFont(ofSize: 13)
     }
  

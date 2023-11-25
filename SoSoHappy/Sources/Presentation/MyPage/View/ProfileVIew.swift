@@ -19,11 +19,11 @@ final class ProfileView: UIView {
     }
     lazy var emailLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .light)
-        $0.textColor = .gray
+        $0.textColor = UIColor(named: "LightGrayTextColor")
     }
     lazy var introLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 16, weight: .regular)
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "GrayTextColor")
         $0.numberOfLines = 0
         $0.textAlignment = .center
     }
