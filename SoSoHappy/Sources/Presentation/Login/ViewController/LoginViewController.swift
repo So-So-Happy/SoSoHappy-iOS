@@ -126,7 +126,7 @@ final class LoginViewController: UIViewController, View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == nil
+                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == ""
                 if isFirstLogin {
                     coordinator?.pushSignUpView()
                 } else {
