@@ -48,7 +48,7 @@ extension StatusBarStackView {
         let statusBars = [statusBarStep1, statusBarStep2, statusBarStep3]
         
         for (index, statusBar) in statusBars.enumerated() {
-            statusBar.backgroundColor = (index + 1 == step) ? UIColor(named: "AccentColor") : .white
+            statusBar.backgroundColor = (index + 1 == step) ? UIColor(named: "AccentColor") : UIColor(named: "CellColor")
         }
     }
 

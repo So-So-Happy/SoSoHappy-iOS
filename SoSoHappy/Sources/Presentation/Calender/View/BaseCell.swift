@@ -29,7 +29,7 @@ class BaseCell: UITableViewCell {
     
     // MARK: - UI Components
     lazy var cellBackgroundView =  UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).cgColor
         $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 16
@@ -45,7 +45,7 @@ class BaseCell: UITableViewCell {
     private lazy var contentLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15, weight: .light)
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.numberOfLines = 4
     }
     

@@ -28,7 +28,7 @@ final class WeatherDateStackView: UIView {
     private lazy var dateLabel = UILabel().then {
         $0.textAlignment = .center
         $0.font = .systemFont(ofSize: 12, weight: .light)
-        $0.textColor = .darkGray // .gray -> .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor") // .gray -> .darkGray
     }
     
     override init(frame: CGRect) {

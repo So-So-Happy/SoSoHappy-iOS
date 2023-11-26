@@ -19,7 +19,7 @@ final class NickNameStackView: UIView {
     
     private lazy var nickNameGuideLabel = UILabel().then {
         $0.text = "닉네임을 입력해주세요. (최대 10자)"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.textAlignment = .left
         $0.font = .systemFont(ofSize: 15, weight: .light)
     }
@@ -32,18 +32,17 @@ final class NickNameStackView: UIView {
     )
     
     lazy var nickNameTextField = UITextField().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         $0.font = UIFont.systemFont(ofSize: 15)
         $0.clearButtonMode = .always
         $0.layer.cornerRadius = 8
-        $0.snp.makeConstraints { make in
-            make.height.equalTo(40)
-        }
+        $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 7, height: $0.frame.height))
+        $0.leftViewMode = .always
     }
     
     lazy var duplicateCheckButton = HappyButton().then {
         $0.setTitle("중복 검사", for: .normal)
-        $0.titleLabel?.textColor = .white
+        $0.titleLabel?.textColor = UIColor(named: "CellColor")
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         $0.layer.cornerRadius = 8
         $0.snp.makeConstraints { make in
@@ -72,21 +71,21 @@ final class NickNameStackView: UIView {
 extension NickNameStackView {
     private func setStackView() {
         addSubview(nickNameStackView)
-        nickNameStackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         nickNameStackView.addArrangedSubview(nickNameGuideLabel)
-        
-        // nickNameTextFieldWithButtonStackView에 텍스트 필드와 중복 버튼 추가
+        nickNameStackView.addArrangedSubview(nickNameTextFieldWithButtonStackView)
+        nickNameStackView.addArrangedSubview(warningMessageLabel)
         nickNameTextFieldWithButtonStackView.addArrangedSubview(nickNameTextField)
         nickNameTextFieldWithButtonStackView.addArrangedSubview(duplicateCheckButton)
         
-        nickNameStackView.addArrangedSubview(nickNameTextFieldWithButtonStackView)
+        nickNameStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         nickNameTextFieldWithButtonStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
         }
-        nickNameStackView.addArrangedSubview(warningMessageLabel)
+        nickNameTextField.snp.makeConstraints { make in
+            make.height.equalTo(40)
+        }
     }
 }
 

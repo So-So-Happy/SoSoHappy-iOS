@@ -62,13 +62,13 @@ final class CalendarViewController: UIViewController {
     
     private lazy var yearLabel = UILabel().then {
         $0.font = .systemFont(ofSize: 14)
-        $0.textColor = .gray
+        $0.textColor = UIColor(named: "GrayTextColor")
         $0.text = Date().getFormattedDate(format: "yyyy")
     }
     
     private lazy var monthLabel = UILabel().then {
         $0.font = .boldSystemFont(ofSize: 20)
-        $0.textColor = .gray
+        $0.textColor = UIColor(named: "GrayTextColor")
         $0.text = Date().getFormattedDate(format: "M월")
     }
     
@@ -246,7 +246,7 @@ private extension CalendarViewController {
     }
     
     private func setLayout() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = UIColor(named: "CellColor")
         self.view.addSubviews(previousButton, nextButton, yearLabel, monthLabel, calendar, preview)
         
         alarmButton.snp.makeConstraints {
@@ -293,13 +293,13 @@ private extension CalendarViewController {
     }
     
     private func setAttribute() {
-        view.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        view.backgroundColor = UIColor(named: "BGgrayColor")
         view.addGestureRecognizer(self.panGesture)
         
-        calendar.backgroundColor = .white
+        calendar.backgroundColor = UIColor(named: "CellColor")
         calendar.layer.cornerRadius = 10
 
-        preview.backgroundColor = .white
+        preview.backgroundColor = UIColor(named: "CellColor")
         preview.layer.cornerRadius = 10
         
     }
@@ -316,11 +316,13 @@ extension CalendarViewController {
     
     private func setCalenderAttribute() {
         calendar.locale = Locale(identifier: "ko_KR")
-        calendar.appearance.selectionColor = .white
-        calendar.appearance.titleSelectionColor = .black
-        calendar.appearance.todayColor = .gray
-        calendar.appearance.titleTodayColor = .black
-        calendar.appearance.weekdayTextColor = .gray
+        calendar.appearance.titleDefaultColor = UIColor(named: "MainTextColor")
+        calendar.appearance.selectionColor = UIColor(named: "LightGrayTextColor")
+        calendar.appearance.titleSelectionColor = UIColor(named: "ReverseMainTextColor")
+        calendar.appearance.todayColor = UIColor(named: "GrayTextColor")
+        calendar.appearance.titleTodayColor = .white
+        calendar.appearance.todayColor = UIColor(named: "AccentColor")
+        calendar.appearance.weekdayTextColor = UIColor(named: "GrayTextColor")
         calendar.placeholderType = .none
         calendar.headerHeight = 0.0
         

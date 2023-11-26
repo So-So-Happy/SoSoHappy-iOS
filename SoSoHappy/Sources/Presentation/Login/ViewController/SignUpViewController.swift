@@ -120,7 +120,7 @@ extension SignUpViewController {
     
     // ViewController의 전체적인 속성 설정
     private func setAttribute() {
-        self.view.backgroundColor = UIColor(named: "backgroundColor")
+        self.view.backgroundColor = UIColor(named: "BGgrayColor")
     }
 }
 
@@ -193,10 +193,10 @@ extension SignUpViewController: View {
                 
                 if let isDuplicate = state.isDuplicate {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
-                    color = isDuplicate ? UIColor.systemRed : UIColor.systemBlue
+                    color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
                 } else { // nil이면
                     text = ""
-                    color = .systemBlue
+                    color = UIColor(named: "CustomBlueColor") ?? .systemBlue
                 }
                 
                 return (text, color)

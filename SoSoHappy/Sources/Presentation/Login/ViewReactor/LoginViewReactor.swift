@@ -217,6 +217,7 @@ class LoginViewReactor: Reactor {
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider", data: String(signinResponse.email.split(separator: "+")[1]))
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(String(signinResponse.email.split(separator: "+")[1]))", forKey: "userEmail", data: signinResponse.email)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(String(signinResponse.email.split(separator: "+")[1]))", forKey: "userNickName", data: signinResponse.nickName)
             })
             .flatMap { signinResponse -> Observable<Mutation> in
                 print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")

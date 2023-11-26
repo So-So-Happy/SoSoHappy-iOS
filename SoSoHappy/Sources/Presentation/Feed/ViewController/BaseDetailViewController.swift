@@ -44,7 +44,7 @@ class BaseDetailViewController: UIViewController {
     
     // 작성 글 잘 보이도록 사용하는 background
     private lazy var contentBackground = UIView().then {
-        $0.layer.backgroundColor = UIColor.white.cgColor
+        $0.layer.backgroundColor = UIColor(named: "CellColor")?.cgColor
         $0.layer.opacity = 0.4
         $0.layer.cornerRadius = 16
     }

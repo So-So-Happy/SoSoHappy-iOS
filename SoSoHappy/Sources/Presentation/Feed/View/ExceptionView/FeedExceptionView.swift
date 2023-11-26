@@ -20,7 +20,7 @@ extension FeedExceptionView {
         let titleLabel = UILabel()
         
         titleLabel.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        titleLabel.textColor = .darkGray
+        titleLabel.textColor = UIColor(named: "DarkGrayTextColor")
         titleLabel.text = title
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = .center

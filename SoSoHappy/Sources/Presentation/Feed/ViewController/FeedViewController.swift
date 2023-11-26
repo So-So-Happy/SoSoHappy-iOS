@@ -42,14 +42,14 @@ final class FeedViewController: UIViewController {
     )
     
     // MARK: 로딩 뷰 잘 넣어주기
-    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: .black, padding: 0)
+    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0)
     
     private lazy var tableView = UITableView().then {
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
         $0.refreshControl = self.refreshControl
         $0.tableHeaderView = feedHeaderView
         $0.tableHeaderView?.frame.size.height = 150   // 고정된 값으로 줘도 됨. 94
-        $0.backgroundColor = UIColor(named: "backgroundColor")
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 30

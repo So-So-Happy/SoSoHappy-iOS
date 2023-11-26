@@ -90,14 +90,14 @@ extension MyPageViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
                 guard let self = self else { return }
-                profileView.introLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton2") : .clear
-                profileView.emailLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton1") : .clear
-                profileView.nickNameLabel.backgroundColor = shouldRun ? UIColor(named: "skeleton3") : .clear
+                profileView.skeletonNicknameView.isHidden = shouldRun ? false : true
+                profileView.skeletonEmailView.isHidden = shouldRun ? false : true
+                profileView.skeletonIntroView.isHidden = shouldRun ? false : true
                 
                 if shouldRun {
-                    profileView.introLabel.text = "\t\t\t\t"
-                    profileView.emailLabel.text = "\t\t\t\t\t"
-                    profileView.nickNameLabel.text = "\t\t\t"
+                    profileView.introLabel.text = " "
+                    profileView.emailLabel.text = " "
+                    profileView.nickNameLabel.text = " "
                 }
             })
             .disposed(by: disposeBag)

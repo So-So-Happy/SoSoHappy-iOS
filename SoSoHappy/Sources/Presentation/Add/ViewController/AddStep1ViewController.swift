@@ -31,26 +31,26 @@ final class AddStep1ViewController: UIViewController {
     
     private lazy var introLabel = UILabel().then {
         $0.text = "소소한 행복을 기록해주세요"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.systemFont(ofSize: 19, weight: .semibold)
     }
 
     private lazy var introSubLabel = UILabel().then {
         $0.text = "하루 1개만 기록할 수 있어요!"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.systemFont(ofSize: 13)
     }
     
     private lazy var weatherLabel = UILabel().then {
         $0.text = "오늘의 날씨는 어땠나요?"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var weatherStackView = WeatherStackView()
     
     private lazy var happinessLabel = UILabel().then {
         $0.text = "OO님, 오늘 얼마나 행복하셨나요?"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var happinessStackView = HappinessStackView()

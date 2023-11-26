@@ -25,7 +25,7 @@ class RecentTimeMessageCountStackView: UIView {
         label.font = .systemFont(ofSize: 13, weight: .light)
         label.text = "오전 14: 38"
 //        label.text = "어제"
-        label.textColor = .darkGray
+        label.textColor = UIColor(named: "DarkGrayTextColor")
         return label
     }()
     

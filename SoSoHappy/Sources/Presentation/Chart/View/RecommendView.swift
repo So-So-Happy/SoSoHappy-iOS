@@ -25,7 +25,7 @@ final class RecommendView: UIView {
     
     private lazy var sophyImageView = UIImageView(image: UIImage(named: "happy40"))
     private lazy var speechBubbleView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 20
         $0.addSubview(recommendedHappinessLabel)
         $0.addSubview(refreshButton)

@@ -24,7 +24,7 @@ class AccountManagementViewController: UIViewController {
     private lazy var logoutButton = UIButton().then {
         $0.setTitle("로그아웃", for: .normal)
         $0.contentHorizontalAlignment = .left
-        $0.setTitleColor(.darkGray, for: .normal)
+        $0.setTitleColor(UIColor(named: "DarkGrayTextColor"), for: .normal)
         $0.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     }
     private lazy var resignButton = UIButton().then {

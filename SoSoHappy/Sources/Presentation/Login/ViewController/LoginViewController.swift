@@ -31,7 +31,7 @@ final class LoginViewController: UIViewController, View {
     }
     private lazy var loginLabel = UILabel().then {
         $0.text = "SNS 계정으로 간편 가입하기"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = .systemFont(ofSize: 15, weight: .semibold)
     }
     private lazy var logInButtonStackView = LogInButtonStackView()
@@ -126,7 +126,7 @@ final class LoginViewController: UIViewController, View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == nil
+                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == ""
                 if isFirstLogin {
                     coordinator?.pushSignUpView()
                 } else {

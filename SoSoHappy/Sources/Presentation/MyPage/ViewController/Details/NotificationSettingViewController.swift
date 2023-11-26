@@ -31,7 +31,7 @@ class NotificationSettingViewController: UIViewController {
     lazy var alarmLabel = UILabel().then {
         $0.text = "알림 설정"
         $0.font = .systemFont(ofSize: 16)
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     lazy var alarmSwitch = UISwitch()
     
