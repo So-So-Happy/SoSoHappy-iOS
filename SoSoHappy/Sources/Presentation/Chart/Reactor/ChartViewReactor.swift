@@ -25,6 +25,7 @@ final class ChartViewReactor: Reactor {
     private var recommendList: [String] = []
     private var date = Date()
     private var segementBarState: ChartState = .month
+    private let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
     
     // MARK: - Init
@@ -38,7 +39,9 @@ final class ChartViewReactor: Reactor {
             nowRecommendText: "",
             chartText: "" ,
             segementBarState: .month,
-            happinessChartData: [])
+            happinessChartData: [], 
+            xAxisData: [],
+            yAxisData: [])
     ) {
         self.feedRepository = feedRepository
         self.userRepository = userRepository
@@ -49,10 +52,11 @@ final class ChartViewReactor: Reactor {
         case viewDidLoad
         case tapAwardsDetailButton
         case tapRecommendRefreshButton
-        case tapMonthChartButton
-        case tapYearChratButton
-        case tapNextButton
-        case tapPreviousButton
+        case tapMonthChartButton // x
+        case tapYearChratButton // x
+        case tapNextButton // 날짜
+        case tapPreviousButton // 날짜
+        case changeChartMode
     }
     
     enum Mutation {
@@ -71,6 +75,8 @@ final class ChartViewReactor: Reactor {
         var chartText: String // ex) 1월, 2023년
         var segementBarState: ChartState // ex) .month, .year
         var happinessChartData: [FindHappinessResponse]
+        var xAxisData: [String] // x축
+        var yAxisData: [String] // y축
     }
     
     
@@ -94,6 +100,20 @@ final class ChartViewReactor: Reactor {
                 feedRepository.findMonthHappiness(request: HappinessRequest(nickname: "wonder", date: self.date.getFormattedYMDH()))
                     .map { Mutation.fetchHappiness($0) }
             ])
+        case .changeChartMode:
+            if segementBarState == .month {
+                return .concat([
+                    .just(.setSegementBarState(.year)),
+                    feedRepository.findYearHappiness(request: HappinessRequest(nickname: "wonder", date: self.date.getFormattedYMDH()))
+                        .map { Mutation.fetchHappiness($0) }
+                ])
+            } else {
+                return .concat([
+                    .just(.setSegementBarState(.month)),
+                    feedRepository.findMonthHappiness(request: HappinessRequest(nickname: "wonder", date: self.date.getFormattedYMDH()))
+                        .map { Mutation.fetchHappiness($0) }
+                ])
+            }
         case .tapYearChratButton:
             return .concat([
                 .just(.setSegementBarState(.year)),

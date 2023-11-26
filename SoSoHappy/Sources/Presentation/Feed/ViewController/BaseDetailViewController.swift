@@ -91,7 +91,7 @@ class BaseDetailViewController: UIViewController {
 }
 // MARK: - setLayout()
 extension BaseDetailViewController {
-    private func setLayout() {
+    func setLayout() {
         print("BaseFeedDetailViewController - setLayout")
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)

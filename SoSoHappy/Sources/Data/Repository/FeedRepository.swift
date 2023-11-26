@@ -35,11 +35,37 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed> {
-        let provider = accessProvider()
-        return provider.rx.request(.findDayFeed(request))
-            .map(FindAccountFeedResponse.self)
-            .map({ $0.toDomain() })
-            .asObservable()
+//        let provider = accessProvider()
+//        return provider.rx.request(.findDayFeed(request))
+//            .map(FindAccountFeedResponse.self)
+//            .map({ $0.toDomain() })
+//            .asObservable()
+//        
+        print("FindDayFeed start")
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findDayFeed(request))
+                .map(FindAccountFeedResponse.self)
+                .map({ $0.toDomain() })
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("FindDayFeed success: \(response)")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("FindDayFeed error: \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        print("FindDayFeed completed")
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     // 유저가 이번 달 올린 피드
@@ -54,6 +80,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                     switch event {
                     case .next(let response):
                         print("respsonse")
+                        print("findMonthFeed response: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
                         print("error: \(error.localizedDescription)")

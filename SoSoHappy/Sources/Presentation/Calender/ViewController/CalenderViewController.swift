@@ -61,13 +61,13 @@ final class CalendarViewController: UIViewController {
     }
     
     private lazy var yearLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = .systemFont(ofSize: 15)
         $0.textColor = .gray
         $0.text = Date().getFormattedDate(format: "yyyy")
     }
     
     private lazy var monthLabel = UILabel().then {
-        $0.font = .boldSystemFont(ofSize: 20)
+        $0.font = .boldSystemFont(ofSize: 25)
         $0.textColor = .gray
         $0.text = Date().getFormattedDate(format: "M월")
     }
@@ -204,6 +204,7 @@ extension CalendarViewController: View {
                 .compactMap { $0 }
                 .asDriver(onErrorJustReturn: ())
                 .drive { [weak self] _ in
+                    print("alarmButton tap")
                     self?.coordinator.pushAlarmView()
                 }
                 .disposed(by: disposeBag)
@@ -213,6 +214,7 @@ extension CalendarViewController: View {
                 .compactMap { $0 }
                 .asDriver(onErrorJustReturn: ())
                 .drive { [weak self] _ in
+                    print("listButton tap")
                     self?.coordinator.pushListView(date: reactor.currentPage)
                 }
                 .disposed(by: disposeBag)
@@ -254,18 +256,18 @@ private extension CalendarViewController {
         }
         
         listButton.snp.makeConstraints {
-            $0.width.height.equalTo(25)
+            $0.width.height.equalTo(22)
         }
         
         previousButton.snp.makeConstraints {
             $0.left.equalToSuperview().inset(50)
-            $0.top.equalToSuperview().inset(180)
+            $0.top.equalToSuperview().inset(150)
             $0.width.height.equalTo(10)
         }
         
         nextButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(50)
-            $0.top.equalToSuperview().inset(180)
+            $0.top.equalToSuperview().inset(150)
             $0.width.height.equalTo(10)
         }
         
@@ -280,7 +282,7 @@ private extension CalendarViewController {
         }
         
         calendar.snp.makeConstraints {
-            $0.top.equalTo(monthLabel).offset(50)
+            $0.top.equalTo(monthLabel).offset(70)
             $0.horizontalEdges.equalToSuperview().inset(20)
             $0.height.equalTo(350)
         }
@@ -293,13 +295,14 @@ private extension CalendarViewController {
     }
     
     private func setAttribute() {
-        view.backgroundColor = UIColor(rgb: 0xF5F5F5)
+//        view.backgroundColor = UIColor(rgb: 0xF5F5F5)
+        view.backgroundColor = .white
         view.addGestureRecognizer(self.panGesture)
         
         calendar.backgroundColor = .white
         calendar.layer.cornerRadius = 10
 
-        preview.backgroundColor = .white
+        preview.backgroundColor = .brown
         preview.layer.cornerRadius = 10
         
     }
@@ -318,7 +321,7 @@ extension CalendarViewController {
         calendar.locale = Locale(identifier: "ko_KR")
         calendar.appearance.selectionColor = .white
         calendar.appearance.titleSelectionColor = .black
-        calendar.appearance.todayColor = .gray
+        calendar.appearance.todayColor = .lightGray
         calendar.appearance.titleTodayColor = .black
         calendar.appearance.weekdayTextColor = .gray
         calendar.placeholderType = .none
@@ -383,9 +386,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     func isHappyDay(_ dateStr: String) -> UIImage? {
-        if monthFeedList.count > 0 {
-            print("VC monthFeedList: \(monthFeedList[0].date.prefix(8)) , dateStr: \(dateStr)")
-        }
+        
         if let date = self.monthFeedList.first(where: { $0.date.prefix(8) == dateStr })
         {
             if let image = UIImage(named: date.happyImage) { return  image }
@@ -395,18 +396,18 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     }
     
     //FIXME: 데이터 선택 메서드 호출가능한지 알아보기
-    
     // 캘린더 선택
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 서버에서 날짜에 해당하는 데이터 api 통신 (day data)
-        
+        self.reactor?.action.onNext(.selectDate)
         // preview에 데이터 바인딩
         /// 현재는 일단 filtering -> api통신으로 바꿀예정
-        if let data = happyListData.first(where: {
-            $0.date == date.getFormattedDefault()
-        }) {
-            // UpdateUI
-        }
+//        if let data = happyListData.first(where: {
+//            $0.date == date.getFormattedDefault()
+//        }) {
+//            // UpdateUI
+//            self.reactor?.action.onNext(.selectDate)
+//        }
     }
     
     

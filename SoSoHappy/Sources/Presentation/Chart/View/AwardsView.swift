@@ -82,9 +82,9 @@ private extension AwardsView {
         addSubview(titleStack)
         addSubview(awardsLabel)
         
-        firstPlaceView = createPodiumView(position: 2, color: UIColor(named: "AccentColor")!, categori: UIImage(named: "home")!)
+        firstPlaceView = createPodiumView(position: 2, color: UIColor(named: "AccentColor")!, categori: UIImage(named: "dessert")!)
         secondPlaceView = createPodiumView(position: 3, color: UIColor(named: "AccentColor")!, categori: UIImage(named: "home")!)
-        thirdPlaceView = createPodiumView(position: 1, color: UIColor(named: "AccentColor")!, categori: UIImage(named: "home")!)
+        thirdPlaceView = createPodiumView(position: 1, color: UIColor(named: "AccentColor")!, categori: UIImage(named: "drive")!)
         
         addSubview(awardsStack)
         addSubview(detailsAwardsButton)

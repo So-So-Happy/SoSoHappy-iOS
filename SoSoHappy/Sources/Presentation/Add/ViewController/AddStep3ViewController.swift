@@ -47,7 +47,7 @@ final class AddStep3ViewController: BaseDetailViewController {
 // MARK: - set up
 extension AddStep3ViewController {
     private func setup() {
-        setLayout()
+        setLayoutAddStep3()
         setAttributes()
     }
     
@@ -58,7 +58,7 @@ extension AddStep3ViewController {
         print("editable \(textView.isEditable)")
     }
     
-    private func setLayout() {
+    private func setLayoutAddStep3() {
         self.scrollView.addSubview(statusBarStackView)
         self.navigationItem.rightBarButtonItem = saveButton
         

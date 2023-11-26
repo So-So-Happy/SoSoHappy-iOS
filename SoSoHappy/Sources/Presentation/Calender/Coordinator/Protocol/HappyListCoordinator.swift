@@ -8,7 +8,7 @@
 import UIKit
 
 protocol HappyListCoordinatorInterface: Coordinator {
-    func pushDetailView(item: MyFeed)
+    func pushDetailView(date: String)
     func dismiss()
     func finished()
 }
@@ -20,24 +20,24 @@ final class HappyListCoordinator: Coordinator {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    
+    var date: Date
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController() ) {
+    init(navigationController: UINavigationController = UINavigationController(), date: Date ) {
         self.navigationController = navigationController
+        self.date = date
     }
     
     func start() {
-
+        makeHappyListViewController()
     }
- 
 }
 
 extension HappyListCoordinator: HappyListCoordinatorInterface {
     
-    func pushDetailView(item: MyFeed) {
-        let viewController = makeDetailViewController(item: item)
-        navigationController.pushViewController(viewController, animated: false)
+    func pushDetailView(date: String) {
+        let viewController = makeDetailViewController(date: date)
+        navigationController.pushViewController(viewController, animated: true)
     }
     
     func dismiss() {
@@ -53,7 +53,7 @@ extension HappyListCoordinator: HappyListCoordinatorInterface {
 
 extension HappyListCoordinator {
     
-    func makeHappyListViewController(date: Date) {
+    func makeHappyListViewController() {
         let reactor = HappyListViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository(), currentPage: date)
         
         let viewController = HappyListViewController(reactor: reactor,
@@ -63,10 +63,13 @@ extension HappyListCoordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func makeDetailViewController(item: MyFeed) -> UIViewController {
-//        let viewController = HappyDetailViewController(item: item)
-//        return viewController
-        let viewController = FeedListViewController() // 임의로 해둠 **
+    func makeDetailViewController(date: String) -> UIViewController {
+        let reactor = MyFeedDetailViewReactor(
+            feedRepository: FeedRepository(),
+            userRepository: UserRepository(),
+            currentPage: Int64(date) ?? 0)
+        
+        let viewController = MyFeedDetailViewController(reactor: reactor)
         return viewController
     }
   

@@ -22,10 +22,9 @@ final class CalendarCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
-    
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController() ) {
+    init(navigationController: UINavigationController = UINavigationController()) {
         self.navigationController = navigationController
     }
     
@@ -44,11 +43,11 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
     }
     
     func pushListView(date: Date) {
-        let coordinator = HappyListCoordinator()
+        let coordinator = HappyListCoordinator(navigationController: self.navigationController, date: date)
         coordinator.parentCoordinator = self
         coordinator.finishDelegate = self
         childCoordinators.append(coordinator)
-        coordinator.makeHappyListViewController(date: date)
+        coordinator.start()
     }
     
     func dismiss() {

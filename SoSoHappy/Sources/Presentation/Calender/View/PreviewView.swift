@@ -66,7 +66,7 @@ final class PreviewView: UIView {
         configureDateLabel()
         configureCategoryStackView()
         configureContentsLabel()
-        configureImageSlideView()
+//        configureImageSlideView()
     }
     
     // update UI 
