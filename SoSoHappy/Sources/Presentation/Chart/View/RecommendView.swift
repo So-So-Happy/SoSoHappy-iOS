@@ -36,7 +36,7 @@ final class RecommendView: UIView {
         $0.font = .systemFont(ofSize: 15)
     }
     
-    private lazy var refreshButton = UIButton().then {
+    lazy var refreshButton = UIButton().then {
         $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
     }

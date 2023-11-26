@@ -20,6 +20,7 @@ final class CalendarViewReactor: Reactor {
     
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
+    
     var currentPage: Date = Date()
     
     // MARK: - Init
@@ -30,7 +31,8 @@ final class CalendarViewReactor: Reactor {
             year: "",
             month: "",
             monthHappinessData: [],
-        currentPage: Date())
+            currentPage: Date(),
+            dayFeed: nil )
     ) {
         self.feedRepository = feedRepository
         self.userRepository = userRepository
@@ -44,7 +46,7 @@ final class CalendarViewReactor: Reactor {
         case tapListButton
         case tapPreviousButton
         case tapNextButton
-//        case selectDate
+        case selectDate
     }
     
     // MARK: - Mutaion
@@ -52,7 +54,7 @@ final class CalendarViewReactor: Reactor {
         case setCalendarCell([MyFeed])
         case presentAlertView
         case presentListView
-//        case setPreview(Feed)
+        case setPreview(MyFeed)
         case setMonth
         case setYear
         case moveToNextMonth(Date)
@@ -67,6 +69,7 @@ final class CalendarViewReactor: Reactor {
         var month: String
         var monthHappinessData: [MyFeed]
         var currentPage: Date
+        var dayFeed: MyFeed?
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
 //        var happinessPreviewData: Feed
@@ -75,6 +78,9 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
+        // FIXME: - request 보낼때 nickName 키체인에서 꺼내서 보내주기
+//        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+//        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
         switch action {
         case .viewDidLoad:
             return .concat([
@@ -84,7 +90,9 @@ final class CalendarViewReactor: Reactor {
                     .map {
                         print("\($0)")
                         return Mutation.setCalendarCell($0)
-                    }
+                    },
+                feedRepository.findDayFeed(request: FindFeedRequest(date: 2023110719321353, nickName: "happykyung"))
+                    .map { .setPreview($0) }
             ])
         case .tapAlarmButton:
             return .just(.presentAlertView)
@@ -108,6 +116,9 @@ final class CalendarViewReactor: Reactor {
                 .just(.setMonth),
                 .just(.setYear)
             ])
+        case .selectDate:
+            return feedRepository.findDayFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: "wonder"))
+                .map { .setPreview($0) }
         }
     }
 
@@ -118,7 +129,7 @@ final class CalendarViewReactor: Reactor {
         case .setCalendarCell(let feeds):
             newState.monthHappinessData = feeds
         case .presentAlertView:
-            newState.presentListView = ()
+            newState.presentAlertView = ()
         case .presentListView:
             newState.presentListView = ()
         case .moveToNextMonth(let currentPage):
@@ -133,12 +144,12 @@ final class CalendarViewReactor: Reactor {
             newState.month = self.currentPage.getFormattedDate(format: "M월")
         case .testOtherFeed:
             newState.year = state.currentPage.getFormattedDate(format: "yyyy")
-//            /        case .setPreview(_):
-//            //            <#code#>
+
 //        case .showErrorAlert(_):
             
 //            <#code#>
-            
+        case .setPreview(let feed):
+            newState.dayFeed = feed
         }
         
         return newState

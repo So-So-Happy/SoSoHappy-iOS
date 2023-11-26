@@ -25,7 +25,8 @@ class HappyListViewReactor: Reactor {
           state: State = State(
             monthHappinessData: [],
             currentPage: Date(),
-            date: ""
+            date: "",
+            detailViewDate: ""
          )
     ) {
         self.feedRepository = feedRepository
@@ -39,14 +40,14 @@ class HappyListViewReactor: Reactor {
         case viewDidLoad
         case tapNextButton
         case tapPreviousButton
-        case tapHappyListCell
+        case tapHappyListCell(String)
     }
     
     // MARK: - Mutation
     enum Mutation {
         case setFeedList([MyFeed])
         case setDate(String) // ex) 2023.10
-        case presentDetailView
+        case presentDetailView(String)
     }
     
     // MARK: - State
@@ -54,7 +55,7 @@ class HappyListViewReactor: Reactor {
         var monthHappinessData: [MyFeed]
         var currentPage: Date
         var date: String
-        @Pulse var presentDetailView: Void?
+        var detailViewDate: String
     }
     
     var forTest: [FeedTemp] = [
@@ -79,6 +80,8 @@ class HappyListViewReactor: Reactor {
     
     //[UIImage(named: "cafe")!, UIImage(named: "churros")!]
     func mutate(action: Action) -> Observable<Mutation> {
+        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
         switch action {
         case .viewDidLoad:
             return .concat([
@@ -90,18 +93,18 @@ class HappyListViewReactor: Reactor {
             let nextPage = moveToNextMonth(currentPage)
             return .concat([
                 .just(.setDate(nextPage.getFormattedYM())),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: "wonder"))
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
             ])
         case .tapPreviousButton:
             let previousPage = moveToPreviousMonth(currentPage)
             return .concat([
                 .just(.setDate(previousPage.getFormattedYM())),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: "wonder"))
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
             ])
-        case .tapHappyListCell:
-            return .empty()
+        case .tapHappyListCell(let date):
+            return .just(.presentDetailView(date))
         }
     }
     
@@ -112,8 +115,8 @@ class HappyListViewReactor: Reactor {
             newState.monthHappinessData = feeds
         case .setDate(let date):
             newState.date = date
-        case .presentDetailView:
-            newState.presentDetailView = ()
+        case .presentDetailView(let date):
+            newState.detailViewDate = date
         }
         
         return newState
