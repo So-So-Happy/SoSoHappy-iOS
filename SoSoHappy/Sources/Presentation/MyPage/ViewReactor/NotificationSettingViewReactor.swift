@@ -56,7 +56,6 @@ class NotificationSettingViewReactor: Reactor {
         
         switch mutation {
         case .setNotiSetting(let bool):
-            UserDefaults.standard.setValue(bool, forKey: "notificationSetting")
             newState.onSwitch = bool
             
         case .setFirstNotiSetting(let bool):
