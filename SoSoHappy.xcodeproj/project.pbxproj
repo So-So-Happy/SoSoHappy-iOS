@@ -47,6 +47,7 @@
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */; };
 		06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */; };
+		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
 		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
 		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
 		06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */; };
@@ -61,7 +62,6 @@
 		67021E652A83CBB100B47A6B /* AddCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E642A83CBB100B47A6B /* AddCoordinator.swift */; };
 		67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67021E662A83CBCD00B47A6B /* AddStep1ViewController.swift */; };
 		670224EE2AE680C300179A4F /* CheckNickNameRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670224ED2AE680C300179A4F /* CheckNickNameRequest.swift */; };
-		6709C1D92B133C9900237A38 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6709C1D82B133C9900237A38 /* GoogleService-Info.plist */; };
 		6709C1E72B136DB000237A38 /* Ex+UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6709C1E62B136DB000237A38 /* Ex+UIFont.swift */; };
 		671F97DD2AF23A7C00222811 /* MypageViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F97DC2AF23A7C00222811 /* MypageViewReactor.swift */; };
 		671F97DF2AF4EE6100222811 /* EditProfileViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 671F97DE2AF4EE6100222811 /* EditProfileViewReactor.swift */; };
@@ -278,6 +278,7 @@
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewController.swift; sourceTree = "<group>"; };
 		06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewReactor.swift; sourceTree = "<group>"; };
+		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
 		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
 		06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewReactor.swift; sourceTree = "<group>"; };
@@ -494,6 +495,7 @@
 				06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */,
 				06F6BA392A8E43E200A6765A /* CalendarView.swift */,
 				06F6BA3F2A8FBED400A6765A /* PreviewView.swift */,
+				06CD8ECF2B1762B200CC7C47 /* Preview.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1716,6 +1718,7 @@
 				80AD68BB2AC6D2BD00DD3D5F /* HappinessStackView.swift in Sources */,
 				67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */,
 				808650EC2AD6CCFE0036CCFB /* FindHappinessResponse.swift in Sources */,
+				06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */,
 				80AD68B72AC68BC300DD3D5F /* StatusBarStackView.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				808650D42AD6CCDD0036CCFB /* ResignRequest.swift in Sources */,

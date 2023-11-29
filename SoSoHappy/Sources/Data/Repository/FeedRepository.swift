@@ -40,8 +40,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
 //            .map(FindAccountFeedResponse.self)
 //            .map({ $0.toDomain() })
 //            .asObservable()
-//        
-        print("FindDayFeed start")
+//
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findDayFeed(request))
@@ -51,13 +50,10 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("FindDayFeed success: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("FindDayFeed error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
-                        print("FindDayFeed completed")
                         emitter.onCompleted()
                     }
                 }

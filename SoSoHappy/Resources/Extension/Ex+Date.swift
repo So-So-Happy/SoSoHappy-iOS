@@ -98,11 +98,7 @@ extension Date {
         
         return previousPage
     }
-    
-    func moveToPreviousMonth() {
-        
-    }
-    
+ 
     func moveToNextYear() -> Date {
         let calendar = Calendar.current
         return calendar.date(byAdding: .year, value: 1, to: self) ?? Date()

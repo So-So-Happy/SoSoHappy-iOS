@@ -23,6 +23,13 @@ final class CalendarViewReactor: Reactor {
     
     var currentPage: Date = Date()
     
+    private let provider = KeychainService.loadData(
+        serviceIdentifier: "sosohappy.userInfo",
+        forKey: "provider"
+    ) ?? ""
+    
+    private var nickName: String = ""
+    
     // MARK: - Init
     init(
         feedRepository: FeedRepositoryProtocol,
@@ -32,21 +39,27 @@ final class CalendarViewReactor: Reactor {
             month: "",
             monthHappinessData: [],
             currentPage: Date(),
-            dayFeed: nil )
+            dayFeed: MyFeed(),
+            selectedDate: Date())
     ) {
         self.feedRepository = feedRepository
         self.userRepository = userRepository
         self.initialState = state
+        
+        self.nickName = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo\(provider)",
+            forKey: "userNickName"
+        ) ?? ""
     }
     
     // MARK: - Action
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case tapAlarmButton
         case tapListButton
         case tapPreviousButton
         case tapNextButton
-        case selectDate
+        case selectDate(Date)
     }
     
     // MARK: - Mutaion
@@ -55,6 +68,7 @@ final class CalendarViewReactor: Reactor {
         case presentAlertView
         case presentListView
         case setPreview(MyFeed)
+        case setSelectedDate(Date)
         case setMonth
         case setYear
         case moveToNextMonth(Date)
@@ -69,7 +83,8 @@ final class CalendarViewReactor: Reactor {
         var month: String
         var monthHappinessData: [MyFeed]
         var currentPage: Date
-        var dayFeed: MyFeed?
+        var dayFeed: MyFeed
+        var selectedDate: Date
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
 //        var happinessPreviewData: Feed
@@ -78,20 +93,16 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
-        // FIXME: - request 보낼때 nickName 키체인에서 꺼내서 보내주기
-//        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-//        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return .concat([
                 .just(.setYear),
                 .just(.setMonth),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: "wonder"))
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: nickName))
                     .map {
-                        print("\($0)")
                         return Mutation.setCalendarCell($0)
                     },
-                feedRepository.findDayFeed(request: FindFeedRequest(date: 2023110719321353, nickName: "happykyung"))
+                feedRepository.findDayFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { .setPreview($0) }
             ])
         case .tapAlarmButton:
@@ -99,26 +110,29 @@ final class CalendarViewReactor: Reactor {
         case .tapListButton:
             return .just(.presentListView)
         case .tapNextButton:
-            let nextPage = moveToNextMonth(currentPage)
+            let nextPage = currentPage.moveToNextMonth()
             return .concat([
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: "wonder"))
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: nickName))
                     .map({ Mutation.setCalendarCell($0) }),
                 .just(.moveToNextMonth(nextPage)),
                 .just(.setMonth),
                 .just(.setYear)
             ])
         case .tapPreviousButton:
-            let previousPage = moveToPreviousMonth(currentPage)
+            let previousPage = currentPage.moveToPreviousMonth()
             return .concat([
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: "wonder"))
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: nickName))
                     .map({ .setCalendarCell($0) }),
                 .just(.moveToPreviousMonth(previousPage)),
                 .just(.setMonth),
                 .just(.setYear)
             ])
-        case .selectDate:
-            return feedRepository.findDayFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: "wonder"))
-                .map { .setPreview($0) }
+        case .selectDate(let date):
+            return .concat([
+                feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
+                .map { .setPreview($0) },
+                .just(.setSelectedDate(date))
+            ])
         }
     }
 
@@ -144,31 +158,14 @@ final class CalendarViewReactor: Reactor {
             newState.month = self.currentPage.getFormattedDate(format: "M월")
         case .testOtherFeed:
             newState.year = state.currentPage.getFormattedDate(format: "yyyy")
-
 //        case .showErrorAlert(_):
-            
-//            <#code#>
         case .setPreview(let feed):
             newState.dayFeed = feed
+        case .setSelectedDate(let date):
+            newState.selectedDate = date
         }
         
         return newState
-    }
-    
-}
-
-
-extension CalendarViewReactor {
-    func moveToNextMonth(_ currentPage: Date) -> Date {
-        let calendar = Calendar.current
-        let currentPage = calendar.date(byAdding: .month, value: 1, to: currentPage) ?? Date()
-        return currentPage
-    }
-    
-    func moveToPreviousMonth(_ currentPage: Date) -> Date {
-        let calendar = Calendar.current
-        let currentPage = calendar.date(byAdding: .month, value: -1, to: currentPage) ?? Date()
-        return currentPage
     }
     
 }

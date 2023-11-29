@@ -74,7 +74,7 @@ final class CalendarViewController: UIViewController {
     
     private lazy var scrollView = UIScrollView()
     
-    private lazy var preview = PreviewView()
+    private lazy var preview = Preview()
     
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
@@ -140,8 +140,8 @@ extension CalendarViewController: View {
     
     func bindAction(_ reactor: CalendarViewReactor) {
         // viewDidLoad: month, day data fetch, monthText, yearText
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -198,6 +198,15 @@ extension CalendarViewController: View {
                     self.monthFeedList = feeds
                     calendar.reloadData()
                 }
+                .disposed(by: disposeBag)
+            
+            reactor.state
+                .map{ $0.dayFeed }
+                .subscribe { [weak self] feed in
+                    guard let `self` = self else { return }
+                    self.preview.setFeedCell(feed)
+                }
+                    // setFeedCell(FeedType) 일 경우 Argument type 'Event<Date>' does not conform to expected type 'FeedType' 에러 이슈 -> setFeedCell(MyFeed)로 타입매개변수 타입 변경함.
                 .disposed(by: disposeBag)
             
             reactor.pulse(\.$presentAlertView)
@@ -400,17 +409,12 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource {
     // 캘린더 선택
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 서버에서 날짜에 해당하는 데이터 api 통신 (day data)
-        self.reactor?.action.onNext(.selectDate)
-        // preview에 데이터 바인딩
-        /// 현재는 일단 filtering -> api통신으로 바꿀예정
-//        if let data = happyListData.first(where: {
-//            $0.date == date.getFormattedDefault()
-//        }) {
-//            // UpdateUI
-//            self.reactor?.action.onNext(.selectDate)
-//        }
+        if let _ = isHappyDay(String(date.getFormattedYMD())) {
+            self.reactor?.action.onNext(.selectDate(date))
+        } else {
+            // FIXME: - 텅 뷰 세팅 + 프리뷰 터치 불가능하게 세팅
+        }
     }
-    
     
     //FIXME: onNext 로 reactor action 전달
     // 캘린더 페이지 변경시 year, month update, data, cell update
