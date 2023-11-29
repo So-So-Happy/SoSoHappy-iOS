@@ -24,12 +24,12 @@ class OwnerFeedHeaderView: UIView {
     // 닉네임
     lazy var profileNickNameLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 22, weight: .bold)
+        $0.font = UIFont.customFont(size: 23, weight: .bold)
     }
     
     // 자기소개
     lazy var profileSelfIntroduction = UILabel().then {
-        $0.font = .systemFont(ofSize: 14, weight: .light)
+        $0.font = UIFont.customFont(size: 14, weight: .medium)
         $0.textColor = .gray
         $0.numberOfLines = 0
     }

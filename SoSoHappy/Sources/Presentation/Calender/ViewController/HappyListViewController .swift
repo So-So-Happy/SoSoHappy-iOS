@@ -33,7 +33,7 @@ final class HappyListViewController : UIViewController {
     
     private lazy var yearMonthLabel = UILabel().then {
         $0.text = "2023.07"
-        $0.font = .systemFont(ofSize: 22)
+        $0.font = UIFont.customFont(size: 15, weight: .bold)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     

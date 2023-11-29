@@ -14,14 +14,14 @@ final class NickNameStackView: UIView {
         axis: .vertical,
         alignment: .leading,
         distribution: .fill,
-        spacing: 4
+        spacing: 6
     )
     
     private lazy var nickNameGuideLabel = UILabel().then {
         $0.text = "닉네임을 입력해주세요. (최대 10자)"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
     }
     
     private lazy var nickNameTextFieldWithButtonStackView = UIStackView(
@@ -33,7 +33,7 @@ final class NickNameStackView: UIView {
     
     lazy var nickNameTextField = UITextField().then {
         $0.backgroundColor = UIColor(named: "CellColor")
-        $0.font = UIFont.systemFont(ofSize: 15)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
         $0.clearButtonMode = .always
         $0.layer.cornerRadius = 8
         $0.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 7, height: $0.frame.height))
@@ -43,7 +43,7 @@ final class NickNameStackView: UIView {
     lazy var duplicateCheckButton = HappyButton().then {
         $0.setTitle("중복 검사", for: .normal)
         $0.titleLabel?.textColor = UIColor(named: "CellColor")
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        $0.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
         $0.layer.cornerRadius = 8
         $0.snp.makeConstraints { make in
             make.height.equalTo(40)
@@ -55,7 +55,7 @@ final class NickNameStackView: UIView {
     
     lazy var warningMessageLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 12, weight: .light)
+        $0.font = UIFont.customFont(size: 13, weight: .medium)
     }
 
     override init(frame: CGRect) {

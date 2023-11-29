@@ -14,13 +14,13 @@ final class FeedHeaderView: UIView {
     // MARK: - UI Components
     private lazy var titleLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 32, weight: .bold)
+        $0.font = UIFont.customFont(size: 33, weight: .bold)
         $0.text = "소피들의 소소해피"
     }
     
     private lazy var feedSubtitle = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.font = UIFont.customFont(size: 18, weight: .medium)
         $0.text = "소피들, 서로의 행복을 응원해보아요! 🫶🏻"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
@@ -110,8 +110,8 @@ extension FeedHeaderView {
     
     private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
         selected.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
-        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
+        selected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .bold)
         notSelected.setTitleColor(UIColor(named: "DarkGrayTextColor"), for: .normal)
-        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
+        notSelected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .medium)
     }
 }

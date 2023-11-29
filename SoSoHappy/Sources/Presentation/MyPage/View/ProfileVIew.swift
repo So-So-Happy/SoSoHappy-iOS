@@ -15,14 +15,14 @@ final class ProfileView: UIView {
     lazy var profileImage = ImageEditButtonView(image: "pencil")
     lazy var nickNameLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 28, weight: .bold)
+        $0.font = UIFont.customFont(size: 28, weight: .bold)
     }
     lazy var emailLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 12, weight: .light)
+        $0.font = UIFont.customFont(size: 12, weight: .medium)
         $0.textColor = UIColor(named: "LightGrayTextColor")
     }
     lazy var introLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 16, weight: .regular)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
         $0.textColor = UIColor(named: "GrayTextColor")
         $0.numberOfLines = 0
         $0.textAlignment = .center

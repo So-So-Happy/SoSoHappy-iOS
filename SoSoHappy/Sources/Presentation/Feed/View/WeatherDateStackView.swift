@@ -27,7 +27,7 @@ final class WeatherDateStackView: UIView {
     // 작성 날짜
     private lazy var dateLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 12, weight: .light)
+        $0.font = UIFont.customFont(size: 12, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor") // .gray -> .darkGray
     }
     

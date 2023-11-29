@@ -61,13 +61,13 @@ final class CalendarViewController: UIViewController {
     }
     
     private lazy var yearLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 14)
+        $0.font = UIFont.customFont(size: 14, weight: .medium)
         $0.textColor = UIColor(named: "GrayTextColor")
         $0.text = Date().getFormattedDate(format: "yyyy")
     }
     
     private lazy var monthLabel = UILabel().then {
-        $0.font = .boldSystemFont(ofSize: 20)
+        $0.font = UIFont.customFont(size: 22, weight: .bold)
         $0.textColor = UIColor(named: "GrayTextColor")
         $0.text = Date().getFormattedDate(format: "M월")
     }
@@ -339,9 +339,9 @@ extension CalendarViewController {
         
         
         // 월~일 글자 폰트 및 사이즈 지정
-        //        self.calendar.appearance.weekdayFont = UIFont.SpoqaHanSans(type: .Regular, size: 14)
+        self.calendar.appearance.weekdayFont = UIFont.customFont(size: 17, weight: .bold)
         // 숫자들 글자 폰트 및 사이즈 지정
-        //             self.calendar.appearance.titleFont = UIFont.SpoqaHanSans(type: .Regular, size: 16)
+        self.calendar.appearance.titleFont = UIFont.customFont(size: 16, weight: .medium)
         
         // 캘린더 스크롤 가능하게 지정
         self.calendar.scrollEnabled = true

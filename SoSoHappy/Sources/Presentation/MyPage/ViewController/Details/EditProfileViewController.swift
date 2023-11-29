@@ -31,7 +31,7 @@ final class EditProfileViewController: UIViewController {
     private lazy var saveButton = HappyButton().then {
         $0.setTitle("저장하기", for: .normal)
         $0.titleLabel?.textColor = .white
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        $0.titleLabel?.font = UIFont.customFont(size: 18, weight: .medium)
         $0.layer.cornerRadius = 8
         $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
         $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
