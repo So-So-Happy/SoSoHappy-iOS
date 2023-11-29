@@ -90,6 +90,7 @@ extension UserAPI {
             let codeVerifier = data.codeVerifier.data(using: .utf8)!
             let authorizeCode = data.authorizeCode.data(using: .utf8)!
             let authorizationCode = data.authorizationCode.data(using: .utf8)!
+            let deviceToken = data.deviceToken.data(using: .utf8)!
             
             formData.append(MultipartFormData(provider: .data(email), name: "email"))
             formData.append(MultipartFormData(provider: .data(provider), name: "provider"))
@@ -97,6 +98,7 @@ extension UserAPI {
             formData.append(MultipartFormData(provider: .data(codeVerifier), name: "codeVerifier"))
             formData.append(MultipartFormData(provider: .data(authorizeCode), name: "authorizeCode"))
             formData.append(MultipartFormData(provider: .data(authorizationCode), name: "authorizationCode"))
+            formData.append(MultipartFormData(provider: .data(deviceToken), name: "deviceToken"))
             
             return .uploadMultipart(formData)
             

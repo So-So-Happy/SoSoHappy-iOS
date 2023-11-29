@@ -22,7 +22,7 @@ final class ChartViewController: UIViewController {
     
     private lazy var yearMonthLabel = UILabel().then {
         $0.text = "2023.07"
-        $0.font = .systemFont(ofSize: 22)
+        $0.font = UIFont.customFont(size: 22, weight: .medium)
         $0.textColor = UIColor(rgb: 0x626262)
     }
     

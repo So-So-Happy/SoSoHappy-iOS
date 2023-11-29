@@ -142,7 +142,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
                     provider: "kakao",
                     providerId: String(user.id ?? 0),
                     codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
-                    authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode", authorizationCode: "", deviceToken: ""
+                    authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode", authorizationCode: "", deviceToken: UserDefaults.standard.string(forKey: "fcmToken") ?? "unknownFcmToken"
                 )
                 
                 self.publisher.onNext(request)

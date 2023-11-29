@@ -14,7 +14,7 @@ final class RecommendView: UIView {
     // MARK: - Properties
     private lazy var recommendLabel = UILabel().then {
         $0.text = "OO님이 좋아하실만한 소확행을 찾아봤어요! 👀"
-        $0.font = .systemFont(ofSize: 16, weight: .bold)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var recommendStack = UIStackView().then {
@@ -33,7 +33,7 @@ final class RecommendView: UIView {
     
     lazy var recommendedHappinessLabel = UILabel().then {
         $0.text = "비 오는 날 산책하기 ☔️🚶🏻‍♀️"
-        $0.font = .systemFont(ofSize: 15)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
     }
     
     lazy var refreshButton = UIButton().then {

@@ -30,7 +30,7 @@ class NotificationSettingViewController: UIViewController {
     // MARK: - UI Components
     lazy var alarmLabel = UILabel().then {
         $0.text = "알림 설정"
-        $0.font = .systemFont(ofSize: 16)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     lazy var alarmSwitch = UISwitch()
@@ -97,6 +97,7 @@ extension NotificationSettingViewController: View {
                         switch settings.authorizationStatus {
                         case .authorized:
                             DispatchQueue.main.async {
+                                UserDefaults.standard.setValue(true, forKey: "notificationSetting")
                                 self.alarmSwitch.setOn(true, animated: false)
                             }
                         case .denied:
@@ -114,7 +115,10 @@ extension NotificationSettingViewController: View {
                             break
                         }
                     }
-                } else { self.alarmSwitch.setOn(false, animated: false) }
+                } else {
+                    UserDefaults.standard.setValue(false, forKey: "notificationSetting")
+                    self.alarmSwitch.setOn(false, animated: false)
+                }
             })
             .disposed(by: disposeBag)
     }

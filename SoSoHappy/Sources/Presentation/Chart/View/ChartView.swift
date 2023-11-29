@@ -15,34 +15,13 @@ final class ChartView: UIView, ChartViewDelegate {
     // MARK: - Properties
     private lazy var graphLabel = UILabel().then {
         $0.text = "OO님의 행복 그래프 💖"
-        $0.font = .systemFont(ofSize: 16, weight: .bold)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
-//    lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
-//        $0.selectedSegmentIndex = 0
-//        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.boldSystemFont(ofSize: 14)]
-//        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
-//    }
-    
-    let segmentedControl: UISegmentedControl = {
-        let items = ["월간", "연간"]
-        let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.isUserInteractionEnabled = true
-        segmentedControl.addTarget(self, action: #selector(segconChange(segcon:)), for: UIControl.Event.valueChanged)
-        
-        return segmentedControl
-    }()
-    
-    @objc func segconChange(segcon: UISegmentedControl) {
-        switch segcon.selectedSegmentIndex {
-        case 0:
-            self.backgroundColor = .blue
-        case 1:
-            self.backgroundColor = .red
-        default:
-            self.backgroundColor = .yellow
-        }
+    lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
+        $0.selectedSegmentIndex = 0
+        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.customFont(size: 14, weight: .medium)]
+        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
     }
     
     
@@ -240,7 +219,7 @@ final class ChartView: UIView, ChartViewDelegate {
         
         // noData
         graphView.noDataText = "데이터가 없습니다."
-        graphView.noDataFont = .systemFont(ofSize: 20)
+        graphView.noDataFont = UIFont.customFont(size: 20, weight: .medium)
         graphView.noDataTextColor = .lightGray
         
         // 차트에서 범례(legend)를 비활성화
