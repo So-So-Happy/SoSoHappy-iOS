@@ -50,6 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        // MARK: Messaging Delegate
         Messaging.messaging().delegate = self
         
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor")!, NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)], for: UIControl.State.normal)
+        
         return true
     }
     
@@ -125,18 +127,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - MessagingDelegate
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-      print("Firebase registration token: \(String(describing: fcmToken))")
-
-      let dataDict: [String: String] = ["token": fcmToken ?? ""]
-      NotificationCenter.default.post(
-        name: Notification.Name("FCMToken"),
-        object: nil,
-        userInfo: dataDict
-      )
-      // TODO: If necessary send token to application server.
-      // Note: This callback is fired at each app startup and whenever a new token is generated.
+        print("Firebase registration token: \(String(describing: fcmToken))")
+        UserDefaults.standard.setValue(fcmToken, forKey: "fcmToken")
+        
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
+        // TODO: If necessary send token to application server.
+        // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
-
+    
 }
 
 
