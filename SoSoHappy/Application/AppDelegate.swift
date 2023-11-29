@@ -50,7 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        // MARK: Messaging Delegate
         Messaging.messaging().delegate = self
         
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor")!, NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)], for: UIControl.State.normal)
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         
         return true
     }
