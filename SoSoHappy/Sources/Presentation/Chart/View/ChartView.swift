@@ -18,11 +18,33 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.font = .systemFont(ofSize: 16, weight: .bold)
     }
     
-    lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
-        $0.selectedSegmentIndex = 0
-        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.boldSystemFont(ofSize: 14)]
-        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
+//    lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
+//        $0.selectedSegmentIndex = 0
+//        let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.boldSystemFont(ofSize: 14)]
+//        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
+//    }
+    
+    let segmentedControl: UISegmentedControl = {
+        let items = ["월간", "연간"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.isUserInteractionEnabled = true
+        segmentedControl.addTarget(self, action: #selector(segconChange(segcon:)), for: UIControl.Event.valueChanged)
+        
+        return segmentedControl
+    }()
+    
+    @objc func segconChange(segcon: UISegmentedControl) {
+        switch segcon.selectedSegmentIndex {
+        case 0:
+            self.backgroundColor = .blue
+        case 1:
+            self.backgroundColor = .red
+        default:
+            self.backgroundColor = .yellow
+        }
     }
+    
     
     private lazy var graphView = LineChartView()
     
@@ -44,7 +66,7 @@ final class ChartView: UIView, ChartViewDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         // 30번 반복하여 랜덤 숫자를 생성하여 배열에 추가합니다.
         for _ in 1...30 {
             // 0부터 5까지의 랜덤한 Int 값을 생성합니다.
@@ -53,8 +75,7 @@ final class ChartView: UIView, ChartViewDelegate {
             // 생성된 랜덤 숫자를 배열에 추가합니다.
             unitsSold.append(Double(randomValue))
         }
-
-        setGraphXaxis()
+        
         setUpView()
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
@@ -68,21 +89,25 @@ final class ChartView: UIView, ChartViewDelegate {
         print("Selected Segment Index: \(selectedSegmentIndex)")
     }
     
-    
-    
     //  MARK: - 뷰 구성요소 세팅
     private func setUpView() {
-        addSubviews(chartStackView, graphLabel, segmentedControl, graphView, imageStackView)
         setConstraints()
-        setChart(dataPoints: days, values: unitsSold)
+        setChart(dataPoints: days, values: unitsSold, formatter: MonthChartFormatter(days: Date().setGraphXaxis()))
     }
     
     //  MARK: - 뷰 구성요소 제약 설정
     
     private func setConstraints() {
         makeHappyStackView()
+        addSubviews(chartStackView, graphLabel, segmentedControl, graphView, imageStackView)
         chartStackView.addArrangedSubview(imageStackView)
         chartStackView.addArrangedSubview(graphView)
+        
+        segmentedControl.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview().inset(30)
+            $0.top.equalTo(graphLabel).offset(30)
+        }
         
         chartStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(30)
@@ -95,16 +120,9 @@ final class ChartView: UIView, ChartViewDelegate {
             $0.top.equalToSuperview()
         }
         
-        segmentedControl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(30)
-            $0.top.equalTo(graphLabel).offset(30)
-        }
-        
         graphView.snp.makeConstraints {
             $0.verticalEdges.equalToSuperview()
         }
-        
     }
     
     func makeHappyStackView() {
@@ -122,34 +140,62 @@ final class ChartView: UIView, ChartViewDelegate {
         }
     }
     
-    func setChart(dataPoints: [String], values: [Double]) {
+    // MARK: - Chart Data + Chart Attibute Setting
+    func setChart(dataPoints: [String], values: [Double], formatter: AxisValueFormatter) {
         
-        // 데이터 생성
-        var dataEntries: [ChartDataEntry] = []
+//        // 데이터 생성
+//        var dataEntries: [ChartDataEntry] = []
+//        
+//        for i in 0..<dataPoints.count {
+//            let dataEntry = ChartDataEntry(x: Double(i), y: Double(values[i]))
+//            dataEntries.append(dataEntry)
+//        }
+//        
+//        let chartDataSet = LineChartDataSet(entries: dataEntries, label: "")
+//        
+//        // 데이터 삽입
+//        let chartData = LineChartData(dataSet: chartDataSet)
+//        graphView.data = chartData
+//        
+//        graphView.data?.setDrawValues(false)
         
         
-        for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(x: Double(i), y: Double(values[i]))
-            dataEntries.append(dataEntry)
-        }
+        // testData
+        let values: [ChartDataEntry] = [
+            ChartDataEntry(x: 0.0, y: 1.0),
+            ChartDataEntry(x: 1.0, y: 2.0),
+            ChartDataEntry(x: 5.0, y: 3.0),
+            ChartDataEntry(x: 8.0, y: 3.0),
+            ChartDataEntry(x: 24.0, y: 4.0),
+            ChartDataEntry(x: 28.0, y: 5.0)
+        ]
         
-        let chartDataSet = LineChartDataSet(entries: dataEntries, label: "")
-        graphView.legend.enabled = false
+        let chartDataSet = LineChartDataSet(entries: values, label: "My Data")
+        let data = LineChartData(dataSet: chartDataSet)
+        
+        graphView.data = data
+        
+        
+        // CustomChartFormatter를 사용하여 X축 레이블을 커스텀 포맷으로 설정
+        let customFormatter = formatter
+        graphView.xAxis.valueFormatter = customFormatter
+        
+        // x축 값 설정
+        let xAxis = graphView.xAxis
+        xAxis.axisMinimum = 0
+        xAxis.axisMaximum = 29
+        graphView.xAxis.labelCount = 7
+        graphView.xAxis.forceLabelsEnabled = true
+        graphView.xAxis.granularityEnabled = true
+        graphView.xAxis.granularity = 1
         
         
         // y축 값 고정
         let yAxis = graphView.leftAxis
-        yAxis.labelCount = 5
-        yAxis.axisMinimum = 1.0
+        yAxis.labelCount = 3
+        yAxis.axisMinimum = 0.0
         yAxis.axisMaximum = 5.0
-    
         yAxis.drawLabelsEnabled = false
-        
-        // 데이터 삽입
-        let chartData = LineChartData(dataSet: chartDataSet)
-        graphView.data = chartData
-        
-        graphView.data?.setDrawValues(false)
         
         
         // 선택 안되게
@@ -157,12 +203,12 @@ final class ChartView: UIView, ChartViewDelegate {
         // 줌 안되게
         graphView.doubleTapToZoomEnabled = false
         
-        
         // X축 레이블 위치 조정
         graphView.xAxis.labelPosition = .bottom
-        // X축 레이블 포맷 지정
-        graphView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
         
+        // X축 레이블 포맷 지정 ** -> issue
+        //        graphView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
+      
         
         // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
         //        graphView.xAxis.setLabelCount(dataPoints.count, force: false)
@@ -170,9 +216,7 @@ final class ChartView: UIView, ChartViewDelegate {
         
         // 차트 컬러
         chartDataSet.colors = [UIColor(named: "AccentColor")!]
-        
         chartDataSet.lineWidth = 2.0  // 원하는 두께로 설정
-        
         
         // 노드 크기 및 색상 설정
         chartDataSet.circleRadius = 3.0 // 노드 크기 설정
@@ -182,24 +226,16 @@ final class ChartView: UIView, ChartViewDelegate {
         chartDataSet.circleHoleRadius = 1.0
         chartDataSet.circleHoleColor = .white
         
-        
         // 오른쪽 레이블 제거
         graphView.rightAxis.enabled = false
-        
         graphView.leftAxis.drawGridLinesEnabled = false
-       
         
         // 기본 애니메이션
         graphView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0)
-
-        // 맥시멈
-        graphView.leftAxis.axisMaximum = 5
-        // 미니멈
-        graphView.leftAxis.axisMinimum = 0
         
         // 백그라운드컬러
         graphView.backgroundColor = .white
-        graphView.xAxis.labelTextColor = UIColor.lightGray  // 원하는 색상으로 설정
+        graphView.xAxis.labelTextColor = UIColor.lightGray
         graphView.layer.backgroundColor = UIColor.red.cgColor
         
         // noData
@@ -207,77 +243,34 @@ final class ChartView: UIView, ChartViewDelegate {
         graphView.noDataFont = .systemFont(ofSize: 20)
         graphView.noDataTextColor = .lightGray
         
-    }
-    
-    // FIXME: - 희경: reactor에서 데이터 넘기는 방식으로 ref
-    // 월간 연간 선택을 파라미터로 받아 그때그때 xaxis 처리 (월간일 경우 한달동안 날짜 , 연간일 경우는 매달 )
-    func setGraphXaxis() {
-        // 현재 날짜를 가져옵니다.
-        let currentDate = Date()
-
-        // 현재 달력을 가져옵니다.
-        let calendar = Calendar.current
-
-        // 현재 달의 첫 번째 날을 가져옵니다.
-        guard let firstDayOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: currentDate)) else {
-            fatalError("Failed to get the first day of the month.")
-        }
-
-        // 현재 달의 마지막 날을 가져옵니다.
-        guard let lastDayOfMonth = calendar.date(byAdding: DateComponents(month: 1, day: -1), to: firstDayOfMonth) else {
-            fatalError("Failed to get the last day of the month.")
-        }
-
-        // 현재 달의 모든 날짜를 가져옵니다.
-        var currentDateInLoop = firstDayOfMonth
-        while currentDateInLoop <= lastDayOfMonth {
-            self.days.append(String(calendar.component(.day, from: currentDateInLoop)))
-            currentDateInLoop = calendar.date(byAdding: .day, value: 1, to: currentDateInLoop)!
-        }
-    }
-    
-    // 누락된 날짜에 대해 더미 데이터를 생성하는 함수
-     func fillMissingData(dates: [String], data: [Double]) -> ([String], [Double]) {
-         var filledDates: [String] = []
-         var filledData: [Double] = []
-
-         for day in 1...30 {
-             if let dateIndex = dates.firstIndex(of: "\(day)일") {
-                 filledDates.append("\(day)일")
-                 filledData.append(data[dateIndex])
-             } else {
-                 // 누락된 날짜에 대해 더미 데이터를 생성 (예: 0으로 설정)
-                 filledDates.append("\(day)일")
-                 filledData.append(0.0)
-             }
-         }
-         
-         return (filledDates, filledData)
-     }
-
-     // 차트에 데이터 설정하는 함수
-     func setChartData(dates: [String], data: [Double]) {
-         var entries: [ChartDataEntry] = []
-
-         for (index, value) in data.enumerated() {
-             let entry = ChartDataEntry(x: Double(index + 1), y: value)
-             entries.append(entry)
-         }
-
-         let dataSet = LineChartDataSet(entries: entries, label: "데이터")
-         let data = LineChartData(dataSet: dataSet)
-
-         graphView.data = data
-     }
-    
-}
-
-extension ChartView {
-    func updateChartData() {
+        // 차트에서 범례(legend)를 비활성화
+        graphView.legend.enabled = false
         
     }
     
 }
 
+
+public class YearChartFormatter: NSObject, AxisValueFormatter {
+
+    var months: [String] =  ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return months[Int(value)]
+    }
+}
+
+public class MonthChartFormatter: NSObject, AxisValueFormatter {
+    var days: [String] = []
+    
+    init(days: [String]) {
+        self.days = days
+        print("days: \(days)")
+    }
+
+    public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+        return days[Int(value)]
+    }
+}
 
 

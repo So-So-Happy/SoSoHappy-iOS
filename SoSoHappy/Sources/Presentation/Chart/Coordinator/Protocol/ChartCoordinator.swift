@@ -28,7 +28,7 @@ final class ChartCoordinator: Coordinator {
     }
     
     func start() {
-        let viewController = ChartViewController()
+        let viewController = ChartViewController(reactor: ChartViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository()))
         navigationController.pushViewController(viewController, animated: true)
     }
     

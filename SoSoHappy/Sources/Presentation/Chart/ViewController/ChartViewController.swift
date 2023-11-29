@@ -36,6 +36,8 @@ final class ChartViewController: UIViewController {
         $0.setImage(image, for: .normal)
     })
     
+    private lazy var testView = UIView()
+    
     private lazy var awardsView = AwardsView()
     private lazy var recommendView = RecommendView()
     private lazy var chartView = ChartView()
@@ -57,18 +59,19 @@ final class ChartViewController: UIViewController {
         setUpView()
     }
     
-//    init(coordinator: ChartCoordinatorInterface) {
-//        self.coordinator = coordinator
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    init(reactor: ChartViewReactor
+    ) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
 }
 
 extension ChartViewController: View {
-    typealias Reactor = ChartViewReactor
     
     // MARK: - Binding
     func bind(reactor: ChartViewReactor) {
@@ -110,15 +113,35 @@ extension ChartViewController: View {
 //            .map { Reactor.Action.}
         
         
+        // UISegmentedControl의 선택이 바뀔 때마다 Reactor에게 전달
+        self.chartView.segmentedControl.rx.selectedSegmentIndex
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] selectedIndex in
+                self?.reactor?.action.onNext(.changeChartMode(index: selectedIndex))
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Output
     func bindState(_ reactor: ChartViewReactor) {
         // year.month
+        reactor.state
+            .map { $0.monthYearText }
+            .asDriver(onErrorJustReturn: "")
+            .distinctUntilChanged()
+            .drive(self.yearMonthLabel.rx.text)
+            .disposed(by: disposeBag)
        
         // top 3
         
         // recommend
+        reactor.state
+            .map { $0.nowRecommendText }
+            .asDriver(onErrorJustReturn: "")
+            .distinctUntilChanged()
+            .drive(self.recommendView.recommendedHappinessLabel.rx.text)
+            .disposed(by: disposeBag)
         
         // chart x y setting
         
@@ -144,15 +167,25 @@ extension ChartViewController {
         
         view.addSubview(scrollView)
         
-        scrollView.addSubviews(previousButton, nextButton, yearMonthLabel)
         scrollView.addSubview(contentView)
-        contentView.addSubview(awardsView)
+//        contentView.addSubview(awardsView)
+        contentView.addSubviews(previousButton, nextButton, yearMonthLabel)
+        contentView.addSubview(testView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
         
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview() // 스크롤뷰가 뷰에 가득 차도록 설정
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView) // 컨텐츠뷰도 스크롤뷰와 크기를 같도록 설정
+            $0.width.equalTo(view) // 컨텐츠뷰의 너비를 뷰와 같도록 설정
+            $0.height.equalTo(scrollView).priority(.low) // 컨텐츠뷰의 높이를 스크롤뷰와 같도록 설정, 우선순위를 낮춤
+        }
         
         yearMonthLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.top.equalToSuperview().inset(30)
             $0.centerX.equalToSuperview()
         }
         
@@ -168,28 +201,24 @@ extension ChartViewController {
             $0.width.height.equalTo(10)
         }
         
-        scrollView.snp.makeConstraints {
-//            $0.horizontalEdges.equalToSuperview() // 스크롤뷰가 뷰에 가득 차도록 설정
-//            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(5)
-//            $0.bottom.equalToSuperview()
-            $0.edges.equalToSuperview()
-        }
+//        awardsView.snp.makeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(20)
+//            $0.height.equalTo(310) // 이 부분은 awardsView의 높이 계산에 맞게 변경해야 함
+//        }
         
-        contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView) // 컨텐츠뷰도 스크롤뷰와 크기를 같도록 설정
-            $0.width.equalTo(view) // 컨텐츠뷰의 너비를 뷰와 같도록 설정
-            $0.height.equalTo(scrollView).priority(.low) // 컨텐츠뷰의 높이를 스크롤뷰와 같도록 설정, 우선순위를 낮춤
-        }
         
-        awardsView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+        // FIXME: - awardsView Layout 이슈 해결을 위한 testView 입니다.
+        testView.snp.makeConstraints {
+            $0.height.equalTo(300)
             $0.top.equalTo(yearMonthLabel.snp.bottom).offset(20)
-            $0.height.equalTo(310) // 이 부분은 awardsView의 높이 계산에 맞게 변경해야 함
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
 
         recommendView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(awardsView.snp.bottom)
+            $0.top.equalTo(testView.snp.bottom)
+            $0.centerX.equalToSuperview()
             $0.height.equalTo(130)
         }
 
