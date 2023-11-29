@@ -24,7 +24,7 @@ final class PreviewView: UIView {
     // 날짜
     private lazy var dateLabel = UILabel().then {
         $0.text = "2023.07.18 화요일"
-        $0.font = .systemFont(ofSize: 10)
+        $0.font = UIFont.customFont(size: 13, weight: .medium)
         $0.textColor = UIColor(named: "LightGrayTextColor")
     }
     
@@ -38,7 +38,7 @@ final class PreviewView: UIView {
 커피 냄새가 좋아서 괜찮아지만 옷에 묻은 얼룩은 슬펐다...
 사진은 의미 없는 하루콩 ㅋ😄
 """
-        $0.font = .systemFont(ofSize: 12)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
         $0.numberOfLines = 4
         $0.sizeToFit()
         $0.textColor = UIColor(named: "GrayTextColor")

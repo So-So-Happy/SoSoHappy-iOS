@@ -32,7 +32,7 @@ final class LoginViewController: UIViewController, View {
     private lazy var loginLabel = UILabel().then {
         $0.text = "SNS 계정으로 간편 가입하기"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
-        $0.font = .systemFont(ofSize: 15, weight: .semibold)
+        $0.font = UIFont.customFont(size: 17, weight: .medium)
     }
     private lazy var logInButtonStackView = LogInButtonStackView()
     
@@ -168,7 +168,7 @@ extension LoginViewController {
         
         logInButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(loginLabel.snp.bottom).offset(20)
+            make.top.equalTo(loginLabel.snp.bottom).offset(23)
             make.width.equalTo(appDescriptionStackView.snp.width)
         }
         

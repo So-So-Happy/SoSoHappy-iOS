@@ -54,6 +54,7 @@ final class FeedDetailViewController: BaseDetailViewController {
         if let userFeed = feed as? UserFeed {
             profileImageNameTimeStackView.setContents(userFeed: userFeed)
             heartButton.setHeartButton(userFeed.isLiked)
+            textView.font = UIFont.customFont(size: 16, weight: .medium)
         }
     }
 }

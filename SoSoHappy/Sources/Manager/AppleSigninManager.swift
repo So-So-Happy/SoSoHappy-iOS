@@ -69,7 +69,7 @@ extension AppleSigninManager: ASAuthorizationControllerDelegate {
             providerId: userIdentifier,
             codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier",
             authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode",
-            authorizationCode: appleIDCredential.authorizationCode!.base64EncodedString(), deviceToken: ""
+            authorizationCode: appleIDCredential.authorizationCode!.base64EncodedString(), deviceToken: UserDefaults.standard.string(forKey: "fcmToken") ?? "unknownFcmToken"
         )
         
         self.publisher.onNext(request)

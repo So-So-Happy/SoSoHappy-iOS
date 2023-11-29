@@ -15,7 +15,7 @@ final class AwardsView: UIView {
     private lazy var label = UILabel().then {
         $0.text = "오늘도 행복하셨나요?"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
-        $0.font = .boldSystemFont(ofSize: 15)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var titleStack = UIStackView().then {
@@ -29,17 +29,17 @@ final class AwardsView: UIView {
     private lazy var nameLabel = UILabel().then {
         $0.text = "OO님"
         $0.textColor = UIColor(named: "AccentColor")
-        $0.font = .systemFont(ofSize: 24, weight: .black)
+        $0.font = UIFont.customFont(size: 24, weight: .bold)
     }
     
     private lazy var label2 = UILabel().then {
         $0.text = "의 행복을 분석해봤어요!"
-        $0.font = .systemFont(ofSize: 24, weight: .black)
+        $0.font = UIFont.customFont(size: 24, weight: .bold)
     }
     
     private lazy var awardsLabel = UILabel().then {
         $0.text = "이번 달 베스트 소확행 어워즈 🏆"
-        $0.font = .systemFont(ofSize: 16, weight: .bold)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var awardsStack = UIStackView().then {

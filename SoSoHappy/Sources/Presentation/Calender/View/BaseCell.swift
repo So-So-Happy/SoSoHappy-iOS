@@ -44,7 +44,7 @@ class BaseCell: UITableViewCell {
     // 피드 작성 글
     private lazy var contentLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.numberOfLines = 4
     }

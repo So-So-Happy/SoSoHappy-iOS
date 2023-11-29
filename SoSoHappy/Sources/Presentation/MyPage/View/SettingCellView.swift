@@ -14,7 +14,7 @@ final class SettingCellView: UIView {
         $0.contentMode = .scaleAspectFit
     }
     private lazy var textLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 16)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     

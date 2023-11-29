@@ -42,6 +42,8 @@ extension TabBarController {
         tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
         tabBar.layer.shadowRadius = 0.33
         tabBar.barTintColor = UIColor.white
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]
+        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
     }
     
     // MARK: Set custom middle button

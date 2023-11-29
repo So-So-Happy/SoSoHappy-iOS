@@ -171,7 +171,7 @@ extension SetAppThemeCell {
     }
     
     func setAttribute() {
-        self.textLabel.font = .systemFont(ofSize: 18)
+        self.textLabel.font = UIFont.customFont(size: 18, weight: .medium)
         self.textLabel.textColor = UIColor(rgb: 0x626262)
     }
     
