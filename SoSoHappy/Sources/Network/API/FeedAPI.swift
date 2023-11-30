@@ -108,7 +108,6 @@ extension FeedAPI {
             formData.append(MultipartFormData(provider: .data(nickName), name: "nickname"))
             formData.append(MultipartFormData(provider: .data(date), name: "date"))
             return .uploadMultipart(formData)
-//            return .requestJSONEncodable(data)
         case .findDetailFeed(let param):
             return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
         case .findOtherFeed(let param):
@@ -116,11 +115,26 @@ extension FeedAPI {
         case .findUserFeed(let param):
             return .requestParameters(parameters: param.toDictionary(), encoding: URLEncoding.queryString)
         case .analysisHappiness(let data):
-            return .requestJSONEncodable(data)
+            var formData: [Moya.MultipartFormData] = []
+            let nickName = data.nickname.data(using: .utf8)!
+            let date = String(data.date).data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickName), name: "nickname"))
+            formData.append(MultipartFormData(provider: .data(date), name: "date"))
+            return .uploadMultipart(formData)
         case .findMonthHappiness(let data):
-            return .requestJSONEncodable(data)
+            var formData: [Moya.MultipartFormData] = []
+            let nickName = data.nickname.data(using: .utf8)!
+            let date = String(data.date).data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickName), name: "nickname"))
+            formData.append(MultipartFormData(provider: .data(date), name: "date"))
+            return .uploadMultipart(formData)
         case .findYearHappiness(let data):
-            return .requestJSONEncodable(data)
+            var formData: [Moya.MultipartFormData] = []
+            let nickName = data.nickname.data(using: .utf8)!
+            let date = String(data.date).data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickName), name: "nickname"))
+            formData.append(MultipartFormData(provider: .data(date), name: "date"))
+            return .uploadMultipart(formData)
         case .updatePublicStatus(let data):
             return .requestJSONEncodable(data)
         case .updateLike(let data):

@@ -39,6 +39,8 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.alignment = .center
     }
     
+//    let monthToIdxDict: [String: Double] = Dictionary(uniqueKeysWithValues: zip(months, 0.0...11.0))
+    
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     var days: [String] = []
     var unitsSold: [Double] = []
@@ -46,16 +48,8 @@ final class ChartView: UIView, ChartViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        // 30번 반복하여 랜덤 숫자를 생성하여 배열에 추가합니다.
-        for _ in 1...30 {
-            // 0부터 5까지의 랜덤한 Int 값을 생성합니다.
-            let randomValue = Int.random(in: 0...5)
-            
-            // 생성된 랜덤 숫자를 배열에 추가합니다.
-            unitsSold.append(Double(randomValue))
-        }
-        
-        setUpView()
+        setConstraints()
+//        setUpView()
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
     
@@ -69,9 +63,9 @@ final class ChartView: UIView, ChartViewDelegate {
     }
     
     //  MARK: - 뷰 구성요소 세팅
-    private func setUpView() {
+    private func setUpView(_ data: [ChartEntry]) {
         setConstraints()
-        setChart(dataPoints: days, values: unitsSold, formatter: MonthChartFormatter(days: Date().setGraphXaxis()))
+//        setChart()
     }
     
     //  MARK: - 뷰 구성요소 제약 설정
@@ -119,79 +113,27 @@ final class ChartView: UIView, ChartViewDelegate {
         }
     }
     
-    // MARK: - Chart Data + Chart Attibute Setting
-    func setChart(dataPoints: [String], values: [Double], formatter: AxisValueFormatter) {
+    
+    // MARK: - Chart Data 생성
+    func setChartData(data: [ChartEntry]) {
+        var dataEntries: [ChartDataEntry] = []
         
-//        // 데이터 생성
-//        var dataEntries: [ChartDataEntry] = []
-//        
-//        for i in 0..<dataPoints.count {
-//            let dataEntry = ChartDataEntry(x: Double(i), y: Double(values[i]))
-//            dataEntries.append(dataEntry)
-//        }
-//        
-//        let chartDataSet = LineChartDataSet(entries: dataEntries, label: "")
-//        
-//        // 데이터 삽입
-//        let chartData = LineChartData(dataSet: chartDataSet)
-//        graphView.data = chartData
-//        
-//        graphView.data?.setDrawValues(false)
+        for i in data {
+            if i.y > 0.0 {
+                let dataEntry = ChartDataEntry(x: i.x, y: i.y)
+                dataEntries.append(dataEntry)
+            }
+        }
         
+        let chartDataSet = LineChartDataSet(entries: dataEntries, label: "")
         
-        // testData
-        let values: [ChartDataEntry] = [
-            ChartDataEntry(x: 0.0, y: 1.0),
-            ChartDataEntry(x: 1.0, y: 2.0),
-            ChartDataEntry(x: 5.0, y: 3.0),
-            ChartDataEntry(x: 8.0, y: 3.0),
-            ChartDataEntry(x: 24.0, y: 4.0),
-            ChartDataEntry(x: 28.0, y: 5.0)
-        ]
+        let chartData = LineChartData(dataSet: chartDataSet)
+        graphView.data = chartData
         
-        let chartDataSet = LineChartDataSet(entries: values, label: "My Data")
-        let data = LineChartData(dataSet: chartDataSet)
-        
-        graphView.data = data
-        
-        
-        // CustomChartFormatter를 사용하여 X축 레이블을 커스텀 포맷으로 설정
-        let customFormatter = formatter
-        graphView.xAxis.valueFormatter = customFormatter
-        
-        // x축 값 설정
-        let xAxis = graphView.xAxis
-        xAxis.axisMinimum = 0
-        xAxis.axisMaximum = 29
-        graphView.xAxis.labelCount = 7
-        graphView.xAxis.forceLabelsEnabled = true
-        graphView.xAxis.granularityEnabled = true
-        graphView.xAxis.granularity = 1
-        
-        
-        // y축 값 고정
-        let yAxis = graphView.leftAxis
-        yAxis.labelCount = 3
-        yAxis.axisMinimum = 0.0
-        yAxis.axisMaximum = 5.0
-        yAxis.drawLabelsEnabled = false
-        
+        graphView.data?.setDrawValues(false)
         
         // 선택 안되게
         chartDataSet.highlightEnabled = false
-        // 줌 안되게
-        graphView.doubleTapToZoomEnabled = false
-        
-        // X축 레이블 위치 조정
-        graphView.xAxis.labelPosition = .bottom
-        
-        // X축 레이블 포맷 지정 ** -> issue
-        //        graphView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
-      
-        
-        // X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
-        //        graphView.xAxis.setLabelCount(dataPoints.count, force: false)
-        
         
         // 차트 컬러
         chartDataSet.colors = [UIColor(named: "AccentColor")!]
@@ -204,6 +146,54 @@ final class ChartView: UIView, ChartViewDelegate {
         // 노드 외곽선 설정 (선택 사항)
         chartDataSet.circleHoleRadius = 1.0
         chartDataSet.circleHoleColor = .white
+    }
+    
+    // MARK: - Chart Data + Chart Attibute Setting
+    // 파라미터로 [chartEntry] 받고 현재 segmentedControl idx 로 판단
+    func setChart(_ data: [ChartEntry]) {
+        
+        setChartData(data: data)
+        
+        // year: 1.0 ~ 12.0
+        // month: 1.0 ~ 31.0
+        // x축 값 설정
+        if self.segmentedControl.selectedSegmentIndex == 0 {
+            graphView.xAxis.axisMinimum = 1
+            graphView.xAxis.axisMaximum = data.last?.x ?? 30
+            graphView.xAxis.labelCount = 7
+            
+            //             X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
+//            graphView.xAxis.setLabelCount(dataPoints.count, force: false)
+        } else {
+            // CustomChartFormatter를 사용하여 X축 레이블을 커스텀 포맷으로 설정
+            let customFormatter = YearChartFormatter()
+            graphView.xAxis.valueFormatter = customFormatter
+            
+            graphView.xAxis.axisMinimum = 0
+            graphView.xAxis.axisMaximum = 11
+            graphView.xAxis.labelCount = 12
+        }
+        
+        graphView.xAxis.forceLabelsEnabled = true
+        graphView.xAxis.granularityEnabled = true
+        graphView.xAxis.granularity = 1
+
+        
+        // y축 값 고정
+        graphView.leftAxis.labelCount = 3
+        graphView.leftAxis.axisMinimum = 0.0
+        graphView.leftAxis.axisMaximum = 5.0
+        graphView.leftAxis.drawLabelsEnabled = false
+        
+
+        setChartAttribute()
+        
+    }
+    
+    func setChartAttribute() {
+        
+        // X축 레이블 위치 조정
+        graphView.xAxis.labelPosition = .bottom
         
         // 오른쪽 레이블 제거
         graphView.rightAxis.enabled = false
@@ -225,11 +215,15 @@ final class ChartView: UIView, ChartViewDelegate {
         // 차트에서 범례(legend)를 비활성화
         graphView.legend.enabled = false
         
+        // 줌 안되게
+        graphView.doubleTapToZoomEnabled = false
+        
+        
     }
     
 }
 
-
+// xAxis data , dataSet
 public class YearChartFormatter: NSObject, AxisValueFormatter {
 
     var months: [String] =  ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]

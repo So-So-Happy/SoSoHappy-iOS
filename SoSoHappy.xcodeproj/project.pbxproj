@@ -48,6 +48,7 @@
 		06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */; };
 		06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */; };
 		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
+		06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */; };
 		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
 		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
 		06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */; };
@@ -162,7 +163,6 @@
 		808650BB2AD6CB300036CCFB /* SocialType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650BA2AD6CB300036CCFB /* SocialType.swift */; };
 		808650BD2AD6CB450036CCFB /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650BC2AD6CB450036CCFB /* Requestable.swift */; };
 		808650BF2AD6CBD00036CCFB /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650BE2AD6CBD00036CCFB /* Profile.swift */; };
-		808650C12AD6CBEA0036CCFB /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650C02AD6CBEA0036CCFB /* Model.swift */; };
 		808650CE2AD6CCDD0036CCFB /* FindOtherFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650C52AD6CCDA0036CCFB /* FindOtherFeedRequest.swift */; };
 		808650CF2AD6CCDD0036CCFB /* UpdatePulicStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650C62AD6CCDB0036CCFB /* UpdatePulicStatusRequest.swift */; };
 		808650D02AD6CCDD0036CCFB /* FindProfileImgRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650C72AD6CCDB0036CCFB /* FindProfileImgRequest.swift */; };
@@ -279,6 +279,7 @@
 		06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewController.swift; sourceTree = "<group>"; };
 		06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewReactor.swift; sourceTree = "<group>"; };
 		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
+		06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
 		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
 		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
 		06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewReactor.swift; sourceTree = "<group>"; };
@@ -407,7 +408,6 @@
 		808650BA2AD6CB300036CCFB /* SocialType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialType.swift; sourceTree = "<group>"; };
 		808650BC2AD6CB450036CCFB /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		808650BE2AD6CBD00036CCFB /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
-		808650C02AD6CBEA0036CCFB /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		808650C52AD6CCDA0036CCFB /* FindOtherFeedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindOtherFeedRequest.swift; sourceTree = "<group>"; };
 		808650C62AD6CCDB0036CCFB /* UpdatePulicStatusRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdatePulicStatusRequest.swift; sourceTree = "<group>"; };
 		808650C72AD6CCDB0036CCFB /* FindProfileImgRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindProfileImgRequest.swift; sourceTree = "<group>"; };
@@ -1255,7 +1255,7 @@
 				067179F72ADD0426007252AE /* UserFeed.swift */,
 				808650B72AD6CB110036CCFB /* ResponseContainer.swift */,
 				808650BE2AD6CBD00036CCFB /* Profile.swift */,
-				808650C02AD6CBEA0036CCFB /* Model.swift */,
+				06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */,
 				808650B92AD6CB210036CCFB /* Type */,
 			);
 			path = Models;
@@ -1683,6 +1683,7 @@
 				069D642C2AD83335003834E5 /* FeedAPI.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* AuthCoordinator.swift in Sources */,
+				06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */,
 				808650E92AD6CCFE0036CCFB /* FindProfileResponse.swift in Sources */,
 				80AD68BD2AC6DB1800DD3D5F /* NextButton.swift in Sources */,
 				80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */,
@@ -1767,7 +1768,6 @@
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */,
-				808650C12AD6CBEA0036CCFB /* Model.swift in Sources */,
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
 				808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */,
 				0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */,

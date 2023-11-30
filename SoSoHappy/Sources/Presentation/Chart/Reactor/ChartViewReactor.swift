@@ -24,8 +24,6 @@ final class ChartViewReactor: Reactor {
     private var nowRecommendListIdx: Int = 0
     private var recommendList: [String] = []
     private var date = Date()
-    private var monthDays: [String] = []
-    private let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     private var segementBarState: ChartState = .month
     
     private let provider = KeychainService.loadData(
@@ -77,7 +75,8 @@ final class ChartViewReactor: Reactor {
     
     enum Mutation {
         case fetchAnalysisHappiness(AnalysisHappinessResponse) // awards + recommend
-        case fetchHappiness([FindHappinessResponse]) // month or year happiness
+        case fetchHappiness([ChartEntry]) // month or year happiness
+        case setRecommendIdx
         case showNextRecommend
         case setChartText(Date) // deprecated
         case setMonthYearText(String)
@@ -92,7 +91,7 @@ final class ChartViewReactor: Reactor {
         var monthYearText: String
         var chartText: String // ex) 1월, 2023년
         var segementBarState: ChartState // ex) .month, .year
-        var happinessChartData: [FindHappinessResponse]
+        var happinessChartData: [ChartEntry]
         var xAxisData: [String] // x축
         var yAxisData: [String] // y축
     }
@@ -103,27 +102,28 @@ final class ChartViewReactor: Reactor {
         case .viewDidLoad:
             return .concat([
                 .just(.setMonthYearText(date.getFormattedYM())),
-                .just(.setChartText(date)),
                 feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchAnalysisHappiness($0) },
+                .just(.showNextRecommend),
                 feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchHappiness($0) }
             ])
         case .tapRecommendRefreshButton:
-            return .just(.showNextRecommend)
+            return .concat([
+                .just(.setRecommendIdx),
+                .just(.showNextRecommend)
+            ])
         case .tapAwardsDetailButton:
             return .empty()
         case .tapMonthChartButton:
             return .concat([
                 .just(.setSegementBarState(.month)),
-                .just(.setChartText(date)),
                 feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchHappiness($0) }
             ])
         case .tapYearChratButton:
             return .concat([
                 .just(.setSegementBarState(.year)),
-                .just(.setChartText(date)),
                 feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchHappiness($0) }
             ])
@@ -147,14 +147,12 @@ final class ChartViewReactor: Reactor {
             case .year:
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM())),
-                    .just(.setChartText(date)),
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
             case .month:
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM())),
-                    .just(.setChartText(date)),
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -165,14 +163,12 @@ final class ChartViewReactor: Reactor {
             case .year:
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM())),
-                    .just(.setChartText(date)),
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
             case .month:
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM())),
-                    .just(.setChartText(date)),
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -189,15 +185,14 @@ final class ChartViewReactor: Reactor {
             newState.bestCategoryList = data.bestCategoryList
             newState.happinessTopThree = Array(data.bestCategoryList.prefix(3))
             newState.recommendCategoryList = data.recommendCategoryList
+            print("recommendCategoryList: \(data.recommendCategoryList)")
+            self.recommendList = data.recommendCategoryList
         case .fetchHappiness(let data):
             newState.happinessChartData = data
-            // x, y 데이터 세팅
-//            newState.xAxisData = setGraphXaxis()
-//            newState.yAxisData =
+        case .setRecommendIdx:
+            nowRecommendListIdx = (nowRecommendListIdx + 1) % recommendList.count
         case .showNextRecommend:
-            let nextIdx = (nowRecommendListIdx + 1) % recommendList.count
-            newState.nowRecommendText = recommendList[nextIdx]
-            self.nowRecommendListIdx = nextIdx
+            newState.nowRecommendText = recommendList[nowRecommendListIdx]
         case .setChartText(let date):
             switch segementBarState {
             case .month:
@@ -214,59 +209,6 @@ final class ChartViewReactor: Reactor {
     }
 }
 
-extension ChartViewReactor {
-    func moveToNextRecommend(recommends: [String], currentIdx: Int) -> String {
-        let nextIdx = (currentIdx + 1) % recommends.count
-        let recommend = recommends[nextIdx]
-        return recommend
-    }
-}
-
-extension ChartViewReactor {
-    // 월간 연간 선택을 파라미터로 받아 그때그때 xaxis 처리 (월간일 경우 한달동안 날짜 , 연간일 경우는 매달 )
-   
-    
-    
-    // 누락된 날짜에 대해 더미 데이터를 생성하는 함수
-    func fillMissingMonthData(dates: [String], data: [Double]) -> ([String], [Double]) {
-        var filledDates: [String] = []
-        var filledData: [Double] = []
-        
-        for day in 1...30 {
-            if let dateIndex = dates.firstIndex(of: "\(day)일") {
-                filledDates.append("\(day)일")
-                filledData.append(data[dateIndex])
-            } else {
-                // 누락된 날짜에 대해 더미 데이터를 생성 (예: 0으로 설정)
-                filledDates.append("\(day)일")
-                filledData.append(0.0)
-            }
-        }
-        
-        return (filledDates, filledData)
-    }
-    
-    
-    func fillMissingYearData(dates: [String], data: [Double]) -> ([String], [Double]) {
-        var filledDates: [String] = []
-        var filledData: [Double] = []
-        
-        for day in 1...30 {
-            if let dateIndex = dates.firstIndex(of: "\(day)일") {
-                filledDates.append("\(day)일")
-                filledData.append(data[dateIndex])
-            } else {
-                // 누락된 날짜에 대해 더미 데이터를 생성 (예: 0으로 설정)
-                filledDates.append("\(day)일")
-                filledData.append(0.0)
-            }
-        }
-        
-        return (filledDates, filledData)
-    }
-    
-    
-}
 
 
 enum ChartState {

@@ -102,16 +102,9 @@ extension ChartViewController: View {
         
         // recommend refreshButton
         self.recommendView.refreshButton.rx.tap
-            .map { Reactor.Action.tapPreviousButton }
+            .map { Reactor.Action.tapRecommendRefreshButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        // month, year segmentedControl
-        
-//        self.chartView.segmentedControl.rx.selectedSegmentIndex
-//            .map { Reactor.Action.tapMonthChartButton }
-//            .map { Reactor.Action.}
-        
         
         // UISegmentedControl의 선택이 바뀔 때마다 Reactor에게 전달
         self.chartView.segmentedControl.rx.selectedSegmentIndex
@@ -143,8 +136,6 @@ extension ChartViewController: View {
             .drive(self.recommendView.recommendedHappinessLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // chart x y setting
-        
         reactor.state
             .map { $0.chartText }
             .asDriver(onErrorJustReturn: "")
@@ -152,11 +143,14 @@ extension ChartViewController: View {
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
 
-//        reactor.state
-//            .map { $0.monthHappinessData }
-//            .subscribe { data in
-//                self.monthHappinessList.accept(data)
-//            }.disposed(by: disposeBag)
+        reactor.state
+            .map { $0.happinessChartData }
+            .subscribe { [weak self] data in
+                guard let `self` = self else { return }
+                print("charDataEntry: \(data)")
+                self.chartView.setChart(data)
+            }
+            .disposed(by: disposeBag)
         
     }
     
