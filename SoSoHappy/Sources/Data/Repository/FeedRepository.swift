@@ -22,17 +22,20 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     typealias Target = FeedAPI
     
     // MARK: 이미지 넣는거 성공하면 동환님이랑 이 경로 설정에 대해서 이야기 해보기
-    // FeedAPI
-    func saveFeed(request: SaveFeedRequest) -> Observable<SaveFeedResponse> {
+    // FeedAPI - 이미지 경로 문제
+    // SaveFeedResponse - success(true, false), message (성공 or nil)
+    // 추후에 에러 처리는 필요
+    func saveFeed(request: SaveFeedRequest) -> Observable<Bool> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.saveFeed(request))
                 .map(SaveFeedResponse.self)
+                .map { $0.success }
                 .asObservable()
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("saveFeed - success : \(response.message)")
+                        print("saveFeed - success :")
                         emitter.onNext(response)
                     case .error(let error):
                         print("saveFeed - error: \(error.localizedDescription)")
@@ -115,7 +118,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     /// findOtherFeed: 피드 전체 데이터 fetch
-    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]> {
+    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<([UserFeed], Bool)> {
 //        print("여기 FeedRepository  - findOtherFeed")
         return Observable.create { emitter in
             let provider = self.accessProvider()
@@ -123,7 +126,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             let disposable = provider.rx.request(.findOtherFeed(request))
                 .debug()
                 .map(FindOtherFeedResponse.self)
-                .map { $0.content.map { $0.toDomain() }}
+                .map { ($0.content.map { $0.toDomain() }, $0.isLast) }
                 .asObservable()
                 .subscribe { event in
 //                    print("event: \(event)")
