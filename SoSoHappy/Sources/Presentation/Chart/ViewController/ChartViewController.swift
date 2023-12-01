@@ -47,11 +47,6 @@ final class ChartViewController: UIViewController {
     }
     let contentView = UIView()
     
-    var graphArray: [String] = ["09시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시"]
-    
-    let barUnitsSold = [10.0, 17.0, 9.0, 1.0, 8.0, 13.0, 16.0, 14.0, 7.0, 1.0]
-    let lineUnitsSold = [10.0, 18.0, 7.0, 1.0, 5.0, 15.0, 14.0, 17.0, 7.0, 1.0]
-    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
