@@ -150,14 +150,11 @@ extension FeedAPI {
     public func saveFeedMultiparFormData(data: SaveFeedRequest) -> [Moya.MultipartFormData] {
         var formData: [Moya.MultipartFormData] = []
         
-        if let textData = data.text?.data(using: .utf8) {
-            formData.append(MultipartFormData(provider: .data(textData), name: "text"))
-        }
-        
         for (index, imageData) in (data.imageList ?? []).enumerated() {
             formData.append(MultipartFormData(provider: .data(imageData), name: "imageList[\(index)]", fileName: "image.png", mimeType: "image/png"))
         }
         
+        let text = data.text.data(using: .utf8)!
         let categoryListData = data.categoryList.joined(separator: ",").data(using: .utf8)!
         let isPublic = String(data.isPublic).data(using: .utf8)!
         let date = String(data.date).data(using: .utf8)!
@@ -165,6 +162,7 @@ extension FeedAPI {
         let happiness = String(data.happiness).data(using: .utf8)!
         let nickname = data.nickname.data(using: .utf8)!
         
+        formData.append(MultipartFormData(provider: .data(text), name: "text"))
         formData.append(MultipartFormData(provider: .data(categoryListData), name: "categoryList"))
         formData.append(MultipartFormData(provider: .data(isPublic), name: "isPublic"))
         formData.append(MultipartFormData(provider: .data(date), name: "date"))
