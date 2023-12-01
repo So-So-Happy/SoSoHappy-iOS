@@ -11,6 +11,8 @@ import UIKit
 // 궁금한 점
 // 1. 오늘 조회할 때 Int로 20231018만 넘겨주면 되는거죠? yes
 
+// 아무래도 state의 값이 변경이 되면 다른 reactor.state에도 영향을 미치는 것 같음
+
 enum SortOption {
     case today
     case total
@@ -20,7 +22,6 @@ enum SortOption {
 final class FeedViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
-    private let imageCacheManager: ImageCacheManager
     
     enum Action {
         case refresh
@@ -48,13 +49,12 @@ final class FeedViewReactor: Reactor {
     
     init(
         feedRepository: FeedRepositoryProtocol,
-        userRepository: UserRepositoryProtocol,
-        imageCacheManager: ImageCacheManager)
+        userRepository: UserRepositoryProtocol
+    )
     { //userRepository: UserRepositoryProtocol 추가
         initialState = State()
         self.feedRepository = feedRepository
         self.userRepository = userRepository
-        self.imageCacheManager = imageCacheManager
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -85,10 +85,10 @@ final class FeedViewReactor: Reactor {
             
             return .concat([
                 .just(.sortOption(setSortOption)),
-                .just(.setFeeds([])),
+//                .just(.setFeeds([])),
                 .just(.isLoading(true)),
                 // .isLoading ->  1초 delay 후 -> fetchAndProcessFeed 실행
-                fetchAndProcessFeeds(setSortOption: setSortOption).delay(.milliseconds(400), scheduler: MainScheduler.instance),
+                fetchAndProcessFeeds(setSortOption: setSortOption).delay(.milliseconds(1), scheduler: MainScheduler.instance),
                 .just(.isLoading(false))
             ])
             
@@ -101,20 +101,20 @@ final class FeedViewReactor: Reactor {
         var state = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
-            print("reduce - .setFreshing ")
+//            print("reduce - .setFreshing ")
             state.isRefreshing = isRefreshing
             
         case let .setFeeds(feeds):
-            print("reduce -  .setFeeds : \(feeds)")
+//            print("reduce -  .setFeeds : \(feeds)")
             state.userFeeds = feeds
             
         case let .sortOption(sort):
-            print("reduce -  .sortOption : \(sort)")
+//            print("reduce -  .sortOption : \(sort)")
             state.sortOption = sort
             state.selectedFeed = nil
             
         case let .selectedCell(index):
-            print("reduce - .selectedCell")
+//            print("reduce - .selectedCell")
             if let userFeeds = state.userFeeds {
                 state.selectedFeed = userFeeds[index]
             }
@@ -145,92 +145,46 @@ extension FeedViewReactor {
         let requestDate: Int64? = setRequestDateBy(setSortOption)
         print("requestDate: \(requestDate)")
         
+        // MARK: page를 7로 해놓아서 처음부터 7
         return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
             .flatMap { userFeeds -> Observable<[UserFeed]> in
-//                if userFeeds.isEmpty {
-//                    print("비어있다")
-//                    return Observable.just([])
-//                }
-                
-                print("😀 type : \(type(of: userFeeds)), userFeeds: \(userFeeds)")
+//                print("fetchAndProcessFeeds 1 : \(userFeeds.count) , userFeeds : \(userFeeds)")
                 let profileImageObservables: [Observable<UserFeed>] = userFeeds.map { feed in
+//                    print(" 🛑 feed.nickname : \(feed.nickName) ")
+                    if let cachedImage = ImageCache.shared.cache[feed.nickName] {
+//                        print("⭕️ 캐시에 있음 - feedviewreactor nickname : \(feed.nickName)")
+                        
+                        var updateFeed = feed
+                        updateFeed.profileImage = cachedImage
+                        return Observable.just(updateFeed)
+                    }
+//                    print("✴️ else")
                     return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
                         .map { profileImage in
+//                            print(" ❌ 캐시에 없음 - feedviewreactor nickname : \(feed.nickName)")
                             var updatedFeed = feed
-                            print("HERE")
                             updatedFeed.profileImage = profileImage
+//                            print("ImageCache.shared 에 저장하기")
+                            ImageCache.shared.cache[feed.nickName] = profileImage
                             return updatedFeed
                         }// map
                         .catch { error in
-                            print("Feed view reactor findProfileImg error : \(error.localizedDescription)")
+//                            print("🚫 Feed view reactor findProfileImg error : \(error.localizedDescription), error nickname : \(feed.nickName)")
                             return Observable.just(feed)
                         }
+                    
                 } // map
                 // Observable.zip - profileImageObservables의 모든 작업이 끝날 때까지 기다림
                 // 모든 작업의 결과를 하나의 Observable로 반환할 수 있음.
                 // 결과의 순서를 원본 목록과 일치시켜서 하나의 Observable로 반환
-                print("😀 profileImageObservables type : \(type(of: profileImageObservables)), profileImageObservables: \(profileImageObservables)")
-                print("😀 Observable.zip(profileImageObservables) : \(Observable.zip(profileImageObservables))")
+                //                print("😀 profileImageObservables type : \(type(of: profileImageObservables)), profileImageObservables: \(profileImageObservables)")
+                //                print("😀 Observable.zip(profileImageObservables) : \(Observable.zip(profileImageObservables))")
                 return Observable.zip(profileImageObservables)
                 
             } // flatMap
-            .map { Mutation.setFeeds($0) }
-    }
-    
-    
-    
-    //    private func fetchAndProcessFeeds(setSortOption: SortOption) -> Observable<Mutation> {
-    //        let requestDate: Int64? = setRequestDateBy(setSortOption)
-    //
-    //        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
-    //            .flatMap { [weak self] userFeeds -> Observable<[UserFeed]> in
-    //                print("😀 type : \(type(of: userFeeds))")
-    //                let profileImageObservables: [Observable<UserFeed>] = userFeeds.map { feed in
-    //                    if let cachedImage = self?.imageCacheManager.get(key: feed.nickName) {
-    //                        print("❤️ Cache에 이미지가 있었어 ")
-    //                        return Observable.just(feed.with(profileImage: cachedImage))
-    //                    } else {
-    //                        print("🖤  Cache에 이미지가 없어 ")
-    //                        return self?.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
-    //                            .map { profileImage in
-    //                                self?.imageCacheManager.add(key: feed.nickName, value: profileImage)
-    //                                return feed.with(profileImage: profileImage)
-    //                            }
-    //                    }
-    ////                    } else if let fetchImageObservable = self?.fetchProfileImage(feed: feed) {
-    ////                        print("🖤  Cache에 이미지가 없어 ")
-    ////                        return fetchImageObservable
-    ////                    } else {
-    ////                        return Observable.just(feed)
-    ////                    }
-    //                } // map
-    //                // Observable.zip - profileImageObservables의 모든 작업이 끝날 때까지 기다림
-    //                // 모든 작업의 결과를 하나의 Observable로 반환할 수 있음.
-    //                // 결과의 순서를 원본 목록과 일치시켜서 하나의 Observable로 반환
-    //                return Observable.zip(profileImageObservables)
-    //
-    //            } // flatMap
-    //            .map {
-    //                print("@@feeds : \($0)")
-    //                return Mutation.setFeeds($0)
-    //            }
-    ////            .catch { error in
-    ////                print("🚩Error fetchAndProcessFeeds")
-    ////                return Observable.just(.setFeeds([]))
-    ////            }
-    //    }
-    
-    private func fetchProfileImage(feed: UserFeed) -> Observable<UserFeed> {
-        return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
-            .map { profileImage in
-                self.imageCacheManager.add(key: feed.nickName, value: profileImage)
-                return feed.with(profileImage: profileImage)
+            .map {
+                print("😀 feeds: \($0)")
+                return Mutation.setFeeds($0)
             }
     }
 }
-
-/*
- 1. 피드 닉네임에 대한 이미지가 메모리 캐시에 있는지 검색
- 2. 있으면, 바로 사용
- 3. 없으면, 네트워크 다운로드 -> 캐시에 저장
- */

@@ -42,6 +42,12 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     
     private lazy var nextButton = NextButton()
     
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -73,6 +79,7 @@ extension AddStep2ViewController {
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
     private func addViews() {
@@ -176,7 +183,16 @@ extension AddStep2ViewController: View {
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                coordinator?.showNextAdd(reactor: reactor)
+                print("AddStep2 - move to step3")
+                coordinator?.showNextAdd(reactor: reactor, navigateTo: .addstep3)
+            })
+            .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                print("AddStep2 - navigate Back")
+                coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
         

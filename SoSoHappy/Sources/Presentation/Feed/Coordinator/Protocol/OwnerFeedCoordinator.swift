@@ -8,6 +8,7 @@
 import UIKit
 
 protocol OwnerFeedCoordinatorInterface: Coordinator {
+    func dismiss()
     func showDetails(userFeed: UserFeed)
 }
 
@@ -26,10 +27,11 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
     }
     
     func start() {
-        print("OwnerFeedCoordinator START")
+//        print("OwnerFeedCoordinator START")
         let ownerFeedViewReactor = OwnerFeedViewReactor(ownerNickName: self.ownerNickName, feedRepository: FeedRepository(), userRepository: UserRepository())
         let ownerFeedVC = OwnerFeedViewController(reactor: ownerFeedViewReactor, coordinator: self)
         navigationController.pushViewController(ownerFeedVC, animated: true)
+//        print("🗂️ START owner navigationcontroller count : \(navigationController.viewControllers.count)") 
     }
     
     func finish() {
@@ -39,12 +41,21 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
 
 
 extension OwnerFeedCoordinator {
+    func dismiss() {
+//        print("OwnerFeedCoorindator dismissed")
+        parentCoordinator?.childDidFinish(self, parent: parentCoordinator)
+        navigationController.popViewController(animated: true)
+//        print("🗂️OwnerFeedCoorindator dismissed - controller count : \(navigationController.viewControllers.count)")
+    }
+    
     func showDetails(userFeed: UserFeed) {
-        print("OwnerFeedCoordinator didSelectCell 메서드 실행")        
-        print("cell 선택함")
+//        print("OwnerFeedCoordinator didSelectCell 메서드 실행")        
+//        print("cell 선택함")
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, userFeed: userFeed, navigatingFrom: .ownerFeedViewController)
+        feedDetailCoordinator.parentCoordinator = self
         
         self.childCoordinators.append(feedDetailCoordinator)
+//        print("🗂️ (OWNER) Owner Feed coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         feedDetailCoordinator.start()
     }
 }
