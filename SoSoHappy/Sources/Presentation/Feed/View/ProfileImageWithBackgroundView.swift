@@ -17,6 +17,7 @@ final class ProfileImageWithBackgroundView: UIView {
     lazy var profileImageView = UIImageView().then {            // 프로필 이미지
         $0.contentMode = .scaleToFill
         $0.layer.masksToBounds = true
+        $0.backgroundColor = .white
         $0.layer.borderColor = UIColor.lightGray.cgColor
         $0.layer.borderWidth = 0.4
     }

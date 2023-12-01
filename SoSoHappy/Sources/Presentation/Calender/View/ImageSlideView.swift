@@ -92,5 +92,15 @@ extension ImageSlideView {
         }
         self.slideShowView.setImageInputs(imageResources)
     }
+    
+    // MARK: 나중에 리팩토링해줘야 함 (일단 만들어 놓음)
+    func setContentsWithImageList(imageList: [UIImage]) {
+        imageResources = []
+        imageList.forEach { img in
+            imageResources.append(ImageSource(image: img))
+        }
+        self.slideShowView.setImageInputs(imageResources)
+    }
+    
 }
 

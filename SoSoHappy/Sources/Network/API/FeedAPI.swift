@@ -11,7 +11,7 @@ import Alamofire
 
 
 enum FeedAPI {
-    case saveFeed(MyFeed)
+    case saveFeed(SaveFeedRequest)
     case findDayFeed(FindFeedRequest)
     case findMonthFeed(FindFeedRequest)
     case findDetailFeed(FindDetailFeedRequest)
@@ -91,8 +91,9 @@ extension FeedAPI {
     
     func getTask() -> Task {
         switch self {
-        case .saveFeed(let feed):
-            let formData = reuturnFeedMultiparFormData(feed: feed)
+        case .saveFeed(let data):
+            var formData: [Moya.MultipartFormData] = saveFeedMultiparFormData(data: data)
+
             return .uploadMultipart(formData)
         case .findDayFeed(let data):
             var formData: [Moya.MultipartFormData] = []
@@ -165,6 +166,32 @@ extension FeedAPI {
 }
 
 extension FeedAPI {
+    public func saveFeedMultiparFormData(data: SaveFeedRequest) -> [Moya.MultipartFormData] {
+        var formData: [Moya.MultipartFormData] = []
+        
+        for (index, imageData) in (data.imageList ?? []).enumerated() {
+            formData.append(MultipartFormData(provider: .data(imageData), name: "imageList[\(index)]", fileName: "image.png", mimeType: "image/png"))
+        }
+        
+        let text = data.text.data(using: .utf8)!
+        let categoryListData = data.categoryList.joined(separator: ",").data(using: .utf8)!
+        let isPublic = String(data.isPublic).data(using: .utf8)!
+        let date = String(data.date).data(using: .utf8)!
+        let weather = data.weather.data(using: .utf8)!
+        let happiness = String(data.happiness).data(using: .utf8)!
+        let nickname = data.nickname.data(using: .utf8)!
+        
+        formData.append(MultipartFormData(provider: .data(text), name: "text"))
+        formData.append(MultipartFormData(provider: .data(categoryListData), name: "categoryList"))
+        formData.append(MultipartFormData(provider: .data(isPublic), name: "isPublic"))
+        formData.append(MultipartFormData(provider: .data(date), name: "date"))
+        formData.append(MultipartFormData(provider: .data(weather), name: "weather"))
+        formData.append(MultipartFormData(provider: .data(happiness), name: "happiness"))
+        formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
+
+        return formData
+    }
+    
     public func reuturnFeedMultiparFormData(feed: MyFeed) -> [Moya.MultipartFormData] {
         var formData: [Moya.MultipartFormData] = []
         
