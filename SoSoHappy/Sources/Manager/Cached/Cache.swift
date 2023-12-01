@@ -11,7 +11,6 @@ final class Cache<Key: Hashable, Value> {
     private let wrapped = NSCache<WrappedKey, Entry>()
     private let dateProvider: () -> Date
     private let entryLifeTime: TimeInterval
-    private let keyTracker = KeyTracker()
     
     init(dateProvider: @escaping () -> Date = Date.init,
          entryLifeTime: TimeInterval = 10 * 60,
@@ -19,16 +18,14 @@ final class Cache<Key: Hashable, Value> {
         self.dateProvider = dateProvider
         self.entryLifeTime = entryLifeTime
         wrapped.countLimit = maximumEntryCount
-        wrapped.delegate = keyTracker
     }
     
     // MARK: 캐시에 저장 메서드
     func insert(_ value: Value, forKey key: Key) {
         let date = dateProvider().addingTimeInterval(entryLifeTime)
-        let entry = Entry(key: key, value: value, expirationDate: date)
+        let entry = Entry(value: value, expirationDate: date)
         print("캐시에 저장 - value \(value), key: \(key)")
         wrapped.setObject(entry, forKey: WrappedKey(key))
-        keyTracker.keys.insert(key)
     }
     
     // MARK: 캐시에 저장된 object 가져오는 메서드
@@ -51,6 +48,7 @@ final class Cache<Key: Hashable, Value> {
     
     // MARK: 캐시에 해당 key에 대한 entry 제거
     func removeValue(forKey key: Key) {
+        // Removes the value of the specified key in the cache.
         wrapped.removeObject(forKey: WrappedKey(key))
     }
 }
@@ -95,12 +93,10 @@ private extension Cache {
 // MARK: - Entry (Object)
 private extension Cache {
     final class Entry: NSObject, NSDiscardableContent {
-        let key: Key // 해당 Entry에 대한 key. entry가 제거되면 key도 remove 할 수 있도록
         let value: Value
         let expirationDate: Date // 캐시 무효화 조건 - 특정 시간 간격 후에 캐시 항목을 제거해서 캐시 항목의 수명 제한 (만료날짜)
         
-        init(key: Key, value: Value, expirationDate: Date) {
-            self.key = key
+        init(value: Value, expirationDate: Date) {
             self.value = value
             self.expirationDate = expirationDate
         }
@@ -113,21 +109,3 @@ private extension Cache {
         func isContentDiscarded() -> Bool { false }
     }
 }
-
-// MARK: - Key Tracker
-private extension Cache {
-    final class KeyTracker: NSObject, NSCacheDelegate {
-        var keys = Set<Key>()
-        
-        // MARK: 캐시에서 entry가 되기 직전에 호출되는 메서드
-        func cache(_ cache: NSCache<AnyObject, AnyObject>, willEvictObject obj: Any) {
-            guard let entry = obj as? Entry else {
-                return
-            }
-            print("캐시에서 삭제되기 전 : \(entry.value)")
-            print("캐시에서 삭제된 key : \(entry.key)")
-            keys.remove(entry.key)
-        }
-    }
-}
-
