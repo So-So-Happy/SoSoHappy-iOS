@@ -42,15 +42,24 @@ final class OwnerFeedViewController: UIViewController {
         $0.estimatedRowHeight = 300
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        print("OwnerFeedViewController viewDidLoad ---------------")
-        setup()
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
+        print("OwnerFeedViewcontroller viewDidload")
+    }
+    // MARK: viewWillAppear에 해주는게 맞음
+    // detailViewController 앞 뒤로 갔다왔을 때
+    // 하나는 viewDidLoad, viewWillAppear 두 개, 다른 하나는 viewWillAppear
+    // 공통적으로 들어가 있는 viewWillAppear에서 처리를 해주는게 맞음
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("OwnerFeedViewController viewWillAppear ---------------")
+        print("OwnerFeedViewcontroller viewWillAppear")
+    
     }
 
     init(reactor: OwnerFeedViewReactor, coordinator: OwnerFeedCoordinatorInterface) {
@@ -67,6 +76,7 @@ final class OwnerFeedViewController: UIViewController {
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension OwnerFeedViewController {
     private func setup() {
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         self.navigationItem.title = ""
         setLayout()
     }
@@ -106,17 +116,28 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+//                print("back button tapped")
+                coordinator?.dismiss()
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
-            .compactMap { $0.isLoading }
+            .compactMap {
+                print("OwnerFeedVC - reactor.state - isLoading : \($0.isLoading)")
+                return $0.isLoading
+            }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] isLoading in
                 guard let self = self else { return }
-                print("FeedVC - isLoading: \(isLoading), type: \(type(of: isLoading))")
+                print("OwnerFeedVC - isLoading: \(isLoading), type: \(type(of: isLoading))")
                 if isLoading {
-                    print("FeedVC - animating")
+                    print("OwnerFeedVC - animating")
                     activityIndicatorView.startAnimating()
                 } else {
-                    print("FeedVC - animating stop")
+                    print("OwnerFeedVC - animating stop")
                     activityIndicatorView.stopAnimating()
                 }
             })
@@ -124,37 +145,77 @@ extension OwnerFeedViewController: View {
         
         // 이게 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
         reactor.state
-            .skip(1)
-            .compactMap { $0.profile }
+//            .skip(1)
+            .compactMap {
+                print("OwnerFeedVC - reactor.state - profile : \($0.profile)")
+                return $0.profile
+            }
             .subscribe(onNext: { [weak self] profile in
+                print("OwnerFeedVC - reactor.state - profile - inside subscribe)")
                 self?.ownerFeedHeaderView.update(with: profile)
             })
             .disposed(by: disposeBag)
+    
         
         reactor.state
             .skip(1)
-            .compactMap { $0.userFeeds }
+            .compactMap {
+                print("OwnerFeedVC - reactor.state - userFeeds : \($0.userFeeds)")
+                return $0.userFeeds
+            }
+            .distinctUntilChanged()
+            .debug()
             .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { [weak self] (row,  userFeed, cell) in
                 guard let self = self else { return }
-                print("cell 만드는 중")
+                print("OwnerFeedVC - cell 만드는 중")
                 configureCell(cell, with: userFeed)
             }
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isRefreshing }
+            .compactMap {
+                print("OwnerFeedVC - reactor.state - isRefreshing : \($0.isRefreshing)")
+                return $0.isRefreshing
+            }
+            .distinctUntilChanged()
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .compactMap { $0.selectedFeed }
+            .compactMap {
+                print("OwnerFeedVC - reactor.state - selectedFeed : \($0.selectedFeed)")
+                print("--------------------------------------")
+                return $0.selectedFeed
+            }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                print("여기까지 진행완료")
+                print("OwnerFeedVC - feed 고름 - 여기까지 진행완료")
 //                print("feed: \(feed), type: \(type(of: feed))")
                 self.coordinator?.showDetails(userFeed: userFeed)
             })
             .disposed(by: disposeBag)
+        
+        
+        //        reactor.state
+        //            .skip(1)
+        //            .compactMap { $0.profileImage }
+        //            .bind(to: ownerFeedHeaderView.profileImageWithBackgroundView.profileImageView.rx.image)
+        //            .disposed(by: disposeBag)
+        //
+        //        reactor.state
+        //            .skip(1)
+        //            .compactMap { $0.ownerNickName }
+        //            .bind(to: ownerFeedHeaderView.profileNickNameLabel.rx.text)
+        //            .disposed(by: disposeBag)
+        //
+        //        reactor.state
+        //            .skip(1)
+        //            .compactMap { $0.selfIntroduction }
+        //            .bind(onNext: { [weak self] selfIntro in
+        //
+        //                self?.ownerFeedHeaderView.update(selfIntro: selfIntro)
+        //            })
+        //            .disposed(by: disposeBag)
     }
     
     private func configureCell(_ cell: OwnerFeedCell, with userFeed: UserFeed) {

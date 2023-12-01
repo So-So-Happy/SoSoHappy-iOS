@@ -25,7 +25,11 @@ final class FeedDetailViewController: BaseDetailViewController {
     // MARK: - UI Components
     private lazy var profileImageNameTimeStackView = ProfileImageNameTimeStackView(imageSize: 44)
     private lazy var heartButton = HeartButton()
-
+    
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +66,7 @@ final class FeedDetailViewController: BaseDetailViewController {
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         print("FeedDetailViewController - setLayoutForDetail")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         self.contentView.addSubview(profileImageNameTimeStackView)
         self.contentView.addSubview(heartButton)
         
@@ -103,10 +108,17 @@ extension FeedDetailViewController: View {
         profileImageNameTimeStackView.profileImageView.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let `self` = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
-                self.coordinator?.showOwner(ownerNickName: nickName)
+                coordinator?.showOwner(ownerNickName: nickName)
             })
             .disposed(by: disposeBag)
         
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+//                print("back button tapped")
+                coordinator?.dismiss()
+            })
+            .disposed(by: disposeBag)
 
         reactor.state
             .map { $0.userFeed }
