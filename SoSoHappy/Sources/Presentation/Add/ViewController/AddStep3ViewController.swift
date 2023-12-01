@@ -88,6 +88,7 @@ final class AddStep3ViewController: BaseDetailViewController {
 // MARK: - set up
 extension AddStep3ViewController {
     private func setup() {
+        print("AddStep3 setup")
         setAttributes()
         setLayoutForAddStep3()
     }
@@ -131,6 +132,10 @@ extension AddStep3ViewController {
         removeImageButton.snp.makeConstraints { make in
             make.left.top.equalToSuperview().inset(14)
             make.size.equalTo(24)
+        }
+        
+        imageSlideView.snp.makeConstraints { make in
+            make.height.equalTo(0)
         }
         
         // placeholder
@@ -318,7 +323,7 @@ extension AddStep3ViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-//                print("images.count : \(images.count)")
+                print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })

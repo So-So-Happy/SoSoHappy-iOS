@@ -34,7 +34,6 @@ final class FeedDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutForDetail()
-        print("FeedDetailViewController viewDidLoad ---------------")
     }
     
     override func viewWillAppear(_ animated: Bool) {

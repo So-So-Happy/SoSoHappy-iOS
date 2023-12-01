@@ -82,20 +82,21 @@ class BaseDetailViewController: UIViewController {
         if imageList.isEmpty {
             imageSlideView.isHidden = true
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("imageSlideView  updateConstraints 사진 없음")
+                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 없음")
                 make.height.equalTo(0)
             }
             
         } else {
             imageSlideView.isHidden = false
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("imageSlideView  updateConstraints 사진 있음")
+                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 있음")
                 make.height.equalTo(300)
             }
             
             imageSlideView.setContentsWithImageList(imageList: imageList)
             
         }
+        
     }
 }
 // MARK: - setLayout()
@@ -137,12 +138,10 @@ extension BaseDetailViewController {
             make.horizontalEdges.equalToSuperview().inset(40)
         }
         
-        
         imageSlideView.snp.makeConstraints { make in
             print("imageSlideView  makeConstraints")
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview().inset(30)
-            make.height.equalTo(0)
         }
     }
 }
