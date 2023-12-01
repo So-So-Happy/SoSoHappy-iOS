@@ -8,7 +8,7 @@
 import UIKit
 
 struct SaveFeedRequest: Codable {
-    let text: String?
+    let text: String
     let imageList: [Data]?
     let categoryList: [String]
     let isPublic: Bool
@@ -17,7 +17,7 @@ struct SaveFeedRequest: Codable {
     let happiness: Int
     let nickname: String
 
-    init(text: String?, images: [UIImage]?, categoryList: [String], isPublic: Bool, date: Int64, weather: String, happiness: Int, nickname: String) {
+    init(text: String, images: [UIImage]?, categoryList: [String], isPublic: Bool, date: Int64, weather: String, happiness: Int, nickname: String) {
         self.text = text
         self.categoryList = categoryList
         self.isPublic = isPublic
