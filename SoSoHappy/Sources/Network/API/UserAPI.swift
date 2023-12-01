@@ -89,12 +89,16 @@ extension UserAPI {
             let providerId = data.providerId.data(using: .utf8)!
             let codeVerifier = data.codeVerifier.data(using: .utf8)!
             let authorizeCode = data.authorizeCode.data(using: .utf8)!
+            let authorizationCode = data.authorizationCode.data(using: .utf8)!
+            let deviceToken = data.deviceToken.data(using: .utf8)!
             
             formData.append(MultipartFormData(provider: .data(email), name: "email"))
             formData.append(MultipartFormData(provider: .data(provider), name: "provider"))
             formData.append(MultipartFormData(provider: .data(providerId), name: "providerId"))
             formData.append(MultipartFormData(provider: .data(codeVerifier), name: "codeVerifier"))
             formData.append(MultipartFormData(provider: .data(authorizeCode), name: "authorizeCode"))
+            formData.append(MultipartFormData(provider: .data(authorizationCode), name: "authorizationCode"))
+            formData.append(MultipartFormData(provider: .data(deviceToken), name: "deviceToken"))
             
             return .uploadMultipart(formData)
             
@@ -112,13 +116,18 @@ extension UserAPI {
             let formData: [Moya.MultipartFormData] = [emailData, nickNameData, imageData, introData]
             return .uploadMultipart(formData)
             
-        case .resign(let email):
-            return .requestJSONEncodable(email)
+        case .resign(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let email = data.email.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(email), name: "email"))
+            return .uploadMultipart(formData)
+            
         case .findProfileImg(let data):
             var formData: [Moya.MultipartFormData] = []
             let nickname = data.nickname.data(using: .utf8)!
             formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
             return .uploadMultipart(formData)
+            
         case .findIntroduction(let data):
             var formData: [Moya.MultipartFormData] = []
             let nickname = data.nickname.data(using: .utf8)!

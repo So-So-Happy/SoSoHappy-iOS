@@ -9,6 +9,6 @@ import Foundation
 
 struct FindHappinessResponse: Decodable {
     let happiness: Double
-    let fomattedDate: String
+    let fomattedDate: Int64
     
 }

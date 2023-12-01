@@ -37,7 +37,7 @@ final class OwnerFeedViewController: UIViewController {
         $0.separatorStyle = .none
         $0.refreshControl = self.refreshControl
         $0.sectionHeaderHeight = UITableView.automaticDimension
-        $0.backgroundColor = UIColor(named: "backgroundColor")
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 300
     }

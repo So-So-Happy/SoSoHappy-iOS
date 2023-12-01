@@ -5,7 +5,7 @@
 //  Created by Sue on 2023/08/01.
 //
 
-import UIKit
+import Foundation
 import CoreData
 import RxKakaoSDKCommon
 import RxKakaoSDKAuth
@@ -13,6 +13,7 @@ import KakaoSDKAuth
 import GoogleSignIn
 import FirebaseCore
 import FirebaseMessaging
+import UserNotifications
 
 
 @main
@@ -45,10 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         application.registerForRemoteNotifications()
-        
-        // MARK: Messaging Delegate
+       
+//        // MARK: Messaging Delegate
         Messaging.messaging().delegate = self
-
+        
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
+        UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
         
         return true
     }
@@ -126,6 +129,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
       print("Firebase registration token: \(String(describing: fcmToken))")
+      UserDefaults.standard.setValue(fcmToken, forKey: "fcmToken")
 
       let dataDict: [String: String] = ["token": fcmToken ?? ""]
       NotificationCenter.default.post(
@@ -139,9 +143,14 @@ extension AppDelegate: MessagingDelegate {
 
 }
 
-
 // MARK: - UNUserNotificationCenterDelegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    func application(application: UIApplication,
+                        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+         Messaging.messaging().apnsToken = deviceToken
+       }
+    
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification) async
     -> UNNotificationPresentationOptions {

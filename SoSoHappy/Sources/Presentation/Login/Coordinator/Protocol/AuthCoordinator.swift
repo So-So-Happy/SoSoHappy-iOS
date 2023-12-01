@@ -11,12 +11,10 @@ public protocol AuthCoordinatorProtocol {
     func pushLoginView()
     func pushSignUpView()
     func pushMainView()
-    func presentErrorAlert(error: Error)
-    func presentCheckAlert(title: String, message: String, okActionHandler: @escaping () -> Void)
 }
 
 final class AuthCoordinator: Coordinator {
-    var type: CoordinatorType { .login }
+    var type: CoordinatorType { .auth }
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
@@ -24,9 +22,11 @@ final class AuthCoordinator: Coordinator {
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        navigationController.setNavigationBarHidden(true, animated: true)
     }
     
     func start() {
+        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
         pushLoginView()
     }
     
@@ -47,38 +47,14 @@ extension AuthCoordinator: AuthCoordinatorProtocol {
     }
     
     func pushMainView() {
-        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
-    }
-    
-    func presentErrorAlert(error: Error) {
-        let alert = UIAlertController(title: "⚠️ 네트워크 오류 ⚠️", message: "잠시 후에 다시 시도해주세요.\n\(error.localizedDescription)", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
-        alert.addAction(okAction)
-        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
-        if let window = keyWindow, let rootViewController = window.rootViewController {
-            rootViewController.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    func presentCheckAlert(title: String, message: String, okActionHandler: @escaping () -> Void) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "계속", style: .default) { _ in
-            okActionHandler()
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        alert.addAction(okAction)
-        alert.addAction(cancelAction)
-        
-        let keyWindow = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.flatMap { $0.windows }.first { $0.isKeyWindow }
-        if let window = keyWindow, let rootViewController = window.rootViewController {
-            rootViewController.present(alert, animated: true, completion: nil)
-        }
+        let appCoordinator = AppCoordinator(navigationController: navigationController)
+        appCoordinator.start()
     }
 }
 
 extension AuthCoordinator {
     func makeLoginViewController() -> UIViewController {
-        let viewController = LoginViewController(reactor: LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager: GoogleSigninManager()), coordinator: self)
+        let viewController = LoginViewController(reactor: LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager:GoogleSigninManager()), coordinator: self)
         return viewController
     }
     

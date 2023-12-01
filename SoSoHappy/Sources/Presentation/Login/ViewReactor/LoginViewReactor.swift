@@ -157,6 +157,7 @@ class LoginViewReactor: Reactor {
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
                    message == "cancel" {
+                    print("message", message)
                     return .just(.kakaoLoading(false))
                 } else {
                     return .just(.showErrorAlert(error))
@@ -177,8 +178,11 @@ class LoginViewReactor: Reactor {
                     }
             }
             .catch { error in
-                print("⚠️ google login error:", error)
-                return .just(.googleLoading(false))
+                if case .unknown = error as? BaseError {
+                    return .just(.kakaoLoading(false))
+                } else {
+                    return .just(.showErrorAlert(error))
+                }
             }
     }
     
@@ -211,7 +215,9 @@ class LoginViewReactor: Reactor {
                 print("로그인 성공 후 키체인에 토큰 저장")
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
-                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail", data: signinResponse.email)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider", data: String(signinResponse.email.split(separator: "+")[1]))
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(String(signinResponse.email.split(separator: "+")[1]))", forKey: "userEmail", data: signinResponse.email)
+                KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(String(signinResponse.email.split(separator: "+")[1]))", forKey: "userNickName", data: signinResponse.nickName)
             })
             .flatMap { signinResponse -> Observable<Mutation> in
                 print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")

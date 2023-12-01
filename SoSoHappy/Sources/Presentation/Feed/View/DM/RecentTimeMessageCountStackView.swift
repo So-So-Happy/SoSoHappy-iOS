@@ -22,17 +22,17 @@ class RecentTimeMessageCountStackView: UIView {
     private lazy var recentTimeLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .right
-        label.font = .systemFont(ofSize: 13, weight: .light)
+        label.font = UIFont.customFont(size: 13, weight: .medium)
         label.text = "오전 14: 38"
 //        label.text = "어제"
-        label.textColor = .darkGray
+        label.textColor = UIColor(named: "DarkGrayTextColor")
         return label
     }()
     
     private lazy var newMessageCountLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 13, weight: .light)
+        label.font = UIFont.customFont(size: 13, weight: .medium)
         label.text = "2"
         label.textColor = .white
         label.backgroundColor = .orange

@@ -93,3 +93,6 @@ Pods/
 Podfile
 Podfile.lock
 Config.xcconfig
+
+# PList
+**/*.plist

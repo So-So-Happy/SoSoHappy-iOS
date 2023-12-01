@@ -37,13 +37,13 @@ final class ProfileImageNameTimeStackView: UIView {
     // 피드 작성한 사람의 닉네임
     lazy var profileNickNameLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.font = UIFont.customFont(size: 18, weight: .bold)
     }
     
     // 피드 올라온 시간 ex. 4 분전
     private lazy var timeLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 11, weight: .light)
+        $0.font = UIFont.customFont(size: 11, weight: .medium)
         $0.textColor = .gray
     }
     

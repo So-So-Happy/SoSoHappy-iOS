@@ -14,16 +14,15 @@ final class FeedHeaderView: UIView {
     // MARK: - UI Components
     private lazy var titleLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 32, weight: .bold)
+        $0.font = UIFont.customFont(size: 33, weight: .bold)
         $0.text = "소피들의 소소해피"
-        $0.textColor = .black
     }
     
     private lazy var feedSubtitle = UILabel().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 18, weight: .semibold)
+        $0.font = UIFont.customFont(size: 18, weight: .medium)
         $0.text = "소피들, 서로의 행복을 응원해보아요! 🫶🏻"
-        $0.textColor = .darkGray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var sortTodayTotalStackView = UIStackView(
@@ -34,8 +33,8 @@ final class FeedHeaderView: UIView {
     )
     
     lazy var sortTodayButton = UIButton().then {
+        $0.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
         $0.setTitle("오늘", for: .normal)
-        $0.setTitleColor(.black, for: .normal)
 //        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     }
     
@@ -46,7 +45,7 @@ final class FeedHeaderView: UIView {
     
     lazy var sortTotalButton = UIButton().then {
         $0.setTitle("전체", for: .normal)
-        $0.setTitleColor(.gray, for: .normal)
+        $0.setTitleColor(UIColor(named: "GrayTextColor"), for: .normal)
 //        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
     }
     
@@ -110,9 +109,9 @@ extension FeedHeaderView {
     }
     
     private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
-        selected.setTitleColor(.black, for: .normal)
-        selected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .bold)
-        notSelected.setTitleColor(.gray, for: .normal)
-        notSelected.titleLabel?.font =  UIFont.systemFont(ofSize: 15, weight: .light)
+        selected.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
+        selected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .bold)
+        notSelected.setTitleColor(UIColor(named: "DarkGrayTextColor"), for: .normal)
+        notSelected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .medium)
     }
 }

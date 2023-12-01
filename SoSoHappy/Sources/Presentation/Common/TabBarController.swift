@@ -18,11 +18,12 @@ public final class TabBarController: UITabBarController {
     let addButton = AnimationButton(frame: CGRect(x: 0, y: 0, width: 75, height: 75)).then {
         $0.setImage(UIImage(named: "naviIcon"), for: .normal)
         $0.addTarget(self, action: #selector(addButtonTapped(sender:)), for: .touchUpInside)
-    }
+  
     public init() {
         super.init(nibName: nil, bundle: nil)
         object_setClass(self.tabBar, TabBar.self)
         setTabBar()
+        setupMiddleButton()
     }
     
     required init?(coder: NSCoder) {
@@ -31,7 +32,6 @@ public final class TabBarController: UITabBarController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        setupMiddleButton()
     }
     
     class TabBar: UITabBar {
@@ -50,6 +50,8 @@ extension TabBarController {
         tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
         tabBar.layer.shadowRadius = 0.33
         tabBar.barTintColor = UIColor.white
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]
+        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
     }
     
     // MARK: Set custom middle button

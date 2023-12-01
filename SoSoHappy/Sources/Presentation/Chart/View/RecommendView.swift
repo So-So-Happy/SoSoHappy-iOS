@@ -14,7 +14,7 @@ final class RecommendView: UIView {
     // MARK: - Properties
     private lazy var recommendLabel = UILabel().then {
         $0.text = "OO님이 좋아하실만한 소확행을 찾아봤어요! 👀"
-        $0.font = .systemFont(ofSize: 16, weight: .bold)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var recommendStack = UIStackView().then {
@@ -25,7 +25,7 @@ final class RecommendView: UIView {
     
     private lazy var sophyImageView = UIImageView(image: UIImage(named: "happy40"))
     private lazy var speechBubbleView = UIView().then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 20
         $0.addSubview(recommendedHappinessLabel)
         $0.addSubview(refreshButton)
@@ -33,10 +33,10 @@ final class RecommendView: UIView {
     
     private lazy var recommendedHappinessLabel = UILabel().then {
         $0.text = "비 오는 날 산책하기 ☔️🚶🏻‍♀️"
-        $0.font = .systemFont(ofSize: 15)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
     }
     
-    private lazy var refreshButton = UIButton().then {
+    lazy var refreshButton = UIButton().then {
         $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
         $0.addTarget(self, action: #selector(refreshButtonTapped), for: .touchUpInside)
     }
@@ -93,6 +93,12 @@ private extension RecommendView {
         refreshButton.translatesAutoresizingMaskIntoConstraints = false
         refreshButton.trailingAnchor.constraint(equalTo: speechBubbleView.trailingAnchor, constant: -20).isActive = true
         refreshButton.centerYAnchor.constraint(equalTo: speechBubbleView.centerYAnchor).isActive = true
+    }
+}
+
+private extension RecommendView {
+    func setRecommendText() {
+        
     }
 }
 

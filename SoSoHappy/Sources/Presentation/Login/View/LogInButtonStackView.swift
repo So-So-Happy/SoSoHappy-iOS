@@ -18,7 +18,7 @@ final class LogInButtonStackView: UIView {
         axis: .horizontal,
         alignment: .fill,
         distribution: .fillEqually,
-        spacing: 0
+        spacing: 10
     )
     
     lazy var googleLoginButton = UIButton().then {

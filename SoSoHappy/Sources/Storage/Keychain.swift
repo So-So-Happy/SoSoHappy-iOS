@@ -63,7 +63,6 @@ private extension KeychainService {
             retrievedData = dataTypeRef as? NSData
             contentsOfKeychain = String(data: retrievedData! as Data, encoding: String.Encoding.utf8)
         } else {
-            print("No Data From Keychain")
             contentsOfKeychain = nil
         }
          

@@ -34,7 +34,9 @@ final class AddStep3ViewController: BaseDetailViewController {
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
-    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil)
+    private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
+        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
+    }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
 
@@ -102,7 +104,6 @@ extension AddStep3ViewController {
         self.contentView.addSubview(statusBarStackView)
         self.contentView.addSubview(textCountLabel)
         textView.addSubview(placeholderLabel)
-        imageSlideView.addSubviews(removeImageButton)
         
         statusBarStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()

@@ -114,5 +114,16 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["CONNECT_NOTICE_PATH"] as? String else { fatalError("CONNECT_NOTICE_PATH error") }
         return key
     }
+    
+    // MARK: - App Service
+    var tosPath: String {
+        guard let key = Bundle.main.infoDictionary?["TOS_PATH"] as? String else { fatalError("TOS_PATH error") }
+        return key
+    }
+    
+    var privatePolicyPath: String {
+        guard let key = Bundle.main.infoDictionary?["PRIVATE_POLICY_PATH"] as? String else { fatalError("PRIVATE_POLICY_PATH error") }
+        return key
+    }
 }
 

@@ -13,4 +13,6 @@ struct SigninRequest: Codable {
     let providerId: String
     let codeVerifier: String
     let authorizeCode: String
+    let authorizationCode: String
+    let deviceToken: String
 }

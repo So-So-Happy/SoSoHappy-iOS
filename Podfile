@@ -23,6 +23,7 @@ target 'SoSoHappy' do
   pod 'RxDataSources', '~> 5.0'
   pod 'Starscream', '~> 4.0.6'
   pod 'NVActivityIndicatorView'
+  pod 'JWTDecode', '~> 3.1'
 
   # Pods for SoSoHappy
 
