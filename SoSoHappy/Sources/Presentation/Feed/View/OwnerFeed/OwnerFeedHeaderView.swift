@@ -34,7 +34,7 @@ class OwnerFeedHeaderView: UIView {
         $0.numberOfLines = 0
     }
 
-    private lazy var dashImageView = UIImageView()
+    lazy var dashImageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,6 +54,13 @@ class OwnerFeedHeaderView: UIView {
         profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center) //위에 쓰면 적용이 안되길래 여기에 씀
         dashImageView.image = UIImage(named: "dashImage4")
     }
+    
+//    func update(selfIntro: String) {
+//        print("OwnerHeaderView update(selfIntro: String) called")
+//        profileSelfIntroduction.text = selfIntro
+//        profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center) //위에 쓰면 적용이 안되길래 여기에 씀
+//        dashImageView.image = UIImage(named: "dashImage4")
+//    }
 }
 
 //MARK: - Add Subviews & Constraints

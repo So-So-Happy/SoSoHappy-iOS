@@ -9,6 +9,8 @@ import ReactorKit
 
 /*
  1. refresh control dealy 이런거 직접 통신해보면서 조정
+ 2. 서버 결과 userFeeds가 비어있을 때( [ ] ) 넘길 Observable 처리
+ 3. 올라온 게시물이 없습니다 처리
  */
 
 final class OwnerFeedViewReactor: Reactor {
@@ -33,7 +35,7 @@ final class OwnerFeedViewReactor: Reactor {
     }
     
     struct State {
-        var isRefreshing: Bool = false
+        var isRefreshing: Bool?
         var isLoading: Bool? // 로딩 띄울 때 쓰려고 일단 만들어 놓음
         var profile: Profile?
         var profileImage: UIImage?
@@ -53,7 +55,6 @@ final class OwnerFeedViewReactor: Reactor {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-           
             
         case .refresh:
             let srcNickname: String = "디저트러버" // 조회하는 유저 nickname
@@ -61,16 +62,7 @@ final class OwnerFeedViewReactor: Reactor {
             
             return .concat([
                 .just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                
                 fetchUserInformation(),
-                
-//                fetchProfileImage(owner: currentState.ownerNickName),
-//                fetchSelfIntroduction(owner: currentState.ownerNickName),
-//                
-//                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
-//                    .map { Mutation.setFeeds($0) }
-//                    .delay(.seconds(1), scheduler: MainScheduler.instance),
-                
                 .just(.setRefreshing(false))
             ])
             
@@ -81,15 +73,7 @@ final class OwnerFeedViewReactor: Reactor {
             
             return .concat([
                 .just(.isLoading(true)),
-                
                 fetchUserInformation(),
-//                fetchProfileImage(owner: currentState.ownerNickName),
-//                fetchSelfIntroduction(owner: currentState.ownerNickName),
-//                
-//                feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: 0, size: 7))
-//                    .map { Mutation.setFeeds($0) }
-//                    .delay(.seconds(1), scheduler: MainScheduler.instance),
-                
                 .just(.isLoading(false))
                 
             ])
@@ -126,6 +110,14 @@ final class OwnerFeedViewReactor: Reactor {
             print("선택했음")
             if let userFeeds = state.userFeeds {
                 newState.selectedFeed = userFeeds[index]
+                /*
+                 FeedDetail에서 OwnerFeedVC로 돌아올 때 남아있는 currentState.userFeeds가 있기 때문에
+                 isLoading animating될 때 이미 기존에 받아와서 display된 cell들 위에 돌아가게 됨.
+                 사용자 보기에 안 좋음
+                 그렇다고 nil을 설정하는건 안됨 -> compactMap으로 처리해서 nil은 아예 통과 자체가 안됨
+                 */
+                
+                newState.userFeeds = []
             }
         }
         
