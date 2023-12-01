@@ -89,7 +89,7 @@ final class AddStep3ViewController: BaseDetailViewController {
 extension AddStep3ViewController {
     private func setup() {
         setAttributes()
-        setLayout()
+        setLayoutForAddStep3()
     }
     
     private func setAttributes() {
@@ -100,10 +100,11 @@ extension AddStep3ViewController {
         print("editable \(textView.isEditable)")
     }
     
-    private func setLayout() {
+    private func setLayoutForAddStep3() {
         self.contentView.addSubview(statusBarStackView)
         self.contentView.addSubview(textCountLabel)
         textView.addSubview(placeholderLabel)
+        imageSlideView.addSubviews(removeImageButton)
         
         statusBarStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
@@ -383,7 +384,7 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         selection = newSelection
         selectedAssetIdentifiers = newSelectedAssetIdentifiers
         
-        if selection.isEmpty { 
+        if selection.isEmpty {
             self.reactor?.action.onNext(.setSelectedImages([]))
         } else {
             loadAndAppendImages()
@@ -423,3 +424,4 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         }
     }
 }
+
