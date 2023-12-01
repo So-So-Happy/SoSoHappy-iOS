@@ -15,44 +15,20 @@ import PhotosUI
 import RxKeyboard
 
 /*
-
- 
- ## 사진 관련
- 1. 갤러리 연결 (완료)
- 2. 사진 표시 (완료)
- 3. 등록한 사진 제거할 수 있도록 (완료)
- ----------
-
- 3. 키보드가 textView를 가리지 않도록 계속 scroll되어야 함 (완료)
- 
- 4. textView가 isEmpty - false일 경우 "저장"버튼 activate (완료)
- 5. textView placeholder '오늘의 소소한 행복을 기록해주세요' (완료)
- 
- 5-1. 글자 수 제한 3000자
- 일단은 5글자로 해서 잘 작동하는지 확인하고 3000자 설정하자
- 5-2. 글자 counting label 추가 (완료)
- 
- --- 오늘 딱 여기까지만 하고 바로 취침
- 
- 6. 토스트 메시지
-    - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss
+ 9. textview에 제한된 글자 넘어가서 1개 더 보이는 문제 해결하기
+ 10. 토스트 메시지
+    - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss (완료)
     - 실패하면 '등록하지 못했습니다?"
     - 와이파이 연결 안되어 있으면 '네트워크에 연결할 수 없습니다'
  
- 7. dismiss coordinator 잘 핸들링해주기 (제거할거 제거하고)
- 
- 
+ 11. savebutton handling한게 최선의 방법인지 (tapSave)
  */
 
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
-    
-    // Identifier와 PHPickerResult (이미지 데이터를 저장하기 위해 만들어줌)
+    var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
-    
-    // 선택한 사진의 순서에 맞게 Identifier들을 배열로 저장
-    // selection은 Dictionary이기 때문에 순서가 없음. 그래서 따로 식별자를 담을 배열 생성 (주 용도 - 순서)
     private var selectedAssetIdentifiers = [String]()
 
     
@@ -83,7 +59,6 @@ final class AddStep3ViewController: BaseDetailViewController {
         $0.font = UIFont.systemFont(ofSize: 13)
         $0.textColor = .lightGray
         $0.textAlignment = .right
-//        $0.text = "(0 / 3000)"
     }
     
     private lazy var placeholderLabel = UILabel().then {
@@ -94,10 +69,7 @@ final class AddStep3ViewController: BaseDetailViewController {
        }
     
     override func viewDidLoad() {
-        //        view.backgroundColor = .systemYellow
-        print("AddStep3ViewController - viewDidLoad")
         super.viewDidLoad()
-        print("scrollView.contentInset.bottom : \(scrollView.contentInset.bottom)")
         setup()
     }
     
@@ -176,28 +148,28 @@ extension AddStep3ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        textView.rx.text.orEmpty // orEmpty nil일 경우 빈 문자열로 반환
+        textView.rx.text.orEmpty
             .skip(1)
-            // .debounce : 마지막 방출된 것으로부터 100 milisecond가 지나고 reactor로 보냄
-            // 100개의 글자를 작성한다고 했을 때 debounce를 주면 reactor에 100이하 전달, 안 하면 100번
-//            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
-            .map { text in
-                if text.count > 10 {
-                    let limitedText = String(text.prefix(10))
-                    self.textView.text = limitedText
-                    return limitedText
-                } else {
-                    return text
-                }
+            .map {
+                print("💖🔆 content - \($0)")
+                return Reactor.Action.setContent($0)
             }
-            .distinctUntilChanged()
-            .debug()
-            .map { Reactor.Action.setContent($0)}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        self.view.rx.tapGesture().when(.recognized)
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                if textView.isFirstResponder {
+                    print("textview가 대답중")
+                    textView.resignFirstResponder()
+                }
+            }
+            .disposed(by: disposeBag)
+        
 
         textView.rx.text.orEmpty
-            .map { !$0.isEmpty } // Invert the condition to hide when empty
+            .map { !$0.isEmpty }
             .distinctUntilChanged()
             .bind(to: placeholderLabel.rx.isHidden)
             .disposed(by: disposeBag)
@@ -205,7 +177,6 @@ extension AddStep3ViewController: View {
        
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [scrollView] keyboardVisibleHeight in
-                print("visibleHeight: \(keyboardVisibleHeight)") // 380, 0
                 if keyboardVisibleHeight > 0 {
                     scrollView.contentInset.bottom = keyboardVisibleHeight + 15
                 } else {
@@ -217,7 +188,6 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.photoBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-//                print("AddStep3 - show 앨범")
                 self.view.endEditing(true)
                 setAndPresentPicker()
                 
@@ -232,13 +202,18 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.keyboardDownBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-//                print("keyboardDownBarButton tapped")
                 self.view.endEditing(true)
             })
             .disposed(by: disposeBag)
         
+        // TODO: debouce ? throttle 적용 필요
         saveButton.rx.tap
-            .map { Reactor.Action.tapSaveButton }
+            .map {
+                print("save button tapped")
+                self.view.endEditing(true)
+                self.tapSave = true
+                return Reactor.Action.tapSaveButton
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -246,19 +221,15 @@ extension AddStep3ViewController: View {
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-//                print("AddStep3 - navigate Back")
+                print("back button tapped")
                 coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
         
-        // imageSlideView 위에 있는 remove button 클릭 시
-        // 1. 순서를 담고 있는 selectedAssetIdentifiers 비워주기
-        // 2.
         removeImageButton.rx.tap
             .map {
                 self.selectedAssetIdentifiers = []
                 self.selection = [:]
-                
                 return Reactor.Action.setSelectedImages([])
             }
             .bind(to: reactor.action)
@@ -305,7 +276,15 @@ extension AddStep3ViewController: View {
             }
             .disposed(by: disposeBag)
         
-        // 작성 글
+        reactor.state
+            .map {
+                print("🔆reactor.state - \($0.content)")
+                return $0.content
+            }
+            .bind(to: self.textView.rx.text)
+            .disposed(by: disposeBag)
+
+        // 작성 글자 수 label
         reactor.state
             .map { "(\($0.content.count) / 3000)" }
             .distinctUntilChanged()
@@ -342,7 +321,26 @@ extension AddStep3ViewController: View {
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)
+        
 
+        reactor.state
+            .compactMap { self.tapSave ? $0.isSaveFeedSuccess : nil }
+            .subscribe(onNext: { [weak self] save in
+                self?.showToast(save.rawValue, withDuration: 2.0, delay: 0.8)
+                self?.tapSave = false
+                
+                if save == .saved {
+                    Observable<Void>
+                        .just(())
+                        .delay(.milliseconds(3100), scheduler: MainScheduler.instance) // Adjust the delay duration as needed
+                        .subscribe(onNext: { [weak self] _ in
+                            self?.coordinator?.dismiss()
+                        })
+                        .disposed(by: self?.disposeBag ?? DisposeBag())
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
 }
 
@@ -354,23 +352,18 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
     private func setAndPresentPicker() {
         // configuation - 설정
         var configuation = PHPickerConfiguration(photoLibrary: .shared())
-        configuation.selectionLimit = 2 // 선택 최대 2개 제한
-        configuation.filter = .images // image만 표시 (이외에도 video, live photo 등이 있음)
-        configuation.selection = .ordered // 선택한 순서대로 번호 표시 iOS 15부터 가능
+        configuation.selectionLimit = 2
+        configuation.filter = .images
+        configuation.selection = .ordered
         configuation.preferredAssetRepresentationMode = .current
-        
-        // 선택했던 이미지를 기억해 표시하도록
-        configuation.preselectedAssetIdentifiers = selectedAssetIdentifiers // [String]
+        configuation.preselectedAssetIdentifiers = selectedAssetIdentifiers
         let picker = PHPickerViewController(configuration: configuation)
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
     }
     
-    // picker cancel, add 둘 다 호출 됨
-    // 선택한 순서대로 results에 들어오네
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         var selectedImages: [UIImage] = []
-//        print("picker delegate method called - results.count : \(results.count)")
         picker.dismiss(animated: true)
         
         let existingSelection = self.selection
@@ -378,68 +371,47 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         let newSelectedAssetIdentifiers: [String] = results.map(\.assetIdentifier!)
         
         if selectedAssetIdentifiers == newSelectedAssetIdentifiers {
-//            print("Cancel Button : \(selectedAssetIdentifiers)")
             return
         }
         
-        for result in results { // 일단 들어온 모든 asset들이 다 asset Identifier는 가지고 있음
+        for result in results {
             let identifier = result.assetIdentifier!
-            // preselcted된 거는 미리 PHPickerResult가 있어서 그거 넣어줌
             newSelection[identifier] = existingSelection[identifier] ?? result
-//            print("result.itemProvider : \(result.itemProvider)")
         }
         
         selection = newSelection
-        selectedAssetIdentifiers = newSelectedAssetIdentifiers // 순서 저장
+        selectedAssetIdentifiers = newSelectedAssetIdentifiers
         
-        if selection.isEmpty { // selected 된게 없음
+        if selection.isEmpty { 
             self.reactor?.action.onNext(.setSelectedImages([]))
         } else {
             loadAndAppendImages()
             
         }
     }
-    
-    // MARK: Dipatch Group 사용하는 이유
-    // 사진 로드가 완료되는 시점이 사용자가 선택한 이미지 순서대로 일어나지 않는다.
-    // 따라서, 사진을 다 받아온 후 원래 순서에 맞게 바꾸기
-    // Enter, Enter - Leave, Leave
+
     private func loadAndAppendImages() {
         var selectedImages: [UIImage] = []
-        let dispatchGroup = DispatchGroup() // 비동기 작업 추적, 모든 작업이 끝났을 대 알림
-        // identifier와 이미지로 dictionary를 만듬 (selectedAssetIdentifiers의 순서에 따라 이미지를 받을 예정입니다.)
+        let dispatchGroup = DispatchGroup()
         var imagesDict = [String: UIImage]()
         
         for assetIdentifier in selectedAssetIdentifiers {
-            // Dispatch Group에 들어가며 task + 1
             dispatchGroup.enter()
-//            print("ENTER")
             
             let itemProvider = selection[assetIdentifier]!.itemProvider
-            // 만약 itemProvider에서 UIImage로 로드가 가능하다면?
+    
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
-                // 로드 핸들러를 통해 UIImage를 처리해 줍시다. (비동기적으로 동작)
-                // loadObject가 완료되면 클로저 실행
                 itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                    
                     if let image = image as? UIImage {
                         imagesDict[assetIdentifier] = image
                     }
-                    // Dispatch Group에 나오면 task - 1
-//                    print("Leave")
-                    dispatchGroup.leave() // 비동기 작업 완료 DispactchGroup에 알림
+                    dispatchGroup.leave()
                 }
             }
         }
         
-        // task가 0이 되었을 때 실행
         dispatchGroup.notify(queue: DispatchQueue.main) { [weak self] in
-//            print("Nofity")
             guard let self = self else { return }
-            
-            // 먼저 스택뷰의 서브뷰들을 모두 제거함
-            
-            // 선택한 이미지의 순서대로 정렬하여 스택뷰에 올리기
             for identifier in self.selectedAssetIdentifiers {
                 if let image = imagesDict[identifier] {
                     selectedImages.append(image)
