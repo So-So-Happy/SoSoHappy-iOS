@@ -32,9 +32,16 @@ extension Networkable {
 //            let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MDk0NzA5ODEsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbSJ9.p_Ong1cGexoarqFG6jCHvriwhncKcGBuzWyH9DFieCm-YlPFpFBYJgpwgLOrLjtqUXUWVAcyZasprT2woPj-SQ"
 //            let email = "pkkyung26@gmail.com"
             
-            let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? "없음"
-            let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
-            let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? "없음"
+//             let accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwMDQzNjQ0OCwiZW1haWwiOiJzdWVraW05OTlAaGFueWFuZy5hYy5rcitnb29nbGUifQ.axSoRvNmeWi7qTEyq7Ot9LbocgI_B6YGIcVJ-FbucOWdWooBcGha-8d1EGskDB7N1CO0taUDC4WrVCZbOsNWcQ"
+//             
+//             let refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MTI0OTY0NDgsImVtYWlsIjoic3Vla2ltOTk5QGhhbnlhbmcuYWMua3IrZ29vZ2xlIn0.hvtUOLTKf59P_1zpjV8Ay019gNyBqTv8wYSEe-MgdNFJXz2UiCxPgSZbUkiHvGVQvV4CCWgSRSGX8LbhBjVZxw"
+//             let userEmail = "suekim999@hanyang.ac.kr+google"
+           
+            
+//
+//            let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? "없음"
+//            let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
+//            let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userEmail") ?? "없음"
             return HeaderType(email: userEmail, accessToken: accessToken, refreshToken: refreshToken)
         }
         

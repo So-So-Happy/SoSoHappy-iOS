@@ -91,20 +91,19 @@ final class TabCoordinator: NSObject, Coordinator {
     
     // UITabBarItem 생성
     private func createTabBarItem(of page: TabBarPage) -> UITabBarItem {
-        // MARK: .add는 그냥 위치만 잡아주는 용도로 일단 사용했음
-        if page == .add {
+        // MARK: .add는 그냥 위치만 잡아주는 용
+        switch page {
+        case .add:
             let item = UITabBarItem(title: page.pageTitleValue(),
-                                    image: page.pageIconImage(),
-                                    tag: page.pageOrderNumber())
+                                   image: page.pageIconImage(),
+                                   tag: page.pageOrderNumber())
             item.isEnabled = false
             return item
+        default:
+            return UITabBarItem(title: page.pageTitleValue(),
+                                image: page.pageIconImage(),
+                                tag: page.pageOrderNumber())
         }
-        
-        
-        return UITabBarItem(title: page.pageTitleValue(),
-                            image: page.pageIconImage(),
-                            tag: page.pageOrderNumber()
-        )
     }
     
     // 탭바 페이지대로 탭바 생성
@@ -203,7 +202,7 @@ extension TabCoordinator: CoordinatorFinishDelegate {
     }
 }
 
-
+// MARK: - TabBarAddButtonDelegate
 extension TabCoordinator: TabBarAddButtonDelegate {
     func addButtonTapped() {
         print("add!!")
