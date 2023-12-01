@@ -21,7 +21,7 @@ class NickNameRecentMessageStackView: UIView {
     private lazy var profileNickNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 18, weight: .semibold)
+        label.font = UIFont.customFont(size: 18, weight: .bold)
         label.text = "소해피"
         return label
     }()
@@ -29,7 +29,7 @@ class NickNameRecentMessageStackView: UIView {
     private lazy var recentMessageLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = .systemFont(ofSize: 16, weight: .light)
+        label.font = UIFont.customFont(size: 16, weight: .medium)
         label.textColor = .gray
         label.numberOfLines = 2
 //        label.text = "오늘도오늘도오늘도오늘도오늘도오늘도오늘도오늘도오늘도오늘도오늘도오늘도"

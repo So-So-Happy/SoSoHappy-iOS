@@ -96,7 +96,12 @@ extension FeedAPI {
 
             return .uploadMultipart(formData)
         case .findDayFeed(let data):
-            return .requestJSONEncodable(data)
+            var formData: [Moya.MultipartFormData] = []
+            let nickName = data.nickName.data(using: .utf8)!
+            let date = String(data.date).data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(nickName), name: "nickname"))
+            formData.append(MultipartFormData(provider: .data(date), name: "date"))
+            return .uploadMultipart(formData)
         case .findMonthFeed(let data):
             var formData: [Moya.MultipartFormData] = []
             let nickName = data.nickName.data(using: .utf8)!

@@ -18,37 +18,55 @@ final class EditProfileViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     var contentInset: UIEdgeInsets?
+    private let coordinator: MyPageCoordinatorProtocol?
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
         $0.keyboardDismissMode = .onDrag // 스크롤시 키보드 내리기
     }
     private lazy var contentView = UIView()
-    private lazy var profileImageEditButton = ImageEditButtonView()
+    private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
     private lazy var nickNameSection = NickNameStackView()
     private lazy var selfIntroductionSection = SelfIntroductionStackView()
     private lazy var saveButton = HappyButton().then {
         $0.setTitle("저장하기", for: .normal)
         $0.titleLabel?.textColor = .white
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        $0.titleLabel?.font = UIFont.customFont(size: 18, weight: .medium)
         $0.layer.cornerRadius = 8
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setup()
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
 
     // MARK: Initializing
-    init(reactor: SignUpViewReactor) {
+    init(reactor: EditProfileViewReactor, coordinator: MyPageCoordinatorProtocol) {
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = false
+        }
     }
 }
 
@@ -77,14 +95,14 @@ extension EditProfileViewController {
         }
 
         profileImageEditButton.snp.makeConstraints { make in
-            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(60)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).offset(20)
             make.centerX.equalToSuperview()
             make.size.equalTo(150)
         }
         
         nickNameSection.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(profileImageEditButton.snp.bottom).offset(56)
+            make.top.equalTo(profileImageEditButton.snp.bottom).offset(50)
             make.horizontalEdges.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
@@ -104,17 +122,16 @@ extension EditProfileViewController {
     
     // ViewController의 전체적인 속성 설정
     private func setAttribute() {
-        self.view.backgroundColor = UIColor(named: "backgroundColor")
-        RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) } // 구독
+        self.view.backgroundColor = UIColor(named: "BGgrayColor")
     }
 }
 
 // MARK: - ReactorKit - bind func
 extension EditProfileViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
-    func bind(reactor: SignUpViewReactor) {
+    func bind(reactor: EditProfileViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        profileImageEditButton.cameraButton.rx.tap
+        profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true
@@ -167,7 +184,7 @@ extension EditProfileViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { !$0.nickNameText.isEmpty }
+            .map { !$0.nickNameText.isEmpty && !$0.isSameNickName }
             .bind(to: nickNameSection.duplicateCheckButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
@@ -178,10 +195,10 @@ extension EditProfileViewController: View {
                 
                 if let isDuplicate = state.isDuplicate {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
-                    color = isDuplicate ? UIColor.systemRed : UIColor.systemBlue
+                    color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
                 } else { // nil이면
-                    text = ""
-                    color = .systemBlue
+                    text = " "
+                    color = UIColor(named: "CustomBlueColor") ?? .systemBlue
                 }
                 
                 return (text, color)
@@ -204,11 +221,27 @@ extension EditProfileViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map {
-                guard let isDuplicate = $0.isDuplicate else { return false }
-                return !$0.selfIntroText.isEmpty && !isDuplicate
-            }
+            .map { (!$0.selfIntroText.isEmpty && !($0.isDuplicate ?? true)) || $0.isSameNickName }
             .bind(to: saveButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.showFinalAlert }
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state.compactMap { $0.goToMain }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] result in
+                guard let self = self else { return }
+                if result {
+                    coordinator?.goBackToMypage()
+                }
+            })
             .disposed(by: disposeBag)
 
         RxKeyboard.instance.willShowVisibleHeight

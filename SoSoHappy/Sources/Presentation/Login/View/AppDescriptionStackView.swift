@@ -19,36 +19,21 @@ final class AppDescriptionStackView: UIView {
         axis: .vertical,
         alignment: .center,
         distribution: .fill,
-        spacing: 35
+        spacing: 16
     )
     
     private lazy var appNameLabel = UILabel().then {
         $0.text = "소소해피"
-        $0.textColor = .darkGray
-        $0.font = .systemFont(ofSize: 40, weight: .bold)
-        $0.setLineSpacing(kernValue: 9, alignment: .center)
+        $0.font = UIFont.customFont(size: 50, weight: .bold)
+        $0.setLineSpacing(kernValue: 1, alignment: .center)
     }
     
     private lazy var appDescription = UILabel().then {
-        $0.text = "소확행을 모아 대확행을 만든다.\n하루하루 소소한 행복을 찾아 기록해보세요 :)"
-        $0.textColor = .darkGray
-        $0.font = .systemFont(ofSize: 15, weight: .light)
+        $0.text = "소확행을 모아 대확행을 만든다.\n하루하루 소소한 행복을 찾아 기록해보세요!"
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
+        $0.font = UIFont.customFont(size: 14, weight: .medium)
         $0.numberOfLines = 2
         $0.setLineSpacing(lineSpacing: 5, alignment: .center)
-    }
-    
-    private lazy var circleView = UIView().then {
-        for i in 0...2 {
-            let layer: CALayer = CALayer()
-            layer.frame = .init(x: 26 * i, y: 0, width: 3, height: 3)
-            layer.backgroundColor = UIColor.orange.cgColor
-            layer.cornerRadius = 1.5
-            $0.layer.addSublayer(layer)
-        }
-        $0.snp.makeConstraints { make in
-            make.height.equalTo(3)
-            make.width.equalTo(55)
-        }
     }
     
     override init(frame: CGRect) {
@@ -70,7 +55,6 @@ extension AppDescriptionStackView {
         }
         
         appDescriptionStackView.addArrangedSubview(appNameLabel)
-        appDescriptionStackView.addArrangedSubview(circleView)
         appDescriptionStackView.addArrangedSubview(appDescription)
     }
 }

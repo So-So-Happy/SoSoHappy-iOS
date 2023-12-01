@@ -26,8 +26,13 @@ final class LoginViewController: UIViewController, View {
     // MARK: - UI Components
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
-        $0.image = UIImage(named: "naviIcon")
+        $0.image = UIImage(named: "loginImage")
         $0.contentMode = .scaleAspectFit    // 비율 유지
+    }
+    private lazy var loginLabel = UILabel().then {
+        $0.text = "SNS 계정으로 간편 가입하기"
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
+        $0.font = UIFont.customFont(size: 17, weight: .medium)
     }
     private lazy var logInButtonStackView = LogInButtonStackView()
     
@@ -112,7 +117,7 @@ final class LoginViewController: UIViewController, View {
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
                 guard let self = self else { return }
-                coordinator?.presentErrorAlert(error: error)
+                CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
         
@@ -120,8 +125,13 @@ final class LoginViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                // TODO: 로그아웃한 후라면 SignUp 건너뛰기
-                coordinator?.pushSignUpView()
+                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+                let isFirstLogin = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") == ""
+                if isFirstLogin {
+                    coordinator?.pushSignUpView()
+                } else {
+                    coordinator?.pushMainView()
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -136,23 +146,29 @@ extension LoginViewController {
     
     // Add SubViews & Contstraints
     private func setLayout() {
-        self.view.addSubviews(appDescriptionStackView, appIconImageView, logInButtonStackView)
+        self.view.addSubviews(appDescriptionStackView, appIconImageView, loginLabel, logInButtonStackView)
         
         appDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(60)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(100)
             make.width.equalTo(appDescriptionStackView.appDescriptionStackView.snp.width)
         }
         
         appIconImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.size.equalTo(150)
-            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(25)
+            make.width.equalToSuperview()
+            make.height.equalTo(100)
+            make.top.equalTo(appDescriptionStackView.snp.bottom).offset(45)
+        }
+        
+        loginLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(appIconImageView.snp.bottom).offset(190)
         }
         
         logInButtonStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(appIconImageView.snp.bottom).offset(100)
+            make.top.equalTo(loginLabel.snp.bottom).offset(23)
             make.width.equalTo(appDescriptionStackView.snp.width)
         }
         

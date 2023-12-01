@@ -34,16 +34,16 @@ final class SignUpViewController: UIViewController {
     
     private lazy var contentView = UIView()
     private lazy var signUpDescriptionStackView = SignUpDescriptionStackView()
-    private lazy var profileImageEditButton = ImageEditButtonView()
+    private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
     private lazy var nickNameSection = NickNameStackView()
     private lazy var selfIntroductionSection = SelfIntroductionStackView()
     private lazy var signUpButton = HappyButton().then {
         $0.setTitle("시작하기", for: .normal)
         $0.titleLabel?.textColor = .white
-        $0.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        $0.titleLabel?.font = UIFont.customFont(size: 18, weight: .medium)
         $0.layer.cornerRadius = 8
-        $0.setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        $0.setBackgroundColor(UIColor.orange, for: .enabled)
+        $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
+        $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
     
     override func viewDidLoad() {
@@ -120,7 +120,7 @@ extension SignUpViewController {
     
     // ViewController의 전체적인 속성 설정
     private func setAttribute() {
-        self.view.backgroundColor = UIColor(named: "backgroundColor")
+        self.view.backgroundColor = UIColor(named: "BGgrayColor")
     }
 }
 
@@ -129,7 +129,7 @@ extension SignUpViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: SignUpViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        profileImageEditButton.cameraButton.rx.tap
+        profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true
@@ -193,10 +193,10 @@ extension SignUpViewController: View {
                 
                 if let isDuplicate = state.isDuplicate {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
-                    color = isDuplicate ? UIColor.systemRed : UIColor.systemBlue
+                    color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
                 } else { // nil이면
                     text = ""
-                    color = .systemBlue
+                    color = UIColor(named: "CustomBlueColor") ?? .systemBlue
                 }
                 
                 return (text, color)
@@ -230,7 +230,7 @@ extension SignUpViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    coordinator?.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!") { self.reactor?.action.onNext(.signUp) }
+                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!", buttonTitle: "계속") { self.reactor?.action.onNext(.signUp) }
                 }
             })
             .disposed(by: disposeBag)
@@ -239,6 +239,7 @@ extension SignUpViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
+                print("goToMain", result)
                 if result {
                     coordinator?.pushMainView()
                 }
@@ -248,7 +249,7 @@ extension SignUpViewController: View {
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
                 guard let self = self else { return }
-                coordinator?.presentErrorAlert(error: error)
+                CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
         
@@ -284,30 +285,3 @@ extension SignUpViewController: View {
             .disposed(by: disposeBag)
     }
 }
-
-//extension SignUpViewController: ProfileEditReactorDelegate {
-//    func showImagePicker() {
-//        let imagePicker = UIImagePickerController()
-//        imagePicker.allowsEditing = true
-//        imagePicker.sourceType = .photoLibrary
-//
-//        imagePicker.rx.didFinishPickingMediaWithInfo
-//            .map { info in
-//                return SignUpViewReactor.Action.selectedImage(info[.editedImage] as? UIImage)
-//            }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        // Present the image picker
-//        self.present(imagePicker, animated: true, completion: nil)
-//    }
-//}
-
-
-// MARK: - ImagePicker Delegate
-//extension SignUpViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//
-//}
-
-
-

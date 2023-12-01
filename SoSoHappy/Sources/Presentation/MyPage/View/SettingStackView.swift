@@ -10,12 +10,10 @@ import SnapKit
 
 final class SettingStackView: UIView {
     // MARK: - UI Components
-    private lazy var alarmCell = SettingCellView()
-    private lazy var darkmodeCell = SettingCellView()
-    private lazy var languageCell = SettingCellView()
-    private lazy var termsCell = SettingCellView()
-    private lazy var policyCell = SettingCellView()
-    private lazy var accountCell = SettingCellView()
+    lazy var alarmCell = SettingCellView()
+    lazy var termsCell = SettingCellView()
+    lazy var policyCell = SettingCellView()
+    lazy var accountCell = SettingCellView()
     
     private lazy var stackView = UIStackView(
         axis: .vertical,
@@ -27,13 +25,11 @@ final class SettingStackView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-//        addImageViews(images: images)
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
-//        addImageViews(images: images)
     }
 }
 
@@ -48,7 +44,7 @@ extension SettingStackView {
     }
     
     func setLayout() {
-        let views: [SettingCellView] = [alarmCell, darkmodeCell, languageCell, termsCell, policyCell, accountCell]
+        let views: [SettingCellView] = [alarmCell, termsCell, policyCell, accountCell]
         
         self.addSubviews(stackView)
         
@@ -62,12 +58,10 @@ extension SettingStackView {
     
     
     func setUI() {
-        alarmCell.setUI(imageName: "alarm", text: "알림")
-        darkmodeCell.setUI(imageName: "darkmode", text: "다크모드")
-        languageCell.setUI(imageName: "language", text: "언어")
-        termsCell.setUI(imageName: "terms", text: "이용약관")
-        policyCell.setUI(imageName: "policy", text: "개인정보 처리방침")
-        accountCell.setUI(imageName: "account", text: "계정 관리")
+        alarmCell.setUI(imageName: "bell", text: "알림")
+        termsCell.setUI(imageName: "checkmark.shield", text: "이용약관")
+        policyCell.setUI(imageName: "hand.raised", text: "개인정보 처리방침")
+        accountCell.setUI(imageName: "lock.circle", text: "계정 관리")
     }
     
     func addCells(views: [SettingCellView]) {
@@ -75,7 +69,6 @@ extension SettingStackView {
             self.stackView.addArrangedSubview(view)
             view.snp.makeConstraints {
                 $0.horizontalEdges.equalToSuperview()
-//                $0.width.equalToSuperview()
                 $0.height.equalTo(30)
             }
         }

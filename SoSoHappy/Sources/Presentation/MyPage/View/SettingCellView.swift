@@ -10,10 +10,12 @@ import UIKit
 final class SettingCellView: UIView {
     
     // MARK: - Properties
-    private lazy var imageView = UIImageView()
+    private lazy var imageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     private lazy var textLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 16)
-        $0.textColor = UIColor(rgb: 0x626262)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     override init(frame: CGRect) {
@@ -39,9 +41,8 @@ extension SettingCellView {
         self.addSubviews(imageView, textLabel)
         
         imageView.snp.makeConstraints {
-            $0.top.left.equalToSuperview().inset(3)
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(21.5)
+            $0.height.width.equalTo(25)
         }
         
         textLabel.snp.makeConstraints {
@@ -51,7 +52,7 @@ extension SettingCellView {
     }
     
     func setUI(imageName: String, text: String) {
-        self.imageView.image = UIImage(named: imageName)
+        self.imageView.image = UIImage(systemName: imageName)
         self.textLabel.text = text
     }
     

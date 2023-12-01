@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "kakaoLogin.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "kakaoLogin.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

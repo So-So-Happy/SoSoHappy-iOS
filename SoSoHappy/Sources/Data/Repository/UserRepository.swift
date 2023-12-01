@@ -53,12 +53,13 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             let provider = self.makeProvider()
             let disposable = provider.rx.request(.signIn(userInfo: request))
                 .map { response in
-                    // 헤더 추출 및 매핑
-                    let headers = response.response?.allHeaderFields as? [String: String]
-                    let accessToken = headers?["Authorization"] ?? ""
-                    let refreshToken = headers?["authorization-refresh"] ?? ""
-                    let email = headers?["email"] ?? ""
-                    let nickName = headers?["nickName"] ?? ""
+                    let header = response.response?.allHeaderFields as? [String: String]
+                    let accessToken = header?["Authorization"] ?? ""
+                    let refreshToken = header?["authorization-refresh"] ?? ""
+                    let email = header?["email"] ?? ""
+
+                    let decodedNickname = try? JSONDecoder().decode(NickNameResponse.self, from: response.data)
+                    let nickName = decodedNickname?.nickname ?? ""
                     
                     return AuthResponse(authorization: accessToken, authorizationRefresh: refreshToken, email: email, nickName: nickName)
                 }
@@ -90,7 +91,6 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(request.nickname) - \(response.isPresent ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
                         emitter.onNext(response)
                     case .error(let error):
                         emitter.onError(error)
@@ -137,27 +137,16 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {
-        let provider = makeProvider()
-        return provider.rx.request(.resign(email: email))
-            .map(ResignResponse.self)
-            .asObservable()
-    }
-    
-    func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
-//            print("UserRepository  - findProfileImg")
-            let disposable = provider.rx.request(.findProfileImg(request))
-                .map(FindProfileImgResponse.self)
-                .map { $0.toDomain() }
+            let disposable = provider.rx.request(.resign(email: email))
+                .map(ResignResponse.self)
                 .asObservable()
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("UserRepository - findProfileImg response success : \(response) ")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("UserRepository  - findProfileImg - error : \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
@@ -170,10 +159,35 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
         }
     }
     
+    // MARK: - 프로필 사진 조회
+    func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.findProfileImg(request))
+                .map(FindProfileImgResponse.self)
+                .map { $0.toDomain() }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
+    
+    // MARK: - 프로필 소개글 조회
     func findIntroduction(request: FindIntroductionRequest) -> Observable<String> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
-//            print("UserRepository  - findIntroduction")
             let disposable = provider.rx.request(.findIntroduction(request))
                 .map(FindIntroductionResponse.self)
                 .map { $0.introduction }
@@ -181,10 +195,8 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("UserRepository - findIntroduction response success : \(response) ")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("UserRepository  - findIntroduction - error : \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()

@@ -28,14 +28,14 @@ class BaseDetailViewController: UIViewController {
     // 피드 작성 날짜
     lazy var dateLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = .systemFont(ofSize: 15, weight: .medium)
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
         $0.textColor = .gray
     }
     
     // 피드 작성 글
     lazy var textView = UITextView().then {
         $0.textAlignment = .left
-        $0.font = .systemFont(ofSize: 16, weight: .thin)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
         $0.textColor = .black
         $0.backgroundColor = .clear
         $0.isUserInteractionEnabled = false
@@ -44,7 +44,7 @@ class BaseDetailViewController: UIViewController {
     
     // 작성 글 잘 보이도록 사용하는 background
     private lazy var contentBackground = UIView().then {
-        $0.layer.backgroundColor = UIColor.white.cgColor
+        $0.layer.backgroundColor = UIColor(named: "CellColor")?.cgColor
         $0.layer.opacity = 0.4
         $0.layer.cornerRadius = 16
     }
@@ -91,7 +91,7 @@ class BaseDetailViewController: UIViewController {
 }
 // MARK: - setLayout()
 extension BaseDetailViewController {
-    private func setLayout() {
+    func setLayout() {
         print("BaseFeedDetailViewController - setLayout")
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)

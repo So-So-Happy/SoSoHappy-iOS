@@ -8,6 +8,7 @@
 import UIKit
 
 public protocol ChartCoordinatorInterface {
+    func pushAwardsDetailView()
     func dismiss()
     func finished()
 }
@@ -31,6 +32,34 @@ final class ChartCoordinator: Coordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     
+}
+
+extension ChartCoordinator: ChartCoordinatorInterface {
+    
+    func pushAwardsDetailView() {
+        let viewController = makeAwardsDetailViewController()
+        navigationController.pushViewController(viewController, animated: false)
+    }
+    
+    
+    func dismiss() {
+        self.navigationController.dismiss(animated: false)
+        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
+    
+    func finished() {
+        navigationController.popViewController(animated: true)
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+    }
+    
+}
+
+extension ChartCoordinator {
+    func makeAwardsDetailViewController() -> UIViewController {
+        let viewController = AwardsDetailViewController()
+        return viewController
+
+    }
 }
 
 

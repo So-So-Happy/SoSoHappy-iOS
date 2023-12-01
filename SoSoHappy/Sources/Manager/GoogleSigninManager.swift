@@ -26,7 +26,7 @@ final class GoogleSigninManager: SigninManagerProtocol {
         
         GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { userInfo, error in
             if let userInfo = userInfo {
-                let request = SigninRequest(email: userInfo.user.profile?.email ?? "unknownEmail", provider: "google", providerId: userInfo.user.userID ?? "unknownId", codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier", authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode")
+                let request = SigninRequest(email: userInfo.user.profile?.email ?? "unknownEmail", provider: "google", providerId: userInfo.user.userID ?? "unknownId", codeVerifier: UserDefaults.standard.string(forKey: "codeVerifier") ?? "unknownCodeVerifier", authorizeCode: UserDefaults.standard.string(forKey: "authorizeCode") ?? "unknownAuthorizeCode", authorizationCode: "", deviceToken:  UserDefaults.standard.string(forKey: "fcmToken") ?? "unknownFcmToken")
                 
                 self.publisher.onNext(request)
                 self.publisher.onCompleted()
@@ -38,11 +38,16 @@ final class GoogleSigninManager: SigninManagerProtocol {
         return self.publisher
     }
     
-    func signout() -> RxSwift.Observable<Void> {
+    func resign() -> RxSwift.Observable<Void> {
         return .empty()
     }
     
-    func logout() -> RxSwift.Observable<Void> {
-        return .empty()
+    func logout() -> Observable<Void> {
+        return Observable.create { observer in
+            GIDSignIn.sharedInstance.signOut()
+            observer.onNext(())
+            observer.onCompleted()
+            return Disposables.create()
+        }
     }
 }
