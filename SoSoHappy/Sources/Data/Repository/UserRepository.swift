@@ -146,7 +146,7 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
-            print("UserRepository  - findProfileImg")
+//            print("UserRepository  - findProfileImg")
             let disposable = provider.rx.request(.findProfileImg(request))
                 .map(FindProfileImgResponse.self)
                 .map { $0.toDomain() }
@@ -173,10 +173,10 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
     func findIntroduction(request: FindIntroductionRequest) -> Observable<String> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
-            print("UserRepository  - findIntroduction")
+//            print("UserRepository  - findIntroduction")
             let disposable = provider.rx.request(.findIntroduction(request))
                 .map(FindIntroductionResponse.self)
-                .map { $0.Introduction }
+                .map { $0.introduction }
                 .asObservable()
                 .subscribe { event in
                     switch event {
