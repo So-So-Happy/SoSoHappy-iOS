@@ -56,7 +56,12 @@ final class AddStep1ViewController: UIViewController {
     private lazy var happinessStackView = HappinessStackView()
 
     private lazy var nextButton = NextButton()
-
+    
+    private lazy var dismissButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "xmark"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -83,12 +88,13 @@ extension AddStep1ViewController {
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
     }
     
     private func addViews() {
         self.view.addSubview(statusBarStackView)
-        self.view.addSubview(introLabel)
-        self.view.addSubview(introSubLabel)
+//        self.view.addSubview(introLabel)
+//        self.view.addSubview(introSubLabel)
         self.view.addSubview(weatherLabel)
         self.view.addSubview(weatherStackView)
         self.view.addSubview(happinessLabel)
@@ -102,19 +108,19 @@ extension AddStep1ViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        introLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStackView.snp.bottom).offset(40)
-        }
-        
-        introSubLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(introLabel.snp.bottom).offset(6)
-        }
+//        introLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(statusBarStackView.snp.bottom).offset(40)
+//        }
+//        
+//        introSubLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(introLabel.snp.bottom).offset(6)
+//        }
         
         weatherLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(introSubLabel.snp.bottom).offset(88)
+            make.top.equalTo(statusBarStackView.snp.bottom).offset(120)
         }
         
         weatherStackView.snp.makeConstraints { make in
@@ -132,7 +138,6 @@ extension AddStep1ViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(happinessLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(32)
-            
         }
         
         nextButton.snp.makeConstraints { make in
@@ -165,7 +170,15 @@ extension AddStep1ViewController: View {
             .subscribe(onNext: { [weak self] _ in
                 print("AddStep 1 - nextButton - subscribe")
                 guard let self = self else { return }
-                coordinator?.showNextAdd(reactor: reactor)
+                coordinator?.showNextAdd(reactor: reactor, navigateTo: .addstep2)
+            })
+            .disposed(by: disposeBag)
+        
+        dismissButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                print("AddStep 1 - dismissButton - subscribe")
+                guard let self = self else { return }
+                coordinator?.dismiss()
             })
             .disposed(by: disposeBag)
         
