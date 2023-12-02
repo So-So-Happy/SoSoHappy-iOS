@@ -26,11 +26,19 @@ final class FeedViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
     private var ongoingProfileImageRequests: [String: Observable<UIImage>] = [:]
+    var currentPageTotal: Int = 0
+    var currentPageToday: Int = 0
+    let initialState: State
     
     enum Action {
         case refresh
         case fetchFeeds(SortOption)
         case selectedCell(index: Int)
+        case pagination(
+            contentHeight: CGFloat,
+            contentOffsetY: CGFloat,
+            scrollViewHeight: CGFloat
+        )
     }
     
     enum Mutation {
@@ -49,9 +57,11 @@ final class FeedViewReactor: Reactor {
         var sortOption: SortOption?
         var selectedFeed: UserFeed?
         var showNoFeedLabel: Bool? = false
+        var userFeedSection = UserFeedSection.Model(
+          model: 0,
+          items: []
+        )
     }
-    
-    let initialState: State
     
     init(
         feedRepository: FeedRepositoryProtocol,
@@ -69,7 +79,7 @@ final class FeedViewReactor: Reactor {
             // currentState.sortOption에 따라 달라짐
             return .concat([
                 .just(.setRefreshing(true)).delay(.seconds(3), scheduler: MainScheduler.instance),
-                fetchAndProcessFeeds(setSortOption: currentState.sortOption!),
+                fetchAndProcessFeedsFinal(setSortOption: currentState.sortOption!, page: 0),
                 .just(.setRefreshing(false))
             ])
             
@@ -98,15 +108,29 @@ final class FeedViewReactor: Reactor {
                 .just(.setFeeds([])),
                 .just(.isLoading(true)),
                 // .isLoading ->  1초 delay 후 -> fetchAndProcessFeed 실행
-                fetchAndProcessFeeds(setSortOption: setSortOption).delay(.milliseconds(1), scheduler: MainScheduler.instance),
-                .just(.isLoading(false)),
-                .just(.showNoFeedLabel(currentState.userFeeds?.isEmpty))
+                fetchAndProcessFeedsFinal(setSortOption: setSortOption, page: 0).delay(.milliseconds(1), scheduler: MainScheduler.instance),
+                .just(.isLoading(false))
+//                .just(.showNoFeedLabel(currentState.userFeeds?.isEmpty))
             ])
             
         case let .selectedCell(index):
             return .just(.selectedCell(index: index))
+            
+        case let .pagination(contentHeight, contentOffsetY, scrollViewHeight):
+            let paddingSpace = contentHeight - contentOffsetY
+            if paddingSpace < scrollViewHeight {
+//                return getPhotos()
+                print("get more datas")
+               
+                return fetchAndProcessFeedsFinal(setSortOption: currentState.sortOption!, page: <#T##Int#>)
+            } else {
+                return .empty()
+            }
+            
         }
     }
+    
+    
     // MARK: state.selectedFeed = nil를 한 곳에만 써도 될 것 같은데 한번 더 확인해보기
     func reduce(state: State, mutation: Mutation) -> State {
         var state = state
@@ -148,19 +172,95 @@ extension FeedViewReactor {
         case .today:
             print("오늘 날짜 : \(Date().getFormattedYMDH())")
             return Date().getFormattedYMDH()
-        case .total:
-            return nil
-        default:
-            return nil
+        default: return nil
         }
     }
+    
+    private func fetchAndProcessFeedsFinal(setSortOption: SortOption, page: Int) -> Observable<Mutation> {
+        // sortOption에 따라서 requestDate 설정
+        let requestDate: Int64? = setRequestDateBy(setSortOption)
+        
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: 0, size: 7))
+            // MARK: - flatMap
+            // 각 UserFeed에 대해 프로필 이미지를 비동기적으로 조회하고(병렬처리), 그 결과를 기반으로 새로운 Observable 생성
+            .flatMap { (userFeeds, isLast) -> Observable<[UserFeed]> in
+                print("😄 isLast : \(isLast)")
+                // MARK: - 1. 각각의 Feed에 프로필 이미지 조회
+                let observables: [Observable<UserFeed>] = userFeeds.map { feed in
+                    print(" 🛑 feed.nickname : \(feed.nickName)")
+                    // MARK: 캐시에 있는지 확인
+                    if let cachedImage = ImageCache.shared.cache[feed.nickName] {
+                        print("⭕️ 캐시에 있음(FeedView) -  nickname : \(feed.nickName)")
+                        
+                        // MARK: 캐시된 이미지를 넣은 UserFeed 반환
+                        return Observable.just(feed.with(profileImage: cachedImage))
+                    }
+                    
+                    print(" ❌ 캐시에 없음(FeedView) -  nickname : \(feed.nickName)")
+                    // MARK: 2. 해당 닉네임에 대한 진행중인 (프로필 이미지 조회)요청이 있는지 확인
+                    
+                    // 진행중인 요청을 ongoingRequest에 할당
+                    if let ongoingRequest = self.ongoingProfileImageRequests[feed.nickName] {
+                        print("🚜 ongoing REQUEST")
+                        return ongoingRequest
+                            .map { profileImg in
+                                print("🚜🚜 profileImg = \(profileImg)")
+                                // MARK: Cache에 저장
+//                                ImageCache.shared.cache[feed.nickName] = profileImg
+                                
+                                return feed.with(profileImage: profileImg)
+                            }
+                            .catch { _ in Observable.just(feed) }
+                    }
+                    
+
+                    
+                    // MARK: 3. 요청
+                    let request = self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
+                    // .share - 공유 ㅁ
+                    let sharedRequest = request.share()
+                    
+                    print("request : \(request)")
+                    self.ongoingProfileImageRequests[feed.nickName] = sharedRequest
+                    
+                    return request
+                        .map { profileImgFromServer in
+                            print("🎉 요청 시작 , nickname : \(feed.nickName), content: \(feed.text)")
+                            // MARK: Cache에 저장
+                            ImageCache.shared.cache[feed.nickName] = profileImgFromServer
+                            // MARK: 받아온 이미지를 넣은 UserFeed 반환
+                            return feed.with(profileImage: profileImgFromServer) // 이거 자체로 이미 Observable
+                        }
+                        .catch { error in
+                            print("🚫 프로필 이미지 조회 error : \(error.localizedDescription), nickname : \(feed.nickName)")
+                            
+                            return Observable.just(feed)
+                        }
+                        .do(onDispose: {
+                            // 메모리에서 해제되면 ongoingRequest에서 제거해줌
+                            print("🎀 do DISPOSE - nickname : \(feed.nickName), content : \(feed.text), date : \(feed.dateFormattedString)")
+                            self.ongoingProfileImageRequests[feed.nickName] = nil
+                        })
+                } // observables map
+                // MARK: zip - 여러 개의 Observable의 결과를 하나로 결합
+                // 여러 피드에 대해 각각 비동기적으로 프로필 이밎 조회를 수행했고, 이 결과들을 하나의 배열로 조합하여 반환해야 하기 때문에
+                return Observable.zip(observables)
+            }
+            .map { Mutation.setFeeds($0) }
+    }
+    
+    
+    
+    
+    
+
     
     private func fetchAndProcessFeeds1(setSortOption: SortOption) -> Observable<Mutation> {
         let requestDate: Int64? = setRequestDateBy(setSortOption)
         print("requestDate: \(requestDate)")
         
         // MARK: page를 7로 해놓아서 처음부터 7
-        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "bread", date: requestDate, page: 0, size: 7))
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "bread", date: requestDate, page: 1, size: 7))
             .flatMap { (userFeeds, isLast) -> Observable<[UserFeed]> in
 //                print("fetchAndProcessFeeds 1 : \(userFeeds.count) , userFeeds : \(userFeeds)")
                 // TODO: 처음으로 fech할 때 동일 nickname 있더라도 fetch를 해오는 문제가 있음
