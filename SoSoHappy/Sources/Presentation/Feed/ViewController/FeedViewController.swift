@@ -14,6 +14,10 @@ import RxCocoa
 import NVActivityIndicatorView
 import RxDataSources
 
+/*
+ self.scrollView.scrollIndicatorInsets
+ */
+
 final class FeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -31,6 +35,14 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
     
     // MARK: 로딩 뷰 잘 넣어주기
     private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0)
+    
+    private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
+    ).then {
+        let spinner = UIActivityIndicatorView()
+        spinner.center = $0.center
+        $0.addSubview(spinner)
+        spinner.startAnimating()
+    }
     
     private lazy var tableView = UITableView().then {
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
@@ -75,6 +87,9 @@ extension FeedViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(feedHeaderView.snp.bottom).offset(50)
         }
+        
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
+        
     }
 }
 
@@ -96,11 +111,13 @@ extension FeedViewController: View {
         
         
         self.tableView.rx.didScroll
-            .debounce(.milliseconds(300), scheduler: MainScheduler.instance) // Adjust the debounce time as needed
+            .debounce(.milliseconds(270), scheduler: MainScheduler.instance) // Adjust the debounce time as needed
+//            .throttle(.seconds(4), scheduler: MainScheduler.instance) //
             .skip(1)
             .withLatestFrom(self.tableView.rx.contentOffset)
             .map { [weak self] in
-                print("호출2")
+                print("didScroll")
+
                 return Reactor.Action.pagination(
                     contentHeight: self?.tableView.contentSize.height ?? 0,
                     contentOffsetY: $0.y,
@@ -109,6 +126,7 @@ extension FeedViewController: View {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
         
         self.refreshControl.rx.controlEvent(.valueChanged)
             .map { Reactor.Action.refresh }
@@ -126,11 +144,21 @@ extension FeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        reactor.state.map(\.sections)
-              .distinctUntilChanged()
-              .map(Array.init(with:)) // <- extension으로 Array 초기화 시 차원을 하나 늘려주는 코드추가
-              .bind(to: self.tableView.rx.items(dataSource: dataSource))
-              .disposed(by: self.disposeBag)
+        reactor.state
+            .map(\.sections)
+            .distinctUntilChanged()
+            .map(Array.init(with:)) // <- extension으로 Array 초기화 시 차원을 하나 늘려주는 코드추가
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isPaging }
+            .distinctUntilChanged()
+            .subscribe { [weak self] isPaging in
+                guard let self = self else { return }
+                tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
+            }
+            .disposed(by: disposeBag)
         
         reactor.state
             .skip(1)
@@ -150,12 +178,13 @@ extension FeedViewController: View {
 // MARK: - configureCell & ExceptionView 핸들링 메서드
 extension FeedViewController {
     private func createDataSource() -> RxTableViewSectionedReloadDataSource<UserFeedSection.Model> {
-        return .init { dataSource, tableView, indexPath, item  in
+        return .init { [weak self] dataSource, tableView, indexPath, item  in
             let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.cellIdentifier, for: indexPath) as! FeedCell
 
             switch item {
             case .feed(let reactor):
                 cell.reactor = reactor
+                self?.configureCell(cell)
             }
             
             return cell
@@ -164,11 +193,7 @@ extension FeedViewController {
     
     
     
-    private func configureCell(_ cell: FeedCell, reactor: FeedReactor) {
-        // MARK: FeedReactor에 feed 넣어주는 방법1
-        
-        // MARK: FeedReactor에 feed 넣어주는 방법2
-        cell.reactor = reactor
+    private func configureCell(_ cell: FeedCell) {
         
         // - 여기에 코드를 작성한 이유
         // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문

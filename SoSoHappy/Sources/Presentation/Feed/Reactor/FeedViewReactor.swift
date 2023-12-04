@@ -20,7 +20,7 @@ final class FeedViewReactor: Reactor {
     private var ongoingProfileImageRequests: [String: Observable<UIImage>] = [:]
     var totalIsLast: Bool = false
     var todayIsLast: Bool = false
-    var currentPageTotal: Int = -1
+    var currentPageTotal: Int = 0
     var currentPageToday: Int = 0
     let initialState: State
     
@@ -37,12 +37,14 @@ final class FeedViewReactor: Reactor {
     enum Mutation {
         case setRefreshing(Bool)
         case isLoading(Bool) // 로딩 띄울 때 쓰려고 일단 만들어 놓음
+        case isPaging(Bool)
         case updateDataSource([UserFeedSection.Item])
     }
     
     struct State {
         var isRefreshing: Bool = false
         var isLoading: Bool? // 로딩 띄울 때 쓰려고 일단 만들어 놓음
+        var isPaging: Bool?
         var sortOption: SortOption?
         var sections = UserFeedSection.Model(
           model: 0,
@@ -81,11 +83,20 @@ final class FeedViewReactor: Reactor {
             return fetchAndProcessFeedsFinal(setSortOption: sort, page: 0)
             
         case let .pagination(contentHeight, contentOffsetY, scrollViewHeight):
+            print("here - pagination 1")
             let paddingSpace = contentHeight - contentOffsetY
             if paddingSpace < scrollViewHeight {
+                print("didScroll - 바닥 도달")
                 
-                return fetchAndProcessFeedsFinal(setSortOption: .total, page: nil)
+                return .concat([
+                    .just(.isPaging(true)),
+                    fetchAndProcessFeedsFinal(setSortOption: .total, page: nil),
+                    .just(.isPaging(false))
+                ])
+//                return fetchAndProcessFeedsFinal(setSortOption: .total, page: nil)
+//                return .empty()
             } else {
+                print("didScroll - empty")
               return .empty()
             }
             
@@ -101,6 +112,9 @@ final class FeedViewReactor: Reactor {
             
         case let .setRefreshing(isRefreshing):
             state.isRefreshing = isRefreshing
+            
+        case let .isPaging(isPaging):
+            state.isPaging = isPaging
             
         case .updateDataSource(let sectionItem):
             state.sections.items.append(contentsOf: sectionItem)
@@ -141,6 +155,132 @@ extension FeedViewReactor {
 
     
     private func fetchAndProcessFeedsFinal(setSortOption: SortOption, page: Int?) -> Observable<Mutation> {
+        
+        print("here --> page : \(page)")
+        
+        switch setSortOption {
+        case .today where todayIsLast:
+            print("today - todayIsLast: \(todayIsLast)")
+            return .empty()
+        case .total where totalIsLast:
+            print("total - totalIsLast: \(totalIsLast)")
+            return .empty()
+        default:
+            if let page = page {
+                print("here3")
+                resetPagination()
+            } else {
+                if setSortOption == .today {
+                    print("here1")
+                    currentPageToday += 1
+                } else {
+                    print("here2")
+                    currentPageTotal += 1
+
+                }
+            }
+        }
+        
+        // sortOption에 따라서 requestDate 설정
+        let requestDate: Int64? = setRequestDateBy(setSortOption)
+        
+        let currentPage = setSortOption == .today ? currentPageToday : currentPageTotal
+        
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: "디저트러버", date: requestDate, page: currentPage, size: 7))
+            // MARK: - flatMap
+            // 각 UserFeed에 대해 프로필 이미지를 비동기적으로 조회하고(병렬처리), 그 결과를 기반으로 새로운 Observable 생성
+            .flatMap { [weak self] (userFeeds, isLast) -> Observable<Mutation> in
+                guard let self = self else { return .empty() }
+                print("😄 isLast : \(isLast), currentPage: \(currentPage), sortOption: \(setSortOption)")
+                handleLastPage(for: setSortOption, isLast: isLast)
+        
+                
+                // MARK: - 1. 각각의 Feed에 프로필 이미지 조회
+                let observables: [Observable<UserFeedSection.Item>] = userFeeds.map {[weak self] feed in
+                    guard let self = self else { return Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository()))) }
+                    print(" 🛑 feed.nickname : \(feed.nickName)")
+                    return processFeedWithImage(feed)
+
+                } // observables map
+                // MARK: zip - 여러 개의 Observable의 결과를 하나로 결합
+                // 여러 피드에 대해 각각 비동기적으로 프로필 이밎 조회를 수행했고, 이 결과들을 하나의 배열로 조합하여 반환해야 하기 때문에
+                return Observable.zip(observables)
+                    .map { items in
+                        // items is an array of UserFeedSection.Item
+                        return Mutation.updateDataSource(items)
+                    }
+            }
+    }
+    
+    private func processFeedWithImage(_ feed: UserFeed) -> Observable<UserFeedSection.Item> {
+        // MARK: 캐시에 있는지 확인
+        if let cachedImage = ImageCache.shared.cache[feed.nickName] {
+            print("⭕️ 캐시에 있음(FeedView) -  nickname : \(feed.nickName)")
+            // MARK: 캐시된 이미지를 넣은 UserFeed 반환
+            return Observable.just(handleProfileImageRequestResult(cachedImage, feed))
+        }
+        
+        print(" ❌ 캐시에 없음(FeedView) -  nickname : \(feed.nickName)")
+        // MARK: 2. 해당 닉네임에 대한 진행중인 (프로필 이미지 조회)요청이 있는지 확인
+        
+        // 진행중인 요청을 ongoingRequest에 할당
+        if let ongoingRequest = self.ongoingProfileImageRequests[feed.nickName] {
+            print("🚜 ongoing REQUEST")
+            return ongoingRequest
+                .map { [weak self] profileImg in
+                    guard let self = self else { return .feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())) }
+                    print("🚜🚜 profileImg = \(profileImg)")
+                    // MARK: Cache에
+                    // MARK: 캐시된 이미지를 넣은 UserFeed 반환
+                    return handleProfileImageRequestResult(profileImg, feed)
+//                                return reactor
+                    
+                }
+                .catch { _ in Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository()))) }
+        }
+        
+
+        
+        // MARK: 3. 요청
+        let request = self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
+        // .share - 공유 ㅁ
+        let sharedRequest = request.share()
+        
+        print("request : \(request)")
+        self.ongoingProfileImageRequests[feed.nickName] = sharedRequest
+        
+        return request
+            .map { profileImgFromServer in
+                print("🎉 요청 시작 , nickname : \(feed.nickName), content: \(feed.text)")
+                // MARK: Cache에 저장
+                return self.handleProfileImageRequestResult(profileImgFromServer, feed, cacheImage: true)
+//                            return reactor
+            }
+            .catch { error in
+                print("🚫 프로필 이미지 조회 error : \(error.localizedDescription), nickname : \(feed.nickName)")
+                
+                return Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())))
+            }
+            .do(onDispose: {
+                // 메모리에서 해제되면 ongoingRequest에서 제거해줌
+                print("🎀 do DISPOSE - nickname : \(feed.nickName), content : \(feed.text), date : \(feed.dateFormattedString)")
+                self.ongoingProfileImageRequests[feed.nickName] = nil
+            })
+        
+    }
+    
+    private func handleProfileImageRequestResult(_ profileImg: UIImage, _ feed: UserFeed, cacheImage: Bool = false) -> UserFeedSection.Item {
+        if cacheImage {
+            ImageCache.shared.cache[feed.nickName] = profileImg
+        }
+        let feed = feed.with(profileImage: profileImg)
+        let reactor = FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())
+        return .feed(reactor)
+    }
+}
+
+extension FeedViewReactor {
+    private func fetchAndProcessFeedsFinal1(setSortOption: SortOption, page: Int?) -> Observable<Mutation> {
         
         switch setSortOption {
         case .today where todayIsLast:
