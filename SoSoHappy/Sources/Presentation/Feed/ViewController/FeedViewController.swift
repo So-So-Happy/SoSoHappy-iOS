@@ -16,6 +16,7 @@ import RxDataSources
 
 /*
  self.scrollView.scrollIndicatorInsets
+ 정렬 버튼 - throttle (연타방지 넣기)
  */
 
 final class FeedViewController: UIViewController, UIScrollViewDelegate {
@@ -26,15 +27,19 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
 
     
     // MARK: - UI Components
-    private lazy var feedHeaderView = FeedHeaderView()
+    private lazy var feedHeaderView = FeedHeaderView().then {
+        $0.backgroundColor = .none
+    }
     private lazy var refreshControl = UIRefreshControl()
     private lazy var exceptionView = FeedExceptionView(
         title: "등록된 피드가 없습니다.\n 소소한 행복을 공유하고 함께 응원해주세요!",
         topOffset: 300
     )
     
-    // MARK: 로딩 뷰 잘 넣어주기
-    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0)
+    // MARK: 리팩할 때 잘 제거해주기
+//    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0).then {
+//        $0.startAnimating()
+//    }
     
     private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
     ).then {
@@ -54,7 +59,11 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 30
     }
-   
+    
+    private lazy var loadingView = LoadingView().then {
+        $0.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("--------------- FeedViewController viewDidLoad ---------------")
@@ -77,17 +86,23 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
 extension FeedViewController {
     private func setLayout() {
         view.addSubview(tableView)
-        tableView.addSubview(activityIndicatorView)
+//        tableView.addSubview(activityIndicatorView)
+        view.addSubview(loadingView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        activityIndicatorView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(feedHeaderView.snp.bottom).offset(50)
-        }
+//        activityIndicatorView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(feedHeaderView.snp.bottom).offset(50)
+//        }
         
+        loadingView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.top.equalTo(feedHeaderView.snp.bottom)
+        }
+
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
         
     }
@@ -156,6 +171,7 @@ extension FeedViewController: View {
             .distinctUntilChanged()
             .subscribe { [weak self] isPaging in
                 guard let self = self else { return }
+                print("1 -- isPaging")
                 tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
             }
             .disposed(by: disposeBag)
@@ -166,11 +182,34 @@ extension FeedViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                print("137번째 줄")
+                print("sort : 137번째 줄 : \(sortOption)")
+                print("1 -- sort")
                 feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isRefreshing }
+            .distinctUntilChanged()
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+//        reactor.state
+//            .compactMap { $0.isLoading }
+//            .map { !$0 }
+//            .distinctUntilChanged()
+//            .debug()
+//            .bind(to: activityIndicatorView.rx.isHidden)
+//            .disposed(by: disposeBag)
+
+        reactor.state
+            .compactMap { $0.isLoading }
+            .map { !$0 }
+            .distinctUntilChanged()
+            .debug()
+            .bind(to: loadingView.rx.isHidden)
+            .disposed(by: disposeBag)
+   
     }
     
 }
