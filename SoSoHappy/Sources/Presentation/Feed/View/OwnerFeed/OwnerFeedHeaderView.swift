@@ -30,7 +30,7 @@ class OwnerFeedHeaderView: UIView {
     // 자기소개
     lazy var profileSelfIntroduction = UILabel().then {
         $0.font = UIFont.customFont(size: 14, weight: .medium)
-        $0.textColor = .gray
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.numberOfLines = 0
     }
 

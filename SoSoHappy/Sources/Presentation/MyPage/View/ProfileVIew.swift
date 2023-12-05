@@ -23,7 +23,7 @@ final class ProfileView: UIView {
     }
     lazy var introLabel = UILabel().then {
         $0.font = UIFont.customFont(size: 16, weight: .medium)
-        $0.textColor = UIColor(named: "GrayTextColor")
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.numberOfLines = 0
         $0.textAlignment = .center
     }
