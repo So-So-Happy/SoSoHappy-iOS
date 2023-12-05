@@ -41,7 +41,7 @@ final class ChartViewController: UIViewController {
     private lazy var chartView = ChartView()
     private lazy var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
     }
     let contentView = UIView()
     
