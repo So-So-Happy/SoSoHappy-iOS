@@ -30,11 +30,19 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
     private lazy var feedHeaderView = FeedHeaderView().then {
         $0.backgroundColor = .none
     }
+    
     private lazy var refreshControl = UIRefreshControl()
-    private lazy var exceptionView = FeedExceptionView(
-        title: "등록된 피드가 없습니다.\n 소소한 행복을 공유하고 함께 응원해주세요!",
-        topOffset: 300
-    )
+    
+    private lazy var tableView = UITableView().then {
+        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
+        $0.refreshControl = self.refreshControl
+        $0.tableHeaderView = feedHeaderView
+        $0.tableHeaderView?.frame.size.height = 150   // 고정된 값으로 줘도 됨. 94
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
+        $0.separatorStyle = .none
+        $0.rowHeight = UITableView.automaticDimension
+        $0.estimatedRowHeight = 30
+    }
     
     // MARK: 리팩할 때 잘 제거해주기
 //    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0).then {
@@ -49,18 +57,15 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
         spinner.startAnimating()
     }
     
-    private lazy var tableView = UITableView().then {
-        $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
-        $0.refreshControl = self.refreshControl
-        $0.tableHeaderView = feedHeaderView
-        $0.tableHeaderView?.frame.size.height = 150   // 고정된 값으로 줘도 됨. 94
-        $0.backgroundColor = UIColor(named: "BGgrayColor")
-        $0.separatorStyle = .none
-        $0.rowHeight = UITableView.automaticDimension
-        $0.estimatedRowHeight = 30
+
+    private lazy var loadingView = LoadingView().then {
+        $0.isHidden = true
     }
     
-    private lazy var loadingView = LoadingView().then {
+    private lazy var exceptionView = FeedExceptionView(
+        title: "등록된 피드가 없습니다.\n\n 소소한 행복을 공유하고 함께 응원해주세요!",
+        inset: 40
+    ).then {
         $0.isHidden = true
     }
     
@@ -88,6 +93,7 @@ extension FeedViewController {
         view.addSubview(tableView)
 //        tableView.addSubview(activityIndicatorView)
         view.addSubview(loadingView)
+        view.addSubview(exceptionView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -103,6 +109,11 @@ extension FeedViewController {
             make.top.equalTo(feedHeaderView.snp.bottom)
         }
 
+        exceptionView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.top.equalTo(feedHeaderView.snp.bottom)
+        }
+        
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
         
     }
@@ -194,6 +205,43 @@ extension FeedViewController: View {
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
+        // isLoading - false , sections.isEmpty 이면 등록된 뷰가 없습니다.
+        // isLoading - true이면 해당 뷰 제거
+        
+        reactor.state
+            .compactMap { $0.isLoading }
+            .distinctUntilChanged()
+            .bind { [weak self] isLoading in
+                guard let self = self else { return }
+                
+                if isLoading { // 로딩 중
+                    print("check3 - 로딩 중 ")
+                    exceptionView.isHidden = true
+                    loadingView.isHidden = false
+                } else { // 로딩 완료
+                    print("check3 - 로딩 완료 ")
+                    loadingView.isHidden = true
+                    if reactor.currentState.sections.items.isEmpty {
+                        print("check3 - 로딩 완료 - items 비어있다 ")
+                        exceptionView.isHidden = false
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        
+//        
+//        reactor.state
+//            .compactMap { $0.isLoading }
+//            .map {
+//                print("check3 - 213번째 줄")
+//                return !$0
+//            }
+//            .distinctUntilChanged()
+//            .debug()
+//            .bind(to: loadingView.rx.isHidden)
+//            .disposed(by: disposeBag)
+        
 //        reactor.state
 //            .compactMap { $0.isLoading }
 //            .map { !$0 }
@@ -202,13 +250,6 @@ extension FeedViewController: View {
 //            .bind(to: activityIndicatorView.rx.isHidden)
 //            .disposed(by: disposeBag)
 
-        reactor.state
-            .compactMap { $0.isLoading }
-            .map { !$0 }
-            .distinctUntilChanged()
-            .debug()
-            .bind(to: loadingView.rx.isHidden)
-            .disposed(by: disposeBag)
    
     }
     
