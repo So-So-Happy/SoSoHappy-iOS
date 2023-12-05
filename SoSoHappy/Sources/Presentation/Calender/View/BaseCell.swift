@@ -30,8 +30,6 @@ class BaseCell: UITableViewCell {
     // MARK: - UI Components
     lazy var cellBackgroundView =  UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
-        $0.layer.borderColor = UIColor(white: 0.9, alpha: 1.0).cgColor
-        $0.layer.borderWidth = 1
         $0.layer.cornerRadius = 16
     }
     

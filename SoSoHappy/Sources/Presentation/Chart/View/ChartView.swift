@@ -128,10 +128,10 @@ final class ChartView: UIView, ChartViewDelegate {
         var dataEntries: [ChartDataEntry] = []
         
         
-        for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(x: Double(i), y: Double(values[i]))
-            dataEntries.append(dataEntry)
-        }
+//        for i in 0..<dataPoints.count {
+//            let dataEntry = ChartDataEntry(x: Double(i), y: Double(values[i]))
+//            dataEntries.append(dataEntry)
+//        }
         
         let chartDataSet = LineChartDataSet(entries: dataEntries, label: "")
         graphView.legend.enabled = false
@@ -198,8 +198,8 @@ final class ChartView: UIView, ChartViewDelegate {
         graphView.leftAxis.axisMinimum = 0
         
         // 백그라운드컬러
-        graphView.backgroundColor = .white
-        graphView.xAxis.labelTextColor = UIColor.lightGray  // 원하는 색상으로 설정
+        graphView.backgroundColor = UIColor(named: "CellColor")
+        graphView.xAxis.labelTextColor = UIColor(named: "LightGrayTextColor") ?? .lightGray  // 원하는 색상으로 설정
         graphView.layer.backgroundColor = UIColor.red.cgColor
         
         // noData
