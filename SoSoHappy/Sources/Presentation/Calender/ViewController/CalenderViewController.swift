@@ -408,32 +408,32 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     
     //FIXME: onNext 로 reactor action 전달
     // 캘린더 페이지 변경시 year, month update, data, cell update
-//    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-//        let date = calendar.currentPage.getFormattedYM()
-//        
-//        if calendar.scope == .week {
-//            if let dateAfter = Calendar.current.date(byAdding: .day, value: 6, to: calendar.currentPage ) {
-//                if date != dateAfter.getFormattedYM() {
-////                    viewModel.getWeeklyList(date, dateAfter.getFormattedYM())
-//                }
-//            }
-//        } else {
-////            viewModel.getMonthlyList(date)
-//        }
-//        
-//        self.setMonth(calendar.currentPage)
-//    }
-//    
-//    func setMonth(_ date: Date) {
-//        let year = date.getFormattedDate(format: "yyyy")
-//        let month = date.getFormattedDate(format: "M월")
-//        if Date().getFormattedDate(format: "yyyy") != year {
-//            yearLabel.text = year
-//            monthLabel.text = month
-//        } else {
-//            monthLabel.text = month
-//        }
-    //    }
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        let date = calendar.currentPage.getFormattedYM()
+        
+        if calendar.scope == .week {
+            if let dateAfter = Calendar.current.date(byAdding: .day, value: 6, to: calendar.currentPage ) {
+                if date != dateAfter.getFormattedYM() {
+//                    viewModel.getWeeklyList(date, dateAfter.getFormattedYM())
+                }
+            }
+        } else {
+//            viewModel.getMonthlyList(date)
+        }
+        
+        self.setMonth(calendar.currentPage)
+    }
+    
+    func setMonth(_ date: Date) {
+        let year = date.getFormattedDate(format: "yyyy")
+        let month = date.getFormattedDate(format: "M월")
+        if Date().getFormattedDate(format: "yyyy") != year {
+            yearLabel.text = year
+            monthLabel.text = month
+        } else {
+            monthLabel.text = month
+        }
+    }
     
     // MARK: 주말 텍스트 색 설정
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
