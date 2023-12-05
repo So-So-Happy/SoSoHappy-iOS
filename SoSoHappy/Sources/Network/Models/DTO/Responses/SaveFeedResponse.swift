@@ -10,6 +10,6 @@ import Foundation
 
 struct SaveFeedResponse: Decodable {
     let success: Bool
-    let AuthorizationRefresh: String? // "등록 성공" or null
+    let message: String? // "등록 성공" or null
 }
 

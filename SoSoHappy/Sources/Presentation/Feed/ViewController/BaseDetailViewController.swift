@@ -43,10 +43,12 @@ class BaseDetailViewController: UIViewController {
     }
     
     // 작성 글 잘 보이도록 사용하는 background
-    private lazy var contentBackground = UIView().then {
+    lazy var contentBackground = UIView().then {
         $0.layer.backgroundColor = UIColor(named: "CellColor")?.cgColor
         $0.layer.opacity = 0.4
         $0.layer.cornerRadius = 16
+        $0.layer.borderWidth = 0.3
+        $0.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     // 피드 이미지
@@ -72,7 +74,12 @@ class BaseDetailViewController: UIViewController {
         dateLabel.text = feed.dateFormattedString
         textView.setAttributedTextWithLineHeight(feed.text, fontSize: 16)
         
-        if feed.imageList.isEmpty {
+        setImageSlideView(imageList: feed.imageList)
+    }
+    
+    
+    func setImageSlideView(imageList: [UIImage]) {
+        if imageList.isEmpty {
             imageSlideView.isHidden = true
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
                 print("imageSlideView  updateConstraints 사진 없음")
@@ -81,11 +88,13 @@ class BaseDetailViewController: UIViewController {
             
         } else {
             imageSlideView.isHidden = false
-            imageSlideView.setContents(feed: feed)
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
                 print("imageSlideView  updateConstraints 사진 있음")
                 make.height.equalTo(300)
             }
+            
+            imageSlideView.setContentsWithImageList(imageList: imageList)
+            
         }
     }
 }
@@ -133,6 +142,7 @@ extension BaseDetailViewController {
             print("imageSlideView  makeConstraints")
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview().inset(30)
+            make.height.equalTo(0)
         }
     }
 }

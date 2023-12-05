@@ -11,11 +11,11 @@ import RxSwift
 import Moya
 
 protocol FeedRepositoryProtocol {
-    func saveFeed(feed: MyFeed) -> Observable<SaveFeedResponse>
+    func saveFeed(request: SaveFeedRequest) -> Observable<Bool>
     func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed>
     func findMonthFeed(request: FindFeedRequest) -> Observable<[MyFeed]>
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed>
-    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<[UserFeed]>
+    func findOtherFeed(request: FindOtherFeedRequest) -> Observable<([UserFeed], Bool)>
     func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]>
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse>
     func findMonthHappiness(request: HappinessRequest) -> Observable<[FindHappinessResponse]>

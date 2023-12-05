@@ -12,6 +12,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
+// pagination, coordinator leak, 예외 처리
 
 /*
  리팩토링
@@ -27,6 +28,8 @@ import NVActivityIndicatorView
  - 500 서버오류
  - 네트워크 연결이 안되어 있습니다.
  */
+
+// 예외까지 다 처리가 되면 다시 navigation title 고민해보기 (일단은 주석 처리)
 
 final class FeedViewController: UIViewController {
     // MARK: - Properties
@@ -61,18 +64,19 @@ final class FeedViewController: UIViewController {
         setLayout()
     }
     
+    // MARK: 한번 viewDidLoad된 이후에는 계속 viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("--------------- FeedViewController viewWillAppear ---------------")
-        let contentOffset = self.tableView.contentOffset
-        handleTableViewContentOffset(contentOffset)
+//        let contentOffset = self.tableView.contentOffset
+//        handleTableViewContentOffset(contentOffset)
     }
 
     // MARK: - 스크롤된 정도에 따라서 navigation title을 줬더니 다음 화면으로 넘어갈 때 Back 대신 title이 뜨길래
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         print("--------------- FeedViewController viewWillDisappear ---------------")
-        self.navigationItem.title = ""
+//        self.navigationItem.title = ""
     }
     
     init(reactor: FeedViewReactor, coordinator: FeedCoordinatorInterface) {
@@ -121,18 +125,12 @@ extension FeedViewController: View {
         // sortTodayButton, feedHeaderView에 연타방지 연산 필요 (thorttle, debounce)
         feedHeaderView.sortTodayButton.rx.tap
 //            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
-            .map {
-                print("FeedVC - 오늘 누름")
-                return Reactor.Action.fetchFeeds(.today)
-            }
+            .map { Reactor.Action.fetchFeeds(.today) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         feedHeaderView.sortTotalButton.rx.tap
-            .map {
-                print("FeedVC - 전체 누름")
-                return Reactor.Action.fetchFeeds(.total)
-            }
+            .map { Reactor.Action.fetchFeeds(.total) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -142,6 +140,8 @@ extension FeedViewController: View {
             .map { Reactor.Action.selectedCell(index: $0.row) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+//        tableView.rx.prefe
         
         tableView.rx.contentOffset
             .subscribe(onNext: { [weak self] contentOffset in
@@ -155,11 +155,15 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .compactMap {
-                print("FeedVC - reactor.state - feeds : \($0.userFeeds)")
+//                print("FeedVC - reactor.state - feeds : \($0.userFeeds)")
                 return $0.userFeeds
             }
+            .distinctUntilChanged()
+//            .debug()
             .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  userFeed, cell) in
-                print(" FeedVC - tableView cell 세팅중!! - userFeed : \(userFeed)")
+                print("--------------------")
+                print(" FeedVC - tableView cell 세팅중!! ")
+                print("--------------------")
                 guard let self = self else { return }
                 configureCell(cell, with: userFeed)
             }
@@ -169,12 +173,13 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .compactMap {
-                print("FeedVC - reactor.state - sortOption : \($0.sortOption)")
+//                print("FeedVC - reactor.state - sortOption : \($0.sortOption)")
                 return $0.sortOption
             }
+            .distinctUntilChanged()
             .bind(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                print("sortOption!!")
+//                print("sortOption!!")
                 feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
@@ -182,16 +187,19 @@ extension FeedViewController: View {
         
         // MARK: 서버로부터 데이터를 받아오는 동안 loading view
         reactor.state
-            .compactMap { $0.isLoading }
+            .compactMap {
+//                print("FeedVC - reactor.state - isLoading : \($0.isLoading)")
+                return $0.isLoading
+            }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] isLoading in
                 guard let self = self else { return }
-                print("FeedVC - isLoading: \(isLoading)")
+//                print("FeedVC - isLoading: \(isLoading)")
                 if isLoading {
-                    print("FeedVC - animating")
+//                    print("FeedVC - animating")
                     activityIndicatorView.startAnimating()
                 } else {
-                    print("FeedVC - animating stop")
+//                    print("FeedVC - animating stop")
                     activityIndicatorView.stopAnimating()
                 }
             })
@@ -202,12 +210,11 @@ extension FeedViewController: View {
         reactor.state
             .skip(1)
             .map {
-                print("FeedVC - reactor.state - isRefreshing : \($0.isRefreshing)")
+//                print("FeedVC - reactor.state - isRefreshing : \($0.isRefreshing)")
                 return $0.isRefreshing
                 
             }
             .distinctUntilChanged()
-            .debug()
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
 
@@ -215,16 +222,29 @@ extension FeedViewController: View {
         
         // MARK: cell 선택 view 이동
         reactor.state
-            .compactMap { $0.selectedFeed }
+            .compactMap {
+//                print("FeedVC - reactor.state - selectedFeed : \($0.selectedFeed)")
+                return $0.selectedFeed
+            }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                print("FeedVC - selectedFeed!! : \(userFeed) ")
+//                print("FeedVC - selectedFeed!! : \(userFeed) ")
 //                print("feed: \(feed), type: \(type(of: feed))")
                 self.coordinator?.showdDetails(userFeed: userFeed)
             })
             .disposed(by: disposeBag)
         
-        // MARK: 올아온 게시물이 없습니다.
+        // MARK: 올라온 게시물이 없습니다.
+        reactor.state
+            .compactMap { $0.showNoFeedLabel }
+            .subscribe(onNext: { [weak self] showNoFeedLabel in
+                if showNoFeedLabel {
+                    print("수현 - 피드 없음 보여줘")
+                } else {
+                    print("수현 - 피드 있음")
+                }
+            })
+            .disposed(by: disposeBag)
        
     }
 }

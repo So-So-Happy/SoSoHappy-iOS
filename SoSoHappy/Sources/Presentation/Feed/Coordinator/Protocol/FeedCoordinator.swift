@@ -36,39 +36,47 @@ final class FeedCoordinator: FeedCoordinatorInterface {
     }
     
     // 실행했을 때 나오는 화면
+    // MARK: Tab Coordinator에서 한번 딱 실행됨
     func start() {
         let feedViewReactor = FeedViewReactor(
             feedRepository: FeedRepository(),
-            userRepository: UserRepository(),
-            imageCacheManager: ImageCacheManager.shared)
+            userRepository: UserRepository())
         
         let feedVC = FeedViewController(reactor: feedViewReactor, coordinator: self)
         navigationController.pushViewController(feedVC, animated: true)
     }
-    
-    func finish() {
-        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
-    }
 }
 
 extension FeedCoordinator {
+    // MARK: childCoordinators 계속 누적되는 문제
     func showdDetails(userFeed: UserFeed) {
-        print("1. cell 선택함")
+//        print("1. cell 선택함")
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, userFeed: userFeed, navigatingFrom: .feedViewController)
-        
+        feedDetailCoordinator.parentCoordinator = self
+//        feedDetailCoordinator.finishDelegate = self
         self.childCoordinators.append(feedDetailCoordinator)
+        
+//        print("🗂️ (detail) Feed coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         feedDetailCoordinator.start()
     }
     
     func showOwner(ownerNickName: String) {
-        print("2. 프로필 이미지 선택")
-        print("ownerNickName : \(ownerNickName)")
+//        print("2. 프로필 이미지 선택")
+//        print("ownerNickName : \(ownerNickName)")
         let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName)
+        ownerFeedCoordinator.parentCoordinator = self
         self.childCoordinators.append(ownerFeedCoordinator)
+        
+//        print("🗂️ (owner) Feed coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         ownerFeedCoordinator.start()
     }
 }
 
-
-
-
+//extension FeedCoordinator: CoordinatorFinishDelegate {
+//    func coordinatorDidFinish(childCoordinator: Coordinator) {
+//        if let index = childCoordinators.firstIndex(where: { $0 === childCoordinator }) {
+//            childCoordinators.remove(at: index)
+//            print("🗂️ Feed coordinator childCoordinator removed, count: \(childCoordinators.count)")
+//        }
+//    }
+//}
