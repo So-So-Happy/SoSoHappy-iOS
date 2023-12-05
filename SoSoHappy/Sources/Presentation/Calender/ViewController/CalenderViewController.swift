@@ -84,11 +84,7 @@ final class CalendarViewController: UIViewController {
     private var selectedDate: DateComponents? = nil
     
     private var currentPage: Date?
-    
-    private lazy var panGesture = UIPanGestureRecognizer().then {
-        $0.addTarget(calendar, action: #selector(calendar.handleScopeGesture(_:)))
-    }
-    
+
     private let today: Date = {
         return Date()
     }()
