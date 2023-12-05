@@ -19,6 +19,10 @@ import RxDataSources
  정렬 버튼 - throttle (연타방지 넣기)
  */
 
+// 로딩 중 또는 paging 중
+// 문제 - 로딩 중에 다른 tab으로 옮겼을 때 겹침 현상
+// 전체에서 로딩 중에 오늘로 넘겼다고 했을 때
+
 final class FeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -208,49 +212,41 @@ extension FeedViewController: View {
         // isLoading - false , sections.isEmpty 이면 등록된 뷰가 없습니다.
         // isLoading - true이면 해당 뷰 제거
         
+        
         reactor.state
             .compactMap { $0.isLoading }
             .distinctUntilChanged()
-            .bind { [weak self] isLoading in
-                guard let self = self else { return }
-                
-                if isLoading { // 로딩 중
-                    print("check3 - 로딩 중 ")
-                    exceptionView.isHidden = true
-                    loadingView.isHidden = false
-                } else { // 로딩 완료
-                    print("check3 - 로딩 완료 ")
-                    loadingView.isHidden = true
-                    if reactor.currentState.sections.items.isEmpty {
-                        print("check3 - 로딩 완료 - items 비어있다 ")
-                        exceptionView.isHidden = false
-                    }
-                }
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isLoading, itemsIsEmpty in
+                return (isLoading, itemsIsEmpty)
             }
+            .subscribe(onNext: { [weak self] (isLoading, itemsIsEmpty) in
+                guard let self = self else { return }
+                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty)
+            })
             .disposed(by: disposeBag)
         
         
-//        
 //        reactor.state
 //            .compactMap { $0.isLoading }
-//            .map {
-//                print("check3 - 213번째 줄")
-//                return !$0
-//            }
 //            .distinctUntilChanged()
-//            .debug()
-//            .bind(to: loadingView.rx.isHidden)
+//            .bind { [weak self] isLoading in
+//                guard let self = self else { return }
+//                
+//                if isLoading { // 로딩 중
+//                    print("check3 - 로딩 중 ")
+//                    exceptionView.isHidden = true
+//                    loadingView.isHidden = false
+//                } else { // 로딩 완료
+//                    print("check3 - 로딩 완료 ")
+//                    loadingView.isHidden = true
+//                    if reactor.currentState.sections.items.isEmpty {
+//                        print("check3 - 로딩 완료 - items 비어있다 ")
+//                        exceptionView.isHidden = false
+//                    }
+//                }
+//            }
 //            .disposed(by: disposeBag)
         
-//        reactor.state
-//            .compactMap { $0.isLoading }
-//            .map { !$0 }
-//            .distinctUntilChanged()
-//            .debug()
-//            .bind(to: activityIndicatorView.rx.isHidden)
-//            .disposed(by: disposeBag)
-
-   
     }
     
 }
@@ -270,7 +266,6 @@ extension FeedViewController {
             return cell
         }
     }
-    
     
     
     private func configureCell(_ cell: FeedCell) {
@@ -293,4 +288,16 @@ extension FeedViewController {
             .disposed(by: cell.disposeBag)
     }
     
+    
+    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool) {
+        if isLoading {
+            print("check3 - 로딩 중 ")
+            exceptionView.isHidden = true
+            loadingView.isHidden = false
+        } else {
+            print("check3 - 로딩 완료 ")
+            loadingView.isHidden = true
+            exceptionView.isHidden = !itemsIsEmpty
+        }
+    }
 }
