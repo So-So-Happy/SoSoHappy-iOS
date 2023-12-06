@@ -56,4 +56,22 @@ extension String {
                 .map { _ in letters.randomElement()! }
         )
     }
+    
+    // MARK: 차트 데이터 formattedDate(ex. "Jan")를 차트에서 사용할 수 있는 Double 형태로 파싱
+    func parsingMonthStrToIdx() -> Double {
+        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        
+        let monthDict: [String: Double] = Dictionary(uniqueKeysWithValues: zip(months, stride(from: 0.0, to: 12.0, by: 1.0)))
+        
+        if let idx = monthDict[self] {
+            return idx
+        } else {
+            return 0.0
+        }
+    }
+    
+    // MARK: 차트 데이터 formattedDate(ex. "1")를 차트에서 사용할 수 있는 Double 형태로 파싱
+    func parsingDayStrToIdx() -> Double {
+        return Double(self) ?? 0.0
+    }
 }

@@ -46,7 +46,7 @@ class HappyListViewReactor: Reactor {
     // MARK: - Mutation
     enum Mutation {
         case setFeedList([MyFeed])
-        case setDate(String) // ex) 2023.10
+        case setDate(Date) // ex) 2023.10
         case presentDetailView(String)
     }
     
@@ -85,22 +85,22 @@ class HappyListViewReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                .just(.setDate(currentPage.getFormattedYM())),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: "wonder"))
+                .just(.setDate(currentPage)),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
             ])
         case .tapNextButton:
-            let nextPage = moveToNextMonth(currentPage)
+            self.currentPage = currentPage.moveToNextMonth()
             return .concat([
-                .just(.setDate(nextPage.getFormattedYM())),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: nickName))
+                .just(.setDate(currentPage)),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
             ])
         case .tapPreviousButton:
-            let previousPage = moveToPreviousMonth(currentPage)
+            self.currentPage  = currentPage.moveToPreviousMonth()
             return .concat([
-                .just(.setDate(previousPage.getFormattedYM())),
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: nickName))
+                .just(.setDate(currentPage)),
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
             ])
         case .tapHappyListCell(let date):
@@ -114,7 +114,8 @@ class HappyListViewReactor: Reactor {
         case .setFeedList(let feeds):
             newState.monthHappinessData = feeds
         case .setDate(let date):
-            newState.date = date
+            newState.currentPage = date
+            newState.date = date.getFormattedYM()
         case .presentDetailView(let date):
             newState.detailViewDate = date
         }
