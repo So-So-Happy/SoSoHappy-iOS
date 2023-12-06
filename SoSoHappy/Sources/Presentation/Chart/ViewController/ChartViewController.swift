@@ -138,11 +138,12 @@ extension ChartViewController: View {
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
 
+        
+        // FIXME: - recommend refresh Button 누를때 chart reload 됨. -> take 사용해서 한번만 호출되게
         reactor.state
             .map { $0.happinessChartData }
             .subscribe { [weak self] data in
                 guard let `self` = self else { return }
-                print("charDataEntry: \(data)")
                 self.chartView.setChart(data)
             }
             .disposed(by: disposeBag)
