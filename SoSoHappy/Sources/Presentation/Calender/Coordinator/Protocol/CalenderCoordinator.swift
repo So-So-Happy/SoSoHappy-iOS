@@ -50,6 +50,12 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
         coordinator.start()
     }
     
+    // MARK:  Preview -> DetailView
+    func pushDetailView(feed: MyFeed) {
+        let viewController = makeDetailViewController()
+        navigationController.pushViewController(viewController, animated: false)
+    }
+    
     func dismiss() {
         self.navigationController.dismiss(animated: false)
         self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
@@ -74,9 +80,16 @@ extension CalendarCoordinator {
         
         return viewController
     }
-        
+    
     func makeAlarmViewController() -> UIViewController {
         let viewController = AlertViewController()
+        return viewController
+    }
+    
+    func makeDetailViewController() -> UIViewController {
+        let reactor = AddViewReactor(feedRepository: FeedRepository())
+        let coordinator = AddCoordinator(navigationController: self.navigationController)
+        let viewController = AddStep3ViewController(reactor: reactor, coordinator: coordinator)
         return viewController
     }
 }

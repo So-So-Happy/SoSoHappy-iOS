@@ -92,8 +92,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("respsonse")
-                        print("findMonthFeed response: \(response)")
+                        print("findMonthFeed response")
                         emitter.onNext(response)
                     case .error(let error):
                         print("error: \(error.localizedDescription)")
@@ -109,6 +108,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             }
         }
     }
+    
     
     /// findDetailFeed: 디테일 피드 데이터 fetch
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed> {

@@ -60,6 +60,8 @@ final class CalendarViewReactor: Reactor {
         case tapPreviousButton
         case tapNextButton
         case selectDate(Date)
+        case changeCurrentPage(Date)
+        case tapPreview
     }
     
     // MARK: - Mutaion
@@ -71,9 +73,11 @@ final class CalendarViewReactor: Reactor {
         case setSelectedDate(Date)
         case setMonth
         case setYear
+        case changeCurrentPage(Date)
         case moveToNextMonth(Date)
         case moveToPreviousMonth(Date)
         case testOtherFeed(UpdateLikeResponse)
+        case presentDetailView
 //        case showErrorAlert(Error)
     }
     
@@ -87,6 +91,7 @@ final class CalendarViewReactor: Reactor {
         var selectedDate: Date
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
+        @Pulse var presentDetailView: Void?
 //        var happinessPreviewData: Feed
     }
     
@@ -109,6 +114,14 @@ final class CalendarViewReactor: Reactor {
             return .just(.presentAlertView)
         case .tapListButton:
             return .just(.presentListView)
+        case .changeCurrentPage(let date):
+            return .concat([
+                feedRepository.findMonthFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
+                    .map({ Mutation.setCalendarCell($0) }),
+                .just(.changeCurrentPage(date)),
+                .just(.setMonth),
+                .just(.setYear)
+            ])
         case .tapNextButton:
             let nextPage = currentPage.moveToNextMonth()
             return .concat([
@@ -133,6 +146,8 @@ final class CalendarViewReactor: Reactor {
                 .map { .setPreview($0) },
                 .just(.setSelectedDate(date))
             ])
+        case .tapPreview:
+            return .just(.presentDetailView)
         }
     }
 
@@ -146,6 +161,9 @@ final class CalendarViewReactor: Reactor {
             newState.presentAlertView = ()
         case .presentListView:
             newState.presentListView = ()
+        case .changeCurrentPage(let currentPage):
+            self.currentPage = currentPage
+            newState.currentPage = currentPage
         case .moveToNextMonth(let currentPage):
             self.currentPage = currentPage
             newState.currentPage = currentPage
@@ -163,6 +181,8 @@ final class CalendarViewReactor: Reactor {
             newState.dayFeed = feed
         case .setSelectedDate(let date):
             newState.selectedDate = date
+        case .presentDetailView:
+            newState.presentDetailView = ()
         }
         
         return newState

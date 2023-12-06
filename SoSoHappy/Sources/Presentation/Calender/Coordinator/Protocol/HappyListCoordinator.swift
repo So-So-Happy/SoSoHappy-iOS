@@ -36,8 +36,8 @@ final class HappyListCoordinator: Coordinator {
 extension HappyListCoordinator: HappyListCoordinatorInterface {
     
     func pushDetailView(date: String) {
-        let viewController = makeDetailViewController(date: date)
-        navigationController.pushViewController(viewController, animated: true)
+//        let viewController = makeDetailViewController(date: date)
+//        navigationController.pushViewController(viewController, animated: true)
     }
     
     func dismiss() {
@@ -63,15 +63,16 @@ extension HappyListCoordinator {
         navigationController.pushViewController(viewController, animated: true)
     }
     
-    func makeDetailViewController(date: String) -> UIViewController {
-        let reactor = MyFeedDetailViewReactor(
-            feedRepository: FeedRepository(),
-            userRepository: UserRepository(),
-            currentPage: Int64(date) ?? 0)
-        
-        let viewController = MyFeedDetailViewController(reactor: reactor)
-        return viewController
-    }
+//    func makeDetailViewController(date: String) -> UIViewController {
+//        let reactor = MyFeedDetailViewReactor(
+//            feedRepository: FeedRepository(),
+//            userRepository: UserRepository(),
+//            currentPage: Int64(date) ?? 0)
+//        let reactor = AddViewReactor(feedRepository: FeedRepository())
+//        
+//        let viewController = MyFeedDetailViewController(reactor: reactor)
+//        return viewController
+//    }
   
 }
 
