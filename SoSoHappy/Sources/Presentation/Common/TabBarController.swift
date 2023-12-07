@@ -48,6 +48,7 @@ extension TabBarController {
     private func setTabBar() {
         let appearance = tabBar.standardAppearance
         appearance.backgroundColor = UIColor(named: "CellColor")
+        appearance.shadowColor = nil
         tabBar.standardAppearance = appearance
         
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]

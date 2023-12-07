@@ -73,6 +73,9 @@
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FC92B13814900BE2FDD /* dovemayo_bold.otf */; };
 		67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FCA2B13814900BE2FDD /* dovemayo.otf */; };
+		67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 67348FD12B1F3E5100BE2FDD /* Config.xcconfig */; };
+		67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */; };
+		67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
 		674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */; };
 		674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */; };
@@ -313,6 +316,9 @@
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		67348FC92B13814900BE2FDD /* dovemayo_bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dovemayo_bold.otf; sourceTree = "<group>"; };
 		67348FCA2B13814900BE2FDD /* dovemayo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dovemayo.otf; sourceTree = "<group>"; };
+		67348FD12B1F3E5100BE2FDD /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
+		67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
 		674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeResponse.swift; sourceTree = "<group>"; };
 		674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeRequest.swift; sourceTree = "<group>"; };
@@ -727,6 +733,8 @@
 				67E1B7C02AF10C3C000EFCE0 /* NotificationSettingViewController.swift */,
 				67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */,
 				67E1B7BE2AF10A93000EFCE0 /* AccountManagementViewController.swift */,
+				67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */,
+				67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -1513,6 +1521,7 @@
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
+				67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */,
 				67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1736,6 +1745,7 @@
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */,
 				80AD68BB2AC6D2BD00DD3D5F /* HappinessStackView.swift in Sources */,
+				67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */,
 				67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */,
 				808650EC2AD6CCFE0036CCFB /* FindHappinessResponse.swift in Sources */,
 				06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */,
@@ -1823,6 +1833,7 @@
 				8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */,
 				06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */,
 				80AD687A2AC1A14700DD3D5F /* BaseError.swift in Sources */,
+				67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */,
 				802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */,
 				80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
