@@ -58,16 +58,16 @@ final class AddStep3ViewController: BaseDetailViewController {
     }
     
     lazy var textCountLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 13)
+        $0.font = UIFont.customFont(size: 13, weight: .light)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
     
     private lazy var placeholderLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 16)
+        $0.font = UIFont.customFont(size: 16, weight: .medium)
         $0.textColor = .lightGray
         $0.textAlignment = .left
-           $0.text = "소소한 행복을 기록해보세요~"
+        $0.text = "소소한 행복을 기록해보세요~"
        }
     
     override func viewDidLoad() {
@@ -215,6 +215,7 @@ extension AddStep3ViewController: View {
         
         // TODO: debouce ? throttle 적용 필요
         saveButton.rx.tap
+            .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
             .map {
                 print("save button tapped")
                 self.view.endEditing(true)
