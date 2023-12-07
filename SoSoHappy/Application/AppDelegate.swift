@@ -59,6 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBar = UITabBar()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(named: "CellColor")!
+        appearance.shadowColor = nil
         tabBar.standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
         
