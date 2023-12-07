@@ -69,6 +69,9 @@
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FC92B13814900BE2FDD /* dovemayo_bold.otf */; };
 		67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FCA2B13814900BE2FDD /* dovemayo.otf */; };
+		67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 67348FD12B1F3E5100BE2FDD /* Config.xcconfig */; };
+		67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */; };
+		67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
 		674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */; };
 		674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */; };
@@ -145,7 +148,6 @@
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
 		806DA38B2AFA9CEB00970C8A /* Ex+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */; };
-		8074FD632B0B816D002CCCFE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8074FD622B0B816D002CCCFE /* GoogleService-Info.plist */; };
 		80760F172AE111FB00103DF4 /* FeedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F162AE111FB00103DF4 /* FeedType.swift */; };
 		80760F1B2AE25E8F00103DF4 /* FindIntroductionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F1A2AE25E8F00103DF4 /* FindIntroductionRequest.swift */; };
 		80760F1D2AE2609100103DF4 /* FindIntroductionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */; };
@@ -194,7 +196,6 @@
 		809C1A212AF28D8C00A7841F /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A202AF28D8C00A7841F /* Cache.swift */; };
 		809C1A282AF3512600A7841F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A272AF3512600A7841F /* ImageCache.swift */; };
 		809C1A2A2AF3E01400A7841F /* SelfIntroductionCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A292AF3E01400A7841F /* SelfIntroductionCache.swift */; };
-		80AB09752AF0A49500EDBAFC /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 80AB09742AF0A49500EDBAFC /* Config.xcconfig */; };
 		80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */; };
 		80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */; };
 		80AD68722AC19F5000DD3D5F /* SigninManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */; };
@@ -308,6 +309,9 @@
 		672898672A9C9F77001FB8A3 /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		67348FC92B13814900BE2FDD /* dovemayo_bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dovemayo_bold.otf; sourceTree = "<group>"; };
 		67348FCA2B13814900BE2FDD /* dovemayo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = dovemayo.otf; sourceTree = "<group>"; };
+		67348FD12B1F3E5100BE2FDD /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
+		67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
 		674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeResponse.swift; sourceTree = "<group>"; };
 		674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeRequest.swift; sourceTree = "<group>"; };
@@ -394,7 +398,6 @@
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
 		806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIViewController.swift"; sourceTree = "<group>"; };
-		8074FD622B0B816D002CCCFE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		80760F162AE111FB00103DF4 /* FeedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedType.swift; sourceTree = "<group>"; };
 		80760F1A2AE25E8F00103DF4 /* FindIntroductionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIntroductionRequest.swift; sourceTree = "<group>"; };
 		80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIntroductionResponse.swift; sourceTree = "<group>"; };
@@ -673,6 +676,7 @@
 				6769C0842AD6CADC00D1D2CD /* Profile.swift */,
 				069D7AEE2ACFFD2B00C815F1 /* Profile.swift */,
 				069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */,
+				80AB09742AF0A49500EDBAFC /* Config.xcconfig */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -722,6 +726,8 @@
 				67E1B7C02AF10C3C000EFCE0 /* NotificationSettingViewController.swift */,
 				67E1B7C32AF10C6B000EFCE0 /* LanguageSettingViewController.swift */,
 				67E1B7BE2AF10A93000EFCE0 /* AccountManagementViewController.swift */,
+				67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */,
+				67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -885,8 +891,8 @@
 			isa = PBXGroup;
 			children = (
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				80760F222AE6A14D00103DF4 /* Config.xcconfig */,
 				6709C1D82B133C9900237A38 /* GoogleService-Info.plist */,
+				67348FD12B1F3E5100BE2FDD /* Config.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1085,7 +1091,6 @@
 		800F425E2A794A6D00ACD6C1 /* SoSoHappy */ = {
 			isa = PBXGroup;
 			children = (
-				8074FD622B0B816D002CCCFE /* GoogleService-Info.plist */,
 				67A306AE2AD96ECA00BFF044 /* SoSoHappy.entitlements */,
 				67E7DB472A81347800C33988 /* Application */,
 				67E7DB3A2A812FFE00C33988 /* Resources */,
@@ -1502,12 +1507,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80760F232AE6A14D00103DF4 /* Config.xcconfig in Resources */,
 				67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				6709C1D92B133C9900237A38 /* GoogleService-Info.plist in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
+				67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */,
 				67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1728,8 +1733,8 @@
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */,
-				80760F512AE9384300103DF4 /* ImageCacheManager.swift in Sources */,
 				80AD68BB2AC6D2BD00DD3D5F /* HappinessStackView.swift in Sources */,
+				67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */,
 				67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */,
 				808650EC2AD6CCFE0036CCFB /* FindHappinessResponse.swift in Sources */,
 				80AD68B72AC68BC300DD3D5F /* StatusBarStackView.swift in Sources */,
@@ -1818,6 +1823,7 @@
 				8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */,
 				06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */,
 				80AD687A2AC1A14700DD3D5F /* BaseError.swift in Sources */,
+				67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */,
 				802C6CA42AB8788E001142B4 /* Rx+ UIImageView.swift in Sources */,
 				80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */,
 				80380BFD2A989FE40077048D /* AppDescriptionStackView.swift in Sources */,
@@ -1931,7 +1937,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80AB09742AF0A49500EDBAFC /* Config.xcconfig */;
+			baseConfigurationReference = 67348FD12B1F3E5100BE2FDD /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1992,7 +1998,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 80AB09742AF0A49500EDBAFC /* Config.xcconfig */;
+			baseConfigurationReference = 67348FD12B1F3E5100BE2FDD /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
