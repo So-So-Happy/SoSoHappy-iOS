@@ -187,20 +187,15 @@ extension HappyListViewController {
             .disposed(by: disposeBag)
         
         self.happyTableView.rx.modelSelected(MyFeed.self)
-            .subscribe { item in
-                // coodinator: go to Detail VC
-                //                Observable.just(Reactor.Action.tapHappyListCell)
-                //                    .bind(to: self?.reactor!.action)
-                //                    .disposed(by: self?.disposeBag)
-                //                self.coordinator.pushDetailView(date: )
-                //                self.reactor?.action.onNext(.tapHappyListCell(item.))
-                
-                if let date = item.element?.date {
-//                    self.reactor?.action.onNext(.tapHappyListCell(date))
-                    self.coordinator.pushDetailView(date: date)
-                }
-                
-            }.disposed(by: disposeBag)
+        .subscribe(onNext: { feed in
+            self.coordinator.pushDetailView(feed: feed)
+            // coodinator: go to Detail VC
+            //                Observable.just(Reactor.Action.tapHappyListCell)
+            //                    .bind(to: self?.reactor!.action)
+            //                    .disposed(by: self?.disposeBag)
+            //                self.coordinator.pushDetailView(date: )
+            //                self.reactor?.action.onNext(.tapHappyListCell(item.))
+        }).disposed(by: disposeBag)
         
         self.happyTableView.rx.itemSelected
             .subscribe { indexPath in
