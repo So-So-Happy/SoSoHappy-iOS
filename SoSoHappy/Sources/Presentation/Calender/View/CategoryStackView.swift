@@ -13,7 +13,7 @@ import SnapKit
 
 final class CategoryStackView: UIView {
     private var images: [String] = []
-    private lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
+    lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
     
 //    init(imageSize: CGFloat = 30) {
 //        self.imageSize = imageSize
