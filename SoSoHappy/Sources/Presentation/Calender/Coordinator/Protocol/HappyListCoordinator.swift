@@ -8,7 +8,9 @@
 import UIKit
 
 protocol HappyListCoordinatorInterface: Coordinator {
-    func pushDetailView(date: String)
+    func pushDetailView(feed: MyFeed)
+    func showAdd1Modal(reactor: MyFeedDetailViewReactor)
+    func showAdd2Modal(reactor: MyFeedDetailViewReactor)
     func dismiss()
     func finished()
 }
@@ -35,9 +37,9 @@ final class HappyListCoordinator: Coordinator {
 
 extension HappyListCoordinator: HappyListCoordinatorInterface {
     
-    func pushDetailView(date: String) {
-//        let viewController = makeDetailViewController(date: date)
-//        navigationController.pushViewController(viewController, animated: true)
+    func pushDetailView(feed: MyFeed) {
+        let viewController = makeDetailViewController(feed: feed)
+        navigationController.pushViewController(viewController, animated: true)
     }
     
     func dismiss() {
@@ -54,25 +56,46 @@ extension HappyListCoordinator: HappyListCoordinatorInterface {
 extension HappyListCoordinator {
     
     func makeHappyListViewController() {
-        let reactor = HappyListViewReactor(feedRepository: FeedRepository(), userRepository: UserRepository(), currentPage: date)
+        let reactor = HappyListViewReactor(
+            feedRepository: FeedRepository(),
+            userRepository: UserRepository(),
+            currentPage: date)
         
         let viewController = HappyListViewController(reactor: reactor,
                                                      coordinator: self,
                                                      currentPage: date)
-        
+    
         navigationController.pushViewController(viewController, animated: true)
     }
     
-//    func makeDetailViewController(date: String) -> UIViewController {
-//        let reactor = MyFeedDetailViewReactor(
-//            feedRepository: FeedRepository(),
-//            userRepository: UserRepository(),
-//            currentPage: Int64(date) ?? 0)
-//        let reactor = AddViewReactor(feedRepository: FeedRepository())
-//        
-//        let viewController = MyFeedDetailViewController(reactor: reactor)
-//        return viewController
-//    }
-  
+    func makeDetailViewController(feed: MyFeed) -> UIViewController {
+        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
+        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)
+        
+        return viewController
+    }
+    
 }
 
+extension HappyListCoordinator {
+    
+    // MARK: - MyFeedDetailViewController 에서 사용되는 메서드 입니다.
+    func showAdd1Modal(reactor: MyFeedDetailViewReactor) {
+        let SetWeatherHappinessViewController = SetWeatherHappinessViewController(
+            reactor: reactor,
+            coordinator: self
+        )
+        
+        navigationController.present(SetWeatherHappinessViewController, animated: true, completion: nil)
+    }
+    
+    func showAdd2Modal(reactor: MyFeedDetailViewReactor) {
+        let SetCategoryViewController = SetCategoryViewController(
+            reactor: reactor,
+            coordinator: self
+        )
+        
+        navigationController.present(SetCategoryViewController, animated: true, completion: nil)
+    }
+    
+}
