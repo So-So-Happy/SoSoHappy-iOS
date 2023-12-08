@@ -38,11 +38,13 @@ final class FeedReactor: Reactor {
         switch action {
         case .fetchFeed:
             let dstNickname: String = currentState.userFeed.nickName // 피드 주인 닉네임
-            let srcNickname: String = "디저트 러버" // 조회하는 유저 닉네임
+            let srcNickname: String = "bread" // 조회하는 유저 닉네임
             let date: Int64 = currentState.userFeed.dateFormattedInt64 // 피드의 date
             
             return feedRepository.findDetailFeed(request: FindDetailFeedRequest(date: date, dstNickname: dstNickname, srcNickname: srcNickname))
                 .flatMap { userFeed in // 이벤트 순서 유지,
+                    
+                    
                     if let cachedImage = ImageCache.shared.cache[userFeed.nickName] {
                         print("⭕️ 캐시에 있음 - feed REACTOR nickname : \(userFeed.nickName)")
                         var userFeedWithCachedProfileImage = userFeed
@@ -50,7 +52,7 @@ final class FeedReactor: Reactor {
                         return Observable.just(userFeedWithCachedProfileImage)
                     }
                     print("feed REACTOR if let 밖")
-                    return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: userFeed.nickName))
+                    return self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: userFeed?.nickName))
                         .map { profileImage in
                             var userFeedWithProfileImage = userFeed
                             userFeedWithProfileImage.profileImage = profileImage
@@ -69,7 +71,7 @@ final class FeedReactor: Reactor {
             print("muate: toggleLike")
             // 서버에 requset
             // response로 isLike를 받음
-            let srcNickname: String = "디저트러버" // 변경하는 유저 닉네임
+            let srcNickname: String = "bread" // 변경하는 유저 닉네임
             let nickName: String = currentState.userFeed.nickName // 피드 주인 닉네임
             let date = currentState.userFeed.dateFormattedInt64
             return feedRepository.updateLike(request: UpdateLikeRequest(srcNickname: srcNickname, nickname: nickName, date: date))
