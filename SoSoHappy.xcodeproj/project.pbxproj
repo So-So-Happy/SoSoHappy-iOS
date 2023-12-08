@@ -25,7 +25,6 @@
 		0613BCEB2AADF8EC00E2B97F /* LocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCEA2AADF8EC00E2B97F /* LocalStorage.swift */; };
 		0613BCF32AAE178800E2B97F /* HttpNetworkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCF22AAE178800E2B97F /* HttpNetworkType.swift */; };
 		0613BCF52AAE17BF00E2B97F /* HttpNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0613BCF42AAE17BF00E2B97F /* HttpNetwork.swift */; };
-		06291D9A2B133C5B00D8B765 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06291D992B133C5B00D8B765 /* GoogleService-Info.plist */; };
 		0661C9B42A90A9B10075B5A3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B32A90A9B10075B5A3 /* ProfileView.swift */; };
 		0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B52A90C88D0075B5A3 /* SettingCellView.swift */; };
 		0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0661C9B72A90CDCC0075B5A3 /* SettingStackView.swift */; };
@@ -46,11 +45,14 @@
 		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06B3FA402B205428009F72E7 /* DetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* DetailViewCoordinator.swift */; };
+		06B3FA422B205941009F72E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06B3FA412B205941009F72E7 /* GoogleService-Info.plist */; };
+		06B3FA442B205976009F72E7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06B3FA432B205976009F72E7 /* Config.xcconfig */; };
+		06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */; };
+		06B3FA482B20B7B8009F72E7 /* SetCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */; };
 		06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */; };
 		06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */; };
 		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
 		06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */; };
-		06CD8EDA2B19D9A200CC7C47 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */; };
 		06CD8EDC2B1A2B9F00CC7C47 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */; };
 		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
 		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
@@ -254,7 +256,6 @@
 		0613BCEA2AADF8EC00E2B97F /* LocalStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalStorage.swift; sourceTree = "<group>"; };
 		0613BCF22AAE178800E2B97F /* HttpNetworkType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpNetworkType.swift; sourceTree = "<group>"; };
 		0613BCF42AAE17BF00E2B97F /* HttpNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpNetwork.swift; sourceTree = "<group>"; };
-		06291D992B133C5B00D8B765 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0661C9B32A90A9B10075B5A3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		0661C9B52A90C88D0075B5A3 /* SettingCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellView.swift; sourceTree = "<group>"; };
 		0661C9B72A90CDCC0075B5A3 /* SettingStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingStackView.swift; sourceTree = "<group>"; };
@@ -282,11 +283,14 @@
 		069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06B3FA3F2B205428009F72E7 /* DetailViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCoordinator.swift; sourceTree = "<group>"; };
+		06B3FA412B205941009F72E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		06B3FA432B205976009F72E7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWeatherHappinessViewController.swift; sourceTree = "<group>"; };
+		06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCategoryViewController.swift; sourceTree = "<group>"; };
 		06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewController.swift; sourceTree = "<group>"; };
 		06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewReactor.swift; sourceTree = "<group>"; };
 		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
-		06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
 		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
@@ -889,9 +893,9 @@
 		67E7DB462A81343E00C33988 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */,
+				06B3FA432B205976009F72E7 /* Config.xcconfig */,
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				06291D992B133C5B00D8B765 /* GoogleService-Info.plist */,
+				06B3FA412B205941009F72E7 /* GoogleService-Info.plist */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -999,6 +1003,8 @@
 				060DE19E2A8540F000C60392 /* HappyListViewController .swift */,
 				06EC953A2AD62929003FFE52 /* AlertViewController.swift */,
 				06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */,
+				06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */,
+				06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -1507,12 +1513,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06291D9A2B133C5B00D8B765 /* GoogleService-Info.plist in Resources */,
 				67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */,
-				06CD8EDA2B19D9A200CC7C47 /* Config.xcconfig in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
+				06B3FA422B205941009F72E7 /* GoogleService-Info.plist in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
+				06B3FA442B205976009F72E7 /* Config.xcconfig in Resources */,
 				67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1701,6 +1707,7 @@
 				069D642C2AD83335003834E5 /* FeedAPI.swift in Sources */,
 				80380C122A98DCBC0077048D /* FeedCoordinator.swift in Sources */,
 				67E7DB6E2A81378400C33988 /* AuthCoordinator.swift in Sources */,
+				06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */,
 				06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */,
 				808650E92AD6CCFE0036CCFB /* FindProfileResponse.swift in Sources */,
 				80AD68BD2AC6DB1800DD3D5F /* NextButton.swift in Sources */,
@@ -1715,6 +1722,7 @@
 				67E1B7C12AF10C3C000EFCE0 /* NotificationSettingViewController.swift in Sources */,
 				671F97DD2AF23A7C00222811 /* MypageViewReactor.swift in Sources */,
 				0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */,
+				06B3FA482B20B7B8009F72E7 /* SetCategoryViewController.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
@@ -1937,7 +1945,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */;
+			baseConfigurationReference = 06B3FA432B205976009F72E7 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1998,7 +2006,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */;
+			baseConfigurationReference = 06B3FA432B205976009F72E7 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

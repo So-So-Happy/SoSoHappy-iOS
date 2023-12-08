@@ -17,11 +17,12 @@ import RxKeyboard
 
 final class MyFeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
-    private weak var coordinator: AddCoordinatorInterface?
+    private weak var coordinator: HappyListCoordinatorInterface?
     var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
-
+    
+    private var feed: FeedType?
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
@@ -61,23 +62,32 @@ final class MyFeedDetailViewController: BaseDetailViewController {
            $0.text = "소소한 행복을 기록해보세요~"
        }
     
+    // 스텍뷰 UITapGestureRecognizer
+    private let categoryTapGesture = UITapGestureRecognizer()
+    private let happyTapGesture = UITapGestureRecognizer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
     
-    init(reactor: AddViewReactor, coordinator: AddCoordinatorInterface) {
+    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface, feed: FeedType) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
         self.coordinator = coordinator
+        self.feed = feed
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
 }
 // MARK: - set up
 extension MyFeedDetailViewController {
+    
+    
     private func setup() {
         setAttributes()
         setLayoutForAddStep3()
@@ -134,10 +144,17 @@ extension MyFeedDetailViewController {
 
 // MARK: - bind func
 extension MyFeedDetailViewController: View {
-    func bind(reactor: AddViewReactor) {
-        // MARK: AddStep3 올 때마다 viewDidLoad 호출
-        self.rx.viewDidLoad
-            .map { Reactor.Action.fetchDatasForAdd3 }
+    
+    func bind(reactor: MyFeedDetailViewReactor) {
+        bindAction(reactor)
+        bindState(reactor)
+    }
+    
+    func bindAction(_ reactor: MyFeedDetailViewReactor) {
+        
+        // FIXME: - setFeed func 사용
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear(self.feed as? MyFeed ?? MyFeed()) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -159,7 +176,6 @@ extension MyFeedDetailViewController: View {
                 }
             }
             .disposed(by: disposeBag)
-        
 
         textView.rx.text.orEmpty
             .map { !$0.isEmpty }
@@ -215,7 +231,7 @@ extension MyFeedDetailViewController: View {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 print("back button tapped")
-                coordinator?.navigateBack()
+//                coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
         
@@ -237,6 +253,11 @@ extension MyFeedDetailViewController: View {
 //            })
 //            .disposed(by: disposeBag)
         
+        
+    }
+    
+    func bindState(_ reactor: MyFeedDetailViewReactor) {
+        
         // 행복 + 카테고리
         reactor.state
             .compactMap { $0.happyAndCategory }
@@ -247,7 +268,25 @@ extension MyFeedDetailViewController: View {
             }
             .disposed(by: disposeBag)
         
+        // TODO: stackview - 날씨, 행복이미지, 카테고리 선택했을때 모달 띄우기
+        // MARK: - CategoryStackView tapGesture Action
+        happyTapGesture.rx.event
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.showAdd1Modal(reactor: reactor)
+            }
+            .disposed(by: disposeBag)
+        
+        categoryTapGesture.rx.event
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                self.coordinator?.showAdd2Modal(reactor: reactor)
+            }
+            .disposed(by: disposeBag)
+        
+        
         // 날짜
+        /// 바뀔일 없음.
         reactor.state
             .map { $0.dateString }
             .distinctUntilChanged()
@@ -301,15 +340,12 @@ extension MyFeedDetailViewController: View {
             .bind(to: self.saveButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
+        // 선택된 이미지
         reactor.state
-            .compactMap {
-//                print("selectedImages : \($0.selectedImages)")
-                return $0.selectedImages
-            }
+            .compactMap { $0.selectedImages }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-//                print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
@@ -335,6 +371,19 @@ extension MyFeedDetailViewController: View {
             .disposed(by: disposeBag)
         
     }
+    
+    
+    /// arrangedSubviews는 UIView의 배열이기 때문에 바로 tapGesture() 메서드를 호출할 수 없습니다.
+    /// 각 서브뷰에 Gesture Recognizer를 추가하고 이를 RxSwift로 처리해야 합니다.
+    func setGestureRecognizer() {
+        for (index, subview) in categoryStackView.stackView.arrangedSubviews.enumerated() {
+            guard let imageView = subview as? UIImageView else { continue }
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(index == 0 ? happyTapGesture : categoryTapGesture)
+        }
+    }
+    
+    
 }
 
 
