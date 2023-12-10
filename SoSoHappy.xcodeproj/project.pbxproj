@@ -50,7 +50,6 @@
 		06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */; };
 		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
 		06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */; };
-		06CD8EDA2B19D9A200CC7C47 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */; };
 		06CD8EDC2B1A2B9F00CC7C47 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */; };
 		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
 		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
@@ -73,9 +72,10 @@
 		672898682A9C9F77001FB8A3 /* RecommendView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 672898672A9C9F77001FB8A3 /* RecommendView.swift */; };
 		67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FC92B13814900BE2FDD /* dovemayo_bold.otf */; };
 		67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 67348FCA2B13814900BE2FDD /* dovemayo.otf */; };
-		67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 67348FD12B1F3E5100BE2FDD /* Config.xcconfig */; };
 		67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */; };
 		67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */; };
+		6738066B2B25B09100CB58EE /* Ex+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */; };
+		6738066D2B25B0D700CB58EE /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6738066C2B25B0D700CB58EE /* Config.xcconfig */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
 		674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */; };
 		674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */; };
@@ -289,7 +289,6 @@
 		06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewReactor.swift; sourceTree = "<group>"; };
 		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
-		06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
 		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
@@ -319,6 +318,8 @@
 		67348FD12B1F3E5100BE2FDD /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
 		67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
+		6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UserDefaults.swift"; sourceTree = "<group>"; };
+		6738066C2B25B0D700CB58EE /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
 		674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeResponse.swift; sourceTree = "<group>"; };
 		674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeRequest.swift; sourceTree = "<group>"; };
@@ -684,6 +685,7 @@
 				069D7AEE2ACFFD2B00C815F1 /* Profile.swift */,
 				069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */,
 				80AB09742AF0A49500EDBAFC /* Config.xcconfig */,
+				67348FD12B1F3E5100BE2FDD /* Config.xcconfig */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -881,6 +883,7 @@
 				674DAF812ADEB56800B4F4DF /* Ex+Data.swift */,
 				806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */,
 				6709C1E62B136DB000237A38 /* Ex+UIFont.swift */,
+				6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -897,7 +900,7 @@
 		67E7DB462A81343E00C33988 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */,
+				6738066C2B25B0D700CB58EE /* Config.xcconfig */,
 				67E7DB482A8134C200C33988 /* Constants.swift */,
 				06291D992B133C5B00D8B765 /* GoogleService-Info.plist */,
 			);
@@ -1517,11 +1520,10 @@
 			files = (
 				06291D9A2B133C5B00D8B765 /* GoogleService-Info.plist in Resources */,
 				67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */,
-				06CD8EDA2B19D9A200CC7C47 /* Config.xcconfig in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
-				67348FD22B1F3E5100BE2FDD /* Config.xcconfig in Resources */,
+				6738066D2B25B0D700CB58EE /* Config.xcconfig in Resources */,
 				67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1813,6 +1815,7 @@
 				67E7DB5A2A8135FB00C33988 /* User.swift in Sources */,
 				808650EE2AD6CCFE0036CCFB /* ResignResponse.swift in Sources */,
 				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,
+				6738066B2B25B09100CB58EE /* Ex+UserDefaults.swift in Sources */,
 				80AD68722AC19F5000DD3D5F /* SigninManagerProtocol.swift in Sources */,
 				800F42622A794A6D00ACD6C1 /* SceneDelegate.swift in Sources */,
 				808650BD2AD6CB450036CCFB /* Requestable.swift in Sources */,
@@ -1948,7 +1951,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */;
+			baseConfigurationReference = 6738066C2B25B0D700CB58EE /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2009,7 +2012,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 06CD8ED92B19D9A200CC7C47 /* Config.xcconfig */;
+			baseConfigurationReference = 6738066C2B25B0D700CB58EE /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

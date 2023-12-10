@@ -63,7 +63,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
         
+        // MARK: First Launch Setting
+        removeKeychainAtFirstLaunch()
+        
         return true
+    }
+    
+    private func removeKeychainAtFirstLaunch() {
+        guard UserDefaults.isFirstLaunch() else { return }
+        KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
