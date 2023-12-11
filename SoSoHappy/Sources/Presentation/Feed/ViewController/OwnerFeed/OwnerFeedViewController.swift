@@ -12,6 +12,8 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
+import RxDataSources
+import RxSwiftExt
 
 /*
  1. refreshControl이 여기에서 꼭 필요가 있을까? (없을 것 같긴 함)
@@ -24,6 +26,7 @@ final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     private weak var coordinator: OwnerFeedCoordinatorInterface?
+    private var dataSource: RxTableViewSectionedReloadDataSource<UserFeedSection.Model>!
     
     // MARK: - UI Components
     private lazy var refreshControl = UIRefreshControl()
@@ -45,6 +48,29 @@ final class OwnerFeedViewController: UIViewController {
     private lazy var backButton = UIButton().then {
         $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
+    
+    private lazy var blockButton = BlockButton().then {
+        $0.delegate = self
+    }
+    
+    private lazy var loadingView = LoadingView().then {
+        $0.isHidden = true // true
+    }
+    
+    private lazy var exceptionView = FeedExceptionView(
+        title: "등록된 피드가 없습니다.",
+        inset: 40
+    ).then {
+        $0.isHidden = true //true
+    }
+    
+    private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
+    ).then {
+        let spinner = UIActivityIndicatorView()
+        spinner.center = $0.center
+        $0.addSubview(spinner)
+        spinner.startAnimating()
     }
     
     override func viewDidLoad() {
@@ -77,22 +103,42 @@ final class OwnerFeedViewController: UIViewController {
 extension OwnerFeedViewController {
     private func setup() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: blockButton)
         self.navigationItem.title = ""
         setLayout()
     }
 
     private func setLayout() {
         view.addSubview(tableView)
-        tableView.addSubview(activityIndicatorView)
+        view.addSubview(loadingView)
+        tableView.addSubview(exceptionView)
+//        tableView.addSubview(loadingView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        activityIndicatorView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+        loadingView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.6)
         }
+        
+        exceptionView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.center.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.4)
+        }
+        
+//        activityIndicatorView.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.centerY.equalToSuperview()
+//        }
+        
+//        loadingView.snp.makeConstraints { make in
+//            make.horizontalEdges.bottom.equalToSuperview()
+//            make.top.equalTo(ownerFeedHeaderView.snp.bottom)
+//        }
+        
     }
 }
 
@@ -101,6 +147,8 @@ extension OwnerFeedViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: OwnerFeedViewReactor) {
         self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
+        dataSource = self.createDataSource()
+
         self.rx.viewWillAppear
             .map { Reactor.Action.fetchFeeds } // 해당 유저의 공개 feed fetch
             .bind(to: reactor.action)
@@ -111,8 +159,11 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        tableView.rx.itemSelected
-            .map { Reactor.Action.selectedCell(index: $0.row) }
+        tableView.rx.reachedBottom(offset: -20)
+            .skip(1)
+            .throttle(.milliseconds(1240), latest: false, scheduler: MainScheduler.instance) // 1.7초
+            .debug()
+            .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -124,26 +175,16 @@ extension OwnerFeedViewController: View {
             })
             .disposed(by: disposeBag)
         
-        reactor.state
-            .compactMap {
-                print("OwnerFeedVC - reactor.state - isLoading : \($0.isLoading)")
-                return $0.isLoading
-            }
-            .distinctUntilChanged()
-            .bind(onNext: { [weak self] isLoading in
-                guard let self = self else { return }
-                print("OwnerFeedVC - isLoading: \(isLoading), type: \(type(of: isLoading))")
-                if isLoading {
-                    print("OwnerFeedVC - animating")
-                    activityIndicatorView.startAnimating()
-                } else {
-                    print("OwnerFeedVC - animating stop")
-                    activityIndicatorView.stopAnimating()
+        tableView.rx.modelSelected(UserFeedSection.Item.self)
+            .subscribe(onNext: { [weak self] selectedItem in
+                switch selectedItem {
+                case let .feed(feedReactor):
+                    print("modelSelected: \(feedReactor)")
+                    self?.coordinator?.showDetails(feedReactor: feedReactor)
                 }
             })
             .disposed(by: disposeBag)
         
-        // 이게 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
         reactor.state
 //            .skip(1)
             .compactMap {
@@ -155,79 +196,99 @@ extension OwnerFeedViewController: View {
                 self?.ownerFeedHeaderView.update(with: profile)
             })
             .disposed(by: disposeBag)
-    
         
         reactor.state
-            .skip(1)
-            .compactMap {
-                print("OwnerFeedVC - reactor.state - userFeeds : \($0.userFeeds)")
-                return $0.userFeeds
-            }
+            .map(\.sections)
             .distinctUntilChanged()
-            .debug()
-            .bind(to: tableView.rx.items(cellIdentifier: OwnerFeedCell.cellIdentifier, cellType: OwnerFeedCell.self)) { [weak self] (row,  userFeed, cell) in
-                guard let self = self else { return }
-                print("OwnerFeedVC - cell 만드는 중")
-                configureCell(cell, with: userFeed)
-            }
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .compactMap {
-                print("OwnerFeedVC - reactor.state - isRefreshing : \($0.isRefreshing)")
-                return $0.isRefreshing
-            }
-            .distinctUntilChanged()
-            .bind(to: self.refreshControl.rx.isRefreshing)
+            .map(Array.init(with:)) // <- extension으로 Array 초기화 시 차원을 하나 늘려주는 코드추가
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .compactMap {
-                print("OwnerFeedVC - reactor.state - selectedFeed : \($0.selectedFeed)")
-                print("--------------------------------------")
-                return $0.selectedFeed
-            }
-            .subscribe(onNext: { [weak self] userFeed in
+            .map { $0.isRefreshing }
+            .distinctUntilChanged()
+            .bind(to: self.refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isPaging }
+            .distinctUntilChanged()
+            .subscribe { [weak self] isPaging in
                 guard let self = self else { return }
-                print("OwnerFeedVC - feed 고름 - 여기까지 진행완료")
-//                print("feed: \(feed), type: \(type(of: feed))")
-                self.coordinator?.showDetails(userFeed: userFeed)
+                print("here2 - isPaging: \(isPaging)")
+                tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isLoading }
+            .distinctUntilChanged()
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isLoading, itemsIsEmpty in
+                return (isLoading, itemsIsEmpty)
+            }
+            .subscribe(onNext: { [weak self] (isLoading, itemsIsEmpty) in
+                print("owner - itemsIsEmpty : \(itemsIsEmpty)")
+                guard let self = self else { return }
+                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty, fromRefresh: false)
             })
             .disposed(by: disposeBag)
         
+       
         
-        //        reactor.state
-        //            .skip(1)
-        //            .compactMap { $0.profileImage }
-        //            .bind(to: ownerFeedHeaderView.profileImageWithBackgroundView.profileImageView.rx.image)
-        //            .disposed(by: disposeBag)
-        //
-        //        reactor.state
-        //            .skip(1)
-        //            .compactMap { $0.ownerNickName }
-        //            .bind(to: ownerFeedHeaderView.profileNickNameLabel.rx.text)
-        //            .disposed(by: disposeBag)
-        //
-        //        reactor.state
-        //            .skip(1)
-        //            .compactMap { $0.selfIntroduction }
-        //            .bind(onNext: { [weak self] selfIntro in
-        //
-        //                self?.ownerFeedHeaderView.update(selfIntro: selfIntro)
-        //            })
-        //            .disposed(by: disposeBag)
+        reactor.state
+            .compactMap { $0.isRefreshing }
+            .distinctUntilChanged()
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isRefreshing, itemsIsEmpty in
+                return (isRefreshing, itemsIsEmpty)
+            }
+            .subscribe(onNext: { [weak self] (isRefreshing, itemsIsEmpty) in
+                guard let self = self else { return }
+                updateViewsVisibility(isLoading: isRefreshing, itemsIsEmpty: itemsIsEmpty, fromRefresh: true)
+            })
+            .disposed(by: disposeBag)
     }
     
-    private func configureCell(_ cell: OwnerFeedCell, with userFeed: UserFeed) {
-        let cellReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
-        cell.reactor = cellReactor
-
+    
+    
+    private func configureCell(_ cell: OwnerFeedCell) {
         cell.imageSlideView.tapObservable
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
             })
             .disposed(by: cell.disposeBag) // cell.disposeBag ?
+    }
+}
+
+extension OwnerFeedViewController {
+    private func createDataSource() -> RxTableViewSectionedReloadDataSource<UserFeedSection.Model> {
+        return .init { [weak self] dataSource, tableView, indexPath, item  in
+            let cell = tableView.dequeueReusableCell(withIdentifier: OwnerFeedCell.cellIdentifier, for: indexPath) as! OwnerFeedCell
+
+            switch item {
+            case .feed(let reactor):
+                cell.reactor = reactor
+                self?.configureCell(cell)
+            }
+            
+            return cell
+        }
+    }
+    
+    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, fromRefresh: Bool) {
+        if isLoading {
+            print("check3 - 로딩 중 ")
+            exceptionView.isHidden = true
+            if !fromRefresh {
+                loadingView.isHidden = false
+            }
+        } else {
+            print("check3 - 로딩 완료 ")
+            if !fromRefresh {
+                loadingView.isHidden = true
+            }
+            exceptionView.isHidden = !itemsIsEmpty
+        }
     }
 }
 
@@ -242,4 +303,9 @@ extension OwnerFeedViewController: UITableViewDelegate {
     }
 }
 
-
+extension OwnerFeedViewController: BlockButtonDelegate {
+    func blockButtonDidTap(_ blockButton: BlockButton) {
+        CustomAlert.presentCheckAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자의 피드를 볼 수 없습니다.(차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.block)
+        }
+    }
+}
