@@ -22,21 +22,23 @@ final class FeedDetailCoordinator: FeedDetailCoordinatorInterface {
     var parentCoordinator: Coordinator?
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    var userFeed: UserFeed
+    var feedReactor: FeedReactor
     var navigatingFrom: FeedNavigationSource
     
     var finishDelegate: CoordinatorFinishDelegate?
     
-    init(navigationController: UINavigationController = UINavigationController(), userFeed: UserFeed, navigatingFrom: FeedNavigationSource) {
+    init(navigationController: UINavigationController = UINavigationController(), feedReactor: FeedReactor, navigatingFrom: FeedNavigationSource) {
         self.navigationController = navigationController
-        self.userFeed = userFeed
+        self.feedReactor = feedReactor
         self.navigatingFrom = navigatingFrom
     }
     
     func start() {
-//        print("FeedDetailCoordinator START")
-        let feedReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
+        print("---- FeedDetailCoordinator START")
+//        let feedReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
+//        let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
         let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
+
 
         navigationController.pushViewController(feedDetailVC, animated: true)
 //        print("🗂️ START detail navigationcontroller count : \(navigationController.viewControllers.count)")
