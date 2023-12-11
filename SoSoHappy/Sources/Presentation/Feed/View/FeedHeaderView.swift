@@ -15,13 +15,13 @@ final class FeedHeaderView: UIView {
     private lazy var titleLabel = UILabel().then {
         $0.textAlignment = .left
         $0.font = UIFont.customFont(size: 33, weight: .bold)
-        $0.text = "소피들의 소소해피"
+        $0.text = "이웃들의 소소해피"
     }
     
     private lazy var feedSubtitle = UILabel().then {
         $0.textAlignment = .left
         $0.font = UIFont.customFont(size: 18, weight: .medium)
-        $0.text = "소피들, 서로의 행복을 응원해보아요! 🫶🏻"
+        $0.text = "서로의 행복을 응원해보아요! 🫶🏻"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
