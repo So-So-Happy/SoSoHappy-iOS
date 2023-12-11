@@ -16,23 +16,23 @@ struct FindAccountFeedResponse: Decodable {
     let text: String
     let isPublic: Bool
     let categoryList: [String]
-    let imageList: [String]
+    let imageIdList: [Int]
     let likeNicknameList: [String]?
 
 }
 
 extension FindAccountFeedResponse {
     func toDomain() -> MyFeed {
-        let uiImageList: [UIImage] = imageList.compactMap { image in
-            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
-                  let uiImage = UIImage(data: data) else {
-                return nil
-            }
-            return uiImage
-        }
+//        let uiImageList: [UIImage] = imageList.compactMap { image in
+//            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
+//                  let uiImage = UIImage(data: data) else {
+//                return nil
+//            }
+//            return uiImage
+//        }
 
         return .init(text: text,
-                     imageList: uiImageList,
+                     imageIdList: imageIdList,
                      categoryList: categoryList,
                      isPublic: isPublic,
                      date: String(date),

@@ -17,12 +17,12 @@ final class FeedReactor: Reactor {
     }
     
     enum Mutation {
-        case setUserFeed(UserFeed)
+        case setUserFeed(UserFeed?)
         case setLike(Bool)
     }
     
     struct State {
-        var userFeed: UserFeed
+        var userFeed: UserFeed?
         var isLike: Bool?
     }
     
@@ -37,12 +37,22 @@ final class FeedReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .fetchFeed:
-            let dstNickname: String = currentState.userFeed.nickName // 피드 주인 닉네임
-            let srcNickname: String = "디저트 러버" // 조회하는 유저 닉네임
-            let date: Int64 = currentState.userFeed.dateFormattedInt64 // 피드의 date
+            print("FeedReactor - fetchFeed")
+            guard let userFeed = initialState.userFeed else { return .empty() }
+            let dstNickname: String = userFeed.nickName // 피드 주인 닉네임
+            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+            let srcNickname = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+            let date: Int64 = userFeed.dateFormattedInt64 // 피드의 date
+            print("~~~ date: \(date)")
             
             return feedRepository.findDetailFeed(request: FindDetailFeedRequest(date: date, dstNickname: dstNickname, srcNickname: srcNickname))
                 .flatMap { userFeed in // 이벤트 순서 유지,
+                    print("FeedReactor - userFeed : \(userFeed)")
+                    guard let userFeed = userFeed else {
+                        print("FeedReactor - nil : \(userFeed)")
+                        return Observable.just(userFeed)
+                    }
+                    
                     if let cachedImage = ImageCache.shared.cache[userFeed.nickName] {
                         print("⭕️ 캐시에 있음 - feed REACTOR nickname : \(userFeed.nickName)")
                         var userFeedWithCachedProfileImage = userFeed
@@ -69,11 +79,13 @@ final class FeedReactor: Reactor {
             print("muate: toggleLike")
             // 서버에 requset
             // response로 isLike를 받음
-            let srcNickname: String = "디저트러버" // 변경하는 유저 닉네임
-            let nickName: String = currentState.userFeed.nickName // 피드 주인 닉네임
-            let date = currentState.userFeed.dateFormattedInt64
-            return feedRepository.updateLike(request: UpdateLikeRequest(srcNickname: srcNickname, nickname: nickName, date: date))
-                .map { Mutation.setLike($0) }
+//            let srcNickname: String = "bread" // 변경하는 유저 닉네임
+//            let nickName: String = currentState.userFeed.nickName // 피드 주인 닉네임
+//            let date = currentState.userFeed.dateFormattedInt64
+//            return feedRepository.updateLike(request: UpdateLikeRequest(srcNickname: srcNickname, nickname: nickName, date: date))
+//                .map { Mutation.setLike($0) }
+            
+            return .empty()
             
         }
     }
