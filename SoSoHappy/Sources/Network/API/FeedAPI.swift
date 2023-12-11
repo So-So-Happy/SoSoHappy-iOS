@@ -22,6 +22,7 @@ enum FeedAPI {
     case findYearHappiness(HappinessRequest)
     case updatePublicStatus(UpdatePublicStatusRequest)
     case updateLike(UpdateLikeRequest)
+    case findFeedImage(FindFeedImageRequest)
 }
 
 // MARK: UserAPI + TargetType
@@ -58,6 +59,8 @@ extension FeedAPI {
             return Bundle.main.updatePublicStatusPath
         case .updateLike:
             return Bundle.main.updateLikePath
+        case .findFeedImage:
+            return Bundle.main.findFeedImage
         }
     }
     
@@ -84,6 +87,8 @@ extension FeedAPI {
         case .updatePublicStatus:
             return .post
         case .updateLike:
+            return .post
+        case .findFeedImage:
             return .post
         }
     }
@@ -146,6 +151,12 @@ extension FeedAPI {
             formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
             formData.append(MultipartFormData(provider: .data(date), name: "date"))
             formData.append(MultipartFormData(provider: .data(srcNickname), name: "srcNickname"))
+            return .uploadMultipart(formData)
+            
+        case .findFeedImage(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let imageId = String(data.imageId).data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(imageId), name: "imageId"))
             return .uploadMultipart(formData)
         }
     }

@@ -2,7 +2,7 @@
 //  FeedViewController.swift
 //  SoSoHappy
 //
-//  Created by Sue on 2023/08/25.
+//  Created by Sue on 12/2/23.
 //
 
 import UIKit
@@ -12,40 +12,28 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
-// pagination, coordinator leak, 예외 처리
+import RxDataSources
+import RxSwiftExt
 
-/*
- 리팩토링
- 1. 버튼을 여러번 클릭했을 때 API 중복 호출을 막아주는 조치 (하트, 오늘, 전체 버튼) - throttle, debouce 적용해주기
- 3. AlertReactor 프로젝트처럼 Reactor의 feeds를 [FeedCellReactor]로 해줘서 따로 Reactor 인스턴스를 만들지 않고
- cell.reactor = reactor 바로 주입 가능 (어떤 방법이 더 적합할지 고민해보기)
- */
+// MARK: - 적정 시간 잘 설정 (throttle 사용하는 모드 곳)
+// 1. throttle , debounce 공부 후 paging - throttle의 적정 시간 설정해줘야 함
+// 2. 스크롤이 엄청 빠를 경우, 받아오고 있는 동안 또 바닥에 닿았을 경우 등 고려해야 함
+// 3. isRefreshing, isLoading 리팩토링하기
+// 4. 새로운 action이 들어오면 이전 request 취소 (해결)
 
-/*
- 1. 예외 상황
- - '등록된 뷰가 없습니다' -> userFeeds가 비어있을 때
- - 403일 때는 애초에 토큰을 재발급해서
- - 500 서버오류
- - 네트워크 연결이 안되어 있습니다.
- */
-
-// 예외까지 다 처리가 되면 다시 navigation title 고민해보기 (일단은 주석 처리)
-
-final class FeedViewController: UIViewController {
+final class FeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     private weak var coordinator: FeedCoordinatorInterface?
+    private var dataSource: RxTableViewSectionedReloadDataSource<UserFeedSection.Model>!
+
     
     // MARK: - UI Components
-    private lazy var feedHeaderView = FeedHeaderView()
-    private lazy var refreshControl = UIRefreshControl()
-    private lazy var exceptionView = FeedExceptionView(
-        title: "등록된 피드가 없습니다.\n 소소한 행복을 공유하고 함께 응원해주세요!",
-        topOffset: 300
-    )
+    private lazy var feedHeaderView = FeedHeaderView().then {
+        $0.backgroundColor = .none
+    }
     
-    // MARK: 로딩 뷰 잘 넣어주기
-    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0)
+    private lazy var refreshControl = UIRefreshControl()
     
     private lazy var tableView = UITableView().then {
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
@@ -57,28 +45,32 @@ final class FeedViewController: UIViewController {
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 30
     }
-   
+    
+    private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
+    ).then {
+        let spinner = UIActivityIndicatorView()
+        spinner.center = $0.center
+        $0.addSubview(spinner)
+        spinner.startAnimating()
+    }
+    
+
+    private lazy var loadingView = LoadingView().then {
+        $0.isHidden = true
+    }
+    
+    private lazy var exceptionView = FeedExceptionView(
+        title: "등록된 피드가 없습니다.\n\n 소소한 행복을 공유하고 함께 응원해주세요!",
+        inset: 40
+    ).then {
+        $0.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("--------------- FeedViewController viewDidLoad ---------------")
         setLayout()
     }
-    
-    // MARK: 한번 viewDidLoad된 이후에는 계속 viewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("--------------- FeedViewController viewWillAppear ---------------")
-//        let contentOffset = self.tableView.contentOffset
-//        handleTableViewContentOffset(contentOffset)
-    }
 
-    // MARK: - 스크롤된 정도에 따라서 navigation title을 줬더니 다음 화면으로 넘어갈 때 Back 대신 title이 뜨길래
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("--------------- FeedViewController viewWillDisappear ---------------")
-//        self.navigationItem.title = ""
-    }
-    
     init(reactor: FeedViewReactor, coordinator: FeedCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
@@ -88,32 +80,60 @@ final class FeedViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 }
 
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension FeedViewController {
     private func setLayout() {
         view.addSubview(tableView)
-        tableView.addSubview(activityIndicatorView)
+        view.addSubview(loadingView)
+        view.addSubview(exceptionView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        activityIndicatorView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(feedHeaderView.snp.bottom).offset(50)
+        loadingView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.top.equalTo(feedHeaderView.snp.bottom)
         }
+
+        exceptionView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.top.equalTo(feedHeaderView.snp.bottom)
+        }
+        
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
+        
     }
 }
 
 // MARK: - ReactorKit - bind func
 extension FeedViewController: View {
-    // MARK: bind
     func bind(reactor: FeedViewReactor) {
-        // MARK: Action (View -> Reactor) 인풋
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        dataSource = self.createDataSource()
+        
         self.rx.viewWillAppear
-            .map { Reactor.Action.fetchFeeds(.currentSort) }
+            .map {
+//                print("viewWillAppear")
+                return Reactor.Action.fetchFeeds(.currentSort)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+
+        // MARK: throttle or debounce
+        // 문제점 - 바닥을 닿고 기다리는 동안 올라갔다가 바로 내려오면 또 요청이 된다. 그러면 이제 뒤죽박죽 다 난리남
+        // 보통 불러오는데 넉넉히 2초면 불러옴 그러니깐 2초동안은 이벤트를 방출하지 못하도록 하면 되겠다
+        tableView.rx.reachedBottom(offset: -20)
+            .skip(1)
+            .throttle(.milliseconds(1240), latest: false, scheduler: MainScheduler.instance) // 1.7초
+            .debug()
+            .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -122,141 +142,114 @@ extension FeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // sortTodayButton, feedHeaderView에 연타방지 연산 필요 (thorttle, debounce)
         feedHeaderView.sortTodayButton.rx.tap
-//            .debounce(.milliseconds(600), scheduler: MainScheduler.instance)
+//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.today) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+    
         feedHeaderView.sortTotalButton.rx.tap
+//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.total) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // asDriver  - 항상 main 스레드에서 관찰하고 에러가 발생하지 않는 것을 보장하여 시퀀스 작업을 간단하게 함
-        // subscribe - 구독 관리를 더 세밀하게 제어해야 하는 경우
-        tableView.rx.itemSelected
-            .map { Reactor.Action.selectedCell(index: $0.row) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-//        tableView.rx.prefe
-        
-        tableView.rx.contentOffset
-            .subscribe(onNext: { [weak self] contentOffset in
-                guard let self = self else { return }
-                handleTableViewContentOffset(contentOffset)
+     
+        tableView.rx.modelSelected(UserFeedSection.Item.self)
+            .subscribe(onNext: { [weak self] selectedItem in
+                switch selectedItem {
+                case let .feed(feedReactor):
+                    print("modelSelected: \(feedReactor)")
+                    self?.coordinator?.showdDetails(feedReactor: feedReactor)
+                }
             })
             .disposed(by: disposeBag)
-
-        // MARK: - State (Reactor -> State) 아웃풋
-        // MARK: tableView에 userFeeds 데이터 연결
+//
         reactor.state
-            .skip(1)
-            .compactMap {
-//                print("FeedVC - reactor.state - feeds : \($0.userFeeds)")
-                return $0.userFeeds
-            }
+            .map(\.sections)
             .distinctUntilChanged()
-//            .debug()
-            .bind(to: tableView.rx.items(cellIdentifier: FeedCell.cellIdentifier, cellType: FeedCell.self)) { [weak self] (row,  userFeed, cell) in
-                print("--------------------")
-                print(" FeedVC - tableView cell 세팅중!! ")
-                print("--------------------")
+            .map(Array.init(with:)) // <- extension으로 Array 초기화 시 차원을 하나 늘려주는 코드추가
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isPaging }
+            .distinctUntilChanged()
+            .subscribe { [weak self] isPaging in
                 guard let self = self else { return }
-                configureCell(cell, with: userFeed)
+//                print("here2 - isPaging: \(isPaging)")
+                tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
             }
             .disposed(by: disposeBag)
         
-        // MARK: 정렬 기준에 따라서 button 색상 지정
         reactor.state
             .skip(1)
-            .compactMap {
-//                print("FeedVC - reactor.state - sortOption : \($0.sortOption)")
-                return $0.sortOption
-            }
+            .compactMap { $0.sortOption }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-//                print("sortOption!!")
+//                print("reactor.state.sortOption : \(sortOption)")
                 feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
         
-        
-        // MARK: 서버로부터 데이터를 받아오는 동안 loading view
         reactor.state
-            .compactMap {
-//                print("FeedVC - reactor.state - isLoading : \($0.isLoading)")
-                return $0.isLoading
-            }
-            .distinctUntilChanged()
-            .bind(onNext: { [weak self] isLoading in
-                guard let self = self else { return }
-//                print("FeedVC - isLoading: \(isLoading)")
-                if isLoading {
-//                    print("FeedVC - animating")
-                    activityIndicatorView.startAnimating()
-                } else {
-//                    print("FeedVC - animating stop")
-                    activityIndicatorView.stopAnimating()
-                }
-            })
-            .disposed(by: disposeBag)
-        
-       
-        // MARK: 새로고침했을 때
-        reactor.state
-            .skip(1)
-            .map {
-//                print("FeedVC - reactor.state - isRefreshing : \($0.isRefreshing)")
-                return $0.isRefreshing
-                
-            }
+            .map { $0.isRefreshing }
             .distinctUntilChanged()
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
-
-
         
-        // MARK: cell 선택 view 이동
+        // isLoading - false , sections.isEmpty 이면 등록된 뷰가 없습니다.
+        // isLoading - true이면 해당 뷰 제거
+        
+
+        // MARK: 이 부분 중복되는 거 리팩토링해주기
         reactor.state
-            .compactMap {
-//                print("FeedVC - reactor.state - selectedFeed : \($0.selectedFeed)")
-                return $0.selectedFeed
+            .compactMap { $0.isLoading }
+            .distinctUntilChanged()
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isLoading, itemsIsEmpty in
+                return (isLoading, itemsIsEmpty)
             }
-            .subscribe(onNext: { [weak self] userFeed in
+            .subscribe(onNext: { [weak self] (isLoading, itemsIsEmpty) in
                 guard let self = self else { return }
-//                print("FeedVC - selectedFeed!! : \(userFeed) ")
-//                print("feed: \(feed), type: \(type(of: feed))")
-                self.coordinator?.showdDetails(userFeed: userFeed)
+                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty, fromRefresh: false)
             })
             .disposed(by: disposeBag)
         
-        // MARK: 올라온 게시물이 없습니다.
         reactor.state
-            .compactMap { $0.showNoFeedLabel }
-            .subscribe(onNext: { [weak self] showNoFeedLabel in
-                if showNoFeedLabel {
-                    print("수현 - 피드 없음 보여줘")
-                } else {
-                    print("수현 - 피드 있음")
-                }
+            .compactMap { $0.isRefreshing }
+            .distinctUntilChanged()
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isRefreshing, itemsIsEmpty in
+                return (isRefreshing, itemsIsEmpty)
+            }
+            .subscribe(onNext: { [weak self] (isRefreshing, itemsIsEmpty) in
+                guard let self = self else { return }
+                updateViewsVisibility(isLoading: isRefreshing, itemsIsEmpty: itemsIsEmpty, fromRefresh: true)
             })
             .disposed(by: disposeBag)
-       
+        
     }
+    
 }
 
 // MARK: - configureCell & ExceptionView 핸들링 메서드
 extension FeedViewController {
-    private func configureCell(_ cell: FeedCell, with userFeed: UserFeed) {
-        // MARK: FeedReactor에 feed 넣어주는 방법1
-        
-        // MARK: FeedReactor에 feed 넣어주는 방법2
-        let cellReactor = FeedReactor(userFeed: userFeed, feedRepository: FeedRepository(), userRepository: UserRepository())
-        cell.reactor = cellReactor
+    private func createDataSource() -> RxTableViewSectionedReloadDataSource<UserFeedSection.Model> {
+        return .init { [weak self] dataSource, tableView, indexPath, item  in
+            let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.cellIdentifier, for: indexPath) as! FeedCell
+
+            switch item {
+            case .feed(let reactor):
+                cell.reactor = reactor
+                self?.configureCell(cell)
+            }
+            
+            return cell
+        }
+    }
+    
+    
+    private func configureCell(_ cell: FeedCell) {
         
         // - 여기에 코드를 작성한 이유
         // cell의 이미지를 tap했을 때 이미지VC을 'self'(FeedViewController)에서 present해주기 때문
@@ -277,49 +270,19 @@ extension FeedViewController {
     }
     
     
-    private func handleTableViewContentOffset(_ contentOffset: CGPoint) {
-        if contentOffset.y < -50 {
-            self.navigationItem.title = ""
+    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, fromRefresh: Bool) {
+        if isLoading {
+//            print("check3 - 로딩 중 ")
+            exceptionView.isHidden = true
+            if !fromRefresh {
+                loadingView.isHidden = false
+            }
         } else {
-            self.navigationItem.title = "소피들의 소소해피"
+//            print("check3 - 로딩 완료 ")
+            if !fromRefresh {
+                loadingView.isHidden = true
+            }
+            exceptionView.isHidden = !itemsIsEmpty
         }
-    }
-    
-    func addEmptyView() {
-        self.tableView.addSubview(exceptionView)
-        exceptionView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-        }
-    }
-    
-    func removeEmptyView() {
-        exceptionView.removeFromSuperview()
     }
 }
-
-
-/*
- reactor.state
-     .skip(1)
-     .map {
-         print("Feeds updated 되기 전 map : \($0.userFeeds)")
-         return $0.userFeeds
-     }
-     .distinctUntilChanged()
-     .bind(onNext: { [weak self] userFeeds in
-         guard let self = self else { return }
-         print("@@ @@ @@ Feeds updated: \(userFeeds)")
-         
-         if userFeeds.isEmpty {
-             print("없다")
-             addEmptyView()
-         } else {
-             print("있다")
-             removeEmptyView()
-         }
-         
-//                self.noFeedLabel.isHidden = !feeds.isEmpty
-     })
-     .disposed(by: disposeBag)
- 
- */

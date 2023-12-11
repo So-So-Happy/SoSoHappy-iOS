@@ -121,5 +121,7 @@
 	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
+	<key>FIND_FEED_IMAGE</key>
+	<string>${FIND_FEED_IMAGE}</string>
 </dict>
 </plist>

@@ -9,7 +9,7 @@ import UIKit
 
 protocol OwnerFeedCoordinatorInterface: Coordinator {
     func dismiss()
-    func showDetails(userFeed: UserFeed)
+    func showDetails(feedReactor: FeedReactor)
 }
 
 final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
@@ -48,10 +48,10 @@ extension OwnerFeedCoordinator {
 //        print("🗂️OwnerFeedCoorindator dismissed - controller count : \(navigationController.viewControllers.count)")
     }
     
-    func showDetails(userFeed: UserFeed) {
-//        print("OwnerFeedCoordinator didSelectCell 메서드 실행")        
+    func showDetails(feedReactor: FeedReactor) {
+//        print("OwnerFeedCoordinator didSelectCell 메서드 실행")
 //        print("cell 선택함")
-        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, userFeed: userFeed, navigatingFrom: .ownerFeedViewController)
+        let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedReactor: feedReactor, navigatingFrom: .ownerFeedViewController)
         feedDetailCoordinator.parentCoordinator = self
         
         self.childCoordinators.append(feedDetailCoordinator)

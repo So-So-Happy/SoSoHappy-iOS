@@ -37,7 +37,6 @@ final class AddCoordinator: AddCoordinatorInterface {
     func start() {
         let addViewReactor = AddViewReactor(feedRepository: FeedRepository())
         let addStep1VC = AddStep1ViewController(reactor: addViewReactor, coordinator: self)
-        addStep1VC.title = "소소해피 기록"
         navigationController.pushViewController(addStep1VC, animated: true)
         print("🗂️ 쌓여 있는 AddCoordinator -  VC: \(navigationController.viewControllers.count)개")
         print("ADD coordinator count - start: \(parentCoordinator?.childCoordinators.count)")
@@ -61,12 +60,10 @@ extension AddCoordinator {
         switch navigateTo {
         case .addstep2:
             let addStep2VC = AddStep2ViewController(reactor: reactor, coordinator: self)
-            addStep2VC.title = "소소해피 기록"
             navigationController.pushViewController(addStep2VC, animated: true)
             print("🗂️ 쌓여 있는 AddCoordinator  addstep2-  VC: \(navigationController.viewControllers.count)개")
         case .addstep3:
             let addStep3VC = AddStep3ViewController(reactor: reactor, coordinator: self)
-            addStep3VC.title = "소소해피 기록"
             navigationController.pushViewController(addStep3VC, animated: true)
             print("🗂️ 쌓여 있는 AddCoordinator  addStep3-  VC: \(navigationController.viewControllers.count)개")
         }

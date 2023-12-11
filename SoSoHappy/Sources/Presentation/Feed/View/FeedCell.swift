@@ -68,8 +68,9 @@ extension FeedCell {
 
 extension FeedCell: View {
     func bind(reactor: FeedReactor) {
-        let currentFeed = reactor.currentState.userFeed
-        setFeedCell(currentFeed)
+        if let currentFeed = reactor.currentState.userFeed {
+            setFeedCell(currentFeed)
+        }
         
         heartButton.rx.tap // debouce ? throttle
             .map { Reactor.Action.toggleLike}

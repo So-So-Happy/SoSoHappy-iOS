@@ -9,7 +9,7 @@ import UIKit
 
 struct FindDetailFeedResponse: Codable {
     let text: String
-    let imageList: [String]
+    let imageIdList: [Int]
     let categoryList: [String]
     let date: Int64
     let weather: String
@@ -21,13 +21,13 @@ struct FindDetailFeedResponse: Codable {
 
 extension FindDetailFeedResponse {
     func toDomain() -> UserFeed {
-        let uiImageList: [UIImage] = imageList.compactMap { image in
-            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
-                  let uiImage = UIImage(data: data) else {
-                return nil
-            }
-            return uiImage
-        }
+//        let uiImageList: [UIImage] = imageList.compactMap { image in
+//            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
+//                  let uiImage = UIImage(data: data) else {
+//                return nil
+//            }
+//            return uiImage
+//        }
         
         return .init(nickName: nickname,
                      date: String(date),
@@ -35,7 +35,7 @@ extension FindDetailFeedResponse {
                      happiness: happiness,
                      categoryList: categoryList,
                      text: text,
-                     imageList: uiImageList,
+                     imageIdList: imageIdList,
                      isLiked: isLiked)
     }
 }

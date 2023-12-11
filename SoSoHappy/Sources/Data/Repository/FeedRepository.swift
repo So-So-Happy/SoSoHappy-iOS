@@ -111,7 +111,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     
     
     /// findDetailFeed: 디테일 피드 데이터 fetch
-    func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed> {
+    func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed?> {
         return Observable.create { emitter in
 //            print("findDetailFeed 메서드 시작")
             let provider = self.accessProvider()
@@ -123,9 +123,10 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                     switch event {
                     case .next(let response):
 //                        print("findDetailFeed success : \(response)")
+//                        emitter.onNext(nil)
                         emitter.onNext(response)
                     case .error(let error):
-//                        print("findDetailFeed error : \(error.localizedDescription)")
+                        print("findDetailFeed error : \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
@@ -137,7 +138,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             }
         }
     }
-    
+
     /// findOtherFeed: 피드 전체 데이터 fetch
     func findOtherFeed(request: FindOtherFeedRequest) -> Observable<([UserFeed], Bool)> {
 //        print("여기 FeedRepository  - findOtherFeed")
@@ -170,12 +171,12 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     /// findUserFeed: 특정 유저 피드 데이터 fetch
-    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]> {
+    func findUserFeed(request: FindUserFeedRequest) -> Observable<([UserFeed], Bool)>{
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findUserFeed(request))
                 .map(FindUserFeedResponse.self)
-                .map { $0.content.map { $0.toDomain() }}
+                .map { ($0.content.map { $0.toDomain() }, $0.isLast) }
                 .asObservable()
                 .subscribe { event in
                     switch event {
@@ -195,19 +196,49 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     // 이 코드 가능하면 이걸로 change
-    //    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]> {
-//           return self.provider.rx
-//               .request(.findUserFeed(request))
-//               .map(FindUserFeedResponse.self)
-//               .map { $0.content.map { $0.toDomain() } }
-//               .asObservable()
-//               .do(onSuccess: { response in
-//                   print("findUserFeed success: \(response)")
-//               })
-//               .catchError { error in
-//                   return Observable.error(error)
-//               }
-//       }
+//    func findUserFeed(request: FindUserFeedRequest) -> Observable<[UserFeed]> {
+//        let provider = accessProvider()
+//        return provider.rx
+//            .request(.findUserFeed(request))
+//            .map(FindUserFeedResponse.self)
+//            .map { $0.content.map { $0.toDomain() } }
+//            .asObservable()
+//            .do(onNext: { userFeed in
+//                print("find user feed success")
+//            })
+//            .catch { error in
+//                return Observable.error(error)
+//            }
+//    }
+    
+    
+    func findFeedImage(request: FindFeedImageRequest) -> Observable<UIImage?> {
+        let provider = accessProvider()
+        return Observable.create { emitter in
+            let disposable = provider.rx.request(.findFeedImage(request))
+                .map(FindFeedImageResponse.self)
+                .map { $0.toDomain() }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("saveFeed - success :")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("saveFeed - error: \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        print("saveFeed - completed")
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+            
+        }
+    }
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
         return Observable.create { emitter in

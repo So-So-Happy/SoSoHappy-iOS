@@ -18,8 +18,9 @@ struct UserFeed: FeedType, Equatable {
     let happiness: Int                  // 행복 정도
     let categoryList: [String]          // 카테고리 목록
     let text: String                    // 피드 작성 글
-    let imageList: [UIImage]            // 등록한 이미지
+    let imageList: [UIImage] = []            // 등록한 이미지
     let isLiked: Bool                   // 좋아요
+    let imageIdList: [Int]
     
     init(nickName: String, 
          date: String,
@@ -27,7 +28,7 @@ struct UserFeed: FeedType, Equatable {
          happiness: Int,
          categoryList: [String],
          text: String,
-         imageList: [UIImage],
+         imageIdList: [Int],
          isLiked: Bool
     ) {
         self.nickName = nickName
@@ -36,7 +37,7 @@ struct UserFeed: FeedType, Equatable {
         self.happiness = happiness
         self.categoryList = categoryList
         self.text = text
-        self.imageList = imageList
+        self.imageIdList = imageIdList
         self.isLiked = isLiked
     }
 }

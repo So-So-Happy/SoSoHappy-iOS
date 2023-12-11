@@ -21,19 +21,19 @@ struct Content: Codable {
     let happiness: Int          // 행복 정도 ex. 1
     let text: String            // 피드 작성 글
     let categoryList: [String]   // 카테고리 목록  ex. ["youtube", "pet"]
-    let imageList: [String]     // 등록한 이미지 ex. []
+    let imageIdList: [Int]     // 등록한 이미지 ex. []
     let isLiked: Bool           // 좋아요 여부
 }
 
 extension Content {
     func toDomain() -> UserFeed {
-        let uiImageList: [UIImage] = imageList.compactMap { image in
-            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
-                  let uiImage = UIImage(data: data) else {
-                return nil
-            }
-            return uiImage
-        }
+//        let uiImageList: [UIImage] = imageList.compactMap { image in
+//            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
+//                  let uiImage = UIImage(data: data) else {
+//                return nil
+//            }
+//            return uiImage
+//        }
         
         return .init(
             nickName: nickname,
@@ -42,7 +42,7 @@ extension Content {
             happiness: happiness,
             categoryList: categoryList,
             text: text,
-            imageList: uiImageList,
+            imageIdList: imageIdList,
             isLiked: isLiked)
     }
 }

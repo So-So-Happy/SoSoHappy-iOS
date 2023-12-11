@@ -54,8 +54,9 @@ extension OwnerFeedCell {
 
 extension OwnerFeedCell: View {
     func bind(reactor: FeedReactor) {
-        let currentFeed = reactor.currentState.userFeed
-        setFeedCell(currentFeed)
+        if let currentFeed = reactor.currentState.userFeed {
+            setFeedCell(currentFeed)
+        }
 
         heartButton.rx.tap
             .map { Reactor.Action.toggleLike }
