@@ -143,6 +143,10 @@ final class AddViewReactor: Reactor {
             
         case .tapSaveButton:
             // 필요한 것 : text, image, isPublic
+            
+            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+            let nickname = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+            
             // MARK: 이 부분 강제 언래핑하는거 좀 더 유연하게 처리 필요
             let saveFeedRequest = SaveFeedRequest(
                 text: currentState.content,
@@ -152,7 +156,8 @@ final class AddViewReactor: Reactor {
                 date: currentState.date!.getFormattedYMDH(),
                 weather: weatherStrings[currentState.selectedWeather!],
                 happiness: currentState.selectedHappiness!,
-                nickname: "디저트러버2")
+                nickname: nickname)
+            
             print("date: \(currentState.date!.getFormattedYMDH())")
             return feedRepository.saveFeed(request: saveFeedRequest)
                 .map { Mutation.saveFeed($0) }
