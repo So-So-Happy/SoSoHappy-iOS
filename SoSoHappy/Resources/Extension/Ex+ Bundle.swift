@@ -109,6 +109,11 @@ extension Bundle {
         return key
     }
     
+    var findFeedImage: String {
+        guard let key = Bundle.main.infoDictionary?["FIND_FEED_IMAGE"] as? String else { fatalError("FIND_FEED_IMAGE error") }
+        return key
+    }
+    
     // MARK: - Server - Notice
     var connectNoticePath: String {
         guard let key = Bundle.main.infoDictionary?["CONNECT_NOTICE_PATH"] as? String else { fatalError("CONNECT_NOTICE_PATH error") }
