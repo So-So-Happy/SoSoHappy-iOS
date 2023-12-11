@@ -37,6 +37,13 @@ extension String {
         }
 
     }
+    
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMddHHmmssSSSS"
+        return dateFormatter.date(from: self)
+    }
+    
 }
 
 extension String {
