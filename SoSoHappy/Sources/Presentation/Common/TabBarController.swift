@@ -46,11 +46,11 @@ public final class TabBarController: UITabBarController {
 extension TabBarController {
     // MARK: Tab bar settings
     private func setTabBar() {
-        tabBar.layer.shadowColor = UIColor.black.cgColor
-        tabBar.layer.shadowOpacity = 0.3
-        tabBar.layer.shadowOffset = CGSize(width: 0, height: 0)
-        tabBar.layer.shadowRadius = 0.33
-        tabBar.barTintColor = UIColor.white
+        let appearance = tabBar.standardAppearance
+        appearance.backgroundColor = UIColor(named: "CellColor")
+        appearance.shadowColor = nil
+        tabBar.standardAppearance = appearance
+        
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]
         UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
     }

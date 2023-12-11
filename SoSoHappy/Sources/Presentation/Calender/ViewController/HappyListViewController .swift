@@ -16,15 +16,20 @@ final class HappyListViewController : UIViewController {
     
     
     // MARK: - Properties
-    private var coordinator: HappyListCoordinatorInterface
     var disposeBag = DisposeBag()
     
-    private var currentPage: Date
+    private var coordinator: HappyListCoordinatorInterface
+    
     private var monthHappinessList = BehaviorRelay(value: [MyFeed]())
+    
+    private var currentPage: Date
+    private let today: Date = {
+        return Date()
+    }()
     
     // MARK: - UI Components
     private lazy var happyTableView = UITableView().then {
-        $0.register(HappyListCell.self, forCellReuseIdentifier: HappyListCell.cellIdentifier)
+        $0.register(BaseCell.self, forCellReuseIdentifier: BaseCell.cellIdentifier)
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.separatorStyle = .none
         $0.estimatedRowHeight = 30
@@ -112,6 +117,11 @@ extension HappyListViewController: View {
         
         self.nextButton.rx.tap
             .map { Reactor.Action.tapNextButton }
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                let nextDate = today.moveToNextMonth()
+                return nextDate < currentPage
+              }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -134,11 +144,11 @@ extension HappyListViewController: View {
                 self.monthHappinessList.accept(data)
             }.disposed(by: disposeBag)
         
-        reactor.state
-            .map { $0.detailViewDate }
-            .subscribe { date in
-                self.coordinator.pushDetailView(date: date)
-            }.disposed(by: disposeBag)
+//        reactor.state
+//            .map { $0.detailViewDate }
+//            .subscribe { date in
+//                self.coordinator.pushDetailView(date: date)
+//            }.disposed(by: disposeBag)
         
         
 //        reactor.state
@@ -179,14 +189,15 @@ extension HappyListViewController {
         self.happyTableView.rx.modelSelected(MyFeed.self)
             .subscribe { item in
                 // coodinator: go to Detail VC
-//                Observable.just(Reactor.Action.tapHappyListCell)
-//                    .bind(to: self?.reactor!.action)
-//                    .disposed(by: self?.disposeBag)
-//                self.coordinator.pushDetailView(date: )
-//                self.reactor?.action.onNext(.tapHappyListCell(item.))
+                //                Observable.just(Reactor.Action.tapHappyListCell)
+                //                    .bind(to: self?.reactor!.action)
+                //                    .disposed(by: self?.disposeBag)
+                //                self.coordinator.pushDetailView(date: )
+                //                self.reactor?.action.onNext(.tapHappyListCell(item.))
                 
                 if let date = item.element?.date {
-                    self.reactor?.action.onNext(.tapHappyListCell(date))
+//                    self.reactor?.action.onNext(.tapHappyListCell(date))
+                    self.coordinator.pushDetailView(date: date)
                 }
                 
             }.disposed(by: disposeBag)

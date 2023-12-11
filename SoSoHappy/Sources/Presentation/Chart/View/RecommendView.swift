@@ -31,7 +31,7 @@ final class RecommendView: UIView {
         $0.addSubview(refreshButton)
     }
     
-    private lazy var recommendedHappinessLabel = UILabel().then {
+    lazy var recommendedHappinessLabel = UILabel().then {
         $0.text = "비 오는 날 산책하기 ☔️🚶🏻‍♀️"
         $0.font = UIFont.customFont(size: 15, weight: .medium)
     }

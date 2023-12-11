@@ -46,12 +46,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         )
 
         application.registerForRemoteNotifications()
-       
-//        // MARK: Messaging Delegate
+
+        // MARK: Messaging Delegate
         Messaging.messaging().delegate = self
         
+        // MARK: Font Setting
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        
+        // MARK: Tab Bar Setting
+        let appearance = UITabBarAppearance()
+        let tabBar = UITabBar()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "CellColor")!
+        appearance.shadowColor = nil
+        tabBar.standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
         
         return true
     }

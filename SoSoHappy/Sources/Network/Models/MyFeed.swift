@@ -19,15 +19,16 @@ struct MyFeed: FeedType {
     let nickName: String
     let likeNickNameList: [String]
 
-    init(text: String,
-         imageIdList: [Int],
-         categoryList: [String],
-         isPublic: Bool,
-         date: String,
-         weather: String,
-         happiness: Int,
-         nickName: String,
-         likeNickNameList: [String]
+    init(
+        text: String = "",
+        imageIdList: [Int] = [],
+        categoryList: [String] = [],
+        isPublic: Bool = false,
+        date: String = "",
+        weather: String = "",
+        happiness: Int = 0,
+        nickName: String = "",
+        likeNickNameList: [String] = []
     ) {
         self.text = text
         self.imageIdList = imageIdList
