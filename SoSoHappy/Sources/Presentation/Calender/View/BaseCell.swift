@@ -63,18 +63,26 @@ class BaseCell: UITableViewCell {
     }
     
     func setFeedCell(_ feed: FeedType) {
-        print("BaseCell setFeedCell()")
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 45)
         contentLabel.text = feed.text
         
+//        
+//        if let imageList = feed.imageList, !imageList.isEmpty { // image가 있으면
+//            print("BaseCell 사진 있음(O)")
+////            imageSlideView.setContents(feed: feed)
+//            imageSlideView.setContentsWithImageList(imageList: imageList)
+//            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+//        } else { //image가 없다면
+//            print("BaseCell 사진 없음(X)")
+//            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
+//        }
+        
         // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
         if feed.imageList.isEmpty { //image가 없다면
-            print("BaseCell 사진 없음(X)")
             imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
         
         } else { // image가 있으면
-            print("BaseCell 사진 있음(O)")
             imageSlideView.setContents(feed: feed)
             imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
             
@@ -84,7 +92,6 @@ class BaseCell: UITableViewCell {
     // BaseCell을 상속받는 Cell은 자동으로 호출됨
     // 속성을 초기화 (content는 여기에서 해주는게 적합하지 않음)
     override func prepareForReuse() {
-        print("BaseCell - prepareForReuse")
         super.prepareForReuse()
         disposeBag = DisposeBag()
     }
@@ -112,7 +119,6 @@ extension BaseCell {
     }
     
     private func setConstraints() {
-        print("BaseCell setConstraints")
         // 이 코드가 없어도 잘 동작하긴 함
         cellBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
