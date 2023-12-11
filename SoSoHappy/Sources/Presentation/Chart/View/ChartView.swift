@@ -22,8 +22,9 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.selectedSegmentIndex = 0
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.customFont(size: 14, weight: .medium)]
         $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
+        $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.customFont(size: 14, weight: .medium)], for: .normal)
+        $0.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
-    
     
     private lazy var graphView = LineChartView()
     
@@ -50,7 +51,6 @@ final class ChartView: UIView, ChartViewDelegate {
         
         setConstraints()
 //        setUpView()
-        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }
     
     required init?(coder: NSCoder) {
@@ -72,9 +72,15 @@ final class ChartView: UIView, ChartViewDelegate {
     
     private func setConstraints() {
         makeHappyStackView()
-        addSubviews(chartStackView, graphLabel, segmentedControl, graphView, imageStackView)
+        addSubviews(graphLabel, segmentedControl)
+        addSubviews(chartStackView, graphView, imageStackView)
         chartStackView.addArrangedSubview(imageStackView)
         chartStackView.addArrangedSubview(graphView)
+        
+        graphLabel.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(30)
+            $0.top.equalToSuperview()
+        }
         
         segmentedControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -85,12 +91,7 @@ final class ChartView: UIView, ChartViewDelegate {
         chartStackView.snp.makeConstraints {
             $0.horizontalEdges.equalToSuperview().inset(30)
             $0.top.equalTo(segmentedControl).offset(45)
-            $0.height.equalTo(165)
-        }
-        
-        graphLabel.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(30)
-            $0.top.equalToSuperview()
+            $0.height.equalTo(200)
         }
         
         graphView.snp.makeConstraints {
