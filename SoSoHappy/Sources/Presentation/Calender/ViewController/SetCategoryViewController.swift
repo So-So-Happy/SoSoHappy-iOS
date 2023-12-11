@@ -58,7 +58,7 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
         print("--------------------------")
     }
     
-    init(reactor: AddViewReactor, coordinator: HappyListCoordinatorInterface) {
+    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
         self.coordinator = coordinator
@@ -148,7 +148,7 @@ extension SetCategoryViewController: UICollectionViewDelegateFlowLayout, UITable
 // MARK: - ReactorKit - bind func
 extension SetCategoryViewController: View {
     // MARK: bind
-    func bind(reactor: AddViewReactor) {
+    func bind(reactor: MyFeedDetailViewReactor) {
         categoryCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         

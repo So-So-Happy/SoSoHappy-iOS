@@ -49,6 +49,7 @@
 		06B3FA442B205976009F72E7 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06B3FA432B205976009F72E7 /* Config.xcconfig */; };
 		06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */; };
 		06B3FA482B20B7B8009F72E7 /* SetCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */; };
+		06B3FA4A2B237B01009F72E7 /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA492B237B01009F72E7 /* RankingView.swift */; };
 		06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */; };
 		06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */; };
 		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
@@ -287,6 +288,7 @@
 		06B3FA432B205976009F72E7 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWeatherHappinessViewController.swift; sourceTree = "<group>"; };
 		06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCategoryViewController.swift; sourceTree = "<group>"; };
+		06B3FA492B237B01009F72E7 /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
 		06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewController.swift; sourceTree = "<group>"; };
 		06CAC0802AF6B0730064BD33 /* MyFeedDetailViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewReactor.swift; sourceTree = "<group>"; };
 		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
@@ -692,6 +694,7 @@
 				678025302A95086A004123AA /* ChartView.swift */,
 				672898652A9C9F5F001FB8A3 /* AwardsView.swift */,
 				672898672A9C9F77001FB8A3 /* RecommendView.swift */,
+				06B3FA492B237B01009F72E7 /* RankingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1039,8 +1042,8 @@
 		67E7DB792A8137E700C33988 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */,
 				06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */,
+				67E7DB7D2A81380500C33988 /* CalenderCoordinator.swift */,
 				06B3FA3F2B205428009F72E7 /* DetailViewCoordinator.swift */,
 			);
 			path = Protocol;
@@ -1808,6 +1811,7 @@
 				06896DF62AC2AB8E001DCCFC /* TabBarController.swift in Sources */,
 				067179F62ADCFFAC007252AE /* FindDetailFeedRequest.swift in Sources */,
 				80380C1E2A98DE0E0077048D /* OwnerFeedHeaderView.swift in Sources */,
+				06B3FA4A2B237B01009F72E7 /* RankingView.swift in Sources */,
 				67E7DB5A2A8135FB00C33988 /* User.swift in Sources */,
 				808650EE2AD6CCFE0036CCFB /* ResignResponse.swift in Sources */,
 				80380C082A98A1780077048D /* SelfIntroductionStackView.swift in Sources */,

@@ -20,6 +20,12 @@ final class ChartViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private lazy var awardsImageView = UIImageView(image: UIImage(named: "awards"))
+    private lazy var image1 = UIImageView(image: UIImage(named: "food"))
+    private lazy var image2 = UIImageView(image: UIImage(named: "dessert"))
+    private lazy var image3 = UIImageView(image: UIImage(named: "coffee"))
+    
+    
     private lazy var yearMonthLabel = UILabel().then {
         $0.text = "2023.07"
         $0.font = UIFont.customFont(size: 22, weight: .medium)
@@ -160,9 +166,12 @@ extension ChartViewController {
         scrollView.addSubview(contentView)
 //        contentView.addSubview(awardsView)
         contentView.addSubviews(previousButton, nextButton, yearMonthLabel)
-        contentView.addSubview(testView)
+//        contentView.addSubview(testView)
+        contentView.addSubview(awardsImageView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
+        
+        contentView.addSubviews(image1, image2, image3)
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview() // 스크롤뷰가 뷰에 가득 차도록 설정
@@ -198,16 +207,39 @@ extension ChartViewController {
 //        }
         
         
-        // FIXME: - awardsView Layout 이슈 해결을 위한 testView 입니다.
-        testView.snp.makeConstraints {
-            $0.height.equalTo(300)
-            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(20)
-            $0.horizontalEdges.equalToSuperview().inset(20)
+        // FIXME: -
+        awardsImageView.snp.makeConstraints {
+            $0.height.equalTo(80) // height fix
+            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(120)
+//            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.width.equalTo(contentView.snp.width).offset(-40)
+            $0.centerX.equalToSuperview()
+        }
+        
+        image1.snp.makeConstraints {
+            $0.width.height.equalTo(60)
+            $0.centerX.equalTo(contentView.snp.centerX).offset(-110)
+            $0.bottom.equalTo(awardsImageView.snp.top).offset(30)
+//            $0.centerX.equalTo(awardsImageView.snp.width).multipliedBy(3.0 / 1.0)
+        }
+        
+        image2.snp.makeConstraints {
+            $0.width.height.equalTo(60)
+            $0.centerX.equalTo(contentView.snp.centerX)
+            $0.bottom.equalTo(awardsImageView.snp.top)
+            
+        }
+        
+        image3.snp.makeConstraints {
+            $0.width.height.equalTo(60)
+            $0.centerX.equalTo(contentView.snp.centerX).offset(110)
+            $0.bottom.equalTo(awardsImageView.snp.top).offset(50)
+            
         }
 
         recommendView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(testView.snp.bottom)
+            $0.top.equalTo(awardsImageView.snp.bottom).offset(60)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(130)
         }

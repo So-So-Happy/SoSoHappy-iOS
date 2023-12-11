@@ -69,7 +69,7 @@ final class SetWeatherHappinessViewController: UIViewController {
         setup()
     }
     
-    init(reactor: AddViewReactor, coordinator: HappyListCoordinatorInterface) {
+    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
         self.coordinator = coordinator
@@ -152,7 +152,7 @@ extension SetWeatherHappinessViewController {
 // MARK: - ReactorKit - bind func
 extension SetWeatherHappinessViewController: View {
     // MARK: bind
-    func bind(reactor: AddViewReactor) {
+    func bind(reactor: MyFeedDetailViewReactor) {
         weatherStackView.weatherButtonTappedSubject
             .map { Reactor.Action.weatherButtonTapped($0) }
             .bind(to: reactor.action)
