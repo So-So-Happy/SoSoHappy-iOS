@@ -14,6 +14,7 @@ protocol FeedType {
     var happiness: Int { get }
     var categoryList: [String] { get }
     var text: String { get }
+    var imageIdList: [Int] { get }
     var imageList: [UIImage] { get }
 }
 
@@ -40,7 +41,6 @@ extension FeedType {
         dateFormatter.dateFormat = "yyyyMMddHHmmssSS"
         
         if let date = dateFormatter.date(from: date) {
-            print("UserFeed - dateToDateType parsed date : \(date)")
             return date
         } else {
             print("UserFeed - dateToDateType failed to parse date")

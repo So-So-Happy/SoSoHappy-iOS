@@ -8,9 +8,9 @@
 import UIKit
 
 struct MyFeed: FeedType {
-
     let text: String
-    let imageList: [UIImage]
+    let imageList: [UIImage] = []
+    let imageIdList: [Int]
     let categoryList: [String]
     let isPulic: Bool
     let date: String
@@ -20,7 +20,7 @@ struct MyFeed: FeedType {
     let likeNickNameList: [String]
 
     init(text: String,
-         imageList: [UIImage],
+         imageIdList: [Int],
          categoryList: [String],
          isPublic: Bool,
          date: String,
@@ -30,7 +30,7 @@ struct MyFeed: FeedType {
          likeNickNameList: [String]
     ) {
         self.text = text
-        self.imageList = imageList
+        self.imageIdList = imageIdList
         self.categoryList = categoryList
         self.isPulic = isPublic
         self.date = date
