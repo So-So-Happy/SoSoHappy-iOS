@@ -13,15 +13,13 @@ import RxSwift
 import RxCocoa
 import NVActivityIndicatorView
 import RxDataSources
+import RxSwiftExt
 
-/*
- self.scrollView.scrollIndicatorInsets
- 정렬 버튼 - throttle (연타방지 넣기)
- */
-
-// 로딩 중 또는 paging 중
-// 문제 - 로딩 중에 다른 tab으로 옮겼을 때 겹침 현상
-// 전체에서 로딩 중에 오늘로 넘겼다고 했을 때
+// MARK: - 적정 시간 잘 설정 (throttle 사용하는 모드 곳)
+// 1. throttle , debounce 공부 후 paging - throttle의 적정 시간 설정해줘야 함
+// 2. 스크롤이 엄청 빠를 경우, 받아오고 있는 동안 또 바닥에 닿았을 경우 등 고려해야 함
+// 3. isRefreshing, isLoading 리팩토링하기
+// 4. 새로운 action이 들어오면 이전 request 취소 (해결)
 
 final class FeedViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -48,11 +46,6 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
         $0.estimatedRowHeight = 30
     }
     
-    // MARK: 리팩할 때 잘 제거해주기
-//    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: UIColor(named: "GrayTextColor"), padding: 0).then {
-//        $0.startAnimating()
-//    }
-    
     private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
     ).then {
         let spinner = UIActivityIndicatorView()
@@ -75,7 +68,6 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("--------------- FeedViewController viewDidLoad ---------------")
         setLayout()
     }
 
@@ -95,18 +87,12 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
 extension FeedViewController {
     private func setLayout() {
         view.addSubview(tableView)
-//        tableView.addSubview(activityIndicatorView)
         view.addSubview(loadingView)
         view.addSubview(exceptionView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-//        activityIndicatorView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(feedHeaderView.snp.bottom).offset(50)
-//        }
         
         loadingView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
@@ -118,7 +104,7 @@ extension FeedViewController {
             make.top.equalTo(feedHeaderView.snp.bottom)
         }
         
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 85, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
         
     }
 }
@@ -133,47 +119,52 @@ extension FeedViewController: View {
         
         self.rx.viewWillAppear
             .map {
-                print("호출1")
+//                print("viewWillAppear")
                 return Reactor.Action.fetchFeeds(.currentSort)
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        
-        self.tableView.rx.didScroll
-            .debounce(.milliseconds(270), scheduler: MainScheduler.instance) // Adjust the debounce time as needed
-//            .throttle(.seconds(4), scheduler: MainScheduler.instance) //
-            .skip(1)
-            .withLatestFrom(self.tableView.rx.contentOffset)
-            .map { [weak self] in
-                print("didScroll")
 
-                return Reactor.Action.pagination(
-                    contentHeight: self?.tableView.contentSize.height ?? 0,
-                    contentOffsetY: $0.y,
-                    scrollViewHeight: UIScreen.main.bounds.height
-                )
-            }
+        // MARK: throttle or debounce
+        // 문제점 - 바닥을 닿고 기다리는 동안 올라갔다가 바로 내려오면 또 요청이 된다. 그러면 이제 뒤죽박죽 다 난리남
+        // 보통 불러오는데 넉넉히 2초면 불러옴 그러니깐 2초동안은 이벤트를 방출하지 못하도록 하면 되겠다
+        tableView.rx.reachedBottom(offset: -20)
+            .skip(1)
+            .throttle(.milliseconds(1240), latest: false, scheduler: MainScheduler.instance) // 1.7초
+            .debug()
+            .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         self.refreshControl.rx.controlEvent(.valueChanged)
             .map { Reactor.Action.refresh }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // TODO: throttle 적용
         feedHeaderView.sortTodayButton.rx.tap
+//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.today) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+    
         feedHeaderView.sortTotalButton.rx.tap
+//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.total) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+     
+        tableView.rx.modelSelected(UserFeedSection.Item.self)
+            .subscribe(onNext: { [weak self] selectedItem in
+                switch selectedItem {
+                case let .feed(feedReactor):
+                    print("modelSelected: \(feedReactor)")
+                    self?.coordinator?.showdDetails(feedReactor: feedReactor)
+                }
+            })
+            .disposed(by: disposeBag)
+//
         reactor.state
             .map(\.sections)
             .distinctUntilChanged()
@@ -186,7 +177,7 @@ extension FeedViewController: View {
             .distinctUntilChanged()
             .subscribe { [weak self] isPaging in
                 guard let self = self else { return }
-                print("1 -- isPaging")
+//                print("here2 - isPaging: \(isPaging)")
                 tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
             }
             .disposed(by: disposeBag)
@@ -197,8 +188,7 @@ extension FeedViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] sortOption in
                 guard let self = self else { return }
-                print("sort : 137번째 줄 : \(sortOption)")
-                print("1 -- sort")
+//                print("reactor.state.sortOption : \(sortOption)")
                 feedHeaderView.updateButtonState(sortOption)
             })
             .disposed(by: disposeBag)
@@ -212,7 +202,8 @@ extension FeedViewController: View {
         // isLoading - false , sections.isEmpty 이면 등록된 뷰가 없습니다.
         // isLoading - true이면 해당 뷰 제거
         
-        
+
+        // MARK: 이 부분 중복되는 거 리팩토링해주기
         reactor.state
             .compactMap { $0.isLoading }
             .distinctUntilChanged()
@@ -221,31 +212,21 @@ extension FeedViewController: View {
             }
             .subscribe(onNext: { [weak self] (isLoading, itemsIsEmpty) in
                 guard let self = self else { return }
-                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty)
+                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty, fromRefresh: false)
             })
             .disposed(by: disposeBag)
         
-        
-//        reactor.state
-//            .compactMap { $0.isLoading }
-//            .distinctUntilChanged()
-//            .bind { [weak self] isLoading in
-//                guard let self = self else { return }
-//                
-//                if isLoading { // 로딩 중
-//                    print("check3 - 로딩 중 ")
-//                    exceptionView.isHidden = true
-//                    loadingView.isHidden = false
-//                } else { // 로딩 완료
-//                    print("check3 - 로딩 완료 ")
-//                    loadingView.isHidden = true
-//                    if reactor.currentState.sections.items.isEmpty {
-//                        print("check3 - 로딩 완료 - items 비어있다 ")
-//                        exceptionView.isHidden = false
-//                    }
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        reactor.state
+            .compactMap { $0.isRefreshing }
+            .distinctUntilChanged()
+            .withLatestFrom(reactor.state.map { $0.sections.items.isEmpty }) { isRefreshing, itemsIsEmpty in
+                return (isRefreshing, itemsIsEmpty)
+            }
+            .subscribe(onNext: { [weak self] (isRefreshing, itemsIsEmpty) in
+                guard let self = self else { return }
+                updateViewsVisibility(isLoading: isRefreshing, itemsIsEmpty: itemsIsEmpty, fromRefresh: true)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -289,14 +270,18 @@ extension FeedViewController {
     }
     
     
-    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool) {
+    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, fromRefresh: Bool) {
         if isLoading {
-            print("check3 - 로딩 중 ")
+//            print("check3 - 로딩 중 ")
             exceptionView.isHidden = true
-            loadingView.isHidden = false
+            if !fromRefresh {
+                loadingView.isHidden = false
+            }
         } else {
-            print("check3 - 로딩 완료 ")
-            loadingView.isHidden = true
+//            print("check3 - 로딩 완료 ")
+            if !fromRefresh {
+                loadingView.isHidden = true
+            }
             exceptionView.isHidden = !itemsIsEmpty
         }
     }
