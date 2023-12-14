@@ -124,22 +124,10 @@ final class CalendarViewReactor: Reactor {
             ])
         case .tapNextButton:
             let nextPage = currentPage.moveToNextMonth()
-            return .concat([
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: nextPage.getFormattedYMDH(), nickName: nickName))
-                    .map({ Mutation.setCalendarCell($0) }),
-                .just(.moveToNextMonth(nextPage)),
-                .just(.setMonth),
-                .just(.setYear)
-            ])
+            return .just(.changeCurrentPage(nextPage))
         case .tapPreviousButton:
             let previousPage = currentPage.moveToPreviousMonth()
-            return .concat([
-                feedRepository.findMonthFeed(request: FindFeedRequest(date: previousPage.getFormattedYMDH(), nickName: nickName))
-                    .map({ .setCalendarCell($0) }),
-                .just(.moveToPreviousMonth(previousPage)),
-                .just(.setMonth),
-                .just(.setYear)
-            ])
+            return .just(.changeCurrentPage(previousPage))
         case .selectDate(let date):
             return .concat([
                 feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))

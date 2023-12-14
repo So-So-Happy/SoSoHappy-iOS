@@ -207,7 +207,6 @@ extension ChartViewController {
 //        }
         
         
-        // FIXME: -
         awardsImageView.snp.makeConstraints {
             $0.height.equalTo(80) // height fix
             $0.top.equalTo(yearMonthLabel.snp.bottom).offset(120)
@@ -218,9 +217,9 @@ extension ChartViewController {
         
         image1.snp.makeConstraints {
             $0.width.height.equalTo(60)
-            $0.centerX.equalTo(contentView.snp.centerX).offset(-110)
+//            $0.centerX.equalTo(contentView.snp.centerX).offset(-110)
             $0.bottom.equalTo(awardsImageView.snp.top).offset(30)
-//            $0.centerX.equalTo(awardsImageView.snp.width).multipliedBy(3.0 / 1.0)
+            $0.centerX.equalToSuperview().inset(-(view.bounds.width - 40.0 / 3.0))
         }
         
         image2.snp.makeConstraints {
