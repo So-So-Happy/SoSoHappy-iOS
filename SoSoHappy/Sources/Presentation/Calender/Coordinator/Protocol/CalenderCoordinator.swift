@@ -7,7 +7,8 @@
 
 import UIKit
 
-public protocol CalendarCoordinatorInterface: AnyObject {
+protocol CalendarCoordinatorInterface: AnyObject {
+    func pushDetailView(feed: MyFeed)
     func pushAlarmView()
     func pushListView(date: Date)
     func dismiss()
@@ -36,7 +37,7 @@ final class CalendarCoordinator: Coordinator {
 }
 
 extension CalendarCoordinator: CalendarCoordinatorInterface {
-    
+
     func pushAlarmView() {
         let viewController = makeAlarmViewController()
         navigationController.pushViewController(viewController, animated: false)
@@ -50,10 +51,14 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
         coordinator.start()
     }
     
-    // MARK:  Preview -> DetailView
+    // MARK: Preview -> DetailView
     func pushDetailView(feed: MyFeed) {
-        let viewController = makeDetailViewController()
-        navigationController.pushViewController(viewController, animated: false)
+        let coordinator = MyFeedDetailCoordinator(navigationController: self.navigationController)
+        coordinator.parentCoordinator = self
+        coordinator.finishDelegate = self
+        self.childCoordinators.append(coordinator)
+        print("feed: \(feed)")
+        coordinator.showDetailView(feed: feed)
     }
     
     func dismiss() {
@@ -86,12 +91,13 @@ extension CalendarCoordinator {
         return viewController
     }
     
-    func makeDetailViewController() -> UIViewController {
-        let reactor = AddViewReactor(feedRepository: FeedRepository())
-        let coordinator = AddCoordinator(navigationController: self.navigationController)
-        let viewController = AddStep3ViewController(reactor: reactor, coordinator: coordinator)
-        return viewController
-    }
+    
+//    func makeDetailViewController(feed: MyFeed) -> UIViewController {
+//        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
+//        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)
+//
+//        return viewController
+//    }
 }
 
 extension CalendarCoordinator: CoordinatorFinishDelegate {
@@ -99,3 +105,4 @@ extension CalendarCoordinator: CoordinatorFinishDelegate {
         childDidFinish(childCoordinator, parent: self)
     }
 }
+

@@ -17,7 +17,7 @@ import RxCocoa
 final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private weak var coordinator: HappyListCoordinatorInterface?
+    private weak var coordinator: MyFeedDetailCoordinatorInterface?
 
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 2)
@@ -58,7 +58,7 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
         print("--------------------------")
     }
     
-    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface) {
+    init(reactor: MyFeedDetailViewReactor, coordinator: MyFeedDetailCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
         self.coordinator = coordinator

@@ -13,16 +13,18 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 import RxKeyboard
+import Kingfisher
 
 
 final class MyFeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
-    private weak var coordinator: HappyListCoordinatorInterface?
+    private weak var coordinator: MyFeedDetailCoordinatorInterface?
     var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
     
-    private var feed: FeedType?
+    private var feed: MyFeed?
+    private var selectedImages: [UIImage] = []
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
@@ -68,14 +70,19 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
     }
     
-    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface, feed: FeedType) {
+    init(reactor: MyFeedDetailViewReactor,
+         coordinator: MyFeedDetailCoordinatorInterface,
+         feed: MyFeed
+    ) {
         super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
+        self.reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository() )
         self.coordinator = coordinator
+        print("myfeeddetailviewcontroller feed: \(feed)")
         self.feed = feed
+        
+        setup()
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +93,6 @@ final class MyFeedDetailViewController: BaseDetailViewController {
 }
 // MARK: - set up
 extension MyFeedDetailViewController {
-    
     
     private func setup() {
         setAttributes()
@@ -118,10 +124,10 @@ extension MyFeedDetailViewController {
         }
         
         // 이미지 설정
-        imageSlideView.snp.updateConstraints { make in
-            make.top.equalTo(contentBackground.snp.bottom).offset(36)
+        imageSlideView.snp.makeConstraints { make in
+            make.height.equalTo(0)
         }
-        
+
         // 글자 수
         textCountLabel.snp.makeConstraints { make in
             make.top.equalTo(contentBackground.snp.bottom).offset(10)
@@ -153,10 +159,10 @@ extension MyFeedDetailViewController: View {
     func bindAction(_ reactor: MyFeedDetailViewReactor) {
         
         // FIXME: - setFeed func 사용
-        self.rx.viewWillAppear
-            .map { Reactor.Action.viewWillAppear(self.feed as? MyFeed ?? MyFeed()) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+//        self.rx.viewWillAppear
+//            .map { Reactor.Action.viewWillAppear(self.feed as? MyFeed ?? MyFeed()) }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
         textView.rx.text.orEmpty
             .skip(1)
@@ -231,7 +237,7 @@ extension MyFeedDetailViewController: View {
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
                 print("back button tapped")
-//                coordinator?.navigateBack()
+                coordinator?.finished()
             })
             .disposed(by: disposeBag)
         
@@ -341,15 +347,15 @@ extension MyFeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         // 선택된 이미지
-        reactor.state
-            .compactMap { $0.selectedImages }
-            .distinctUntilChanged()
-            .bind(onNext: { [weak self] images in
-                guard let self = self else { return }
-                setImageSlideView(imageList: images)
-                removeImageButton.isHidden = images.isEmpty ? true : false
-            })
-            .disposed(by: disposeBag)
+//        reactor.state
+//            .compactMap { $0.selectedImages }
+//            .distinctUntilChanged()
+//            .bind(onNext: { [weak self] images in
+//                guard let self = self else { return }
+//                setImageSlideView(imageList: images)
+//                removeImageButton.isHidden = images.isEmpty ? true : false
+//            })
+//            .disposed(by: disposeBag)
         
 
         reactor.state

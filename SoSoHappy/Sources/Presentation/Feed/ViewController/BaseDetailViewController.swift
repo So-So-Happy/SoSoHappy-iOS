@@ -63,43 +63,42 @@ class BaseDetailViewController: UIViewController {
     }
     
     func setFeed(feed: FeedType) {
-        print("BaseDetailViewController - setFeed")
+        print("BaseDetailViewController - setFeed: \(feed)")
         let bgName: String = feed.weather + "Bg"
         let image = UIImage(named: bgName)!
-//        let opacity: CGFloat = 0.5
-//        let color = UIColor(patternImage: image).withAlphaComponent(opacity)
-        let color = UIColor(patternImage: image)
+        let opacity: CGFloat = 0.5
+        let color = UIColor(patternImage: image).withAlphaComponent(opacity)
         scrollView.backgroundColor = UIColor(patternImage: image)
         
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 50)
         dateLabel.text = feed.dateFormattedString
         textView.setAttributedTextWithLineHeight(feed.text, fontSize: 16)
         
-        setImageSlideView(imageList: feed.imageList)
+        setImageSlideView(ids: feed.imageIdList)
     }
     
     
-    func setImageSlideView(imageList: [UIImage]) {
-        if imageList.isEmpty {
+    func setImageSlideView(ids: [Int]) {
+        if ids.isEmpty {
             imageSlideView.isHidden = true
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 없음")
+                print("imageSlideView  updateConstraints 사진 없음")
                 make.height.equalTo(0)
             }
             
         } else {
             imageSlideView.isHidden = false
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 있음")
+                print("imageSlideView  updateConstraints 사진 있음")
                 make.height.equalTo(300)
             }
             
-            imageSlideView.setContentsWithImageList(imageList: imageList)
+            imageSlideView.setImages(ids: ids)
             
         }
-        
     }
 }
+
 // MARK: - setLayout()
 extension BaseDetailViewController {
     func setLayout() {
@@ -139,10 +138,12 @@ extension BaseDetailViewController {
             make.horizontalEdges.equalToSuperview().inset(40)
         }
         
+        
         imageSlideView.snp.makeConstraints { make in
             print("imageSlideView  makeConstraints")
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview().inset(30)
+            make.height.equalTo(0)
         }
     }
 }

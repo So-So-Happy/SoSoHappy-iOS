@@ -24,7 +24,7 @@ import RxCocoa
 final class SetWeatherHappinessViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private weak var coordinator: HappyListCoordinatorInterface?
+    private weak var coordinator: MyFeedDetailCoordinatorInterface?
 
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 1)
@@ -69,7 +69,7 @@ final class SetWeatherHappinessViewController: UIViewController {
         setup()
     }
     
-    init(reactor: MyFeedDetailViewReactor, coordinator: HappyListCoordinatorInterface) {
+    init(reactor: MyFeedDetailViewReactor, coordinator: MyFeedDetailCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
         self.coordinator = coordinator

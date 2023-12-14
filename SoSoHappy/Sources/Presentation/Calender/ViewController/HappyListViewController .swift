@@ -59,7 +59,7 @@ final class HappyListViewController : UIViewController {
         initialize()
     }
     
-    init(reactor: HappyListViewReactor, 
+    init(reactor: HappyListViewReactor,
          coordinator: HappyListCoordinatorInterface,
          currentPage: Date) {
         self.coordinator = coordinator
@@ -159,14 +159,14 @@ extension HappyListViewController: View {
 //                // 이것마저 Reactor에서 다루는 참고 코드가 있는지 확인하고 적용해보면 좋을 듯
 //                let cellReactor = HappyListCellReactor(feed: feed)
 //                cell.reactor = cellReactor
-//                
+//
 //                cell.imageSlideView.tapObservable
 //                    .subscribe(onNext: { [weak self] in
 //                        guard let self = self else { return }
 //                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
 //                    })
 //                    .disposed(by: cell.disposeBag)
-//                
+//
 //            }
 //            .disposed(by: disposeBag)
     }
@@ -185,6 +185,7 @@ extension HappyListViewController {
                 cell.setFeedCell(element)
             }
             .disposed(by: disposeBag)
+        
         
         self.happyTableView.rx.modelSelected(MyFeed.self)
         .subscribe(onNext: { feed in
@@ -213,6 +214,7 @@ extension HappyListViewController {
                     }).disposed(by: self.disposeBag)
                 */
         
+        
     }
-   
+    
 }

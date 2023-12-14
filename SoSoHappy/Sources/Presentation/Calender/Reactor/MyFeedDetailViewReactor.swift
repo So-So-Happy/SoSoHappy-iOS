@@ -96,21 +96,6 @@ final class MyFeedDetailViewReactor: Reactor {
         self.feedRepository = feedRepository
         
     }
-
-    
-    // MARK: Add1
-//    case setSelectedWeather(Int)
-//    case setSelectedHappiness(Int)
-//    case setBeforeMovingToNextStep(AddStep)
-//    
-//    // MARK: Add2
-//    case selectedCategories([String])
-//    
-//    // MARK: DetailView
-//    case setDatasForAdd3
-//    case setContent(String)
-//    case setSelectedImages([UIImage])
-//    case isPrivate(Bool)
     
     // TODO: VC 에 Feed 데이터 넘겨준 후 viewWillAppear 액션에서 init setting
     func mutate(action: Action) -> Observable<Mutation> {
