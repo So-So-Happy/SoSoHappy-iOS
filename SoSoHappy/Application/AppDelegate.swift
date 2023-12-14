@@ -175,10 +175,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // ...
         
         // Print full message.
-        print("알림 willPresent", userInfo)
+        print("willPresent userInfo", userInfo)
         
         // Change this to your preferred presentation option
-        return [[.alert, .sound]]
+        let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting")
+        return isOnNotificationSetting ? [[.alert, .sound]] : []
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -191,7 +192,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         
         // Print full message.
-        print("알림 didReceive", userInfo)
+        print("didReceive userInfo: \(userInfo)")
+        let title = response.notification.request.content.title
+        print("title: \(title)")
+        let body = response.notification.request.content.body
+        print("body: \(body)")
         
         let application = UIApplication.shared
         

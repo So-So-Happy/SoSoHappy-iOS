@@ -85,9 +85,7 @@ extension NotificationSettingViewController: View {
         reactor.state.compactMap { $0.firstSwitch }
             .subscribe(onNext: { [weak self] isOn in
                 guard let self = self else { return }
-                if !isOn {
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                }
+
                 self.alarmSwitch.setOn(isOn, animated: false)
             })
             .disposed(by: disposeBag)
@@ -122,7 +120,6 @@ extension NotificationSettingViewController: View {
                 } else {
                     UserDefaults.standard.setValue(false, forKey: "notificationSetting")
                     self.alarmSwitch.setOn(false, animated: false)
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 }
             })
             .disposed(by: disposeBag)
