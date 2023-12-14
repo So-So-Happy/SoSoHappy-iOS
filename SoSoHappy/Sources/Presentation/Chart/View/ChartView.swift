@@ -14,8 +14,8 @@ final class ChartView: UIView, ChartViewDelegate {
     
     // MARK: - Properties
     private lazy var graphLabel = UILabel().then {
-        $0.text = "OO님의 행복 그래프 💖"
-        $0.font = UIFont.customFont(size: 16, weight: .medium)
+        $0.text = "OOOOOOOOOO님의 행복 그래프 💖"
+        $0.font = UIFont.customFont(size: 16, weight: .semibold)
     }
     
     lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
@@ -40,9 +40,14 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.alignment = .center
     }
     
+    private lazy var chartBackgroundView = UIView().then {
+        $0.backgroundColor = UIColor(named: "CellColor")
+        $0.layer.cornerRadius = 10
+    }
+    
 //    let monthToIdxDict: [String: Double] = Dictionary(uniqueKeysWithValues: zip(months, 0.0...11.0))
     
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
     var days: [String] = []
     var unitsSold: [Double] = []
     
@@ -73,25 +78,32 @@ final class ChartView: UIView, ChartViewDelegate {
     private func setConstraints() {
         makeHappyStackView()
         addSubviews(graphLabel, segmentedControl)
+        addSubview(chartBackgroundView)
         addSubviews(chartStackView, graphView, imageStackView)
         chartStackView.addArrangedSubview(imageStackView)
         chartStackView.addArrangedSubview(graphView)
+        chartBackgroundView.addSubview(chartStackView)
         
         graphLabel.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(30)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalToSuperview()
         }
         
         segmentedControl.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.horizontalEdges.equalToSuperview().inset(30)
+            $0.horizontalEdges.equalToSuperview().inset(20)
             $0.top.equalTo(graphLabel).offset(30)
         }
         
-        chartStackView.snp.makeConstraints {
-            $0.horizontalEdges.equalToSuperview().inset(30)
+        chartBackgroundView.snp.makeConstraints {
             $0.top.equalTo(segmentedControl).offset(45)
+            $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(200)
+        }
+        
+        chartStackView.snp.makeConstraints {
+            $0.verticalEdges.equalToSuperview().inset(10)
+            $0.horizontalEdges.equalToSuperview().inset(15)
         }
         
         graphView.snp.makeConstraints {
@@ -159,8 +171,12 @@ final class ChartView: UIView, ChartViewDelegate {
         // month: 1.0 ~ 31.0
         // x축 값 설정
         if self.segmentedControl.selectedSegmentIndex == 0 {
+//            let customFormatter = MonthChartFormatter(days: Array(1...Int(data.last?.x ?? 31)).map{String($0)})
+//            graphView.xAxis.valueFormatter = customFormatter
+//            print(Array(1...Int(data.last?.x ?? 31)))
+            
             graphView.xAxis.axisMinimum = 1
-            graphView.xAxis.axisMaximum = data.last?.x ?? 30
+            graphView.xAxis.axisMaximum = data.last?.x ?? 31
             graphView.xAxis.labelCount = 7
             
             //             X축 레이블 갯수 최대로 설정 (이 코드 안쓸 시 Jan Mar May 이런식으로 띄엄띄엄 조금만 나옴)
@@ -178,6 +194,8 @@ final class ChartView: UIView, ChartViewDelegate {
         graphView.xAxis.forceLabelsEnabled = true
         graphView.xAxis.granularityEnabled = true
         graphView.xAxis.granularity = 1
+        
+        graphView.xAxis.labelFont = UIFont.customFont(size: 12, weight: .medium)
 
         
         // y축 값 고정
@@ -227,7 +245,7 @@ final class ChartView: UIView, ChartViewDelegate {
 // xAxis data , dataSet
 public class YearChartFormatter: NSObject, AxisValueFormatter {
 
-    var months: [String] =  ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    var months: [String] =  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
 
     public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return months[Int(value)]
@@ -239,7 +257,6 @@ public class MonthChartFormatter: NSObject, AxisValueFormatter {
     
     init(days: [String]) {
         self.days = days
-        print("days: \(days)")
     }
 
     public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
