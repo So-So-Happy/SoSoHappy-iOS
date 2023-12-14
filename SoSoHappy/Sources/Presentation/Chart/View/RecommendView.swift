@@ -13,17 +13,10 @@ final class RecommendView: UIView {
     
     // MARK: - Properties
     private lazy var recommendLabel = UILabel().then {
-        $0.text = "OO님이 좋아하실만한 소확행을 찾아봤어요! 👀"
-        $0.font = UIFont.customFont(size: 16, weight: .medium)
+        $0.text = "좋아하실 만한 소확행을 찾아봤어요! 👀"
+        $0.font = UIFont.customFont(size: 16, weight: .semibold)
     }
-    
-    private lazy var recommendStack = UIStackView().then {
-        $0.spacing = 10
-        $0.addArrangedSubview(sophyImageView)
-        $0.addArrangedSubview(speechBubbleView)
-    }
-    
-    private lazy var sophyImageView = UIImageView(image: UIImage(named: "happy40"))
+
     private lazy var speechBubbleView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 20
@@ -34,6 +27,7 @@ final class RecommendView: UIView {
     lazy var recommendedHappinessLabel = UILabel().then {
         $0.text = "비 오는 날 산책하기 ☔️🚶🏻‍♀️"
         $0.font = UIFont.customFont(size: 15, weight: .medium)
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     lazy var refreshButton = UIButton().then {
@@ -59,28 +53,19 @@ private extension RecommendView {
     //  MARK: 뷰 구성요소 세팅
     private func setUpView() {
         addSubview(recommendLabel)
-        addSubview(recommendStack)
+        addSubview(speechBubbleView)
     }
     
     //  MARK: 뷰 구성요소 제약 설정
     private func setConstraints() {
         recommendLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30))
+            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
             make.top.equalToSuperview()
         }
         
-        recommendStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30))
-            make.top.equalTo(recommendLabel).inset(UIEdgeInsets(top: 35, left: 0, bottom: 0, right: 0))
-        }
-        
-        sophyImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.height.width.equalTo(60)
-        }
-        
         speechBubbleView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+            make.top.equalTo(recommendLabel).inset(30)
             make.height.equalTo(60)
         }
         

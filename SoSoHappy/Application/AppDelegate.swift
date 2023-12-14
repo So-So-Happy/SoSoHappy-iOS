@@ -35,17 +35,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Register for remote notifications  - 원격 알림 등록
         UNUserNotificationCenter.current().delegate = self
 
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        UNUserNotificationCenter.current().requestAuthorization(
-          options: authOptions,
-          completionHandler: { granted, error in
-              if granted {
-                  print("알림이 등록되었습니다.")
-              }
-          }
-        )
+//        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//        UNUserNotificationCenter.current().requestAuthorization(
+//          options: authOptions,
+//          completionHandler: { granted, error in
+//              if granted {
+//                  print("알림이 등록되었습니다.")
+//              }
+//          }
+//        )
 
         application.registerForRemoteNotifications()
+        
+        if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject] {
+            print("notification", notification)
+        }
 
         // MARK: Messaging Delegate
         Messaging.messaging().delegate = self
@@ -53,15 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Font Setting
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
-        
-        // MARK: Tab Bar Setting
-        let appearance = UITabBarAppearance()
-        let tabBar = UITabBar()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(named: "CellColor")!
-        appearance.shadowColor = nil
-        tabBar.standardAppearance = appearance
-        UITabBar.appearance().scrollEdgeAppearance = appearance
         
         // MARK: First Launch Setting
         removeKeychainAtFirstLaunch()
@@ -180,7 +175,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // ...
         
         // Print full message.
-        print(userInfo)
+        print("알림 willPresent", userInfo)
         
         // Change this to your preferred presentation option
         return [[.alert, .sound]]
@@ -196,10 +191,28 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Messaging.messaging().appDidReceiveMessage(userInfo)
         
         // Print full message.
-        print(userInfo)
+        print("알림 didReceive", userInfo)
+        
+        let application = UIApplication.shared
+        
+        //앱이 켜져있는 상태에서 푸쉬 알림을 눌렀을 때
+        if application.applicationState == .active {
+            print("푸쉬알림 탭(앱 켜져있음)")
+        }
+        
+        //앱이 백그라운드에 있는 상태에서 푸쉬 알림을 눌렀을 때
+        if application.applicationState == .background {
+            print("푸쉬알림 탭(앱 백그라운드)")
+        }
+        
+        //앱이 꺼져있는 상태에서 푸쉬 알림을 눌렀을 때
+        if application.applicationState == .inactive {
+            print("푸쉬알림 탭(앱 꺼져있음)")
+        }
     }
     
-    // MARK: Handles silent push notifications
+        
+        // MARK: Handles silent push notifications
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
       -> UIBackgroundFetchResult {

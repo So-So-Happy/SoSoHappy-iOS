@@ -101,7 +101,7 @@ final class ChartViewReactor: Reactor {
         switch action {
         case .viewDidLoad:
             return .concat([
-                .just(.setMonthYearText(date.getFormattedYM())),
+                .just(.setMonthYearText(date.getFormattedYM2())),
                 feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchAnalysisHappiness($0) },
                 .just(.showNextRecommend),
@@ -146,13 +146,13 @@ final class ChartViewReactor: Reactor {
             switch segementBarState {
             case .year:
                 return .concat([
-                    .just(.setMonthYearText(date.getFormattedYM())),
+                    .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
             case .month:
                 return .concat([
-                    .just(.setMonthYearText(date.getFormattedYM())),
+                    .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -162,13 +162,13 @@ final class ChartViewReactor: Reactor {
             switch segementBarState {
             case .year:
                 return .concat([
-                    .just(.setMonthYearText(date.getFormattedYM())),
+                    .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
             case .month:
                 return .concat([
-                    .just(.setMonthYearText(date.getFormattedYM())),
+                    .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])

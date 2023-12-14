@@ -76,7 +76,6 @@ final class CalendarViewController: UIViewController {
     
     private lazy var monthLabel = UILabel().then {
         $0.font = UIFont.customFont(size: 25, weight: .bold)
-        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.text = Date().getFormattedDate(format: "M월")
     }
     
