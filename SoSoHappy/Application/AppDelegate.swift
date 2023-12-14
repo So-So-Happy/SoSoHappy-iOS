@@ -178,7 +178,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("알림 willPresent", userInfo)
         
         // Change this to your preferred presentation option
-        return [[.alert, .sound]]
+        let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting")
+        return isOnNotificationSetting ? [[.alert, .sound]] : []
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
