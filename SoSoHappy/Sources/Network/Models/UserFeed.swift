@@ -18,8 +18,8 @@ struct UserFeed: FeedType, Equatable {
     let happiness: Int                  // 행복 정도
     let categoryList: [String]          // 카테고리 목록
     let text: String                    // 피드 작성 글
-    let imageList: [UIImage] = []            // 등록한 이미지
-    let isLiked: Bool                   // 좋아요
+    var imageList: [UIImage] = []            // 등록한 이미지
+    var isLiked: Bool                   // 좋아요
     let imageIdList: [Int]
     
     init(nickName: String, 
@@ -40,6 +40,19 @@ struct UserFeed: FeedType, Equatable {
         self.imageIdList = imageIdList
         self.isLiked = isLiked
     }
+    
+    static func == (lhs: UserFeed, rhs: UserFeed) -> Bool {
+        return lhs.profileImage?.isEqual(rhs.profileImage) ?? true &&
+               lhs.nickName == rhs.nickName &&
+               lhs.nickName == rhs.nickName &&
+               lhs.date == rhs.date &&
+               lhs.weather == rhs.weather &&
+               lhs.happiness == rhs.happiness &&
+               lhs.categoryList == rhs.categoryList &&
+               lhs.text == rhs.text &&
+               lhs.isLiked == rhs.isLiked &&
+               lhs.imageIdList == rhs.imageIdList
+       }
 }
 
 extension UserFeed {
