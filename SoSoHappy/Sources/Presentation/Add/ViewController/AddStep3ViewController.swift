@@ -36,6 +36,7 @@ final class AddStep3ViewController: BaseDetailViewController {
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
+        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
@@ -58,16 +59,16 @@ final class AddStep3ViewController: BaseDetailViewController {
     }
     
     lazy var textCountLabel = UILabel().then {
-        $0.font = UIFont.customFont(size: 13, weight: .light)
+        $0.font = UIFont.systemFont(ofSize: 13)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
     
     private lazy var placeholderLabel = UILabel().then {
-        $0.font = UIFont.customFont(size: 16, weight: .medium)
+        $0.font = UIFont.systemFont(ofSize: 16)
         $0.textColor = .lightGray
         $0.textAlignment = .left
-        $0.text = "소소한 행복을 기록해보세요~"
+           $0.text = "소소한 행복을 기록해보세요~"
        }
     
     override func viewDidLoad() {
@@ -88,7 +89,6 @@ final class AddStep3ViewController: BaseDetailViewController {
 // MARK: - set up
 extension AddStep3ViewController {
     private func setup() {
-        print("AddStep3 setup")
         setAttributes()
         setLayoutForAddStep3()
     }
@@ -132,10 +132,6 @@ extension AddStep3ViewController {
         removeImageButton.snp.makeConstraints { make in
             make.left.top.equalToSuperview().inset(14)
             make.size.equalTo(24)
-        }
-        
-        imageSlideView.snp.makeConstraints { make in
-            make.height.equalTo(0)
         }
         
         // placeholder
@@ -215,7 +211,6 @@ extension AddStep3ViewController: View {
         
         // TODO: debouce ? throttle 적용 필요
         saveButton.rx.tap
-            .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
             .map {
                 print("save button tapped")
                 self.view.endEditing(true)
@@ -324,8 +319,9 @@ extension AddStep3ViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
+//                print("images.count : \(images.count)")
                 print("images.count : \(images.count)")
-                setImageSlideView(imageList: images)
+//                setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)
@@ -430,4 +426,5 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
         }
     }
 }
+
 

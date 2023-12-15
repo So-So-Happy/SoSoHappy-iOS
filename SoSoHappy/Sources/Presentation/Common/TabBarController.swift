@@ -46,13 +46,16 @@ public final class TabBarController: UITabBarController {
 extension TabBarController {
     // MARK: Tab bar settings
     private func setTabBar() {
-        let appearance = tabBar.standardAppearance
-        appearance.backgroundColor = UIColor(named: "CellColor")
-        appearance.shadowColor = nil
-        tabBar.standardAppearance = appearance
+        let tabBarAppearance = UITabBarAppearance()
+        let tabBarItemAppearance = UITabBarItemAppearance()
         
-        let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]
-        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        tabBarAppearance.backgroundColor = UIColor(named: "CellColor")
+        tabBarAppearance.shadowColor = nil
+        tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 12, weight: .medium)]
+        tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
+        
+        tabBar.standardAppearance = tabBarAppearance
+        tabBar.scrollEdgeAppearance = tabBarAppearance
     }
     
     // MARK: Set custom middle button

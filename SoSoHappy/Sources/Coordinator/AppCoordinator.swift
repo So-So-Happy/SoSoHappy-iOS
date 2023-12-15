@@ -41,6 +41,15 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
             showMainFlow()
+            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            UNUserNotificationCenter.current().requestAuthorization(
+              options: authOptions,
+              completionHandler: { granted, error in
+                  if granted {
+                      print("알림이 등록되었습니다.")
+                  }
+              }
+            )
         }
     }
     

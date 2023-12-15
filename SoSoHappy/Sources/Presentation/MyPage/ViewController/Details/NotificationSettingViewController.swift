@@ -85,6 +85,7 @@ extension NotificationSettingViewController: View {
         reactor.state.compactMap { $0.firstSwitch }
             .subscribe(onNext: { [weak self] isOn in
                 guard let self = self else { return }
+
                 self.alarmSwitch.setOn(isOn, animated: false)
             })
             .disposed(by: disposeBag)
@@ -92,6 +93,7 @@ extension NotificationSettingViewController: View {
         reactor.state.compactMap { $0.onSwitch }
             .subscribe(onNext: { [weak self] isOn in
                 guard let self = self else { return }
+                
                 if isOn {
                     UNUserNotificationCenter.current().getNotificationSettings { settings in
                         switch settings.authorizationStatus {

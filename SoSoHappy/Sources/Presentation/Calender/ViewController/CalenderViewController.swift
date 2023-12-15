@@ -76,7 +76,6 @@ final class CalendarViewController: UIViewController {
     
     private lazy var monthLabel = UILabel().then {
         $0.font = UIFont.customFont(size: 25, weight: .bold)
-        $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.text = Date().getFormattedDate(format: "M월")
     }
     
@@ -92,6 +91,7 @@ final class CalendarViewController: UIViewController {
     private var selectedDate: DateComponents? = nil
     
     private var currentPage: Date?
+    private var previousPage: Date = Date()
 
     private let today: Date = {
         return Date()
@@ -171,6 +171,7 @@ extension CalendarViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        
         self.preview.rx.tapGesture()
             .when(.recognized)
             .map { _ in Reactor.Action.tapPreview }
@@ -197,6 +198,10 @@ extension CalendarViewController: View {
         reactor.state
             .map { $0.currentPage }
             .distinctUntilChanged()
+            .filter { [weak self] date in
+                guard let self = self else { return false }
+                return self.currentPage != date
+            }
             .subscribe { [weak self] date in
                 guard let `self` = self else { return }
                 self.currentPage = date
@@ -208,7 +213,6 @@ extension CalendarViewController: View {
             .map { $0.monthHappinessData }
             .subscribe { [weak self] feeds in
                 guard let `self` = self else { return }
-                print("reactor.state monthFeedList fetched")
                 self.monthFeedList = feeds
                 calendar.reloadData()
             }
@@ -231,12 +235,11 @@ extension CalendarViewController: View {
             }
             .disposed(by: disposeBag)
         
-        
         reactor.pulse(\.$presentListView)
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: ())
             .drive { [weak self] _ in
-                self?.coordinator.pushListView(date: reactor.currentPage)
+                self?.coordinator.pushListView(date: reactor.currentState.currentPage)
             }
             .disposed(by: disposeBag)
         
@@ -245,7 +248,7 @@ extension CalendarViewController: View {
             .asDriver(onErrorJustReturn: ())
             .drive { [weak self] _ in
                 // FIXME: - detailview coordintator
-                self?.coordinator.pushListView(date: reactor.currentPage)
+                self?.coordinator.pushDetailView(feed: reactor.currentState.dayFeed)
             }
             .disposed(by: disposeBag)
     }
@@ -331,7 +334,7 @@ private extension CalendarViewController {
         }
         
         preview.snp.makeConstraints {
-            $0.top.equalTo(calendar.snp.bottom).offset(30)
+            $0.top.equalTo(calendar.snp.bottom).offset(20)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -443,21 +446,19 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     // FIXME: onNext 로 reactor action 전달
     // 캘린더 페이지 변경시 year, month update, data, cell update
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        self.currentPage = calendar.currentPage
-//        self.reactor?.action.onNext(.changeCurrentPage(self.currentPage ?? Date()))
-//        
         
-//        calendar.reloadData()
-        //        if calendar.scope == .week {
-        //            if let dateAfter = Calendar.current.date(byAdding: .day, value: 6, to: calendar.currentPage ) {
-        //                if date != dateAfter.getFormattedYM() {
-        //                    viewModel.getWeeklyList(date, dateAfter.getFormattedYM())
-        //                }
-        //            }
-        //        } else {
-        //            viewModel.getMonthlyList(date)
-        //        }
+        let currentPage = calendar.currentPage
         
+//        if currentPage > previousPage {
+//            print("페이지가 증가했습니다.")
+//            self.reactor?.action.onNext(.changeCurrentPage(currentPage))
+//        } else if currentPage < previousPage {
+//            print("페이지가 감소했습니다.")
+//            self.reactor?.action.onNext(.tapPreviousButton)
+//        }
+        
+        self.reactor?.action.onNext(.changeCurrentPage(currentPage))
+        self.previousPage = currentPage
     }
     
     // MARK: 주말 텍스트 색 설정

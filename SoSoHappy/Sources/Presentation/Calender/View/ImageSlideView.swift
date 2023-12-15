@@ -9,6 +9,7 @@ import UIKit
 import ImageSlideshow
 import RxSwift
 import RxCocoa
+import Kingfisher
 
 final class ImageSlideView: UIView {
     // Create a PublishSubject to emit tap events
@@ -24,17 +25,9 @@ final class ImageSlideView: UIView {
     var tapObservable: Observable<Void> {
         return tapSubject.asObservable()
     }
-
     
-    private lazy var imageResources: [ImageSource] = [
-        // 로컬에 이미지가 있을경우
-//        ImageSource(image: UIImage(named: "bagel")!),
-//        ImageSource(image: UIImage(named: "churros")!),
-//        ImageSource(image: UIImage(named: "cafe")!)
-//
-        
-        //  KingfisherSource(urlString: "https://images.unsplash.com/photo-1601408594761-e94d31023591?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60", placeholder: UIImage(systemName: "photo")?.withTintColor(#colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1), renderingMode: .alwaysOriginal), options: .none)!,
-    ]
+    private lazy var kingfisherSources: [KingfisherSource] = []
+    private lazy var imageSources: [ImageSource] = []
     
     var slideShowView = ImageSlideshow().then {
         $0.isUserInteractionEnabled = true
@@ -58,8 +51,7 @@ final class ImageSlideView: UIView {
         slideShowView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
-        addImageViews(self.imageResources)
+        addImageViews(self.kingfisherSources)
         setupTapGesture()
     }
     
@@ -78,28 +70,36 @@ final class ImageSlideView: UIView {
 }
 
 extension ImageSlideView {
-    func addImageViews(_ imageResources: [ImageSource]) {
+    func addImageViews(_ imageResources: [KingfisherSource]) {
         self.slideShowView.setImageInputs(imageResources)
+    }
+    
+    func setImages(ids: [Int]) {
+        kingfisherSources = []
+        kingfisherSources = ids.map { id in
+            return KingfisherSource(urlString: "\(Bundle.main.baseURL)\(Bundle.main.findFeedImage)/\(id)")!
+        }
+        self.slideShowView.setImageInputs(kingfisherSources)
     }
 }
 
 // MARK: Setting할 수 있는 functions
 extension ImageSlideView {
-    func setContents(feed: FeedType) {
-        imageResources = []
-        feed.imageList.forEach { img in
-            imageResources.append(ImageSource(image: img))
-        }
-        self.slideShowView.setImageInputs(imageResources)
-    }
-    
+//    func setContents(feed: FeedType) {
+//        imageResources = []
+//        feed.imageList.forEach { img in
+//            imageResources.append(ImageSource(image: img))
+//        }
+//        self.slideShowView.setImageInputs(imageResources)
+//    }
+//
     // MARK: 나중에 리팩토링해줘야 함 (일단 만들어 놓음)
     func setContentsWithImageList(imageList: [UIImage]) {
-        imageResources = []
+        imageSources = []
         imageList.forEach { img in
-            imageResources.append(ImageSource(image: img))
+            imageSources.append(ImageSource(image: img))
         }
-        self.slideShowView.setImageInputs(imageResources)
+        self.slideShowView.setImageInputs(imageSources)
     }
     
 }

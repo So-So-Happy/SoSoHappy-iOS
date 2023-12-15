@@ -49,7 +49,7 @@ class BaseCell: UITableViewCell {
     
     // 피드 이미지
     lazy var imageSlideView = ImageSlideView()
- 
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()
@@ -61,37 +61,80 @@ class BaseCell: UITableViewCell {
     }
     
     func setFeedCell(_ feed: FeedType) {
+        print("BaseCell setFeedCell()")
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 45)
         contentLabel.text = feed.text
         
-//        
-//        if let imageList = feed.imageList, !imageList.isEmpty { // image가 있으면
-//            print("BaseCell 사진 있음(O)")
-////            imageSlideView.setContents(feed: feed)
-//            imageSlideView.setContentsWithImageList(imageList: imageList)
-//            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
-//        } else { //image가 없다면
-//            print("BaseCell 사진 없음(X)")
-//            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
-//        }
-        
         // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
-        if feed.imageList.isEmpty { //image가 없다면
+        if feed.imageIdList.isEmpty { //image가 없다면
+            print("BaseCell 사진 없음(X)")
             imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
-        
-        } else { // image가 있으면
-            imageSlideView.setContents(feed: feed)
-            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
             
+        } else { // image가 있으면
+            print("BaseCell 사진 있음(O)")
+//            imageSlideView.setContents(feed: feed)
+            setFeedImages(ids: feed.imageIdList)
+            //
+            //        if let imageList = feed.imageList, !imageList.isEmpty { // image가 있으면
+            //            print("BaseCell 사진 있음(O)")
+            ////            imageSlideView.setContents(feed: feed)
+            //            imageSlideView.setContentsWithImageList(imageList: imageList)
+            //            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+            //        } else { //image가 없다면
+            //            print("BaseCell 사진 없음(X)")
+            //            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
+            //        }
+            
+            // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
+            //        if feed.imageList.isEmpty { //image가 없다면
+            //            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
+            //
+            //        } else { // image가 있으면
+            //            imageSlideView.setContents(feed: feed)
+            //            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+            //
+            //        }
         }
-    }
-    
-    // BaseCell을 상속받는 Cell은 자동으로 호출됨
-    // 속성을 초기화 (content는 여기에서 해주는게 적합하지 않음)
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        disposeBag = DisposeBag()
+        
+        func setFeedImages(ids: [Int]) {
+            // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
+            if ids.isEmpty { //image가 없다면
+                imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
+                
+            } else { // image가 있으면
+                imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+                imageSlideView.setImages(ids: ids)
+                
+            }
+        }
+        
+        func test(ids: [Int]) {
+            let feedRepository = FeedRepository()
+            Observable.from(ids)
+                .flatMap { i -> Observable<UIImage?> in
+                    return feedRepository.findFeedImage(request: FindFeedImageRequest(imageId: i))
+                        .catchAndReturn(nil)
+                }
+                .toArray()
+                .subscribe({ images in
+                    do {
+                        let images: [UIImage] = try images.get().compactMap { $0 }
+                        //                    self.setFeedImages(images: images)
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                })
+                .disposed(by: self.disposeBag)
+        }
+        
+        // BaseCell을 상속받는 Cell은 자동으로 호출됨
+        // 속성을 초기화 (content는 여기에서 해주는게 적합하지 않음)
+        func prepareForReuse() {
+            print("BaseCell - prepareForReuse")
+            super.prepareForReuse()
+            disposeBag = DisposeBag()
+        }
     }
 }
 
@@ -117,6 +160,7 @@ extension BaseCell {
     }
     
     private func setConstraints() {
+        print("BaseCell setConstraints")
         // 이 코드가 없어도 잘 동작하긴 함
         cellBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
@@ -153,3 +197,4 @@ extension BaseCell {
         // 이미지가 없는 경우에는 이 제약조건을 무시하고 0으로 만들 수 있도록 하기 위함
     }
 }
+

@@ -12,35 +12,53 @@ import RxSwift
 import ReactorKit
 
 final class ChartViewController: UIViewController {
-    
-    
     // MARK: - Properties
 //    private var coordinator: ChartCoordinatorInterface
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
+    private lazy var titleStack = UIStackView().then {
+        $0.spacing = 0
+        $0.addArrangedSubview(nameLabel)
+        $0.addArrangedSubview(label2)
+        $0.distribution = .fillProportionally
+        $0.axis = .horizontal
+    }
     
-    private lazy var awardsImageView = UIImageView(image: UIImage(named: "awards"))
-    private lazy var image1 = UIImageView(image: UIImage(named: "food"))
-    private lazy var image2 = UIImageView(image: UIImage(named: "dessert"))
-    private lazy var image3 = UIImageView(image: UIImage(named: "coffee"))
+    private lazy var nameLabel = UILabel().then {
+        $0.text = "닉네임"
+        $0.textColor = UIColor(named: "AccentColor")
+        $0.font = UIFont.customFont(size: 25, weight: .bold)
+    }
     
+    private lazy var label2 = UILabel().then {
+        $0.text = "님의 행복 분석"
+        $0.font = UIFont.customFont(size: 25, weight: .bold)
+    }
     
     private lazy var yearMonthLabel = UILabel().then {
-        $0.text = "2023.07"
-        $0.font = UIFont.customFont(size: 22, weight: .medium)
-        $0.textColor = UIColor(rgb: 0x626262)
+        $0.text = "2023년 8월"
+        $0.font = UIFont.customFont(size: 19, weight: .bold)
+        $0.textColor = UIColor(named: "DarkGrayTextColor")
+        $0.textAlignment = .center
     }
     
     private lazy var previousButton = UIButton().then({
-        let image = UIImage(named: "previousButton")
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .semibold)
+        let image = UIImage(systemName: "chevron.left", withConfiguration: imageConfig)
         $0.setImage(image, for: .normal)
+        $0.tintColor = UIColor(named: "AccentColor")
     })
     
     private lazy var nextButton = UIButton().then({
-        let image = UIImage(named: "nextButton")
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .semibold)
+        let image = UIImage(systemName: "chevron.right", withConfiguration: imageConfig)
         $0.setImage(image, for: .normal)
+        $0.tintColor = UIColor(named: "AccentColor")
     })
+    
+    private lazy var leftEmptyView = UIView()
+    private lazy var rightEmptyView = UIView()
     
     private lazy var testView = UIView()
     
@@ -49,15 +67,15 @@ final class ChartViewController: UIViewController {
     private lazy var chartView = ChartView()
     private lazy var scrollView = UIScrollView().then {
         $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.backgroundColor = .white
+        $0.backgroundColor = UIColor(named: "BGgrayColor")
     }
     let contentView = UIView()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "BGgrayColor")
         setUpView()
+        
     }
     
     init(reactor: ChartViewReactor
@@ -160,18 +178,16 @@ extension ChartViewController: View {
 
 extension ChartViewController {
     private func setUpView() {
+        navigationItem.titleView = yearMonthLabel
+        self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: leftEmptyView),  UIBarButtonItem(customView: previousButton)]
+        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: rightEmptyView), UIBarButtonItem(customView: nextButton)]
         
         view.addSubview(scrollView)
-        
         scrollView.addSubview(contentView)
-//        contentView.addSubview(awardsView)
-        contentView.addSubviews(previousButton, nextButton, yearMonthLabel)
-//        contentView.addSubview(testView)
-        contentView.addSubview(awardsImageView)
+        contentView.addSubview(titleStack)
+        contentView.addSubview(awardsView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
-        
-        contentView.addSubviews(image1, image2, image3)
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview() // 스크롤뷰가 뷰에 가득 차도록 설정
@@ -183,70 +199,37 @@ extension ChartViewController {
             $0.height.equalTo(scrollView).priority(.low) // 컨텐츠뷰의 높이를 스크롤뷰와 같도록 설정, 우선순위를 낮춤
         }
         
-        yearMonthLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(30)
+        leftEmptyView.snp.makeConstraints {
+            $0.width.equalTo(90)
+        }
+        
+        rightEmptyView.snp.makeConstraints {
+            $0.width.equalTo(90)
+        }
+        
+        titleStack.snp.makeConstraints {
             $0.centerX.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalToSuperview().inset(17)
         }
         
-        previousButton.snp.makeConstraints {
-            $0.right.equalTo(yearMonthLabel.snp.left).offset(-30)
-            $0.centerY.equalTo(yearMonthLabel)
-            $0.width.height.equalTo(10)
-        }
-        
-        nextButton.snp.makeConstraints {
-            $0.left.equalTo(yearMonthLabel.snp.right).offset(30)
-            $0.centerY.equalTo(yearMonthLabel)
-            $0.width.height.equalTo(10)
-        }
-        
-//        awardsView.snp.makeConstraints {
-//            $0.leading.trailing.equalToSuperview()
-//            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(20)
-//            $0.height.equalTo(310) // 이 부분은 awardsView의 높이 계산에 맞게 변경해야 함
-//        }
-        
-        
-        // FIXME: -
-        awardsImageView.snp.makeConstraints {
-            $0.height.equalTo(80) // height fix
-            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(120)
-//            $0.horizontalEdges.equalToSuperview().inset(20)
-            $0.width.equalTo(contentView.snp.width).offset(-40)
-            $0.centerX.equalToSuperview()
-        }
-        
-        image1.snp.makeConstraints {
-            $0.width.height.equalTo(60)
-            $0.centerX.equalTo(contentView.snp.centerX).offset(-110)
-            $0.bottom.equalTo(awardsImageView.snp.top).offset(30)
-//            $0.centerX.equalTo(awardsImageView.snp.width).multipliedBy(3.0 / 1.0)
-        }
-        
-        image2.snp.makeConstraints {
-            $0.width.height.equalTo(60)
-            $0.centerX.equalTo(contentView.snp.centerX)
-            $0.bottom.equalTo(awardsImageView.snp.top)
-            
-        }
-        
-        image3.snp.makeConstraints {
-            $0.width.height.equalTo(60)
-            $0.centerX.equalTo(contentView.snp.centerX).offset(110)
-            $0.bottom.equalTo(awardsImageView.snp.top).offset(50)
-            
+        awardsView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(titleStack.snp.bottom).offset(35)
+            $0.height.equalTo(255) // 이 부분은 awardsView의 높이 계산에 맞게 변경해야 함
         }
 
         recommendView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(awardsImageView.snp.bottom).offset(60)
+            $0.top.equalTo(awardsView.snp.bottom)
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(130)
+            $0.height.equalTo(140)
         }
 
         chartView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(recommendView.snp.bottom)
+            $0.height.equalTo(250)
         }
     }
 }

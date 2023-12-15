@@ -9,8 +9,6 @@ import UIKit
 
 protocol HappyListCoordinatorInterface: Coordinator {
     func pushDetailView(feed: MyFeed)
-    func showAdd1Modal(reactor: MyFeedDetailViewReactor)
-    func showAdd2Modal(reactor: MyFeedDetailViewReactor)
     func dismiss()
     func finished()
 }
@@ -30,16 +28,20 @@ final class HappyListCoordinator: Coordinator {
         self.date = date
     }
     
-    func start() {
-        makeHappyListViewController()
-    }
 }
 
 extension HappyListCoordinator: HappyListCoordinatorInterface {
     
+    func start() {
+        makeHappyListViewController()
+    }
+    
     func pushDetailView(feed: MyFeed) {
-        let viewController = makeDetailViewController(feed: feed)
-        navigationController.pushViewController(viewController, animated: true)
+        let coordinator = MyFeedDetailCoordinator(navigationController: self.navigationController)
+        coordinator.parentCoordinator = self
+        coordinator.finishDelegate = self
+        self.childCoordinators.append(coordinator)
+        coordinator.showDetailView(feed: feed)
     }
     
     func dismiss() {
@@ -67,35 +69,11 @@ extension HappyListCoordinator {
     
         navigationController.pushViewController(viewController, animated: true)
     }
-    
-    func makeDetailViewController(feed: MyFeed) -> UIViewController {
-        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
-        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)
-        
-        return viewController
-    }
-    
 }
 
-extension HappyListCoordinator {
-    
-    // MARK: - MyFeedDetailViewController 에서 사용되는 메서드 입니다.
-    func showAdd1Modal(reactor: MyFeedDetailViewReactor) {
-        let SetWeatherHappinessViewController = SetWeatherHappinessViewController(
-            reactor: reactor,
-            coordinator: self
-        )
-        
-        navigationController.present(SetWeatherHappinessViewController, animated: true, completion: nil)
+extension HappyListCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        childDidFinish(childCoordinator, parent: self)
     }
-    
-    func showAdd2Modal(reactor: MyFeedDetailViewReactor) {
-        let SetCategoryViewController = SetCategoryViewController(
-            reactor: reactor,
-            coordinator: self
-        )
-        
-        navigationController.present(SetCategoryViewController, animated: true, completion: nil)
-    }
-    
 }
+
