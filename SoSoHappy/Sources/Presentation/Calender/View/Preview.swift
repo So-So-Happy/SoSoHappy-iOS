@@ -5,7 +5,6 @@
 //  Created by 박희경 on 2023/11/29.
 //
 
-
 import UIKit
 import RxSwift
 import ReactorKit
@@ -22,7 +21,7 @@ class Preview: UIView {
     private var imageSlideViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - UI Components
-    lazy var cellBackgroundView =  UIView().then {
+    lazy var cellBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 16
     }
@@ -33,18 +32,17 @@ class Preview: UIView {
     // 작성 날짜
     private lazy var dateLabel = UILabel().then {
         $0.textAlignment = .center
-        $0.font = UIFont.customFont(size: 10, weight: .medium)
+        $0.font = UIFont.customFont(size: 11, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor") // .gray -> .darkGray
     }
     
     // 피드 작성 글
     private lazy var contentLabel = UILabel().then {
         $0.textAlignment = .left
-        $0.font = UIFont.customFont(size: 12, weight: .medium)
+        $0.font = UIFont.customFont(size: 14, weight: .medium)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
-        $0.numberOfLines = 3
+        $0.numberOfLines = 2
     }
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,7 +55,7 @@ class Preview: UIView {
     }
     
     func setFeedCell(_ feed: MyFeed) {
-        categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 35)
+        categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 36)
         dateLabel.text = feed.dateFormattedString
         contentLabel.text = feed.text
     }
@@ -88,7 +86,7 @@ extension Preview {
     private func setConstraints() {
         cellBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-            make.bottom.equalTo(contentLabel.snp.bottom).offset(20)
+            make.bottom.equalTo(contentLabel.snp.bottom).offset(15)
         }
         
         categoryStackView.snp.makeConstraints { make in
