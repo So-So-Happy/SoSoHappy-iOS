@@ -34,17 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Push Notifications
         // Register for remote notifications  - 원격 알림 등록
         UNUserNotificationCenter.current().delegate = self
-
-//        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-//        UNUserNotificationCenter.current().requestAuthorization(
-//          options: authOptions,
-//          completionHandler: { granted, error in
-//              if granted {
-//                  print("알림이 등록되었습니다.")
-//              }
-//          }
-//        )
-
         application.registerForRemoteNotifications()
         
         if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject] {
@@ -57,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Font Setting
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        
+        // MARK: NavigationBar Setting
+        UINavigationBar.appearance().barTintColor = UIColor(named: "BGgrayColor")
+        UINavigationBar.appearance().shadowImage = UIImage()
         
         // MARK: First Launch Setting
         removeKeychainAtFirstLaunch()
