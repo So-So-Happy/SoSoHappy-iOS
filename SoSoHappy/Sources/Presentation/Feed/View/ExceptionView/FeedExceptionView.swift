@@ -10,6 +10,8 @@ import SnapKit
 
 // 올라온 피드가 없습니다
 final class FeedExceptionView: UIView {
+    lazy var titleLabel = UILabel()
+    
     convenience init(title: String, inset: Int) {
         self.init(frame: .zero)
         self.configureUI(title: title, inset: inset)
@@ -18,8 +20,6 @@ final class FeedExceptionView: UIView {
 
 extension FeedExceptionView {
     func configureUI(title: String, inset: Int) {
-        let titleLabel = UILabel()
-        
         titleLabel.font = UIFont.customFont(size: 18, weight: .medium)
         titleLabel.textColor = UIColor(named: "DarkGrayTextColor")
         titleLabel.text = title
