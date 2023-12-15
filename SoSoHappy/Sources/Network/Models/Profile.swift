@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Profile {
+struct Profile: Equatable {
     let email: String
     let nickName: String
     let profileImg: UIImage
@@ -18,5 +18,15 @@ struct Profile {
         self.nickName = nickName
         self.profileImg = profileImg
         self.introduction = introduction
+    }
+}
+
+extension Profile {
+    static func ==(lhs: Profile, rhs: Profile) -> Bool {
+        return lhs.email == rhs.email &&
+        lhs.nickName == rhs.nickName &&
+        lhs.introduction == rhs.introduction &&
+        lhs.profileImg.isEqual(rhs.profileImg)
+        
     }
 }
