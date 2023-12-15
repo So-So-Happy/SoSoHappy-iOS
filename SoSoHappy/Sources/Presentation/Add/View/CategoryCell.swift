@@ -21,6 +21,7 @@ class CategoryCell: UICollectionViewCell {
     private lazy var categoryImageView = UIImageView().then {
         $0.backgroundColor = .clear
         $0.contentMode = .scaleAspectFit
+        $0.alpha = 0.5
     }
     
     override init(frame: CGRect) {
@@ -35,11 +36,7 @@ class CategoryCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         categoryImageView.transform = CGAffineTransform.identity
-        
-        layer.shadowColor = nil
-        layer.shadowOpacity = 0
-        layer.shadowOffset = .zero
-        layer.shadowRadius = 0
+        self.categoryImageView.alpha = 0.5
     }
 }
 // MARK: -  Set layout
@@ -61,22 +58,17 @@ extension CategoryCell {
 extension CategoryCell {
     override var isSelected: Bool {
         didSet {
-            // Adjust the appearance of the cell when its selection state changes
-            if isSelected {
-                // Increase the cell size and add a shadow
-                categoryImageView.transform = CGAffineTransform(scaleX: selectedScale, y: selectedScale)
-                layer.shadowColor = UIColor.black.cgColor
-                layer.shadowOpacity = 0.7
-                layer.shadowOffset = CGSize(width: 8, height: 10) // 0, 3
-                layer.shadowRadius = 5 // 5
-            } else {
-                // Reset the cell's appearance
-                categoryImageView.transform = CGAffineTransform.identity
-                
-                layer.shadowColor = nil
-                layer.shadowOpacity = 0
-                layer.shadowOffset = .zero
-                layer.shadowRadius = 0
+            UIView.animate(withDuration: 0.2) {
+                // Adjust the appearance of the cell when its selection state changes
+                if self.isSelected {
+                    // Increase the cell size and add a shadow
+                    self.categoryImageView.transform = CGAffineTransform(scaleX: self.selectedScale, y: self.selectedScale)
+                    self.categoryImageView.alpha = 1
+                } else {
+                    // Reset the cell's appearance
+                    self.categoryImageView.transform = CGAffineTransform.identity
+                    self.categoryImageView.alpha = 0.5
+                }
             }
         }
     }
