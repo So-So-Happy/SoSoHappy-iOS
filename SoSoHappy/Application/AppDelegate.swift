@@ -15,7 +15,6 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     

@@ -42,7 +42,7 @@ class CategoryCell: UICollectionViewCell {
         layer.shadowRadius = 0
     }
 }
-//MARK: -  Set layout
+// MARK: -  Set layout
 extension CategoryCell {
     private func setLayout() {
         self.contentView.addSubview(categoryImageView)
@@ -67,7 +67,7 @@ extension CategoryCell {
                 categoryImageView.transform = CGAffineTransform(scaleX: selectedScale, y: selectedScale)
                 layer.shadowColor = UIColor.black.cgColor
                 layer.shadowOpacity = 0.7
-                layer.shadowOffset = CGSize(width: 8, height: 10) //0, 3
+                layer.shadowOffset = CGSize(width: 8, height: 10) // 0, 3
                 layer.shadowRadius = 5 // 5
             } else {
                 // Reset the cell's appearance

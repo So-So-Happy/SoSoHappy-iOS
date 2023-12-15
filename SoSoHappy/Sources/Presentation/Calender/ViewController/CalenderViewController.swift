@@ -17,9 +17,7 @@ import Moya
 // uipageViewController 사용?
 final class CalendarViewController: UIViewController {
     
-    
-    //MARK: - Properties
-    
+    // MARK: - Properties
     private var coordinator: CalendarCoordinatorInterface
     var disposeBag = DisposeBag()
     
@@ -35,7 +33,6 @@ final class CalendarViewController: UIViewController {
     
     
     //MARK: - UI Components
-    
     private lazy var calendarBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 20
@@ -97,7 +94,6 @@ final class CalendarViewController: UIViewController {
         return Date()
     }()
     
-    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -118,7 +114,6 @@ final class CalendarViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-    
     // MARK: - Init
     init(
         reactor: CalendarViewReactor,
@@ -134,7 +129,6 @@ final class CalendarViewController: UIViewController {
     }
     
 }
-
 
 extension CalendarViewController: View {
     
@@ -254,7 +248,6 @@ extension CalendarViewController: View {
     }
     
 }
-
 
 // MARK: - Action
 private extension CalendarViewController {
@@ -476,4 +469,3 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         }
     }
 }
-

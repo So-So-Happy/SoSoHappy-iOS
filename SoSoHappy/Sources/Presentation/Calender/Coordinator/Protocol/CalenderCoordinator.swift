@@ -91,7 +91,6 @@ extension CalendarCoordinator {
         return viewController
     }
     
-    
 //    func makeDetailViewController(feed: MyFeed) -> UIViewController {
 //        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
 //        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)
@@ -105,4 +104,3 @@ extension CalendarCoordinator: CoordinatorFinishDelegate {
         childDidFinish(childCoordinator, parent: self)
     }
 }
-

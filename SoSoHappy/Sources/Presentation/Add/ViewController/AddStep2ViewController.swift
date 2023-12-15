@@ -12,7 +12,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-
 // MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
 final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -47,14 +46,13 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         
         print("--------AddSTEP2---------")
-        print("reactor.initialState.selectedWeather: \(reactor?.currentState.selectedWeather)")
-        print("reactor.initialState.selectedHappiness : \(reactor?.currentState.selectedHappiness)")
+        print("reactor.initialState.selectedWeather: \(String(describing: reactor?.currentState.selectedWeather))")
+        print("reactor.initialState.selectedHappiness : \(String(describing: reactor?.currentState.selectedHappiness))")
         print("--------------------------")
     }
     
@@ -69,7 +67,7 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 
-//MARK: - Add Subviews & Constraints
+// MARK: - Add Subviews & Constraints
 extension AddStep2ViewController {
     private func setup() {
         setAttribute()
@@ -154,7 +152,6 @@ extension AddStep2ViewController: View {
         
         Observable.of(reactor.categories)
             .bind(to: categoryCollectionView.rx.items(cellIdentifier: CategoryCell.cellIdentifier, cellType: CategoryCell.self)) { index, category, cell in
-//                print("1")
                 cell.setImage(category: category)
             }
             .disposed(by: disposeBag)
@@ -223,5 +220,3 @@ extension AddStep2ViewController {
     }
 
 }
-
-

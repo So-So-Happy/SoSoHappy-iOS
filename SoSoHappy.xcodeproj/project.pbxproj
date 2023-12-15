@@ -45,7 +45,6 @@
 		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */; };
-		06B3FA422B205941009F72E7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06B3FA412B205941009F72E7 /* GoogleService-Info.plist */; };
 		06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */; };
 		06B3FA482B20B7B8009F72E7 /* SetCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */; };
 		06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */; };
@@ -291,7 +290,6 @@
 		069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewCoordinator.swift; sourceTree = "<group>"; };
-		06B3FA412B205941009F72E7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWeatherHappinessViewController.swift; sourceTree = "<group>"; };
 		06B3FA472B20B7B8009F72E7 /* SetCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCategoryViewController.swift; sourceTree = "<group>"; };
 		06CAC07E2AF55A2D0064BD33 /* MyFeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewController.swift; sourceTree = "<group>"; };
@@ -1660,7 +1658,8 @@
 		};
 		67E7DB932A813B7E00C33988 /* SwiftLint Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			alwaysOutOfDate = 1;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -1672,9 +1671,9 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		8567859EB1F1C0AEE11A3681 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
