@@ -30,7 +30,6 @@ final class AddStep3ViewController: BaseDetailViewController {
     var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
-
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)

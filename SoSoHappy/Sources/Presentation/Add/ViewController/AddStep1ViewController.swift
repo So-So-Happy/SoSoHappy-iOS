@@ -142,7 +142,7 @@ extension AddStep1ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
         }
     }
 }
