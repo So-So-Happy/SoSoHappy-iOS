@@ -111,6 +111,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     
     
     /// findDetailFeed: 디테일 피드 데이터 fetch
+    ///  (추후에 등록된 피드가 없을 경우 고려해서 코드 수정해줘야 함)
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed?> {
         return Observable.create { emitter in
 //            print("findDetailFeed 메서드 시작")
@@ -170,7 +171,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
         }
     }
     
-    /// findUserFeed: 특정 유저 피드 데이터 fetch
+    /// findUserFeed: 특정 유저 피드 데이터 fetch (추후에 등록된 피드가 없을 경우 고려해서 코드 수정해줘야 함)
     func findUserFeed(request: FindUserFeedRequest) -> Observable<([UserFeed], Bool)>{
         return Observable.create { emitter in
             let provider = self.accessProvider()
@@ -222,13 +223,13 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("saveFeed - success :")
+                        print("findFeedImage - success :")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("saveFeed - error: \(error.localizedDescription)")
+                        print("findFeedImage - error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
-                        print("saveFeed - completed")
+                        print("findFeedImage - completed")
                         emitter.onCompleted()
                     }
                 }
@@ -239,6 +240,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             
         }
     }
+    
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
         return Observable.create { emitter in

@@ -7,20 +7,6 @@
 
 import RxDataSources
 
-//struct UserFeedSection {
-//    var items: [Item]
-//}
-//
-//extension UserFeedSection: SectionModelType {
-//    typealias Item = FeedReactor
-//    
-//    init(original: UserFeedSection, items: [FeedReactor]) {
-//        self = original
-//        self.items = items
-//    }
-//}
-
-
 struct UserFeedSection {
   typealias Model = SectionModel<Int, Item>
 
@@ -37,27 +23,3 @@ extension UserFeedSection.Item: Equatable {
         }
     }
 }
-
-
-//enum UserFeedSection { // Section에 사용될 type
-//    case userFeeds([UserFeedSectionItem])
-//}
-//
-//extension UserFeedSection: SectionModelType {
-//  var items: [UserFeedSectionItem] {
-//    switch self {
-//    case .userFeeds(let items): return items
-//    }
-//  }
-//  
-//  init(original: UserFeedSection, items: [UserFeedSectionItem]) {
-//    switch original {
-//    case .userFeeds: self = .userFeeds(items)
-//    }
-//  }
-//}
-//
-//enum UserFeedSectionItem { // Item에 사용될 type
-//    case feed(FeedReactor)
-//}
-

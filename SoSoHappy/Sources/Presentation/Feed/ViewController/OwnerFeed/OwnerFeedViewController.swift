@@ -18,10 +18,9 @@ import RxSwiftExt
 /*
  1. refreshControl이 여기에서 꼭 필요가 있을까? (없을 것 같긴 함)
  2. profile update가 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
- 3. 밑에 cell 선택 -> detailVC1 -> Owner -> detailVC1 하면 "소피들의 소소해피"가 나타남 해결 필요
  */
 
- 
+// MARK: 원본 
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -31,9 +30,6 @@ final class OwnerFeedViewController: UIViewController {
     // MARK: - UI Components
     private lazy var refreshControl = UIRefreshControl()
     private lazy var ownerFeedHeaderView = OwnerFeedHeaderView()
-    
-    // MARK: 로딩 뷰 잘 넣어주기
-    private lazy var activityIndicatorView = NVActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 27, height: 27), type: .circleStrokeSpin, color: .black, padding: 0)
     
     private lazy var tableView = UITableView(frame: .zero, style: .grouped).then {
         $0.register(OwnerFeedCell.self, forCellReuseIdentifier: OwnerFeedCell.cellIdentifier)
@@ -76,16 +72,6 @@ final class OwnerFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        print("OwnerFeedViewcontroller viewDidload")
-    }
-    // MARK: viewWillAppear에 해주는게 맞음
-    // detailViewController 앞 뒤로 갔다왔을 때
-    // 하나는 viewDidLoad, viewWillAppear 두 개, 다른 하나는 viewWillAppear
-    // 공통적으로 들어가 있는 viewWillAppear에서 처리를 해주는게 맞음
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("OwnerFeedViewcontroller viewWillAppear")
-    
     }
 
     init(reactor: OwnerFeedViewReactor, coordinator: OwnerFeedCoordinatorInterface) {
@@ -112,7 +98,6 @@ extension OwnerFeedViewController {
         view.addSubview(tableView)
         view.addSubview(loadingView)
         tableView.addSubview(exceptionView)
-//        tableView.addSubview(loadingView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -128,17 +113,6 @@ extension OwnerFeedViewController {
             make.center.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.4)
         }
-        
-//        activityIndicatorView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.centerY.equalToSuperview()
-//        }
-        
-//        loadingView.snp.makeConstraints { make in
-//            make.horizontalEdges.bottom.equalToSuperview()
-//            make.top.equalTo(ownerFeedHeaderView.snp.bottom)
-//        }
-        
     }
 }
 
@@ -146,16 +120,11 @@ extension OwnerFeedViewController {
 extension OwnerFeedViewController: View {
     // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: OwnerFeedViewReactor) {
-        self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
+        self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag) // 반드시 필요
         dataSource = self.createDataSource()
 
         self.rx.viewWillAppear
-            .map { Reactor.Action.fetchFeeds } // 해당 유저의 공개 feed fetch
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        self.refreshControl.rx.controlEvent(.valueChanged)
-            .map { Reactor.Action.refresh }
+            .map { Reactor.Action.fetchFeeds }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -167,32 +136,32 @@ extension OwnerFeedViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        self.refreshControl.rx.controlEvent(.valueChanged)
+            .map { Reactor.Action.refresh }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-//                print("back button tapped")
                 coordinator?.dismiss()
             })
             .disposed(by: disposeBag)
         
         tableView.rx.modelSelected(UserFeedSection.Item.self)
             .subscribe(onNext: { [weak self] selectedItem in
+                guard let self = self else { return }
                 switch selectedItem {
                 case let .feed(feedReactor):
-                    print("modelSelected: \(feedReactor)")
-                    self?.coordinator?.showDetails(feedReactor: feedReactor)
+                    coordinator?.showDetails(feedReactor: feedReactor)
                 }
             })
             .disposed(by: disposeBag)
         
         reactor.state
-//            .skip(1)
-            .compactMap {
-                print("OwnerFeedVC - reactor.state - profile : \($0.profile)")
-                return $0.profile
-            }
+            .compactMap { $0.profile }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] profile in
-                print("OwnerFeedVC - reactor.state - profile - inside subscribe)")
                 self?.ownerFeedHeaderView.update(with: profile)
             })
             .disposed(by: disposeBag)
@@ -200,24 +169,23 @@ extension OwnerFeedViewController: View {
         reactor.state
             .map(\.sections)
             .distinctUntilChanged()
-            .map(Array.init(with:)) // <- extension으로 Array 초기화 시 차원을 하나 늘려주는 코드추가
+            .map(Array.init(with:))
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
-        
-        reactor.state
-            .map { $0.isRefreshing }
-            .distinctUntilChanged()
-            .bind(to: self.refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
         
         reactor.state
             .compactMap { $0.isPaging }
             .distinctUntilChanged()
             .subscribe { [weak self] isPaging in
                 guard let self = self else { return }
-                print("here2 - isPaging: \(isPaging)")
                 tableView.tableFooterView = isPaging ? pagingIndicatorView : UIView(frame: .zero)
             }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isRefreshing }
+            .distinctUntilChanged()
+            .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         reactor.state
@@ -227,13 +195,10 @@ extension OwnerFeedViewController: View {
                 return (isLoading, itemsIsEmpty)
             }
             .subscribe(onNext: { [weak self] (isLoading, itemsIsEmpty) in
-                print("owner - itemsIsEmpty : \(itemsIsEmpty)")
                 guard let self = self else { return }
-                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty, fromRefresh: false)
+                updateViewsVisibility(isLoading: isLoading, itemsIsEmpty: itemsIsEmpty, dataRenewal: .load)
             })
             .disposed(by: disposeBag)
-        
-       
         
         reactor.state
             .compactMap { $0.isRefreshing }
@@ -243,12 +208,21 @@ extension OwnerFeedViewController: View {
             }
             .subscribe(onNext: { [weak self] (isRefreshing, itemsIsEmpty) in
                 guard let self = self else { return }
-                updateViewsVisibility(isLoading: isRefreshing, itemsIsEmpty: itemsIsEmpty, fromRefresh: true)
+                updateViewsVisibility(isLoading: isRefreshing, itemsIsEmpty: itemsIsEmpty, dataRenewal: .refresh)
+            })
+            .disposed(by: disposeBag)
+        
+        
+        reactor.state
+            .compactMap { $0.isBlockSucceeded }
+            .subscribe(onNext: { [weak self] isBlockSucceeded in
+                guard let self = self else { return }
+                // 가장 root로 옮기고 '차단 되었습니다' 토스트 메시지 띄우기
+                coordinator?.goBackToRoot()
+                
             })
             .disposed(by: disposeBag)
     }
-    
-    
     
     private func configureCell(_ cell: OwnerFeedCell) {
         cell.imageSlideView.tapObservable
@@ -275,16 +249,14 @@ extension OwnerFeedViewController {
         }
     }
     
-    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, fromRefresh: Bool) {
+    private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, dataRenewal: DataRenewal) {
         if isLoading {
-            print("check3 - 로딩 중 ")
             exceptionView.isHidden = true
-            if !fromRefresh {
+            if dataRenewal == .load {
                 loadingView.isHidden = false
             }
         } else {
-            print("check3 - 로딩 완료 ")
-            if !fromRefresh {
+            if dataRenewal == .load {
                 loadingView.isHidden = true
             }
             exceptionView.isHidden = !itemsIsEmpty

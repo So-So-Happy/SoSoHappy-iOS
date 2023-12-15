@@ -18,9 +18,6 @@ protocol AddCoordinatorInterface: Coordinator {
     func dismiss()
     func showNextAdd(reactor: AddViewReactor, navigateTo: AddNavigationSource)
     func navigateBack()
-    func showAlbum()
-    func showToastMessage(isSuccess: Bool)
-    
 }
 
 final class AddCoordinator: AddCoordinatorInterface {
@@ -72,18 +69,5 @@ extension AddCoordinator {
     // MARK: 이전 VC로 돌아가기
     func navigateBack() {
         navigationController.popViewController(animated: true)
-    }
-   
-}
-// MARK: - AddStep3에서 사용될 메서드
-extension AddCoordinator {
-    // MARK: AddStep3에서 album 모달로 보여주는 메서드
-    func showAlbum() {
-        
-    }
-    
-    // MARK: 등록 성공 여부를 나타내는 toast message 띄우기
-    func showToastMessage(isSuccess: Bool) {
-        
     }
 }

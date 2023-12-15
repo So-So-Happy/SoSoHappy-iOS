@@ -14,7 +14,7 @@ import RxSwift
 import RxCocoa
 
 /*
- 1. 하트 버튼 연타 처리 (debounce, throttle)
+ 1. 하트 버튼 연타 처리 (debounce, throttle) - 서버 요청 , local ui update
  */
 
 final class OwnerFeedCell: BaseCell {
@@ -64,8 +64,7 @@ extension OwnerFeedCell: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .skip(1)
-            .compactMap { $0.isLike } // Optional 벗기고 nil 값 filter
+            .compactMap { $0.isLike }
             .bind { [weak self] isLike in
                 guard let `self` = self else { return }
                 heartButton.setHeartButton(isLike)
