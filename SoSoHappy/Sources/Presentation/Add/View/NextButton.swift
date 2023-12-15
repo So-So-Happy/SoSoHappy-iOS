@@ -19,16 +19,15 @@ final class NextButton: HappyButton {
     }
     
     private func configureButton() {
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold)
-        let image = UIImage(systemName: "arrow.right", withConfiguration: largeConfig)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let config = UIImage.SymbolConfiguration(pointSize: 25, weight: .semibold)
+        let image = UIImage(systemName: "arrow.right", withConfiguration: config)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         layer.cornerRadius = 40
         setImage(image, for: .normal)
-        setBackgroundColor(UIColor(named: "buttonColor"), for: .disabled)
-        setBackgroundColor(UIColor.orange, for: .enabled)
+        setBackgroundColor(UIColor(named: "ReverseLightGrayColor"), for: .disabled)
+        setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
         
         self.snp.makeConstraints { make in
             make.width.height.equalTo(80)
         }
     }
 }
-
