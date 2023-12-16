@@ -119,7 +119,6 @@ final class CalendarViewController: UIViewController {
         addObservers()
     }
     
-    
     // MARK: - Init
     init(
         reactor: CalendarViewReactor,
@@ -134,8 +133,10 @@ final class CalendarViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
-
 
 extension CalendarViewController: View {
     
@@ -478,3 +479,36 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
 }
 
+// MARK: - Notification observer
+extension CalendarViewController {
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didReceiveLikeNotification(_:)),
+            name: NSNotification.Name.DidReceiveLikeNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didReceiveLogoutNotification(_:)),
+            name: NSNotification.Name.logoutNotification,
+            object: nil)
+    }
+    
+    @objc func didReceiveLikeNotification(_ notification: Notification) {
+        print("likedDidReceive - calender1")
+
+        guard let date = notification.userInfo?[NotificationCenterKey.likeFeed] as? Int64 else { return }
+        
+//        let dateString = "2023121300000000" // 2023-12-12 15:00:00 +0000
+        let dateStrToDate = String(date).makeData()
+        self.coordinator.goToRoot()
+        self.reactor?.action.onNext(.selectDate(dateStrToDate))
+        self.reactor?.action.onNext(.tapPreview)
+        
+    }
+    
+    @objc func didReceiveLogoutNotification(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
