@@ -35,17 +35,9 @@ extension FeedType {
         return [happinessImageName] + categoryList
     }
     
-    // MARK: Date 타입으로 변환
+    // MARK: Date 타입으로 변환 
     var dateToDateType: Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmmssSS"
-        
-        if let date = dateFormatter.date(from: date) {
-            return date
-        } else {
-            print("UserFeed - dateToDateType failed to parse date")
-            return Date()
-        }
+        return date.makeData()
     }
     
     // MARK: 2023.10.19 토요일

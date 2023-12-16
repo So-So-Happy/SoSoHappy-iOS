@@ -130,7 +130,7 @@ extension OwnerFeedViewController: View {
         
         tableView.rx.reachedBottom(offset: -20)
             .skip(1)
-            .throttle(.milliseconds(1240), latest: false, scheduler: MainScheduler.instance) // 1.7초
+            .throttle(.milliseconds(100), latest: false, scheduler: MainScheduler.instance) 
             .debug()
             .map { Reactor.Action.pagination }
             .bind(to: reactor.action)

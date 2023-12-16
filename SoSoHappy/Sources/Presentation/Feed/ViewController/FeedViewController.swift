@@ -14,6 +14,7 @@ import RxCocoa
 import NVActivityIndicatorView
 import RxDataSources
 import RxSwiftExt
+import RxGesture
 
 // TODO: 추가할 사항 throttle 적정 시간 설정
 /*
@@ -129,7 +130,7 @@ extension FeedViewController: View {
         // paging
         tableView.rx.reachedBottom(offset: -20)
             .skip(1)
-            .throttle(.milliseconds(1240), latest: false, scheduler: MainScheduler.instance) // 1.7초
+            .throttle(.milliseconds(100), latest: false, scheduler: MainScheduler.instance) 
             .debug()
             .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
@@ -143,14 +144,14 @@ extension FeedViewController: View {
         
         // 오늘
         feedHeaderView.sortTodayButton.rx.tap
-//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.today) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     
         // 전체
         feedHeaderView.sortTotalButton.rx.tap
-//            .throttle(.milliseconds(1170), latest: false, scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(500), latest: false, scheduler: MainScheduler.instance)
             .map { Reactor.Action.fetchFeeds(.total) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -165,6 +166,20 @@ extension FeedViewController: View {
                     coordinator?.showdDetails(feedReactor: feedReactor)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        // MARK: 임시 작업용 코드
+        feedHeaderView.rx.tapGesture()
+            .skip(1)
+            .subscribe { _ in
+                print("1")
+                let date: Int64 = 2023121000000000
+                NotificationCenter.default.post(
+                    name: NSNotification.Name.DidReceiveLikeNotification,
+                    object: nil,
+                    userInfo: [NotificationCenterKey.likeFeed: date])
+                
+            }
             .disposed(by: disposeBag)
         
         reactor.state
@@ -276,13 +291,11 @@ extension FeedViewController {
     
     private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, dataRenewal: DataRenewal) {
         if isLoading { // 로딩 중
-//            print("check3 - 로딩 중 ")
             exceptionView.isHidden = true
             if dataRenewal == .load {
                 loadingView.isHidden = false
             }
         } else { // 로딩 끝
-//            print("check3 - 로딩 완료 ")
             if dataRenewal == .load {
                 loadingView.isHidden = true
             }

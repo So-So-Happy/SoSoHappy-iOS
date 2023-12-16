@@ -116,6 +116,7 @@ final class CalendarViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
+        addObservers()
     }
     
     
