@@ -31,7 +31,6 @@ final class AddStep3ViewController: BaseDetailViewController {
     var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
-
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
@@ -69,7 +68,7 @@ final class AddStep3ViewController: BaseDetailViewController {
         $0.textColor = .lightGray
         $0.textAlignment = .left
         $0.text = "소소한 행복을 기록해보세요~"
-       }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -178,7 +177,7 @@ extension AddStep3ViewController: View {
             .bind(to: placeholderLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-       
+
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let self = self else { return }

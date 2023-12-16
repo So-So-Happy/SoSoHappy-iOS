@@ -110,7 +110,7 @@ class AccountManagementViewReactor: Reactor {
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
                 })
-                .flatMap { logoutResponse -> Observable<Mutation> in
+                .flatMap { _ -> Observable<Mutation> in
                     return .just(.goToLoginView(true))
                 }
                 .catch { return .just(.showErrorAlert($0)) }
@@ -121,7 +121,7 @@ class AccountManagementViewReactor: Reactor {
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
                 })
-                .flatMap { logoutResponse -> Observable<Mutation> in
+                .flatMap { _ -> Observable<Mutation> in
                     return .just(.goToLoginView(true))
                 }
                 .catch { return .just(.showErrorAlert($0)) }
@@ -132,7 +132,7 @@ class AccountManagementViewReactor: Reactor {
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                     KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
                 })
-                .flatMap { logoutResponse -> Observable<Mutation> in
+                .flatMap { _ -> Observable<Mutation> in
                     return .just(.goToLoginView(true))
                 }
                 .catch { return .just(.showErrorAlert($0)) }

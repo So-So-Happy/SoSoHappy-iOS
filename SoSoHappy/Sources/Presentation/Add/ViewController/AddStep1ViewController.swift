@@ -12,8 +12,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-
-
 /*
 리팩토링
 1. weatherStackView, happinessStackView 버튼 크기가 좀 더 동일하면 좋을 것 같음 (선택)
@@ -80,7 +78,7 @@ final class AddStep1ViewController: UIViewController {
     }
 }
 
-//MARK: - Add Subviews & Constraints
+// MARK: - Add Subviews & Constraints
 extension AddStep1ViewController {
     private func setup() {
         setAttribute()
@@ -144,7 +142,7 @@ extension AddStep1ViewController {
         
         nextButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(50)
         }
     }
 }
@@ -210,4 +208,3 @@ extension AddStep1ViewController: View {
             .disposed(by: disposeBag)
     }
 }
-

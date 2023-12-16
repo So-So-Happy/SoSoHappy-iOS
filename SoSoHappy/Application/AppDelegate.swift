@@ -15,8 +15,8 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
-// TODO: badge, background 혹은 killed 되었을 때 처리
 
+// TODO: badge, background 혹은 killed 되었을 때 처리
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -49,6 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: Font Setting
         let fontAttributes = [NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)]
         UIBarButtonItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+        
+        // MARK: NavigationBar Setting
+        UINavigationBar.appearance().barTintColor = UIColor(named: "BGgrayColor")
+        UINavigationBar.appearance().shadowImage = UIImage()
         
         // MARK: First Launch Setting
         removeKeychainAtFirstLaunch()

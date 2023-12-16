@@ -39,6 +39,7 @@ final class OwnerFeedViewController: UIViewController {
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 300
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var backButton = UIButton().then {
@@ -72,6 +73,22 @@ final class OwnerFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = false
+        }
     }
 
     init(reactor: OwnerFeedViewReactor, coordinator: OwnerFeedCoordinatorInterface) {

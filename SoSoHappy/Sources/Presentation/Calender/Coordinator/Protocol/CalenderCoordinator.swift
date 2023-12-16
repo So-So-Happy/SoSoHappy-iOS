@@ -101,8 +101,7 @@ extension CalendarCoordinator {
         // Pop to the root view controller
         navigationController.popToRootViewController(animated: false)
     }
-    
-    
+
 //    func makeDetailViewController(feed: MyFeed) -> UIViewController {
 //        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
 //        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)
@@ -116,4 +115,3 @@ extension CalendarCoordinator: CoordinatorFinishDelegate {
         childDidFinish(childCoordinator, parent: self)
     }
 }
-
