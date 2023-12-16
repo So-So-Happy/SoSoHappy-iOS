@@ -26,7 +26,7 @@ final class ChartViewController: UIViewController {
     }
     
     private lazy var nameLabel = UILabel().then {
-        $0.text = "닉네임"
+        $0.text = ""
         $0.textColor = UIColor(named: "AccentColor")
         $0.font = UIFont.customFont(size: 25, weight: .bold)
     }
@@ -72,10 +72,13 @@ final class ChartViewController: UIViewController {
     }
     let contentView = UIView()
     
+    
+    private var nickName: String = ""
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpView()
+        setUp()
         
     }
     
@@ -147,6 +150,16 @@ extension ChartViewController: View {
             .disposed(by: disposeBag)
        
         // top 3
+        reactor.state
+            .map { $0.happinessTopThree }
+            .distinctUntilChanged()
+            .subscribe { [weak self] topThree in
+                if topThree.count == 3 {
+                   // TODO: - 텅뷰처리
+                } else {
+                    self?.awardsView.setAwardsCategories(categories: topThree)
+                }
+            }.disposed(by: disposeBag)
         
         // recommend
         reactor.state
@@ -164,9 +177,9 @@ extension ChartViewController: View {
             .disposed(by: disposeBag)
 
         
-        // FIXME: - recommend refresh Button 누를때 chart reload 됨. -> take 사용해서 한번만 호출되게
         reactor.state
             .map { $0.happinessChartData }
+            .distinctUntilChanged()
             .subscribe { [weak self] data in
                 guard let `self` = self else { return }
                 self.chartView.setChart(data)
@@ -178,6 +191,12 @@ extension ChartViewController: View {
 }
 
 extension ChartViewController {
+    
+    private func setUp() {
+        setUpView()
+        setNickName()
+    }
+    
     private func setUpView() {
         navigationItem.titleView = yearMonthLabel
         self.navigationItem.leftBarButtonItems = [UIBarButtonItem(customView: leftEmptyView),  UIBarButtonItem(customView: previousButton)]
@@ -232,5 +251,20 @@ extension ChartViewController {
             $0.top.equalTo(recommendView.snp.bottom)
             $0.height.equalTo(250)
         }
+    }
+    
+    func setNickName() {
+        let provider = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo",
+            forKey: "provider"
+        ) ?? ""
+        
+        let nickName = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo\(provider)",
+            forKey: "userNickName"
+        ) ?? ""
+        
+        self.nameLabel.text = nickName
+        
     }
 }

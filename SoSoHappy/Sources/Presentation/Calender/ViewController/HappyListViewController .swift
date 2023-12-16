@@ -119,8 +119,8 @@ extension HappyListViewController: View {
             .map { Reactor.Action.tapNextButton }
             .filter { [weak self] _ in
                 guard let self = self else { return false }
-                let nextDate = today.moveToNextMonth()
-                return nextDate < currentPage
+                let nextDate = currentPage.moveToNextMonth()
+                return nextDate < today 
               }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -142,6 +142,13 @@ extension HappyListViewController: View {
             .map { $0.monthHappinessData }
             .subscribe { data in
                 self.monthHappinessList.accept(data)
+            }.disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.currentPage }
+            .subscribe { [weak self] currentPage in
+                guard let self = self else { return }
+                self.currentPage = currentPage
             }.disposed(by: disposeBag)
         
 //        reactor.state

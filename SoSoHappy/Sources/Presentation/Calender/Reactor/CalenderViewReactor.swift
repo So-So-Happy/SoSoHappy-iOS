@@ -78,7 +78,6 @@ final class CalendarViewReactor: Reactor {
         case moveToPreviousMonth(Date)
         case testOtherFeed(UpdateLikeResponse)
         case presentDetailView
-//        case showErrorAlert(Error)
     }
     
     // MARK: - State
@@ -92,7 +91,6 @@ final class CalendarViewReactor: Reactor {
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
         @Pulse var presentDetailView: Void?
-//        var happinessPreviewData: Feed
     }
     
     

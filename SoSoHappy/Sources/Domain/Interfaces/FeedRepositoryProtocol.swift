@@ -23,5 +23,6 @@ protocol FeedRepositoryProtocol {
     func updatePublicStatus(request: UpdatePublicStatusRequest) -> Observable<UpdatePublicStatusResponse>
     func updateLike(request: UpdateLikeRequest) -> Observable<Bool>
     func findFeedImage(request: FindFeedImageRequest) -> Observable<UIImage?>
+    func getFeedImages(ids: [Int]) -> Observable<[UIImage]>
 }
 

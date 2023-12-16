@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>dovemayo.otf</string>
-		<string>dovemayo_bold.otf</string>
-	</array>
 	<key>ANALYSIS_HAPPINESS_PATH</key>
 	<string>${ANALYSIS_HAPPINESS_PATH}</string>
 	<key>BASE_URL</key>
@@ -38,14 +33,6 @@
 			</array>
 		</dict>
 	</array>
-	<key>TOS_PATH</key>
-	<string>${TOS_PATH}</string>
-	<key>PRIVATE_POLICY_PATH</key>
-	<string>${PRIVATE_POLICY_PATH}</string>
-	<key>GET_AUTHORIZE_CODE_PATH</key>
-	<string>${GET_AUTHORIZE_CODE_PATH}</string>
-	<key>SIGN_IN_PATH</key>
-	<string>${SIGN_IN_PATH}</string>
 	<key>CHECK_DUPLICATE_NICKNAME_PATH</key>
 	<string>${CHECK_DUPLICATE_NICKNAME_PATH}</string>
 	<key>CONNECT_NOTICE_PATH</key>
@@ -54,6 +41,10 @@
 	<string>${FIND_DAY_FEED_PATH}</string>
 	<key>FIND_DETAIL_FEED_PATH</key>
 	<string>${FIND_DETAIL_FEED_PATH}</string>
+	<key>FIND_FEED_IMAGE</key>
+	<string>$(FIND_FEED_IMAGE)</string>
+	<key>FIND_FEED_UIIMAGE</key>
+	<string>$(FIND_FEED_UIIMAGE)</string>
 	<key>FIND_INTRODUCTION</key>
 	<string>${FIND_INTRODUCTION}</string>
 	<key>FIND_MONTH_FEED_PATH</key>
@@ -68,6 +59,8 @@
 	<string>${FIND_USER_FEED_PATH}</string>
 	<key>FIND_YEAR_HAPPINESS_PATH</key>
 	<string>${FIND_YEAR_HAPPINESS_PATH}</string>
+	<key>GET_AUTHORIZE_CODE_PATH</key>
+	<string>${GET_AUTHORIZE_CODE_PATH}</string>
 	<key>GIDClientID</key>
 	<string>${GOOGLE_NATIVE_APP_KEY_CLIENT}</string>
 	<key>GOOGLE_REVERSED_CLIENT_ID</key>
@@ -84,6 +77,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>PRIVATE_POLICY_PATH</key>
+	<string>${PRIVATE_POLICY_PATH}</string>
 	<key>REISSUE_TOKEN_PATH</key>
 	<string>${REISSUE_TOKEN_PATH}</string>
 	<key>RESIGN_PATH</key>
@@ -92,6 +87,15 @@
 	<string>${SAVE_FEED_PATH}</string>
 	<key>SET_PROFILE_PATH</key>
 	<string>${SET_PROFILE_PATH}</string>
+	<key>SIGN_IN_PATH</key>
+	<string>${SIGN_IN_PATH}</string>
+	<key>TOS_PATH</key>
+	<string>${TOS_PATH}</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>dovemayo.otf</string>
+		<string>dovemayo_bold.otf</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -121,7 +125,5 @@
 	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
-	<key>FIND_FEED_IMAGE</key>
-	<string>${FIND_FEED_IMAGE}</string>
 </dict>
 </plist>
