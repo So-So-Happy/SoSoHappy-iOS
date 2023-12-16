@@ -159,10 +159,10 @@ extension MyFeedDetailViewController: View {
     func bindAction(_ reactor: MyFeedDetailViewReactor) {
         
         // FIXME: - setFeed func 사용
-//        self.rx.viewWillAppear
-//            .map { Reactor.Action.viewWillAppear(self.feed as? MyFeed ?? MyFeed()) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear(self.feed ?? MyFeed()) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         textView.rx.text.orEmpty
             .skip(1)
@@ -290,7 +290,6 @@ extension MyFeedDetailViewController: View {
             }
             .disposed(by: disposeBag)
         
-        
         // 날짜
         /// 바뀔일 없음.
         reactor.state
@@ -347,17 +346,16 @@ extension MyFeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         // 선택된 이미지
-//        reactor.state
-//            .compactMap { $0.selectedImages }
-//            .distinctUntilChanged()
-//            .bind(onNext: { [weak self] images in
-//                guard let self = self else { return }
-//                setImageSlideView(imageList: images)
-//                removeImageButton.isHidden = images.isEmpty ? true : false
-//            })
-//            .disposed(by: disposeBag)
+        reactor.state
+            .compactMap { $0.selectedImages }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] images in
+                guard let self = self else { return }
+                setImageSlideView(images: images)
+                removeImageButton.isHidden = images.isEmpty ? true : false
+            })
+            .disposed(by: disposeBag)
         
-
         reactor.state
             .compactMap { self.tapSave ? $0.isSaveFeedSuccess : nil }
             .subscribe(onNext: { [weak self] save in
@@ -377,7 +375,6 @@ extension MyFeedDetailViewController: View {
             .disposed(by: disposeBag)
         
     }
-    
     
     /// arrangedSubviews는 UIView의 배열이기 때문에 바로 tapGesture() 메서드를 호출할 수 없습니다.
     /// 각 서브뷰에 Gesture Recognizer를 추가하고 이를 RxSwift로 처리해야 합니다.
