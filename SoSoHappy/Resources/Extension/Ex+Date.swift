@@ -90,20 +90,12 @@ extension Date {
         let calendar = Calendar.current
         var nextPage = calendar.date(byAdding: .month, value: 1, to: self) ?? Date()
         
-//        if calendar.component(.year, from: nextPage) != calendar.component(.year, from: self) {
-//            nextPage = calendar.date(bySetting: .year, value: calendar.component(.year, from: self), of: nextPage) ?? Date()
-//        }
-        
         return nextPage
     }
     
     func moveToPreviousMonth() -> Date {
         let calendar = Calendar.current
         var previousPage = calendar.date(byAdding: .month, value: -1, to: self) ?? Date()
-        
-//        if calendar.component(.year, from: previousPage) != calendar.component(.year, from: self) {
-//            previousPage = calendar.date(bySetting: .year, value: calendar.component(.year, from: self), of: previousPage) ?? Date()
-//        }
         
         return previousPage
     }
