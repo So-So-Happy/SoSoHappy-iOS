@@ -7,7 +7,6 @@
 
 import UIKit
 
-//  MARK: .add에 UITabBarItem을 disable 시키고 tabBarController의 addButton이 핸들링하도록 함.
 // MARK: - TabBarPage
 enum TabBarPage: String, CaseIterable {
     case home
@@ -59,13 +58,14 @@ enum TabBarPage: String, CaseIterable {
 }
 
 protocol TabCoordinatorProtocol {
-    var tabBarController: UITabBarController { get set }
-    
+    var tabBarController: TabBarController { get set }
     func selectPage(_ page: TabBarPage)
-    
     func setSelectedIndex(_ index: Int)
-    
     func currentPage() -> TabBarPage?
+}
+
+protocol SetDateDelegate: AnyObject {
+    func setLikeDate(date: Date)
 }
 
 // MARK: - TabCoordinator
@@ -77,16 +77,22 @@ final class TabCoordinator: NSObject, Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     weak var addButtonDelegate: TabBarAddButtonDelegate?
+    weak var setDateDelegate: SetDateDelegate?
     
     required init(
         _ navigationController: UINavigationController,
         tabBarController: TabBarController = TabBarController()
     ){
-        
         self.navigationController = navigationController
         self.tabBarController = tabBarController
         super.init()
         self.tabBarController.addDelegate = self
+        addObservers()
+    }
+    
+    deinit {
+        print("TabCoordinator deinit")
+        NotificationCenter.default.removeObserver(self)
     }
     
     // UITabBarItem 생성
@@ -124,12 +130,14 @@ final class TabCoordinator: NSObject, Coordinator {
         
         switch tabBarItemType {
         case .home:
+            print("selected - home")
             let calendarCoordinator = CalendarCoordinator(navigationController: tabNavigationController)
             calendarCoordinator.finishDelegate = self
             self.childCoordinators.append(calendarCoordinator)
             calendarCoordinator.start()
             
         case .chart:
+            print("selected - chart")
             let chartCoordinator = ChartCoordinator(navigationController: tabNavigationController)
             chartCoordinator.finishDelegate = self
             self.childCoordinators.append(chartCoordinator)
@@ -139,6 +147,7 @@ final class TabCoordinator: NSObject, Coordinator {
             break
             
         case .feed:
+            print("selected - feed")
             let feedCoordinator = FeedCoordinator(navigationController: tabNavigationController)
             feedCoordinator.parentCoordinator = self
             feedCoordinator.finishDelegate = self
@@ -146,6 +155,7 @@ final class TabCoordinator: NSObject, Coordinator {
             feedCoordinator.start()
             
         case .profile:
+            print("selected - profile")
             let profileCoordinator = MyPageCoordinator(navigationController: tabNavigationController)
             profileCoordinator.finishDelegate = self
             self.childCoordinators.append(profileCoordinator)
@@ -164,7 +174,7 @@ final class TabCoordinator: NSObject, Coordinator {
     
     private func addTabBarController() {
         // 화면에 추가
-        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
+//        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
         self.navigationController.pushViewController(self.tabBarController, animated: true)
     }
     
@@ -206,8 +216,6 @@ extension TabCoordinator: CoordinatorFinishDelegate {
 // MARK: - TabBarAddButtonDelegate
 extension TabCoordinator: TabBarAddButtonDelegate {
     func addButtonTapped() {
-        print("add!!")
-        
         let addCoordinator = AddCoordinator(navigationController: UINavigationController())
         addCoordinator.parentCoordinator = self
         addCoordinator.finishDelegate = self
@@ -218,3 +226,58 @@ extension TabCoordinator: TabBarAddButtonDelegate {
         tabBarController.present(addCoordinator.navigationController, animated: true)
     }
 }
+// MARK: - TabCoordinatorProtocol
+extension TabCoordinator: TabCoordinatorProtocol {
+    func selectPage(_ page: TabBarPage) {
+        self.tabBarController.selectedIndex = page.pageOrderNumber()
+    }
+    
+    func setSelectedIndex(_ index: Int) {
+        guard let page = TabBarPage(index: index) else { return }
+        self.tabBarController.selectedIndex = page.pageOrderNumber()
+    }
+
+    func currentPage() -> TabBarPage? {
+        TabBarPage(index: self.tabBarController.selectedIndex)
+    }
+}
+// MARK: - NotificationCeneter observer
+extension TabCoordinator {
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didReceiveLikeNotification(_:)),
+            name: NSNotification.Name.DidReceiveLikeNotification,
+            object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didReceiveLogoutNotification(_:)),
+            name: NSNotification.Name.logoutNotification,
+            object: nil)
+    }
+    
+    @objc func didReceiveLikeNotification(_ notification: Notification) {
+        print("likedDidReceive- tab coordinator")
+        guard let date = notification.userInfo?[NotificationCenterKey.likeFeed] as? Int64 else { return }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(70)) { [weak self] in
+            self?.setSelectedIndex(0) // Calender로 이동
+            
+        }
+//        let dateString = "2023121300000000" // 2023-12-12 15:00:00 +0000
+//        let dateStrToDate = String(date).makeData()
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
+//        NotificationCenter.default.post(
+//            name: NSNotification.Name.DidReceiveShowLikedPostNotification,
+//            object: nil,
+//            userInfo: [NotificationCenterKey.likeFeed: dateStrToDate])
+//        }
+    }
+    
+    @objc func didReceiveLogoutNotification(_ notification: Notification) {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
