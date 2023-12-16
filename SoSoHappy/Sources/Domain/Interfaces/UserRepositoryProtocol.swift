@@ -13,7 +13,7 @@ protocol UserRepositoryProtocol {
     func checkDuplicateNickname(request: CheckNickNameRequest) -> Observable<CheckNickNameResponse>
     func setProfile(profile: Profile) -> Observable<SetProfileResponse>
     func resign(email: ResignRequest) -> Observable<ResignResponse>
-    func getRefreshToken() -> Observable<AuthResponse>
+    func getRefreshToken() -> Observable<RelssueTokenResponse>
     func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage>
     func findIntroduction(request: FindIntroductionRequest) -> Observable<String>
 }

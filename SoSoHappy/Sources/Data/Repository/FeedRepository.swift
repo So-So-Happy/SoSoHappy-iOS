@@ -236,8 +236,15 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
             return Disposables.create() {
                 disposable.dispose()
             }
-            
         }
+    }
+    
+    func getFeedImages(ids: [Int]) -> Observable<[UIImage]> {
+        return Observable.from(ids)
+            .flatMap { i in self.findFeedImage(request: FindFeedImageRequest(imageId: i)).catchAndReturn(nil) }
+            .compactMap { $0 }
+            .toArray()
+            .asObservable()
     }
     
     func analysisHappiness(request: HappinessRequest) -> Observable<AnalysisHappinessResponse> {
