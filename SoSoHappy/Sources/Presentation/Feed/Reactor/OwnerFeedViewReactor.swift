@@ -60,7 +60,7 @@ final class OwnerFeedViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .refresh:
-            print("💖OwnerFeedReactor - refresh")
+//            print("💖OwnerFeedReactor - refresh")
             // 프로필 사진 조회
             // 프로필 소개글 조회
             // 특정 유저 피드 리스트 조회 (page: 0)
@@ -71,7 +71,7 @@ final class OwnerFeedViewReactor: Reactor {
             ])
             
         case .fetchFeeds: // page: 0
-            print("💖OwnerFeedReactor - fetchFeeds")
+//            print("💖OwnerFeedReactor - fetchFeeds")
             return .concat([
                 .just(.isLoading(true)),
 //                fetchUserInformation(page: 0).delay(.seconds(3), scheduler: MainScheduler.instance),
@@ -80,7 +80,7 @@ final class OwnerFeedViewReactor: Reactor {
             ])
             
         case .pagination:
-            print("💖OwnerFeedReactor - pagination")
+//            print("💖OwnerFeedReactor - pagination")
             return .concat([
                 .just(.isPaging(true)),
                 findUserFeeds(dstNickname: self.ownerNickName, page: nil),
@@ -88,7 +88,7 @@ final class OwnerFeedViewReactor: Reactor {
             ])
             
         case .block:
-            print("💖OwnerFeedReactor - blocked")
+//            print("💖OwnerFeedReactor - blocked")
             return .just(.isBlockSucceeded(true))
             
         }
@@ -98,15 +98,22 @@ final class OwnerFeedViewReactor: Reactor {
         var state = state
         switch mutation {
         case let .setRefreshing(isRefreshing):
-            print("💖 reduce - setRefreshing: \(isRefreshing)")
+//            print("💖 reduce - setRefreshing: \(isRefreshing)")
             state.isRefreshing = isRefreshing
             
         case let .isLoading(isLoading):
             print("💖 reduce - isLoading: \(isLoading)")
+//            if !isLoading {
+//                let interval = Date().timeIntervalSince(tempData)
+//                print("💖 Time interval!!!!! : \(interval)")
+//            } else {
+//                tempData = Date()
+//            }
+            
             state.isLoading = isLoading
             
         case let .setProfile(selfIntroduction):
-            print("💖 reduce - setProfile: \(selfIntroduction)")
+//            print("💖 reduce - setProfile: \(selfIntroduction)")
             state.profile = Profile(email: "", nickName: self.ownerNickName, profileImg: self.profileImage ?? UIImage(named: "profile")!, introduction: selfIntroduction)
             
         case let .updateDataSource(sectionItem):
@@ -157,10 +164,10 @@ extension OwnerFeedViewReactor {
             pages += 1
         }
         
-        return feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: pages, size: 7))
+        return feedRepository.findUserFeed(request: FindUserFeedRequest(srcNickname: srcNickname, dstNickname: dstNickname, page: pages, size: 20))
                 .map { [weak self] (userFeeds, isLast: Bool) in
                     self?.isLastPage = isLast
-                    
+                    print("owner userFeeds : \(userFeeds)")
                     print("💖 isLast - \(isLast), userFeeds : \(userFeeds)")
                     let feedReactors = userFeeds.map { UserFeedSection.Item.feed(FeedReactor(userFeed: $0, feedRepository: FeedRepository(), userRepository: UserRepository())) }
                     return Mutation.updateDataSource(feedReactors)

@@ -133,7 +133,6 @@ extension FeedDetailViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] userFeed in
                 guard let `self` = self else { return }
-//                print("FeedReactor - FeedDetailViewController - userFeed : \(userFeed)")
                 if let userFeed = userFeed {
                     setFeed(feed: userFeed)
                 } else {

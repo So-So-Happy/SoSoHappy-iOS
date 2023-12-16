@@ -104,7 +104,7 @@ final class FeedViewReactor: Reactor {
             ])
             
         case .pagination: // paging
-            print("mutate - pagination - date - \(Date())")
+            print("~~~ mutate - pagination - date - \(Date())")
             return .concat([
                 .just(.isPaging(true)),
                 
@@ -124,7 +124,7 @@ final class FeedViewReactor: Reactor {
         case let .sortOption(sortOption):
 //            print("reduce (157) sortOption - \(sortOption), isLoading : \(state.isLoading), setRefreshing : \(state.isRefreshing), isPaging: \(state.isPaging), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
             state.sortOption = sortOption
-            tempData = Date()
+//            tempData = Date()
             
         case let .isLoading(isLoading):
 //            print("reduce (162) sortOption - \(state.sortOption), isLoading : \(isLoading), setRefreshing : \(state.isRefreshing), isPaging: \(state.isPaging), pages: \(pages), isLastPage : \(isLastPage), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
@@ -147,12 +147,12 @@ final class FeedViewReactor: Reactor {
             
             // MARK: 시간 확인용 test 코드
 //            print("🤍 isPaging: \(isPaging), time : \(Date())")
-//            if isPaging {
-//                tempData = Date()
-//            } else {
-//                let interval = Date().timeIntervalSince(tempData)
-//                print("Time interval : \(interval)")
-//            }
+            if isPaging {
+                tempData = Date()
+            } else {
+                let interval = Date().timeIntervalSince(tempData)
+                print("~~~ Time interval : \(interval)")
+            }
             
             state.isPaging = isPaging
             
@@ -165,7 +165,7 @@ final class FeedViewReactor: Reactor {
 //                print("reduce (fetching)  : \(state.sections.items.count)")
             }
             
-//            print("reduce (updateDataSource) - \(state.sections.items.count)")
+            print("~~~reduce (updateDataSource) - \(state.sections.items.count)")
         }
         
         return state
@@ -205,11 +205,12 @@ extension FeedViewReactor {
         let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
         let nickname = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
     
-        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: nickname, date: requestDate, page: pages, size: 7)) // 원래 size 7
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: nickname, date: requestDate, page: pages, size: 24)) // 원래 size 7
             .flatMap { [weak self] (userFeeds, isLast) -> Observable<Mutation> in
                 guard let self = self else { return .empty() }
                 isLastPage = isLast
-//                print("userFeeds: \(userFeeds)")
+                print("🐨isLast: \(isLast), userFeeds: \(userFeeds)")
+                print("🐨🐨 count : \(userFeeds.count)")
 
                 if userFeeds.isEmpty { return Observable.just(.updateDataSource([])) }
                 
@@ -250,12 +251,12 @@ extension FeedViewReactor {
         
         return sharedRequest
             .map { profileImgFromServer in
-//                print("🎉 요청 시작 , nickname : \(feed.nickName), 날짜 : \(feed.dateFormattedString)")
+                print("🎉 요청 시작 , nickname : \(feed.nickName), 날짜 : \(feed.dateFormattedString)")
                 return self.handleProfileImageRequestResult(profileImgFromServer, feed, cacheImage: true)
 //                            return reactor
             }
             .catch { error in
-//                print("🚫 프로필 이미지 조회 error : \(error.localizedDescription), nickname : \(feed.nickName)")
+                print("🚫 프로필 이지 조회 error : \(error.localizedDescription), nickname : \(feed.nickName)")
                 return Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())))
             }
             .do(onDispose: {
