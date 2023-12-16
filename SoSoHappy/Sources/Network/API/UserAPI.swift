@@ -137,7 +137,6 @@ extension UserAPI {
     }
 }
 
-
 extension UserAPI: JWTAuthorizable {
     var authorizationType: JWTAuthorizationType? {
         switch self {
@@ -153,22 +152,8 @@ extension UserAPI: JWTAuthorizable {
     }
 }
 
-
 extension UserAPI {
     public var validationType: ValidationType {
         return .successCodes
     }
 }
-
-//
-//let parameters = [
-//           "userName" : userName
-//       ]
-//       guard let url = urlComponent?.url else {
-//           return
-//       }
-//
-//       Alamofire.upload(multipartFormData: { multipartFormData in
-//           for (key, value) in parameters {
-//               multipartFormData.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
-//           }

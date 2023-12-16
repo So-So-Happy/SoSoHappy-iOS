@@ -42,7 +42,6 @@
 		069D642C2AD83335003834E5 /* FeedAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642B2AD83335003834E5 /* FeedAPI.swift */; };
 		069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642D2AD83432003834E5 /* FeedRepository.swift */; };
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
-		069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */; };
 		06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */; };
@@ -52,6 +51,9 @@
 		06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ECF2B1762B200CC7C47 /* Preview.swift */; };
 		06CD8ED22B18647B00CC7C47 /* ChartEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */; };
 		06CD8EDC2B1A2B9F00CC7C47 /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */; };
+		06D5ABA82B2B64F200524E7F /* Interceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D5ABA72B2B64F100524E7F /* Interceptor.swift */; };
+		06D5ABAA2B2C325E00524E7F /* JWTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D5ABA92B2C325E00524E7F /* JWTService.swift */; };
+		06D5ABAC2B2C3B2900524E7F /* ReIssueTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D5ABAB2B2C3B2900524E7F /* ReIssueTokenResponse.swift */; };
 		06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */; };
 		06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */; };
 		06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */; };
@@ -286,7 +288,6 @@
 		069D7AF02ACFFD3700C815F1 /* ResponseContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseContainer.swift; sourceTree = "<group>"; };
 		069D7AF62ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
 		069D7AF82AD0344300C815F1 /* HappinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappinessLevel.swift; sourceTree = "<group>"; };
-		069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAPI.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewCoordinator.swift; sourceTree = "<group>"; };
 		06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWeatherHappinessViewController.swift; sourceTree = "<group>"; };
@@ -296,6 +297,9 @@
 		06CD8ECF2B1762B200CC7C47 /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		06CD8ED12B18647A00CC7C47 /* ChartEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartEntry.swift; sourceTree = "<group>"; };
 		06CD8EDB2B1A2B9F00CC7C47 /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
+		06D5ABA72B2B64F100524E7F /* Interceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interceptor.swift; sourceTree = "<group>"; };
+		06D5ABA92B2C325E00524E7F /* JWTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTService.swift; sourceTree = "<group>"; };
+		06D5ABAB2B2C3B2900524E7F /* ReIssueTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReIssueTokenResponse.swift; sourceTree = "<group>"; };
 		06D825EA2AE2D5E300319D1A /* HappyListCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCoordinator.swift; sourceTree = "<group>"; };
 		06D825EC2AE3AC8B00319D1A /* AwardsDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AwardsDetailViewController.swift; sourceTree = "<group>"; };
 		06D825EF2AE3AE1700319D1A /* ChartViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewReactor.swift; sourceTree = "<group>"; };
@@ -547,8 +551,10 @@
 		0613BCE52AA9F16800E2B97F /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				06D5ABA92B2C325E00524E7F /* JWTService.swift */,
 				0613BCDF2AA9D60D00E2B97F /* JWTAuthorizationType.swift */,
 				0613BCD92AA8AC4200E2B97F /* NetworkLoggerPlugin.swift */,
+				06D5ABA72B2B64F100524E7F /* Interceptor.swift */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -569,7 +575,6 @@
 			children = (
 				0613BCD02AA5F7B000E2B97F /* UserAPI.swift */,
 				069D642B2AD83335003834E5 /* FeedAPI.swift */,
-				069D7AFC2AD1CF5200C815F1 /* TestAPI.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1381,6 +1386,7 @@
 				80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */,
 				80EB56962B23007D00029908 /* FindFeedImageResponse.swift */,
 				807E78602B2A1D7600941C1D /* ImageResponse.swift */,
+				06D5ABAB2B2C3B2900524E7F /* ReIssueTokenResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1785,12 +1791,14 @@
 				808650EC2AD6CCFE0036CCFB /* FindHappinessResponse.swift in Sources */,
 				06CD8ED02B1762B200CC7C47 /* Preview.swift in Sources */,
 				80AD68B72AC68BC300DD3D5F /* StatusBarStackView.swift in Sources */,
+				06D5ABAC2B2C3B2900524E7F /* ReIssueTokenResponse.swift in Sources */,
 				67E7DB922A8138EB00C33988 /* MyPageViewController.swift in Sources */,
 				808650D42AD6CCDD0036CCFB /* ResignRequest.swift in Sources */,
 				0661C9B42A90A9B10075B5A3 /* ProfileView.swift in Sources */,
 				060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */,
 				80760F1D2AE2609100103DF4 /* FindIntroductionResponse.swift in Sources */,
 				80AD68B52AC5D75B00DD3D5F /* AddViewReactor.swift in Sources */,
+				06D5ABAA2B2C325E00524E7F /* JWTService.swift in Sources */,
 				069D64292AD832B3003834E5 /* UserRepositoryProtocol.swift in Sources */,
 				67E7DB7E2A81380500C33988 /* CalenderCoordinator.swift in Sources */,
 				67021E672A83CBCD00B47A6B /* AddStep1ViewController.swift in Sources */,
@@ -1816,6 +1824,7 @@
 				0661C9B62A90C88D0075B5A3 /* SettingCellView.swift in Sources */,
 				808650F22AD6CCFE0036CCFB /* UpdatePublicStatusResponse.swift in Sources */,
 				808650EA2AD6CCFE0036CCFB /* CheckNickNameResponse.swift in Sources */,
+				06D5ABA82B2B64F200524E7F /* Interceptor.swift in Sources */,
 				671F97E12AFB940100222811 /* NotificationSettingViewReactor.swift in Sources */,
 				67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
@@ -1828,7 +1837,6 @@
 				674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */,
 				06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
-				069D7AFD2AD1CF5200C815F1 /* TestAPI.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
 				67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */,
@@ -2117,6 +2125,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z8GC9N3WDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SoSoHappy/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"소소해피\"가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -2156,6 +2165,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = Z8GC9N3WDL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SoSoHappy/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"소소해피\"가 프로필 사진 등록, 게시글에 사진 첨부와 같은 기능 사용을 위해 사진 라이브러리에 접근하도록 허용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

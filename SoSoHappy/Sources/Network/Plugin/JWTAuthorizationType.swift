@@ -28,7 +28,7 @@ public enum JWTAuthorizationType {
         case .accessToken:
             return ["Authorization", "email"]
         case .refreshToken:
-            return ["Authorization", "email", "Authorization-refresh"]
+            return ["Authorization", "Email", "Authorization-refresh"]
         }
     }
 }

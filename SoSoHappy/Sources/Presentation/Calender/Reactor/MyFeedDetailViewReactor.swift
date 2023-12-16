@@ -63,6 +63,7 @@ final class MyFeedDetailViewReactor: Reactor {
         // MARK: DetailView
         case setImageStackView
         case setContent(String)
+        case setInitialImages([UIImage])
         case setSelectedImages([UIImage])
         case isPrivate(Bool)
         case saveFeed(Bool)
@@ -101,6 +102,7 @@ final class MyFeedDetailViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear(let feed):
+            // findFeedImage(ids: )
             return .concat([
                 .just(.setSelectedWeather(getWeatherIndex(for: feed.weather) ?? 0)),
                 .just(.setSelectedHappiness(feed.happiness)),
@@ -108,7 +110,8 @@ final class MyFeedDetailViewReactor: Reactor {
                 .just(.setDate(feed.date)),
                 .just(.setImageStackView),
                 .just(.setContent(feed.text)),
-                .just(.setSelectedImages(feed.imageList)),
+                feedRepository.getFeedImages(ids: feed.imageIdList)
+                    .map { .setInitialImages($0) },
                 .just(.isPrivate(feed.isPulic))
             ])
         case let .weatherButtonTapped(tag):
@@ -210,6 +213,10 @@ final class MyFeedDetailViewReactor: Reactor {
         case let .setContent(content):
             newState.content = content
             
+        case let .setInitialImages(images):
+            print("setInitialImages: \(images)")
+            newState.selectedImages = images
+            
         case let .setSelectedImages(images):
             newState.selectedImages = images
             
@@ -291,3 +298,4 @@ extension MyFeedDetailViewReactor {
         case happy5 = 5
     }
 }
+

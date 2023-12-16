@@ -60,7 +60,7 @@ extension FeedAPI {
         case .updateLike:
             return Bundle.main.updateLikePath
         case .findFeedImage:
-            return Bundle.main.findFeedImage
+            return Bundle.main.findFeedUiimage
         }
     }
     

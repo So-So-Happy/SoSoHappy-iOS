@@ -13,7 +13,7 @@ final class AwardsView: UIView {
     
     // MARK: - Properties
     
-    
+    // TODO: - 텅뷰 만들기
     private lazy var awardsLabel = UILabel().then {
         $0.text = "이번 달 베스트 소확행 어워즈 🏆"
         $0.font = UIFont.customFont(size: 16, weight: .semibold)
@@ -23,6 +23,7 @@ final class AwardsView: UIView {
     private lazy var image1 = UIImageView(image: UIImage(named: "food"))
     private lazy var image2 = UIImageView(image: UIImage(named: "dessert"))
     private lazy var image3 = UIImageView(image: UIImage(named: "trip"))
+    private lazy var emptyView = FeedExceptionView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,10 +39,6 @@ final class AwardsView: UIView {
 // MARK: - Layout & Attribute
 private extension AwardsView {
     
-    func setCategory() {
-        
-    }
-    
     //  MARK: 뷰 구성요소 세팅
     private func setUpView() {
         addSubview(awardsLabel)
@@ -51,6 +48,10 @@ private extension AwardsView {
     
     //  MARK: 뷰 구성요소 제약 설정
     private func setConstraints() {
+        addSubview(awardsLabel)
+        addSubview(awardsImageView)
+        addSubviews(image1, image2, image3)
+        
         awardsLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalToSuperview()
@@ -85,10 +86,19 @@ private extension AwardsView {
             $0.bottom.equalTo(awardsImageView.snp.top).offset(61)
         }
     }
+    
+    func setEmptyView() {
+        addSubview(emptyView)
+        emptyView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 }
 
 extension AwardsView {
-    func setAwardsCategories() {
-        
+    func setAwardsCategories(categories: [String]) {
+//        self.image1 = UIImageView(image: UIImage(named: "\(categories[1])"))
+//        self.image2 = UIImageView(image: UIImage(named: "\(categories[0])"))
+//        self.image3 = UIImageView(image: UIImage(named: "\(categories[2])"))
     }
 }

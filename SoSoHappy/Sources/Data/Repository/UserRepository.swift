@@ -129,11 +129,29 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
         }
     }
     
-    func getRefreshToken() -> Observable<AuthResponse> {
-        let provider = accessProvider()
-        return provider.rx.request(UserAPI.getRefreshToken)
-            .map(AuthResponse.self)
-            .asObservable()
+    func getRefreshToken() -> Observable<RelssueTokenResponse> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.getRefreshToken)
+                .map(RelssueTokenResponse.self)
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("response: \(response)")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("error: \(error.localizedDescription)")
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
     }
     
     func resign(email: ResignRequest) -> RxSwift.Observable<ResignResponse> {

@@ -45,17 +45,10 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.layer.cornerRadius = 10
     }
     
-//    let monthToIdxDict: [String: Double] = Dictionary(uniqueKeysWithValues: zip(months, 0.0...11.0))
-    
-    let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
-    var days: [String] = []
-    var unitsSold: [Double] = []
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setConstraints()
-//        setUpView()
+        setNickName()
     }
     
     required init?(coder: NSCoder) {
@@ -70,7 +63,7 @@ final class ChartView: UIView, ChartViewDelegate {
     //  MARK: - 뷰 구성요소 세팅
     private func setUpView(_ data: [ChartEntry]) {
         setConstraints()
-//        setChart()
+        setNickName()
     }
     
     //  MARK: - 뷰 구성요소 제약 설정
@@ -171,9 +164,9 @@ final class ChartView: UIView, ChartViewDelegate {
         // month: 1.0 ~ 31.0
         // x축 값 설정
         if self.segmentedControl.selectedSegmentIndex == 0 {
-//            let customFormatter = MonthChartFormatter(days: Array(1...Int(data.last?.x ?? 31)).map{String($0)})
-//            graphView.xAxis.valueFormatter = customFormatter
-//            print(Array(1...Int(data.last?.x ?? 31)))
+            let days = (0...(Int(data.last?.x ?? 31))).map { "\($0)일" }
+            let customFormatter = MonthChartFormatter(days: days)
+            graphView.xAxis.valueFormatter = customFormatter
             
             graphView.xAxis.axisMinimum = 1
             graphView.xAxis.axisMaximum = data.last?.x ?? 31
@@ -240,6 +233,21 @@ final class ChartView: UIView, ChartViewDelegate {
         
     }
     
+    func setNickName() {
+        let provider = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo",
+            forKey: "provider"
+        ) ?? ""
+        
+        let nickName = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo\(provider)",
+            forKey: "userNickName"
+        ) ?? ""
+        
+        self.graphLabel.text = "\(nickName)님의 행복 그래프 💖"
+        
+    }
+    
 }
 
 // xAxis data , dataSet
@@ -261,6 +269,10 @@ public class MonthChartFormatter: NSObject, AxisValueFormatter {
 
     public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return days[Int(value)]
+    }
+    
+    public func makeDays() {
+        
     }
 }
 
