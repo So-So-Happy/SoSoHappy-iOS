@@ -13,6 +13,7 @@ protocol CalendarCoordinatorInterface: AnyObject {
     func pushListView(date: Date)
     func dismiss()
     func finished()
+    func goToRoot()
 }
 
 final class CalendarCoordinator: Coordinator {
@@ -32,12 +33,12 @@ final class CalendarCoordinator: Coordinator {
     func start() {
         let viewController = makeCalendarViewController()
         navigationController.pushViewController(viewController, animated: true)
+        
     }
     
 }
 
 extension CalendarCoordinator: CalendarCoordinatorInterface {
-
     func pushAlarmView() {
         let viewController = makeAlarmViewController()
         navigationController.pushViewController(viewController, animated: false)
@@ -59,6 +60,7 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
         self.childCoordinators.append(coordinator)
         print("feed: \(feed)")
         coordinator.showDetailView(feed: feed)
+        print("check: \(childCoordinators.count), \(navigationController.viewControllers.count)")
     }
     
     func dismiss() {
@@ -67,7 +69,7 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
     }
     
     func finished() {
-        navigationController.popViewController(animated: true)
+//        navigationController.popViewController(animated: true)
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
@@ -82,6 +84,7 @@ extension CalendarCoordinator {
             )
             , coordinator: self
         )
+    
         
         return viewController
     }
@@ -91,6 +94,14 @@ extension CalendarCoordinator {
         return viewController
     }
     
+    // TODO: 만약에 detailViewController에서 뭐 하고 있었으면 거기 childcoordinator, viewcontroller 정리해줘야 누적안될듯(확인해보기)
+    func goToRoot() {
+        // Remove all child coordinators
+        childCoordinators.removeAll()
+        // Pop to the root view controller
+        navigationController.popToRootViewController(animated: false)
+    }
+
 //    func makeDetailViewController(feed: MyFeed) -> UIViewController {
 //        let reactor = MyFeedDetailViewReactor(feedRepository: FeedRepository())
 //        let viewController = MyFeedDetailViewController(reactor: reactor, coordinator: self, feed: feed)

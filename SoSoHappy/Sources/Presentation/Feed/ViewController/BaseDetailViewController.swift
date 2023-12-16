@@ -66,8 +66,6 @@ class BaseDetailViewController: UIViewController {
         print("BaseDetailViewController - setFeed: \(feed)")
         let bgName: String = feed.weather + "Bg"
         let image = UIImage(named: bgName)!
-        let opacity: CGFloat = 0.5
-        let color = UIColor(patternImage: image).withAlphaComponent(opacity)
         scrollView.backgroundColor = UIColor(patternImage: image)
         
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 50)
@@ -95,6 +93,28 @@ class BaseDetailViewController: UIViewController {
             imageSlideView.setImages(ids: ids)
             
         }
+    }
+    
+    // MARK: AddStep3에서 사용 중임 (삭제 X)
+    func setImageSlideView(imageList: [UIImage]) {
+        if imageList.isEmpty {
+            imageSlideView.isHidden = true
+            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
+                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 없음")
+                make.height.equalTo(0)
+            }
+            
+        } else {
+            imageSlideView.isHidden = false
+            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
+                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 있음")
+                make.height.equalTo(300)
+            }
+            
+            imageSlideView.setContentsWithImageList(imageList: imageList)
+            
+        }
+        
     }
 }
 
@@ -137,12 +157,11 @@ extension BaseDetailViewController {
             make.horizontalEdges.equalToSuperview().inset(40)
         }
         
-        
+        // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
         imageSlideView.snp.makeConstraints { make in
             print("imageSlideView  makeConstraints")
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview().inset(30)
-            make.height.equalTo(0)
         }
     }
 }

@@ -15,11 +15,14 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
+
+// TODO: badge, background 혹은 killed 되었을 때 처리
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let gcmMessageIDKey: String = "gcm.Message_ID"
-
+    
+    // MARK: - 앱이 켜졌을 때
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
@@ -27,12 +30,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RxKakaoSDK.initSDK(appKey: nativeKakaoAppKey as! String)
         
         RxImagePickerDelegateProxy.register { RxImagePickerDelegateProxy(imagePicker: $0) }
-        
+    
+        // MARK: 파이어베이스 설정
         FirebaseApp.configure()
         
-        // MARK: Push Notifications
-        // Register for remote notifications  - 원격 알림 등록
+        // MARK: 원격 알림 등록 - 앱이 foreground일 때도 푸시 메시지를 받도록
         UNUserNotificationCenter.current().delegate = self
+
         application.registerForRemoteNotifications()
         
         if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject] {
@@ -61,6 +65,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
     }
     
+    // MARK: FCM 토큰이 등록 되었을 때 - apnsToken이랑 연결
+    func application(_ application: UIApplication,
+                        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+         Messaging.messaging().apnsToken = deviceToken
+       }
+    
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         if AuthApi.isKakaoTalkLoginUrl(url) {
             return AuthController.rx.handleOpenUrl(url: url)
@@ -72,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: UISceneSession Lifecycle
-    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.
@@ -86,7 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: - Core Data stack
-
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -130,8 +139,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
 // MARK: - MessagingDelegate
 extension AppDelegate: MessagingDelegate {
+    // MARK: FCM 등록 토큰을 받았을 때
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
       print("Firebase registration token: \(String(describing: fcmToken))")
       UserDefaults.standard.setValue(fcmToken, forKey: "fcmToken")
@@ -148,25 +159,15 @@ extension AppDelegate: MessagingDelegate {
 
 }
 
-// MARK: - UNUserNotificationCenterDelegate
+// MARK: - UNUserNotificationCenterDelegate : 푸시가 보여질 때, 푸시 받았을 때
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func application(application: UIApplication,
-                        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-         Messaging.messaging().apnsToken = deviceToken
-       }
-    
-    
+    // MARK: 앱이 foreground일 때만 호출된다고 알고 있음
+    // background 일 때도 혹시나 되는지 한번 확인해보기
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification) async
     -> UNNotificationPresentationOptions {
         let userInfo = notification.request.content.userInfo
         
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
-        // ...
-        
-        // Print full message.
         print("willPresent userInfo", userInfo)
         
         // Change this to your preferred presentation option
@@ -174,15 +175,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         return isOnNotificationSetting ? [[.alert, .sound]] : []
     }
     
+    // MARK: 푸시 메시지 들어올 때 (background 포함)
+    // MARK: 알림 탭했을 작동하는 곳
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
-        
-        // ...
-        
-        // With swizzling disabled you must let Messaging know about the message, for Analytics
-        // Messaging.messaging().appDidReceiveMessage(userInfo)
-        
+    
         // Print full message.
         print("didReceive userInfo: \(userInfo)")
         let title = response.notification.request.content.title
@@ -190,8 +188,26 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let body = response.notification.request.content.body
         print("body: \(body)")
         
+        // TODO: 실제 알림 받아보고 date 빼내는 코드 추가 필요
+        
+        let date: Int64 = 2023122319321353 // 예제
+        
+        // 일단 알림을 받았다는건 로그인이 되어있다는 것이 기본이기 때문에
+        // AppCoordinator -> TabCoordinator
+        // tabBarController.selectedIndex = index
+        // findDayFeed 해서 받은 MyFeed를 
+        // calender coordinator에서 pushDetailView(feed:)
+        
+        // CoreData에서 삭제해줘야 함
+        
         let application = UIApplication.shared
         
+//        NotificationCenter.default.post(
+//            name: NSNotification.Name.liked,
+//            object: nil,
+//            userInfo: [NotificationCenterKey.LikeFeed: date])
+//
+        // MARK: 이 경우 고려하지 않아도 될 것 같음
         //앱이 켜져있는 상태에서 푸쉬 알림을 눌렀을 때
         if application.applicationState == .active {
             print("푸쉬알림 탭(앱 켜져있음)")
@@ -206,10 +222,16 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         if application.applicationState == .inactive {
             print("푸쉬알림 탭(앱 꺼져있음)")
         }
+        
+        NotificationCenter.default.post(
+            name: NSNotification.Name.DidReceiveLikeNotification,
+            object: nil,
+            userInfo: [NotificationCenterKey.likeFeed: date])
     }
     
+
         
-        // MARK: Handles silent push notifications
+    // MARK: Handles silent push notifications
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
       -> UIBackgroundFetchResult {

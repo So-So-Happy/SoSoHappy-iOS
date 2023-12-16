@@ -41,9 +41,9 @@ extension FeedCoordinator {
     func showdDetails(feedReactor: FeedReactor) {
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedReactor: feedReactor, navigatingFrom: .feedViewController)
         feedDetailCoordinator.parentCoordinator = self
-//        feedDetailCoordinator.finishDelegate = self
+        //        feedDetailCoordinator.finishDelegate = self
         self.childCoordinators.append(feedDetailCoordinator)
-//        print("🗂️ (detail) Feed Coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
+        //        print("🗂️ (detail) Feed Coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         feedDetailCoordinator.start()
     }
     
@@ -51,7 +51,7 @@ extension FeedCoordinator {
         let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName, navigatingFrom: .feedViewController)
         ownerFeedCoordinator.parentCoordinator = self
         self.childCoordinators.append(ownerFeedCoordinator)
-//        print("🗂️ (owner) Feed Coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
+        //        print("🗂️ (owner) Feed Coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         ownerFeedCoordinator.start()
     }
 }

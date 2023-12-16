@@ -13,6 +13,7 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 import RxKeyboard
+import RxGesture
 
 /*
  9. textview에 제한된 글자 넘어가서 1개 더 보이는 문제 해결하기
@@ -35,7 +36,6 @@ final class AddStep3ViewController: BaseDetailViewController {
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
-        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
@@ -58,7 +58,7 @@ final class AddStep3ViewController: BaseDetailViewController {
     }
     
     lazy var textCountLabel = UILabel().then {
-        $0.font = UIFont.systemFont(ofSize: 13)
+        $0.font = UIFont.customFont(size: 13, weight: .light)
         $0.textColor = .lightGray
         $0.textAlignment = .right
     }
@@ -88,6 +88,7 @@ final class AddStep3ViewController: BaseDetailViewController {
 // MARK: - set up
 extension AddStep3ViewController {
     private func setup() {
+        print("AddStep3 setup")
         setAttributes()
         setLayoutForAddStep3()
     }
@@ -97,7 +98,7 @@ extension AddStep3ViewController {
         textView.inputAccessoryView = addKeyboardToolBar
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        print("editable \(textView.isEditable)")
+//        print("editable \(textView.isEditable)")
     }
     
     private func setLayoutForAddStep3() {
@@ -132,6 +133,10 @@ extension AddStep3ViewController {
             make.left.top.equalToSuperview().inset(14)
             make.size.equalTo(24)
         }
+        // imageSlideView
+        imageSlideView.snp.makeConstraints { make in
+            make.height.equalTo(0)
+        }
         
         // placeholder
         placeholderLabel.snp.makeConstraints { make in
@@ -152,10 +157,7 @@ extension AddStep3ViewController: View {
         
         textView.rx.text.orEmpty
             .skip(1)
-            .map {
-                print("💖🔆 content - \($0)")
-                return Reactor.Action.setContent($0)
-            }
+            .map { Reactor.Action.setContent($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -163,7 +165,6 @@ extension AddStep3ViewController: View {
             .subscribe { [weak self] _ in
                 guard let self = self else { return }
                 if textView.isFirstResponder {
-                    print("textview가 대답중")
                     textView.resignFirstResponder()
                 }
             }
@@ -178,7 +179,8 @@ extension AddStep3ViewController: View {
         
 
         RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [scrollView] keyboardVisibleHeight in
+            .drive(onNext: { [weak self] keyboardVisibleHeight in
+                guard let self = self else { return }
                 if keyboardVisibleHeight > 0 {
                     scrollView.contentInset.bottom = keyboardVisibleHeight + 15
                 } else {
@@ -210,8 +212,8 @@ extension AddStep3ViewController: View {
         
         // TODO: debouce ? throttle 적용 필요
         saveButton.rx.tap
+            .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
             .map {
-                print("save button tapped")
                 self.view.endEditing(true)
                 self.tapSave = true
                 return Reactor.Action.tapSaveButton
@@ -223,7 +225,6 @@ extension AddStep3ViewController: View {
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("back button tapped")
                 coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
@@ -268,7 +269,6 @@ extension AddStep3ViewController: View {
             .compactMap { $0.weatherString }
             .distinctUntilChanged()
             .bind { [weak self] weather in
-//                print("weather type: \(type(of: weather))")
                 guard let self = self else { return }
                 let imageName = weather + "Bg"
                 let image = UIImage(named: imageName)!
@@ -279,10 +279,7 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map {
-                print("🔆reactor.state - \($0.content)")
-                return $0.content
-            }
+            .map { $0.content }
             .bind(to: self.textView.rx.text)
             .disposed(by: disposeBag)
 
@@ -311,16 +308,12 @@ extension AddStep3ViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap {
-//                print("selectedImages : \($0.selectedImages)")
-                return $0.selectedImages
-            }
+            .compactMap { $0.selectedImages }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
 //                print("images.count : \(images.count)")
-                print("images.count : \(images.count)")
-//                setImageSlideView(imageList: images)
+                setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)

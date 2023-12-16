@@ -7,4 +7,6 @@
 
 import Foundation
 
-
+enum NotificationCenterKey {
+    case likeFeed
+}

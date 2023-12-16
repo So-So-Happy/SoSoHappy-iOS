@@ -41,7 +41,9 @@ final public class AppCoordinator: AppCoordinatorProtocol {
             print("👤 nickName: \(String(describing: nickName))")
             print("===================================================")
             showMainFlow()
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+            
+            // MARK: - 처음에 여기에서 세팅해주면 마이페이지 알림에도 적용해줘야할 것 같음
+            let authOptions: UNAuthorizationOptions = [.alert, .sound]
             UNUserNotificationCenter.current().requestAuthorization(
               options: authOptions,
               completionHandler: { granted, error in

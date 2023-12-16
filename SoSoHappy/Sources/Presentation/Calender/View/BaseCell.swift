@@ -73,63 +73,11 @@ class BaseCell: UITableViewCell {
             
         } else { // image가 있으면
             print("BaseCell 사진 있음(O)")
-//            imageSlideView.setContents(feed: feed)
-            setFeedImages(ids: feed.imageIdList)
-            //
-            //        if let imageList = feed.imageList, !imageList.isEmpty { // image가 있으면
-            //            print("BaseCell 사진 있음(O)")
-            ////            imageSlideView.setContents(feed: feed)
-            //            imageSlideView.setContentsWithImageList(imageList: imageList)
-            //            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
-            //        } else { //image가 없다면
-            //            print("BaseCell 사진 없음(X)")
-            //            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
-            //        }
-            
-            // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
-            //        if feed.imageList.isEmpty { //image가 없다면
-            //            imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
-            //
-            //        } else { // image가 있으면
-            //            imageSlideView.setContents(feed: feed)
-            //            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
-            //
-            //        }
+            imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+            imageSlideView.setImages(ids: feed.imageIdList)
         }
-        
-        func setFeedImages(ids: [Int]) {
-            // TODO: 이 부분에서 레이아웃 에러가 나는 것 같아서 다시 한번 봐야 함
-            if ids.isEmpty { //image가 없다면
-                imageSlideViewHeightConstraint?.isActive = false // 제약조건 비활성화
                 
-            } else { // image가 있으면
-                imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
-                imageSlideView.setImages(ids: ids)
-                
-            }
-        }
-        
-        func test(ids: [Int]) {
-            let feedRepository = FeedRepository()
-            Observable.from(ids)
-                .flatMap { i -> Observable<UIImage?> in
-                    return feedRepository.findFeedImage(request: FindFeedImageRequest(imageId: i))
-                        .catchAndReturn(nil)
-                }
-                .toArray()
-                .subscribe({ images in
-                    do {
-                        let images: [UIImage] = try images.get().compactMap { $0 }
-                        //                    self.setFeedImages(images: images)
-                    } catch {
-                        print("Error: \(error)")
-                    }
-                })
-                .disposed(by: self.disposeBag)
-        }
-        
-        // BaseCell을 상속받는 Cell은 자동으로 호출됨
-        // 속성을 초기화 (content는 여기에서 해주는게 적합하지 않음)
+        // 속성을 초기화
         func prepareForReuse() {
             print("BaseCell - prepareForReuse")
             super.prepareForReuse()

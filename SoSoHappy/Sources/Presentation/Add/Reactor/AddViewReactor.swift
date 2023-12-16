@@ -90,9 +90,8 @@ final class AddViewReactor: Reactor {
         var dateString: String?
         var weatherString: String?
         var isPrivate: Bool = true // true - 비공개 , false - 공개
-//        var isSaveFeedSuccess: Bool?
         var isSaveFeedSuccess: Save?
-        var content: String = "" 
+        var content: String = ""
         var selectedImages: [UIImage]?
     }
     
