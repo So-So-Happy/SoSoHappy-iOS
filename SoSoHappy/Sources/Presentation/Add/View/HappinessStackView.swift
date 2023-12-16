@@ -92,10 +92,10 @@ extension HappinessStackView {
         UIView.animate(withDuration: 0.2) { // 0.2초 동안의 애니메이션 효과 설정
             if isSelected {
                 // 버튼을 조금 더 크게 만들기 위해 1.1배 확대
-                button.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
                 
                 // 버튼에 그림자 추가
-                button.layer.shadowColor = UIColor.black.cgColor
+                button.layer.shadowColor = UIColor(named: "DarkGrayTextColor")?.cgColor
                 button.layer.shadowOpacity = 0.8 // 0.5
                 button.layer.shadowOffset = CGSize(width: 0, height: 2)
                 button.layer.shadowRadius = 4

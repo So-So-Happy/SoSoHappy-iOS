@@ -122,14 +122,14 @@ extension AccountManagementViewController: View {
         
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
-                guard let self = self else { return }
+                guard self != nil else { return }
                 CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
     }
 }
 
-//MARK: - Add Subviews & Constraints
+// MARK: - Add Subviews & Constraints
 extension AccountManagementViewController {
     private func setup() {
         setAttribute()

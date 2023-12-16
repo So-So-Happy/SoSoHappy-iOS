@@ -77,7 +77,6 @@ class BaseDetailViewController: UIViewController {
         setImageSlideView(ids: feed.imageIdList)
     }
     
-    
     func setImageSlideView(ids: [Int]) {
         if ids.isEmpty {
             imageSlideView.isHidden = true

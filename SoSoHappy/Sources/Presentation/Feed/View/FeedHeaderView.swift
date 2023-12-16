@@ -41,6 +41,7 @@ final class FeedHeaderView: UIView {
     private lazy var divider = UILabel().then {
         $0.font = .systemFont(ofSize: 12, weight: .medium)
         $0.text = "|"
+        $0.textColor = UIColor(named: "GrayTextColor")
     }
     
     lazy var sortTotalButton = UIButton().then {
@@ -85,13 +86,13 @@ extension FeedHeaderView {
         
         feedSubtitle.snp.makeConstraints { make in
             make.left.equalTo(safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(titleLabel.snp.bottom).offset(8)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
         }
         
         sortTodayTotalStackView.snp.makeConstraints { make in
             make.right.equalTo(safeAreaLayoutGuide).inset(16)
-            make.top.equalTo(feedSubtitle.snp.bottom).offset(40)
-            make.bottom.equalToSuperview().inset(10)
+            make.top.equalTo(feedSubtitle.snp.bottom).offset(20)
+            make.bottom.equalToSuperview()
         }
     }
 }

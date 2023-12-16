@@ -44,6 +44,22 @@ final class FeedDetailViewController: BaseDetailViewController {
         setLayoutForDetail()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = false
+        }
+    }
+    
     init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor

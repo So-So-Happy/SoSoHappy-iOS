@@ -17,9 +17,7 @@ import Moya
 // uipageViewController 사용?
 final class CalendarViewController: UIViewController {
     
-    
-    //MARK: - Properties
-    
+    // MARK: - Properties
     private var coordinator: CalendarCoordinatorInterface
     var disposeBag = DisposeBag()
     
@@ -35,7 +33,6 @@ final class CalendarViewController: UIViewController {
     
     
     //MARK: - UI Components
-    
     private lazy var calendarBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 20
@@ -97,7 +94,6 @@ final class CalendarViewController: UIViewController {
         return Date()
     }()
     
-    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -118,7 +114,6 @@ final class CalendarViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-    
     // MARK: - Init
     init(
         reactor: CalendarViewReactor,
@@ -134,7 +129,6 @@ final class CalendarViewController: UIViewController {
     }
     
 }
-
 
 extension CalendarViewController: View {
     
@@ -255,7 +249,6 @@ extension CalendarViewController: View {
     
 }
 
-
 // MARK: - Action
 private extension CalendarViewController {
     
@@ -301,13 +294,13 @@ private extension CalendarViewController {
         
         previousButton.snp.makeConstraints {
             $0.left.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(150)
+            $0.top.equalToSuperview().inset(140)
             $0.width.height.equalTo(20)
         }
         
         nextButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(150)
+            $0.top.equalToSuperview().inset(140)
             $0.width.height.equalTo(20)
         }
         
@@ -322,7 +315,7 @@ private extension CalendarViewController {
         }
         
         calendarBackgroundView.snp.makeConstraints {
-            $0.top.equalTo(monthLabel).offset(50)
+            $0.top.equalTo(monthLabel).offset(42)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(350)
         }
@@ -334,7 +327,7 @@ private extension CalendarViewController {
         }
         
         preview.snp.makeConstraints {
-            $0.top.equalTo(calendar.snp.bottom).offset(20)
+            $0.top.equalTo(calendar.snp.bottom).offset(15)
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
@@ -390,7 +383,7 @@ extension CalendarViewController {
         // 캘린더 스크롤 가능하게 지정
         self.calendar.scrollEnabled = true
         // 캘린더 스크롤 방향 지정
-        self.calendar.scrollDirection = .vertical
+        self.calendar.scrollDirection = .horizontal
     }
 }
 
@@ -476,4 +469,3 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         }
     }
 }
-

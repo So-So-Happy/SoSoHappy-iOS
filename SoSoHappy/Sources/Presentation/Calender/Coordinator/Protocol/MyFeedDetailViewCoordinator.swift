@@ -44,21 +44,21 @@ extension MyFeedDetailCoordinator {
     }
     
     func showAdd1Modal(reactor: MyFeedDetailViewReactor) {
-        let SetWeatherHappinessViewController = SetWeatherHappinessViewController(
+        let setWeatherHappinessViewController = SetWeatherHappinessViewController(
             reactor: reactor,
             coordinator: self
         )
         
-        navigationController.present(SetWeatherHappinessViewController, animated: true, completion: nil)
+        navigationController.present(setWeatherHappinessViewController, animated: true, completion: nil)
     }
     
     func showAdd2Modal(reactor: MyFeedDetailViewReactor) {
-        let SetCategoryViewController = SetCategoryViewController(
+        let setCategoryViewController = SetCategoryViewController(
             reactor: reactor,
             coordinator: self
         )
         
-        navigationController.present(SetCategoryViewController, animated: true, completion: nil)
+        navigationController.present(setCategoryViewController, animated: true, completion: nil)
     }
     
     // TODO: 좋아요 누른 사람 리스트 뷰
