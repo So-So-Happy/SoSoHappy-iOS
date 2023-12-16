@@ -351,7 +351,7 @@ extension MyFeedDetailViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-                setImageSlideView(images: images)
+                setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)
