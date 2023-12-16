@@ -124,21 +124,3 @@ class HappyListViewReactor: Reactor {
     }
 }
 
-
-extension HappyListViewReactor {
-    func moveToNextMonth(_ currentPage: Date) -> Date {
-        let calendar = Calendar.current
-        let currentPage = calendar.date(byAdding: .month, value: 1, to: currentPage) ?? Date()
-        return currentPage
-    }
-    
-    func moveToPreviousMonth(_ currentPage: Date) -> Date {
-        let calendar = Calendar.current
-        let currentPage = calendar.date(byAdding: .month, value: -1, to: currentPage) ?? Date()
-        return currentPage
-    }
-    
-}
-
-
-
