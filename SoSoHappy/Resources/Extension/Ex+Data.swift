@@ -13,7 +13,7 @@ extension Data {
         return hexStringFromData(input: digest(input: self as NSData))
     }
     
-    private func digest(input : NSData) -> NSData {
+    private func digest(input: NSData) -> NSData {
         let digestLength = Int(CC_SHA512_DIGEST_LENGTH)
         var hash = [UInt8](repeating: 0, count: digestLength)
         CC_SHA512(input.bytes, CC_LONG(input.length), &hash)

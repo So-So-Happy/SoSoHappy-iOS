@@ -10,4 +10,3 @@ import Foundation
 struct FindIntroductionRequest: Codable {
     let nickname: String
 }
-

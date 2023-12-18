@@ -114,7 +114,6 @@ class BaseDetailViewController: UIViewController {
             imageSlideView.setContentsWithImageList(imageList: imageList)
             
         }
-        
     }
 }
 
@@ -150,8 +149,7 @@ extension BaseDetailViewController {
             make.left.right.equalToSuperview().inset(20)
             make.top.equalTo(dateLabel.snp.bottom).offset(26)
         }
-        
-        
+                
         textView.snp.makeConstraints { make in
             make.verticalEdges.equalTo(contentBackground).inset(12)
             make.horizontalEdges.equalToSuperview().inset(40)
@@ -173,4 +171,3 @@ extension BaseDetailViewController {
         imageSlideView.slideShowView.presentFullScreenController(from: self)
     }
 }
-

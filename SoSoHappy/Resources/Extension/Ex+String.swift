@@ -49,7 +49,7 @@ extension String {
         dateFormatter.dateFormat = "yyyyMMddHHmmssSS"
         
         if let date = dateFormatter.date(from: self) {
-            print("dateToDateType 성공")
+//            print("dateToDateType 성공")
             return date
         } else {
             print("dateToDateType failed to parse date")

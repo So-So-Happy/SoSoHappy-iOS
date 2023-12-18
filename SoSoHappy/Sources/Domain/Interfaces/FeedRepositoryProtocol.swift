@@ -5,7 +5,6 @@
 //  Created by 박희경 on 2023/10/02.
 //
 
-
 import Foundation
 import RxSwift
 import Moya
@@ -25,4 +24,3 @@ protocol FeedRepositoryProtocol {
     func findFeedImage(request: FindFeedImageRequest) -> Observable<UIImage?>
     func getFeedImages(ids: [Int]) -> Observable<[UIImage]>
 }
-

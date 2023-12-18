@@ -60,5 +60,3 @@ extension WeatherDateStackView {
         dateLabel.text = feed.dateFormattedString
     }
 }
-
-

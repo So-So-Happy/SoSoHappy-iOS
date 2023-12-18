@@ -22,8 +22,8 @@ extension FeedType {
     // MARK: 행복 이미지 이름
     var happinessImageName: String {
         switch happiness {
-        case 1 : return "happy1"
-        case 2 : return "happy2"
+        case 1: return "happy1"
+        case 2: return "happy2"
         case 3: return "happy3"
         case 4: return "happy4"
         default: return "happy5"

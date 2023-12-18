@@ -69,8 +69,6 @@ extension Cache {
         }
     }
 }
-
-
 // MARK: - WrappedKey (Key)
 private extension Cache {
     final class WrappedKey: NSObject {
