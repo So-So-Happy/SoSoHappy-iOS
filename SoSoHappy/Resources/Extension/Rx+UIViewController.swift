@@ -10,7 +10,7 @@ import RxSwift
 
 extension Reactive where Base: UIViewController {
     var viewDidLoad: ControlEvent<Void> {
-        let viewDidLoadEvent = self.methodInvoked(#selector(base.viewWillAppear)).map { _ in }
+        let viewDidLoadEvent = self.methodInvoked(#selector(base.viewDidLoad)).map { _ in }
         return ControlEvent(events: viewDidLoadEvent)
     }
     
