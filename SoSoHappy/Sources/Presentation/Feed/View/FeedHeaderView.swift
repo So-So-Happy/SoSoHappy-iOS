@@ -5,7 +5,6 @@
 //  Created by Sue on 2023/08/25.
 //
 
-
 import UIKit
 import SnapKit
 import Then
@@ -33,9 +32,9 @@ final class FeedHeaderView: UIView {
     )
     
     lazy var sortTodayButton = UIButton().then {
-        $0.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
+        $0.setTitleColor(UIColor(named: "GrayTextColor"), for: .normal)
         $0.setTitle("오늘", for: .normal)
-//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        $0.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
     }
     
     private lazy var divider = UILabel().then {
@@ -46,8 +45,8 @@ final class FeedHeaderView: UIView {
     
     lazy var sortTotalButton = UIButton().then {
         $0.setTitle("전체", for: .normal)
-        $0.setTitleColor(UIColor(named: "GrayTextColor"), for: .normal)
-//        $0.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        $0.setTitleColor(UIColor(named: "MainTextColor"), for: .normal) // 기본이 total이니깐
+        $0.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
     }
     
     override init(frame: CGRect) {
@@ -96,7 +95,6 @@ extension FeedHeaderView {
         }
     }
 }
-
 
 extension FeedHeaderView {
     func updateButtonState(_ sortOption: SortOption) {
