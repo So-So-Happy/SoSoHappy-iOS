@@ -14,7 +14,7 @@ protocol BlockButtonDelegate: AnyObject {
 class BlockButton: UIButton {
     weak var delegate: BlockButtonDelegate?
     
-    private lazy var block = UIAction(title: "작성자 차단") { _ in
+    private lazy var block = UIAction() { _ in
         print("작성자 차단 tapped")
         self.delegate?.blockButtonDidTap(self)
     }
@@ -34,6 +34,10 @@ class BlockButton: UIButton {
         setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
         showsMenuAsPrimaryAction = true
+        let title = NSAttributedString(string: "작성자 차단", attributes: [
+            NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)
+        ])
+        block.setValue(title, forKey: "attributedTitle")
         menu = UIMenu(children: [block])
     }
 }

@@ -94,11 +94,10 @@ class SignUpViewReactor: Reactor {
             }
 
         case let .setNickNameText(text):
-            let textWithoutSpace = text.replacingOccurrences(of: " ", with: "") // 아예 스페이스가 안되도록 해줘야 함!
-            let newText = String(textWithoutSpace.prefix(10)) // 10글자 제한
+            let textWithoutSpace = text.replacingOccurrences(of: " ", with: "")
+            let newText = String(textWithoutSpace.prefix(10))
             newState.nickNameText = newText
-            
-            // 그냥 text의 값이 이전과 변했으면 중복검사를 nil로 설정해줌
+
             if currentState.nickNameText != newText {
                 newState.isDuplicate = nil
             }
@@ -110,19 +109,15 @@ class SignUpViewReactor: Reactor {
             newState.isSameNickName = isSameNickname
             
         case let .setSelfIntroText(text):
-            newState.selfIntroText = String(text.prefix(60))    // 60자 제한
+            newState.selfIntroText = String(text.prefix(60))
             
         case let .isDuplicate(bool):
-            print("🔎 닉네임 중복 검사 UserReository checkDuplicateNickname 요청한 닉네임 : \(newState.nickNameText) - \(bool ? "사용 불가능 ❌" : "사용 가능 ⭕️")")
             newState.isDuplicate = bool
             
         case let .showFinalAlert(bool) :
             newState.showFinalAlert = bool
-            // fail 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯?
-            // success했을 때도 사용자한테 알려주고
             
         case let .goToMain(bool):
-            print("💖 회원가입 \(bool ? "성공" : "실패") (in reduce() - .signUpSuccessed)")
             newState.showFinalAlert = false
             newState.goToMain = bool
             
@@ -153,7 +148,6 @@ extension SignUpViewReactor {
                     return .just(.isDuplicate(Bool(response.isPresent)))
                 }
                 return .just(.isDuplicate(false))
-                
             }
             .catch { return .just(.showErrorAlert($0)) }
     }
@@ -179,4 +173,3 @@ extension SignUpViewReactor {
             .catch { return .just(.showErrorAlert($0)) }
     }
 }
-

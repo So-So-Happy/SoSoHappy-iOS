@@ -34,22 +34,27 @@ final class HappyListViewController : UIViewController {
         $0.separatorStyle = .none
         $0.estimatedRowHeight = 30
         $0.rowHeight = UITableView.automaticDimension
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var yearMonthLabel = UILabel().then {
         $0.text = "2023.07"
-        $0.font = UIFont.customFont(size: 15, weight: .bold)
+        $0.font = UIFont.customFont(size: 20, weight: .bold)
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     
     private lazy var previousButton = UIButton().then({
-        let image = UIImage(named: "previousButton")
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .semibold)
+        let image = UIImage(systemName: "chevron.left", withConfiguration: imageConfig)
         $0.setImage(image, for: .normal)
+        $0.tintColor = UIColor(named: "AccentColor")
     })
     
     private lazy var nextButton = UIButton().then({
-        let image = UIImage(named: "nextButton")
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .semibold)
+        let image = UIImage(systemName: "chevron.right", withConfiguration: imageConfig)
         $0.setImage(image, for: .normal)
+        $0.tintColor = UIColor(named: "AccentColor")
     })
     
     override func viewDidLoad() {
@@ -88,18 +93,18 @@ private extension HappyListViewController  {
         self.previousButton.snp.makeConstraints {
             $0.right.equalTo(yearMonthLabel.snp.left).offset(-30)
             $0.centerY.equalTo(yearMonthLabel)
-            $0.width.height.equalTo(10)
+            $0.width.height.equalTo(20)
         }
         
         self.nextButton.snp.makeConstraints {
             $0.left.equalTo(yearMonthLabel.snp.right).offset(30)
             $0.centerY.equalTo(yearMonthLabel)
-            $0.width.height.equalTo(10)
+            $0.width.height.equalTo(20)
         }
         
         self.happyTableView.snp.makeConstraints {
             $0.bottom.left.right.equalToSuperview()
-            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(20)
+            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(10)
         }
         
     }

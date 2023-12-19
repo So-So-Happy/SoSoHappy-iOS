@@ -14,10 +14,6 @@ import RxCocoa
 import ReactorKit
 import GoogleSignIn
 
-/*
- 1. 나중에 로그인 이미지 다시 바꿔줄 필요있음 (나름 규정이 있었던 것 같음)
- */
-
 final class LoginViewController: UIViewController, View {
     
     private let coordinator: AuthCoordinatorProtocol?
@@ -27,7 +23,7 @@ final class LoginViewController: UIViewController, View {
     private lazy var appDescriptionStackView = AppDescriptionStackView()
     private lazy var appIconImageView = UIImageView().then {
         $0.image = UIImage(named: "loginImage")
-        $0.contentMode = .scaleAspectFit    // 비율 유지
+        $0.contentMode = .scaleAspectFit
     }
     private lazy var loginLabel = UILabel().then {
         $0.text = "SNS 계정으로 간편 가입하기"
@@ -116,7 +112,7 @@ final class LoginViewController: UIViewController, View {
         
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
-                guard let self = self else { return }
+                guard self != nil else { return }
                 CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
@@ -143,8 +139,7 @@ extension LoginViewController {
         setLayout()
         setAttribute()
     }
-    
-    // Add SubViews & Contstraints
+
     private func setLayout() {
         self.view.addSubviews(appDescriptionStackView, appIconImageView, loginLabel, logInButtonStackView)
         
@@ -174,7 +169,7 @@ extension LoginViewController {
         
         
     }
-    // ViewController의 전체적인 속성 설정
+    
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "loginColor")
     }

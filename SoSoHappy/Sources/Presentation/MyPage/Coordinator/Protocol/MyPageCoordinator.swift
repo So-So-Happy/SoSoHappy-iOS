@@ -120,5 +120,3 @@ extension MyPageCoordinator {
         return coordinator
     }
 }
-
-

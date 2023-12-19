@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import ReactorKit
+import MessageUI
 
 final class MyPageViewController: UIViewController {
     // MARK: - Properties
@@ -31,7 +32,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     private lazy var profileView = ProfileView()
     private lazy var stackView = SettingStackView()
-
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,21 +43,18 @@ final class MyPageViewController: UIViewController {
 
 // MARK: - Reactor (bind func)
 extension MyPageViewController: View {
-    // MARK: Reactor를 설정하는 메서드
     func bind(reactor: MypageViewReactor) {
         bindActions(reactor)
         bindState(reactor)
     }
     
-    // MARK: bind actions
     private func bindActions(_ reactor: MypageViewReactor) {
         self.rx.viewWillAppear
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
-    // MARK: bind state (Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트)
+
     private func bindState(_ reactor: MypageViewReactor) {
         reactor.state.compactMap { $0.profile }
             .subscribe(onNext: { [weak self] image in
@@ -85,7 +83,7 @@ extension MyPageViewController: View {
                 profileView.nickNameLabel.text = text
             })
             .disposed(by: disposeBag)
-
+        
         reactor.state.map { $0.isProfileLoading }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
@@ -130,8 +128,6 @@ extension MyPageViewController {
 
 // MARK: - Set RxSwift without Reactor
 extension MyPageViewController {
-    // Reactor를 거치지 않고 바로 바인딩 되는 단순 이벤트를 정의합니다.
-    // 보통 coordinator로 네비게이션하는 일은 reactor가 필요 X
     func bindEvent() {
         self.profileView.profileImage.editButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -160,11 +156,46 @@ extension MyPageViewController {
             })
             .disposed(by: disposeBag)
         
+        self.stackView.inquiryCell.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                self.isTappedInquiry()
+            })
+            .disposed(by: disposeBag)
+        
         self.stackView.accountCell.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
                 self.coordinator?.pushAccountManagementView()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Message UI
+extension MyPageViewController: MFMailComposeViewControllerDelegate {
+    public func mailComposeController(_ controller: MFMailComposeViewController,
+                                      didFinishWith result: MFMailComposeResult,
+                                      error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
+    private func makeMailViewController() -> MFMailComposeViewController {
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        mailVC.setToRecipients(["sosohappy0206@gmail.com"])
+        mailVC.setSubject("소소해피 문의하기")
+        mailVC.setMessageBody(Bundle.main.inquiryMessage, isHTML: false)
+        
+        return mailVC
+    }
+
+    private func isTappedInquiry() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailVC = makeMailViewController()
+            self.present(mailVC, animated: true, completion: nil)
+        } else {
+            CustomAlert.presentCheckAlert(title: "메일 전송에 실패했어요.", message: "아이폰 이메일 설정 확인 후, 다시 시도해주세요.")
+        }
     }
 }

@@ -147,7 +147,6 @@ class LoginViewReactor: Reactor {
         return userRepository.getAuthorizeCode()
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
                 return self.kakaoManager.signin()
                     .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                         guard let self = self else { return .error(BaseError.unknown) }
@@ -157,7 +156,6 @@ class LoginViewReactor: Reactor {
             .catch { error in
                 if case .custom(let message) = error as? BaseError,
                    message == "cancel" {
-                    print("message", message)
                     return .just(.kakaoLoading(false))
                 } else {
                     return .just(.showErrorAlert(error))
@@ -170,7 +168,6 @@ class LoginViewReactor: Reactor {
         return userRepository.getAuthorizeCode()
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
                 return self.googleManager.signin()
                     .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                         guard let self = self else { return .error(BaseError.unknown) }
@@ -191,7 +188,6 @@ class LoginViewReactor: Reactor {
         return userRepository.getAuthorizeCode()
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard let self = self else { return .error(BaseError.unknown) }
-                print("✅ LoginViewReactor signIn() .getAuthorizeCode : \(response.authorizeCode)")
                 return self.appleManager.signin()
                     .flatMap { [weak self] signinRequest -> Observable<Mutation> in
                         guard let self = self else { return .error(BaseError.unknown) }
@@ -212,7 +208,6 @@ class LoginViewReactor: Reactor {
     private func signIn(request: SigninRequest) -> Observable<Mutation> {
         return self.userRepository.signIn(request: request)
             .do(onNext: { signinResponse in
-                print("로그인 성공 후 키체인에 토큰 저장")
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: signinResponse.authorization)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: signinResponse.authorizationRefresh)
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider", data: String(signinResponse.email.split(separator: "+")[1]))
@@ -220,7 +215,6 @@ class LoginViewReactor: Reactor {
                 KeychainService.saveData(serviceIdentifier: "sosohappy.userInfo\(String(signinResponse.email.split(separator: "+")[1]))", forKey: "userNickName", data: signinResponse.nickName)
             })
             .flatMap { signinResponse -> Observable<Mutation> in
-                print("✅ LoginViewReactor signIn() signinResponse : \(signinResponse)")
                 return .just(.goToSignUp(true))
             }
             .catch { return .just(.showErrorAlert($0)) }

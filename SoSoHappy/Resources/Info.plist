@@ -125,5 +125,7 @@
 	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
+	<key>INQUIRY_MESSAGE</key>
+	<string>${INQUIRY_MESSAGE}</string>
 </dict>
 </plist>

@@ -134,4 +134,11 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["PRIVATE_POLICY_PATH"] as? String else { fatalError("PRIVATE_POLICY_PATH error") }
         return key
     }
+    
+    // MARK: - Inquiry Text
+    var inquiryMessage: String {
+        guard let key = Bundle.main.infoDictionary?["INQUIRY_MESSAGE"] as? String else { fatalError("INQUIRY_MESSAGE error") }
+
+        return key.replacingOccurrences(of: "\\n", with: "\n")
+    }
 }

@@ -76,7 +76,6 @@ final class PreviewView: UIView {
         images = ["sohappy", "coffe", "donut"]
         self.categoryStackView.addImageViews(images: images)
     }
-
     
     private func configureWeatherImage() {
         self.addSubview(weatherImage)
@@ -124,4 +123,3 @@ final class PreviewView: UIView {
         }
     }
 }
-

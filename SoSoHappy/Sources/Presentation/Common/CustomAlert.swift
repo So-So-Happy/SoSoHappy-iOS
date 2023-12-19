@@ -23,16 +23,10 @@ final class CustomAlert {
         
         presentAlert(alert)
     }
-    
-    static func presentErrorAlertWithoutDescription() {
-        let alert = makeAlertContorller()
-        presentAlert(alert)
-    }
-    
-    static  func makeAlertContorller() -> UIAlertController {
-        let title = "⚠️ 네트워크 오류 ⚠️"
-        let message = "잠시 후에 다시 시도해주세요."
+
+    static func presentCheckAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      
         applyFontToAlert(alert, title: title, message: message)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -40,10 +34,11 @@ final class CustomAlert {
         okAction.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
         
         alert.addAction(okAction)
-        return alert
+        
+        presentAlert(alert)
     }
     
-    static func presentCheckAlert(title: String, message: String, buttonTitle: String, okActionHandler: @escaping () -> Void) {
+    static func presentCheckAndCancelAlert(title: String, message: String, buttonTitle: String, okActionHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         applyFontToAlert(alert, title: title, message: message)
@@ -65,11 +60,11 @@ final class CustomAlert {
     
     private static func applyFontToAlert(_ alert: UIAlertController, title: String, message: String) {
         let attributedTitle = NSAttributedString(string: title, attributes: [
-            NSAttributedString.Key.font : UIFont.customFont(size: 16, weight: .bold)
+            NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .bold)
         ])
         
         let attributedMessage = NSAttributedString(string: message, attributes: [
-            NSAttributedString.Key.font : UIFont.customFont(size: 13, weight: .medium)
+            NSAttributedString.Key.font: UIFont.customFont(size: 13, weight: .medium)
         ])
         
         alert.setValue(attributedTitle, forKey: "attributedTitle")

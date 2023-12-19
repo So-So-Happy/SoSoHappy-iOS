@@ -31,7 +31,6 @@ final class CalendarViewController: UIViewController {
     
     private var monthFeedList: [MyFeed] = []
     
-    
     //MARK: - UI Components
     private lazy var calendarBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
@@ -98,23 +97,14 @@ final class CalendarViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent))
-        //        swipeUp.direction = .up
-        //
-        //        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent))
-        //        swipeDown.direction = .down
-        //
-        //        self.view.addGestureRecognizer(swipeUp)
-        //        self.view.addGestureRecognizer(swipeDown)
         setup()
-        // TODO: 리스트도 바버튼에 넣고 바버튼 자체에 가로세로 길이 설정해주기
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-    // MARK: - Init
+    // MARK: - Init
     init(
         reactor: CalendarViewReactor,
         coordinator: CalendarCoordinatorInterface
@@ -140,7 +130,6 @@ extension CalendarViewController: View {
     func bindAction(_ reactor: CalendarViewReactor) {
         // viewDidLoad: month, day data fetch, monthText, yearText
         self.rx.viewWillAppear
-            .take(1) // 첫 번째 이벤트만 처리
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -164,7 +153,6 @@ extension CalendarViewController: View {
             .map { Reactor.Action.tapPreviousButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         self.preview.rx.tapGesture()
             .when(.recognized)
@@ -243,6 +231,14 @@ extension CalendarViewController: View {
             .drive { [weak self] _ in
                 // FIXME: - detailview coordintator
                 self?.coordinator.pushDetailView(feed: reactor.currentState.dayFeed)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.likedFeed }
+            .subscribe { [weak self] likedFeed in
+                print("🐵 gets called")
+                self?.coordinator.pushDetailView(feed: likedFeed)
             }
             .disposed(by: disposeBag)
     }
@@ -390,8 +386,7 @@ extension CalendarViewController {
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
     //FIXME: subscribe에서 data fetch -> data 저장 -> refresh 메서드 호출
-    
-    //     캘린더 셀 정의
+    // 캘린더 셀 정의
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         
         guard let cell = calendar.dequeueReusableCell(
@@ -401,11 +396,19 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         ) as? CalendarCell else { return FSCalendarCell() }
         
         if let image = isHappyDay(String(date.getFormattedYMD())) {
-            cell.backgroundView = UIImageView(image: image)
+            cell.backImageView.image = image
+            cell.titleLabel.isHidden = true
+            
+            if calendar.gregorian.isDateInToday(date) {
+                calendar.appearance.todayColor = .clear
+            }
+            cell.backImageView.alpha = reactor?.currentState.selectedDate == date ? 0.5 : 1
+            cell.titleLabel.isHidden = !(reactor?.currentState.selectedDate == date)
+
         } else {
-            cell.backgroundView = nil
+            cell.titleLabel.isHidden = false
         }
-        
+
         return cell
     }
     
@@ -428,19 +431,48 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     // 캘린더 선택
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 서버에서 날짜에 해당하는 데이터 api 통신 (day data)
-        if let _ = isHappyDay(String(date.getFormattedYMD())) {
-            self.reactor?.action.onNext(.selectDate(date))
+        self.reactor?.action.onNext(.selectDate(date))
+        
+        if isHappyDay(String(date.getFormattedYMD())) != nil {
+            if let cell = calendar.cell(for: date, at: monthPosition) as? CalendarCell {
+                UIImageView.animate(withDuration: 0.15) {
+                    cell.backImageView.alpha = 0.5
+                    cell.titleLabel.isHidden = false
+                    cell.appearance.titleSelectionColor = UIColor(named: "MainTextColor")
+                }
+            }
+            calendar.appearance.selectionColor = .clear
         } else {
             // TODO: 텅 뷰 세팅 + 프리뷰 터치 불가능하게 세팅
+            calendar.appearance.selectionColor = UIColor(named: "LightGrayTextColor")
+            calendar.appearance.titleSelectionColor = UIColor(named: "ReverseMainTextColor")
         }
     }
     
+    public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        if isHappyDay(String(date.getFormattedYMD())) != nil {
+            if let cell = calendar.cell(for: date, at: monthPosition) as? CalendarCell {
+                UIImageView.animate(withDuration: 0.15) {
+                    cell.backImageView.alpha = 1
+                    if self.isHappyDay(String(date.getFormattedYMD())) != nil {
+                        cell.titleLabel.isHidden = true
+                        cell.appearance.titleSelectionColor = UIColor(named: "ReverseMainTextColor")
+                    }
+                }
+            }
+            calendar.appearance.selectionColor = .clear
+        } else {
+            calendar.appearance.selectionColor = UIColor(named: "LightGrayTextColor")
+        }
+        
+    }
+
     // FIXME: onNext 로 reactor action 전달
     // 캘린더 페이지 변경시 year, month update, data, cell update
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         
         let currentPage = calendar.currentPage
-        
+        print(reactor?.currentState.selectedDate ?? Date())
 //        if currentPage > previousPage {
 //            print("페이지가 증가했습니다.")
 //            self.reactor?.action.onNext(.changeCurrentPage(currentPage))
@@ -453,18 +485,20 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         self.previousPage = currentPage
     }
     
-    // MARK: 주말 텍스트 색 설정
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        let weekday = Calendar.current.component(.weekday, from: date)
-        
-        if weekday == 1 {
-            return .systemRed
-        } else if weekday == 7 {
-            return .systemBlue
-        } else if calendar.gregorian.isDateInToday(date) {
-            return .white
-        } else {
-            return appearance.titleDefaultColor
+    // MARK: 텍스트 색 설정
+        func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
+            let weekday = Calendar.current.component(.weekday, from: date)
+            
+            if weekday == 1 {
+                return calendar.maximumDate < date ? .systemRed.withAlphaComponent(0.3) : .systemRed
+            } else if weekday == 7 {
+                return calendar.maximumDate < date ? .systemBlue.withAlphaComponent(0.3) : .systemBlue
+            } else if calendar.gregorian.isDateInToday(date) {
+                return .white
+            } else if calendar.maximumDate < date {
+                return UIColor(named: "ReverseLightGrayColor")
+            } else {
+                return appearance.titleDefaultColor
+            }
         }
-    }
 }

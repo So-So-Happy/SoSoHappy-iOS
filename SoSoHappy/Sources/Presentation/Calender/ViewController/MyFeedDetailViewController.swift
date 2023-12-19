@@ -15,7 +15,6 @@ import PhotosUI
 import RxKeyboard
 import Kingfisher
 
-
 final class MyFeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: MyFeedDetailCoordinatorInterface?
@@ -30,6 +29,7 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
+        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
@@ -89,6 +89,7 @@ final class MyFeedDetailViewController: BaseDetailViewController {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 // MARK: - set up
 extension MyFeedDetailViewController {
     
@@ -187,7 +188,6 @@ extension MyFeedDetailViewController: View {
             .bind(to: placeholderLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-       
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [scrollView] keyboardVisibleHeight in
                 if keyboardVisibleHeight > 0 {
@@ -229,8 +229,7 @@ extension MyFeedDetailViewController: View {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-       
+
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -256,8 +255,6 @@ extension MyFeedDetailViewController: View {
 //                setAndPresentPicker()
 //            })
 //            .disposed(by: disposeBag)
-        
-        
     }
     
     func bindState(_ reactor: MyFeedDetailViewReactor) {
@@ -384,10 +381,7 @@ extension MyFeedDetailViewController: View {
             imageView.addGestureRecognizer(index == 0 ? happyTapGesture : categoryTapGesture)
         }
     }
-    
-    
 }
-
 
 // MARK: - PHPickerViewControllerDelegate & picker preseent
 // 권한 요청이 필요없음
@@ -466,4 +460,3 @@ extension MyFeedDetailViewController: PHPickerViewControllerDelegate {
         }
     }
 }
-

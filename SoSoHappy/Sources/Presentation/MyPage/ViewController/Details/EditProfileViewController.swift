@@ -22,7 +22,7 @@ final class EditProfileViewController: UIViewController {
     
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
-        $0.keyboardDismissMode = .onDrag // 스크롤시 키보드 내리기
+        $0.keyboardDismissMode = .onDrag
     }
     private lazy var contentView = UIView()
     private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
@@ -76,8 +76,7 @@ extension EditProfileViewController {
         setLayout()
         setAttribute()
     }
-    
-    // Add SubViews & Contstraints
+
     private func setLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubviews(contentView)
@@ -119,8 +118,7 @@ extension EditProfileViewController {
             make.height.equalTo(44)
         }
     }
-    
-    // ViewController의 전체적인 속성 설정
+
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "BGgrayColor")
     }
@@ -128,20 +126,18 @@ extension EditProfileViewController {
 
 // MARK: - ReactorKit - bind func
 extension EditProfileViewController: View {
-    // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: EditProfileViewReactor) {
-        // MARK: Action (View -> Reactor) 인풋
         profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true
                     picker.sourceType = .photoLibrary
                 }
-                .flatMap { $0.rx.didFinishPickingMediaWithInfo } // 사진 다 골랐다
-                .take(1) // 단 1개의 아이템(사진)만 내보내는 것을 보장
+                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
+                .take(1)
             }
             .map{ info in
-                let img = info[.editedImage] as? UIImage // UIImage 옵셔널 type
+                let img = info[.editedImage] as? UIImage
                 return Reactor.Action.selectImage(img)
             }
             .bind(to: reactor.action)
@@ -171,8 +167,7 @@ extension EditProfileViewController: View {
             .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        // MARK: State (Reactor -> State) 아웃풋
+
         reactor.state
             .map { $0.profileImage }
             .bind(to: profileImageEditButton.profileImageWithBackgroundView.profileImageView.rx.image)
@@ -196,7 +191,7 @@ extension EditProfileViewController: View {
                 if let isDuplicate = state.isDuplicate {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
-                } else { // nil이면
+                } else {
                     text = " "
                     color = UIColor(named: "CustomBlueColor") ?? .systemBlue
                 }
@@ -229,7 +224,7 @@ extension EditProfileViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
+                    CustomAlert.presentCheckAndCancelAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
                 }
             })
             .disposed(by: disposeBag)
@@ -248,10 +243,10 @@ extension EditProfileViewController: View {
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let `self` = self else { return }
             
-                if UIResponder.currentFirst() is UITextField {  // textfield
-                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0) //80
+                if UIResponder.currentFirst() is UITextField {
+                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
                 } else {    // textview
-                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 217 , right: 0) // 240
+                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 217 , right: 0)
                 }
             })
             .disposed(by: disposeBag)
@@ -261,16 +256,15 @@ extension EditProfileViewController: View {
             .drive(onNext: { [weak self] isHidden in
                 guard let `self` = self, let contentInset = contentInset else { return }
                 
-                if isHidden { // 키보드가 안보일 때
+                if isHidden {
                     self.scrollView.scrollIndicatorInsets = .zero
                     self.scrollView.contentInset = .zero
-                } else { // 키보드가 보일 때
+                } else {
                     self.scrollView.contentInset = contentInset
                     self.scrollView.scrollIndicatorInsets = contentInset
                     let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
                     self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
-                
             })
             .disposed(by: disposeBag)
     }
