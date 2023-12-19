@@ -164,6 +164,8 @@
 		80760F1D2AE2609100103DF4 /* FindIntroductionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */; };
 		80780E512B2C9B6500F9758D /* Ex+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E502B2C9B6500F9758D /* Ex+Notification.swift */; };
 		80780E552B2CE06300F9758D /* FeedTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E542B2CE06300F9758D /* FeedTemp.swift */; };
+		80780E572B2F264E00F9758D /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E562B2F264E00F9758D /* Connectivity.swift */; };
+		80780E5B2B3099A100F9758D /* NetworkNotConnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E5A2B3099A100F9758D /* NetworkNotConnectedView.swift */; };
 		807E78632B2AAE8200941C1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 807E78622B2AAE8200941C1D /* GoogleService-Info.plist */; };
 		808650962AD5AFC40036CCFB /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650952AD5AFC40036CCFB /* WebSocketManager.swift */; };
 		8086509A2AD5B11C0036CCFB /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */; };
@@ -198,7 +200,7 @@
 		808650F32AD6CCFE0036CCFB /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E32AD6CCFD0036CCFB /* AuthResponse.swift */; };
 		808650F42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */; };
 		808650F52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */; };
-		808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650F82ADA800C0036CCFB /* FeedExceptionView.swift */; };
+		808650F92ADA800C0036CCFB /* ExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650F82ADA800C0036CCFB /* ExceptionView.swift */; };
 		808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */; };
 		8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */; };
 		8086510D2ADD71300036CCFB /* Ex+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510C2ADD71300036CCFB /* Ex+UITextView.swift */; };
@@ -222,7 +224,6 @@
 		80C0A2E52ABC0FD200107332 /* HappyListCellReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */; };
 		80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EA2AC06E6400107332 /* BaseCell.swift */; };
 		80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EE2AC0867300107332 /* HeartButton.swift */; };
-		80D254512B00E443006CB1AE /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D254502B00E443006CB1AE /* NetworkMonitor.swift */; };
 		80E89F532B2C138B00C33B7A /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */; };
 		80EB56952B23001A00029908 /* FindFeedImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB56942B23001A00029908 /* FindFeedImageRequest.swift */; };
 		80EB56972B23007D00029908 /* FindFeedImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB56962B23007D00029908 /* FindFeedImageResponse.swift */; };
@@ -419,6 +420,8 @@
 		80760F1C2AE2609100103DF4 /* FindIntroductionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindIntroductionResponse.swift; sourceTree = "<group>"; };
 		80780E502B2C9B6500F9758D /* Ex+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Notification.swift"; sourceTree = "<group>"; };
 		80780E542B2CE06300F9758D /* FeedTemp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTemp.swift; sourceTree = "<group>"; };
+		80780E562B2F264E00F9758D /* Connectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
+		80780E5A2B3099A100F9758D /* NetworkNotConnectedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkNotConnectedView.swift; sourceTree = "<group>"; };
 		807C97522B19B0AE00F5A128 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		807C97562B19B25B00F5A128 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		807E785E2B2A1C9900941C1D /* ImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequest.swift; sourceTree = "<group>"; };
@@ -457,7 +460,7 @@
 		808650E32AD6CCFD0036CCFB /* AuthResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		808650E42AD6CCFE0036CCFB /* FindAccountFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindAccountFeedResponse.swift; sourceTree = "<group>"; };
 		808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMonthFeedResponse.swift; sourceTree = "<group>"; };
-		808650F82ADA800C0036CCFB /* FeedExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedExceptionView.swift; sourceTree = "<group>"; };
+		808650F82ADA800C0036CCFB /* ExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionView.swift; sourceTree = "<group>"; };
 		808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
 		8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
 		8086510C2ADD71300036CCFB /* Ex+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UITextView.swift"; sourceTree = "<group>"; };
@@ -482,7 +485,6 @@
 		80C0A2E42ABC0FD200107332 /* HappyListCellReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCellReactor.swift; sourceTree = "<group>"; };
 		80C0A2EA2AC06E6400107332 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		80C0A2EE2AC0867300107332 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
-		80D254502B00E443006CB1AE /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
 		80EB56942B23001A00029908 /* FindFeedImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedImageRequest.swift; sourceTree = "<group>"; };
 		80EB56962B23007D00029908 /* FindFeedImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedImageResponse.swift; sourceTree = "<group>"; };
@@ -623,6 +625,7 @@
 				67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */,
 				802C6C952AB8775B001142B4 /* HappyButton.swift */,
 				67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */,
+				808650F72ADA7F400036CCFB /* ExceptionView */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1230,7 +1233,6 @@
 				80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */,
 				80380C422A9E2B610077048D /* WeatherDateStackView.swift */,
 				80131E2A2B1E0B5B00AD9091 /* LoadingView.swift */,
-				808650F72ADA7F400036CCFB /* ExceptionView */,
 				80380C152A98DD750077048D /* OwnerFeed */,
 				80380C162A98DD7E0077048D /* DM */,
 			);
@@ -1394,7 +1396,8 @@
 		808650F72ADA7F400036CCFB /* ExceptionView */ = {
 			isa = PBXGroup;
 			children = (
-				808650F82ADA800C0036CCFB /* FeedExceptionView.swift */,
+				808650F82ADA800C0036CCFB /* ExceptionView.swift */,
+				80780E5A2B3099A100F9758D /* NetworkNotConnectedView.swift */,
 			);
 			path = ExceptionView;
 			sourceTree = "<group>";
@@ -1417,7 +1420,7 @@
 				674DAF892AE15D0B00B4F4DF /* GoogleSigninManager.swift */,
 				80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */,
 				808650952AD5AFC40036CCFB /* WebSocketManager.swift */,
-				80D254502B00E443006CB1AE /* NetworkMonitor.swift */,
+				80780E562B2F264E00F9758D /* Connectivity.swift */,
 				809C1A262AF34FB500A7841F /* Cached */,
 			);
 			path = Manager;
@@ -1783,6 +1786,7 @@
 				802C6C9A2AB87802001142B4 /* Ex+UIResponder.swift in Sources */,
 				80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */,
 				807285AD2B1B0C5A00A401F4 /* FeedViewController.swift in Sources */,
+				80780E5B2B3099A100F9758D /* NetworkNotConnectedView.swift in Sources */,
 				800F42602A794A6D00ACD6C1 /* AppDelegate.swift in Sources */,
 				06CAC07F2AF55A2D0064BD33 /* MyFeedDetailViewController.swift in Sources */,
 				80AD68BB2AC6D2BD00DD3D5F /* HappinessStackView.swift in Sources */,
@@ -1896,7 +1900,6 @@
 				802C6CA02AB8785A001142B4 /* RxImagePickerDelegateProxy.swift in Sources */,
 				069D642A2AD832B3003834E5 /* FeedRepositoryProtocol.swift in Sources */,
 				802C6CAE2AB87C36001142B4 /* OwnerFeedViewReactor.swift in Sources */,
-				80D254512B00E443006CB1AE /* NetworkMonitor.swift in Sources */,
 				807285AB2B1B0B0200A401F4 /* FeedViewReactor.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
 				808650CE2AD6CCDD0036CCFB /* FindOtherFeedRequest.swift in Sources */,
@@ -1914,7 +1917,7 @@
 				80380C202A98DE220077048D /* OwnerFeedCell.swift in Sources */,
 				8099CFDE2AF7CE1600A7BFC2 /* SaveFeedRequest.swift in Sources */,
 				8086509E2AD665BC0036CCFB /* Rx+UICollectionView.swift in Sources */,
-				808650F92ADA800C0036CCFB /* FeedExceptionView.swift in Sources */,
+				808650F92ADA800C0036CCFB /* ExceptionView.swift in Sources */,
 				808650E82AD6CCFE0036CCFB /* FindDayFeedResponse.swift in Sources */,
 				67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */,
 				674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */,
@@ -1922,6 +1925,7 @@
 				80AD68B02AC3F17700DD3D5F /* FeedDetailCoordinator.swift in Sources */,
 				67E7DB622A8136CF00C33988 /* LoginViewController.swift in Sources */,
 				0613BCDC2AA8AC7300E2B97F /* Networkable.swift in Sources */,
+				80780E572B2F264E00F9758D /* Connectivity.swift in Sources */,
 				80760F172AE111FB00103DF4 /* FeedType.swift in Sources */,
 				067179FA2ADD04D4007252AE /* FindDetailFeedResponse.swift in Sources */,
 				06896DF22AC2A81F001DCCFC /* TabCoordinator.swift in Sources */,
