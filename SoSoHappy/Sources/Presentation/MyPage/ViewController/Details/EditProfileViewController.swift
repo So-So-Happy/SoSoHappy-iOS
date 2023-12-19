@@ -229,7 +229,7 @@ extension EditProfileViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
+                    CustomAlert.presentCheckAndCancelAlert(title: "해당 정보로 프로필 수정을 완료하시겠어요?", message: "", buttonTitle: "완료") { self.reactor?.action.onNext(.signUp) }
                 }
             })
             .disposed(by: disposeBag)

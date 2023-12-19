@@ -104,7 +104,7 @@ extension NotificationSettingViewController: View {
                             }
                         case .denied:
                             DispatchQueue.main.async {
-                                CustomAlert.presentCheckAlert(title: "알림 허용이 되어있지 않아요.", message: "설정으로 이동하여 알림 허용을 하시겠어요?", buttonTitle: "확인") {
+                                CustomAlert.presentCheckAndCancelAlert(title: "알림 허용이 되어있지 않아요.", message: "설정으로 이동하여 알림 허용을 하시겠어요?", buttonTitle: "확인") {
                                     guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
                                     
                                     if UIApplication.shared.canOpenURL(url) {

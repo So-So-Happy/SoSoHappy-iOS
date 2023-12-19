@@ -24,7 +24,21 @@ final class CustomAlert {
         presentAlert(alert)
     }
     
-    static func presentCheckAlert(title: String, message: String, buttonTitle: String, okActionHandler: @escaping () -> Void) {
+    static func presentCheckAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        applyFontToAlert(alert, title: title, message: message)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        
+        okAction.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        
+        alert.addAction(okAction)
+        
+        presentAlert(alert)
+    }
+    
+    static func presentCheckAndCancelAlert(title: String, message: String, buttonTitle: String, okActionHandler: @escaping () -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         applyFontToAlert(alert, title: title, message: message)

@@ -230,7 +230,7 @@ extension SignUpViewController: View {
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
                 if result {
-                    CustomAlert.presentCheckAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!", buttonTitle: "계속") { self.reactor?.action.onNext(.signUp) }
+                    CustomAlert.presentCheckAndCancelAlert(title: "해당 정보로 프로필 설정을 완료하시겠어요?", message: "이후에는 마이페이지에서 수정이 가능해요!", buttonTitle: "계속") { self.reactor?.action.onNext(.signUp) }
                 }
             })
             .disposed(by: disposeBag)

@@ -96,7 +96,7 @@ extension AccountManagementViewController: View {
             .subscribe(onNext: { [weak self] isClicked in
                 guard let self = self else { return }
                 if isClicked {
-                    CustomAlert.presentCheckAlert(title: "로그아웃 하시겠습니까?", message: "이후에 다시 로그인이 가능해요.", buttonTitle: "확인") { self.reactor?.action.onNext(.logout) }
+                    CustomAlert.presentCheckAndCancelAlert(title: "로그아웃 하시겠습니까?", message: "이후에 다시 로그인이 가능해요.", buttonTitle: "확인") { self.reactor?.action.onNext(.logout) }
                 }
             })
             .disposed(by: disposeBag)
@@ -115,7 +115,7 @@ extension AccountManagementViewController: View {
             .subscribe(onNext: { [weak self] isSuccess in
                 guard let self = self else { return }
                 if isSuccess {
-                    CustomAlert.presentCheckAlert(title: "정말 소소해피를 떠나시겠어요? 🥹", message: "확인 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다.", buttonTitle: "확인") { self.reactor?.action.onNext(.resign) }
+                    CustomAlert.presentCheckAndCancelAlert(title: "정말 소소해피를 떠나시겠어요? 🥹", message: "확인 버튼 선택 시, 계정은 삭제되며 복구되지 않습니다.", buttonTitle: "확인") { self.reactor?.action.onNext(.resign) }
                 }
             })
             .disposed(by: disposeBag)
