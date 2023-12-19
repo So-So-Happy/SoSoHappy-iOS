@@ -12,11 +12,6 @@ import Then
 import ReactorKit
 import RxGesture
 
-/*
- 리팩토링
- 1. heartbutton throttle  적용
- */
-
 final class FeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: FeedDetailCoordinatorInterface?
@@ -30,7 +25,6 @@ final class FeedDetailViewController: BaseDetailViewController {
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
     
-    // 피드가 삭제되었습니다 (empty view), Alert 띄울 때 배경이 되어줄 빈 화면
     lazy var exceptionView = ExceptionView(
         title: "",
         inset: 200
@@ -38,7 +32,6 @@ final class FeedDetailViewController: BaseDetailViewController {
         $0.isHidden = true
     }
     
-    // 네트워크에 연결할 수 없습니다.
     private lazy var networkNotConnectedView = NetworkNotConnectedView(inset: 300).then {
         $0.isHidden = true
     }
@@ -46,12 +39,6 @@ final class FeedDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutForDetail()
-        print("FeedDetailViewController - viewDidLoad")
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("FeedDetailViewController - viewWillAppear")
     }
     
     init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
@@ -79,8 +66,8 @@ final class FeedDetailViewController: BaseDetailViewController {
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        self.view.addSubview(exceptionView) // 피드가 삭제되었습니다, 빈 화면
-        self.view.addSubview(networkNotConnectedView) // 피드가 삭제되었습니다, 빈 화면
+        self.view.addSubview(exceptionView)
+        self.view.addSubview(networkNotConnectedView)
         
         self.contentView.addSubview(profileImageNameTimeStackView)
         self.contentView.addSubview(heartButton)
@@ -113,25 +100,25 @@ extension FeedDetailViewController {
 extension FeedDetailViewController: View {
     func bind(reactor: FeedReactor) {
         self.rx.viewWillAppear
-            .map { Reactor.Action.fetchFeed }
+            .map { Reactor.Action.fetchFeed(false) } // 원본 -fetchFeed
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         imageSlideView.tapObservable
             .subscribe(onNext: { [weak self] in
-                guard let `self` = self else { return }
-                self.imageSlideView.slideShowView.presentFullScreenController(from: self)
+                guard let self = self else { return }
+                imageSlideView.slideShowView.presentFullScreenController(from: self)
             })
             .disposed(by: disposeBag)
         
-        heartButton.rx.tap // debouce ? throttle
+        heartButton.rx.tap
             .map { Reactor.Action.toggleLike}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         profileImageNameTimeStackView.profileImageView.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let `self` = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
+                guard let self = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
                 coordinator?.showOwner(ownerNickName: nickName)
             })
             .disposed(by: disposeBag)
@@ -144,92 +131,83 @@ extension FeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         networkNotConnectedView.retryButton.rx.tap
-            .map { Reactor.Action.fetchFeed }
+            .map { Reactor.Action.fetchFeed(true) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
-        // skip(1) 했을 때 바로 nil/userFeed 만 들어왓다 (즉, 서버에서 받아온 값)
-        // skip(1) 네트워크 에러 띄울 때 (nil)
-        // skip(1) 서버 오류일 때 userFeed 들어왔다.
-        
-        // why? 처음에 skip하는데 이미 userFeed reactor에 저장이 되어 있고
-        // showServerErrorAlert의 값을 변경하면 모든 reactor.state가 발동하면서
-        // userFeed가 들어오게 된다.
-        
-        // 1. showServerErrorAlert true (서버 오류)
-        //  exceptionView.isHidden = true
-        //  exceptionViewForServerError.isHidden = false
-        
-        // 버그 - FeedDetail에서 .showServerAlert를 했는데 FeedDetailViewController의 FeedCell에서 동일하게 작동하는 문제
-        
         
         reactor.state
-            .skip(1) // 바로 넣어준 거 제외 skip (서버로부터 받아온 것만 처리)
-            .map { $0.userFeed }
-            .debug()
-            .bind { [weak self] userFeed in
-                guard let `self` = self else { return }
-                print("FeedReactor - FeedDetailViewController - userFeed : \(userFeed)")
-                if let userFeed = userFeed {
-                    print("FeedReactor (138) setFeed : \(userFeed)")
-                    setFeed(feed: userFeed)
-                } else {
-                    let text = "피드가 삭제되었습니다."
-                    exceptionView.isHidden = false
-                    exceptionView.titleLabel.text = text
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        
-        reactor.state
-            .compactMap { $0.handleFeedError }
-            .distinctUntilChanged()
-            .subscribe(onNext: { [weak self] handleFeedError in
+            .skip(2) // 첫 2개 제거
+            .compactMap { $0.userFeed }
+            .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                print("FeedReactor - FeedDetailViewController - handleFeedError: \(handleFeedError)")
-                var text: String = ""
-                switch handleFeedError {
-                case .showNetworkErrorView: //네트워크
-                    networkNotConnectedView.isHidden = false
-                    print("네트워크 에러")
-                case .showServerErrorAlert: //서버에러
-                    text = ""
-                    exceptionView.isHidden = false
-                    exceptionView.titleLabel.text = text
-                    // showAlert는 FeedCell에서 처리를 하기 때문에 여기에는 present해줄 필요없다
-                    // 왜냐하면 cell과 reactor를 공유하기 때문
-                default: break
+                print("FeedDetailViewController - userFeed ")
+                if let showNetworkErrorView = reactor.currentState.showNetworkErrorView,  !showNetworkErrorView {
+                    setFeed(feed: userFeed)
+                    networkNotConnectedView.isHidden = true
                 }
                 
             })
             .disposed(by: disposeBag)
         
-       
-    
+        reactor.state
+            .compactMap { $0.showNetworkErrorView }
+            .distinctUntilChanged()
+            .debug()
+            .subscribe(onNext: { [weak self] showNetworkErrorView in
+                guard let self = self else { return }
+                if showNetworkErrorView {
+                    exceptionView.isHidden = true
+                    networkNotConnectedView.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.showServerErrorAlert }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] showServerErrorAlert in
+                guard let self = self else { return }
+                if showServerErrorAlert {
+                    print("FeedDetailViewController - 서버 alert - \(showServerErrorAlert)")
+                    exceptionView.isHidden = false
+                    exceptionView.titleLabel.text = ""
+                    networkNotConnectedView.isHidden = true
+                }
+            })
+            .disposed(by: disposeBag)
+
 //        reactor.state
-//            .compactMap { $0.showServerErrorAlert }
+//            .skip(1)
+//            .map { $0.userFeed }
+//            .bind { [weak self] userFeed in
+//                guard let `self` = self else { return }
+//                print("FeedReactor - FeedDetailViewController - userFeed : \(userFeed)")
+//                networkNotConnectedView.isHidden = true
+//                if let userFeed = userFeed {
+//                    print("FeedReactor (138) setFeed : \(userFeed)")
+//                    setFeed(feed: userFeed)
+//                } else {
+//                    let text = "피드가 삭제되었습니다."
+//                    exceptionView.isHidden = false
+//                    exceptionView.titleLabel.text = text
+//                }
+//            }
+//            .disposed(by: disposeBag)
+//        
+//        // 네트워크 연결 안됨 - 재시도 했더니 서버오류
+//        reactor.state
+//            .compactMap { $0.showNetworkErrorView }
 //            .distinctUntilChanged()
-//            .bind(onNext: { [weak self] showServerErrorAlert in
+//            .subscribe(onNext: { [weak self] showNetworkErrorView in
 //                guard let self = self else { return }
-//                print("FeedReactor - FeedVIewController - showServerErrorAlert")
-//                print("++++ FeedReactor - FeedDetailViewController showServerErrorAlert \(showServerErrorAlert)")
-//                if showServerErrorAlert {
-//                    exceptionViewForServerError.isHidden = false
-//                    exceptionView.isHidden = true
-//                    contentView.isHidden = true
-//                    CustomAlert.presentErrorAlertWithoutDescription()
+//                print("FeedDetailViewController showNetworkErrorView : \(showNetworkErrorView)")
+//                if showNetworkErrorView { // 네트워크 연결 안됨
+//                    print("270번째 줄")
+//                    networkNotConnectedView.isHidden = false
 //                }
 //            })
 //            .disposed(by: disposeBag)
-        
-//        reactor.state
-//            .compactMap { $0.isLike } // Optional 벗기고 nil 값 filter
-//            .bind { [weak self] isLike in
-//                guard let `self` = self else { return }
-////                print("FeedReactor - FeedDetailViewController - ISLIKE : \(isLike)")
-//                heartButton.setHeartButton(isLike)
-//            }
-//            .disposed(by: disposeBag)
+//        
+
     }
 }
