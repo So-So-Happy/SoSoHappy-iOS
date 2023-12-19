@@ -15,7 +15,6 @@ import PhotosUI
 import RxKeyboard
 import Kingfisher
 
-
 final class MyFeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: MyFeedDetailCoordinatorInterface?
@@ -89,9 +88,8 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
+
 // MARK: - set up
 extension MyFeedDetailViewController {
     
@@ -190,7 +188,6 @@ extension MyFeedDetailViewController: View {
             .bind(to: placeholderLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-       
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [scrollView] keyboardVisibleHeight in
                 if keyboardVisibleHeight > 0 {
@@ -232,8 +229,7 @@ extension MyFeedDetailViewController: View {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-       
+
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -259,8 +255,6 @@ extension MyFeedDetailViewController: View {
 //                setAndPresentPicker()
 //            })
 //            .disposed(by: disposeBag)
-        
-        
     }
     
     func bindState(_ reactor: MyFeedDetailViewReactor) {
@@ -386,10 +380,7 @@ extension MyFeedDetailViewController: View {
             imageView.addGestureRecognizer(index == 0 ? happyTapGesture : categoryTapGesture)
         }
     }
-    
-    
 }
-
 
 // MARK: - PHPickerViewControllerDelegate & picker preseent
 // 권한 요청이 필요없음
@@ -468,4 +459,3 @@ extension MyFeedDetailViewController: PHPickerViewControllerDelegate {
         }
     }
 }
-
