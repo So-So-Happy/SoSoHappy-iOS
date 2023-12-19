@@ -22,12 +22,6 @@ final class KeychainService: NSObject {
     }
     
     public class func deleteTokenData(identifier: String, account: String) {
-//        if let identifier = UserDefaults.standard.read(key: .userIdentifier) as? String,
-//                   let account = UserDefaults.standard.read(key: .userAccount) as? String,
-//           let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
-//            self.delete(service: identifier, forKey: account, data: token)
-//        }
-        
         if let token = KeychainService.loadData(serviceIdentifier: identifier, forKey: account) {
             self.delete(service: identifier, forKey: account, data: token)
         }
@@ -82,31 +76,52 @@ private extension KeychainService {
 
 extension KeychainService {
     
-    class func getAccessToken(serviceID: String) -> String? {
-        let serviceID = serviceID
-        if let accessToken = self.loadData(serviceIdentifier: serviceID, forKey: "accessToken") {
-            return accessToken
-        } else {
-            return nil
-        }
+    class func getAccessToken() -> String {
+
+        let accessToken = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.tokens",
+            forKey: "accessToken"
+        ) ?? ""
+        
+        return accessToken
     }
     
-    class func getRefreshToken(serviceID: String) -> String? {
-        let serviceID = serviceID
-        if let refreshToken = self.loadData(serviceIdentifier: serviceID, forKey: "refreshToken")  {
-            return refreshToken
-        } else {
-            return nil
-        }
+    class func getRefreshToken() -> String {
+        let refreshToken = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.tokens",
+            forKey: "refreshToken"
+        ) ?? ""
+        
+        return refreshToken
     }
     
-//    class func getEmail(serviceID: String) -> String? {
-//        let serviceID = serviceID
-//        if let email = self.read(serviceID, account: "email") {
-//            return email
-//        } else {
-//            return nil
-//        }
-//    }
-//
+    class func getUserEmail() -> String {
+        let provider = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo",
+            forKey: "provider"
+        ) ?? ""
+        
+        let userEmail = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo\(provider)",
+            forKey: "userEmail"
+        ) ?? ""
+        
+        return userEmail
+    }
+    
+    class func getNickName() -> String {
+
+        let provider = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo",
+            forKey: "provider"
+        ) ?? ""
+        
+        let nickName = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo\(provider)",
+            forKey: "userNickName"
+        ) ?? ""
+        
+        return nickName
+    }
+    
 }
