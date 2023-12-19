@@ -10,6 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 import ReactorKit
+import MessageUI
 
 final class MyPageViewController: UIViewController {
     // MARK: - Properties
@@ -31,7 +32,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     private lazy var profileView = ProfileView()
     private lazy var stackView = SettingStackView()
-
+    
     // MARK: - Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,7 +86,7 @@ extension MyPageViewController: View {
                 profileView.nickNameLabel.text = text
             })
             .disposed(by: disposeBag)
-
+        
         reactor.state.map { $0.isProfileLoading }
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] shouldRun in
@@ -160,11 +161,46 @@ extension MyPageViewController {
             })
             .disposed(by: disposeBag)
         
+        self.stackView.inquiryCell.rx.tapGesture()
+            .when(.recognized)
+            .subscribe(onNext: { _ in
+                self.isTappedInquiry()
+            })
+            .disposed(by: disposeBag)
+        
         self.stackView.accountCell.rx.tapGesture()
             .when(.recognized)
             .subscribe(onNext: { _ in
                 self.coordinator?.pushAccountManagementView()
             })
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Message UI
+extension MyPageViewController: MFMailComposeViewControllerDelegate {
+    public func mailComposeController(_ controller: MFMailComposeViewController,
+                                      didFinishWith result: MFMailComposeResult,
+                                      error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
+    private func makeMailViewController() -> MFMailComposeViewController {
+        let mailVC = MFMailComposeViewController()
+        mailVC.mailComposeDelegate = self
+        mailVC.setToRecipients(["sosohappy0206@gmail.com"])
+        mailVC.setSubject("소소해피 문의하기")
+        mailVC.setMessageBody(Bundle.main.inquiryMessage, isHTML: false)
+        
+        return mailVC
+    }
+
+    private func isTappedInquiry() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailVC = makeMailViewController()
+            self.present(mailVC, animated: true, completion: nil)
+        } else {
+            CustomAlert.presentCheckAlert(title: "메일 전송에 실패했어요.", message: "아이폰 이메일 설정 확인 후, 다시 시도해주세요.")
+        }
     }
 }
