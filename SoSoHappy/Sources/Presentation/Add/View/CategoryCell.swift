@@ -15,8 +15,8 @@ class CategoryCell: UICollectionViewCell {
         return String(describing: Self.self)
     }
     
-    private let selectedScale: CGFloat = 1.2 // Adjust the scale factor as needed
-
+    private let selectedScale: CGFloat = 1.2
+    
     // MARK: - UI Components
     private lazy var categoryImageView = UIImageView().then {
         $0.backgroundColor = .clear
@@ -45,7 +45,7 @@ extension CategoryCell {
         self.contentView.addSubview(categoryImageView)
         
         categoryImageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(3) // 2
+            make.edges.equalToSuperview().inset(3)
         }
     }
     
@@ -54,18 +54,16 @@ extension CategoryCell {
         categoryImageView.image = image
     }
 }
-// MARK: Select됨에 따라 크기 변경과 그림자 설정
+
+// - MARK: Select됨에 따라 크기 변경과 그림자 설정
 extension CategoryCell {
     override var isSelected: Bool {
         didSet {
             UIView.animate(withDuration: 0.2) {
-                // Adjust the appearance of the cell when its selection state changes
                 if self.isSelected {
-                    // Increase the cell size and add a shadow
                     self.categoryImageView.transform = CGAffineTransform(scaleX: self.selectedScale, y: self.selectedScale)
                     self.categoryImageView.alpha = 1
                 } else {
-                    // Reset the cell's appearance
                     self.categoryImageView.transform = CGAffineTransform.identity
                     self.categoryImageView.alpha = 0.5
                 }
