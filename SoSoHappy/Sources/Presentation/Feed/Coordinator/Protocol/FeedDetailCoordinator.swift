@@ -37,7 +37,6 @@ final class FeedDetailCoordinator: FeedDetailCoordinatorInterface {
     func start() {
         let feedDetailVC = FeedDetailViewController(reactor: feedReactor, coordinator: self)
         navigationController.pushViewController(feedDetailVC, animated: true)
-//        print("🗂️ START - Feed Detail Coordinator -  childCoordinator count : \(childCoordinators.count), navigationcontroller count : \(navigationController.viewControllers.count)")
     }
 }
 
@@ -45,17 +44,17 @@ extension FeedDetailCoordinator {
     func dismiss() {
         parentCoordinator?.childDidFinish(self, parent: parentCoordinator)
         navigationController.popViewController(animated: true)
-//        print("🗂️ dismissed - Feed Detail Coordinator - childCoordinator count : \(childCoordinators.count), navigationcontroller count : \(navigationController.viewControllers.count)")
     }
     
     func showOwner(ownerNickName: String) {
         switch navigatingFrom {
         case .feedViewController:
             let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName, navigatingFrom: .feedDetailViewController)
+            
             ownerFeedCoordinator.parentCoordinator = self
             self.childCoordinators.append(ownerFeedCoordinator)
-//            print("🗂️ (DETAIL) Feed Detail Coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
             ownerFeedCoordinator.start()
+        
         default: break
         }
     }

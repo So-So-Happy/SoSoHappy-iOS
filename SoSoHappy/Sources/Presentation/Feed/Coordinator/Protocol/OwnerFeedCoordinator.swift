@@ -33,7 +33,6 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
         let ownerFeedViewReactor = OwnerFeedViewReactor(ownerNickName: self.ownerNickName, feedRepository: FeedRepository(), userRepository: UserRepository())
         let ownerFeedVC = OwnerFeedViewController(reactor: ownerFeedViewReactor, coordinator: self)
         navigationController.pushViewController(ownerFeedVC, animated: true)
-//        print("🗂️ START - Owner Coordinator -  childCoordinator count : \(childCoordinators.count), navigationcontroller count : \(navigationController.viewControllers.count)")
     }
     
     func finish() {
@@ -41,19 +40,17 @@ final class OwnerFeedCoordinator: OwnerFeedCoordinatorInterface {
     }
 }
 
-
 extension OwnerFeedCoordinator {
     func dismiss() {
         parentCoordinator?.childDidFinish(self, parent: parentCoordinator)
         navigationController.popViewController(animated: true)
-//        print("🗂️ dismissed - OwnerFeed Coordinator - childCoordinator count : \(childCoordinators.count), navigationcontroller count : \(navigationController.viewControllers.count)")
     }
     
     func showDetails(feedReactor: FeedReactor) {
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedReactor: feedReactor, navigatingFrom: .ownerFeedViewController)
+        
         feedDetailCoordinator.parentCoordinator = self
         self.childCoordinators.append(feedDetailCoordinator)
-//        print("🗂️ (Detail) Owner Feed coordinator childCoordinator count : \(childCoordinators.count), controller count : \(navigationController.viewControllers.count)")
         feedDetailCoordinator.start()
     }
     
