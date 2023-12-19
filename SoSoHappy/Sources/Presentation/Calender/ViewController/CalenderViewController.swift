@@ -13,24 +13,15 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 import Moya
+import Network
 
-// uipageViewController 사용?
+
 final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
     private var coordinator: CalendarCoordinatorInterface
     var disposeBag = DisposeBag()
-    
-    let happyListData: [Happy] = [
-        Happy(date: "2023-08-06", happinessRate: 20),
-        Happy(date: "2023-08-01", happinessRate: 40),
-        Happy(date: "2023-08-02", happinessRate: 20),
-        Happy(date: "2023-08-03", happinessRate: 60),
-        Happy(date: "2023-08-04", happinessRate: 80)
-    ]
-    
     private var monthFeedList: [MyFeed] = []
-    
     
     //MARK: - UI Components
     private lazy var calendarBackgroundView = UIView().then {
@@ -79,35 +70,23 @@ final class CalendarViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     
     private lazy var preview = Preview()
+    private lazy var emptyPreview = EmptyPreviewView()
     
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
         $0.image = image
     }
     
-    private var selectedDate: DateComponents? = nil
-    
     private var currentPage: Date?
-    private var previousPage: Date = Date()
 
     private let today: Date = {
         return Date()
     }()
     
     // MARK: - View Life Cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent))
-        //        swipeUp.direction = .up
-        //
-        //        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeEvent))
-        //        swipeDown.direction = .down
-        //
-        //        self.view.addGestureRecognizer(swipeUp)
-        //        self.view.addGestureRecognizer(swipeDown)
         setup()
-        // TODO: 리스트도 바버튼에 넣고 바버튼 자체에 가로세로 길이 설정해주기
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -142,10 +121,8 @@ extension CalendarViewController: View {
     }
     
     func bindAction(_ reactor: CalendarViewReactor) {
-        // viewDidLoad: month, day data fetch, monthText, yearText
-        self.rx.viewWillAppear
-            .take(1) // 첫 번째 이벤트만 처리
-            .map { Reactor.Action.viewWillAppear }
+        self.rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -161,6 +138,11 @@ extension CalendarViewController: View {
         
         self.nextButton.rx.tap
             .map { Reactor.Action.tapNextButton }
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                let nextDate = currentPage?.moveToNextMonth() ?? Date()
+                return nextDate < today
+              }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -168,7 +150,6 @@ extension CalendarViewController: View {
             .map { Reactor.Action.tapPreviousButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
         
         self.preview.rx.tapGesture()
             .when(.recognized)
@@ -216,14 +197,21 @@ extension CalendarViewController: View {
             }
             .disposed(by: disposeBag)
         
+        // setFeedCell(FeedType) 일 경우 Argument type 'Event<Date>' does not conform to expected type 'FeedType' 에러 이슈 -> setFeedCell(MyFeed)로 타입매개변수 타입 변경함.
         reactor.state
             .map{ $0.dayFeed }
+            .distinctUntilChanged()
             .subscribe { [weak self] feed in
                 guard let `self` = self else { return }
-                self.preview.setFeedCell(feed)
-            }
-        // setFeedCell(FeedType) 일 경우 Argument type 'Event<Date>' does not conform to expected type 'FeedType' 에러 이슈 -> setFeedCell(MyFeed)로 타입매개변수 타입 변경함.
-            .disposed(by: disposeBag)
+                if feed.text.isEmpty {
+                    self.preview.isHidden = true
+                    self.emptyPreview.isHidden = false
+                } else {
+                    self.preview.setFeedCell(feed)
+                    self.emptyPreview.isHidden = true
+                    self.preview.isHidden = false
+                }
+            }.disposed(by: disposeBag)
         
         reactor.pulse(\.$presentAlertView)
             .compactMap { $0 }
@@ -245,29 +233,9 @@ extension CalendarViewController: View {
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: ())
             .drive { [weak self] _ in
-                // FIXME: - detailview coordintator
                 self?.coordinator.pushDetailView(feed: reactor.currentState.dayFeed)
             }
             .disposed(by: disposeBag)
-    }
-    
-}
-
-// MARK: - Action
-private extension CalendarViewController {
-    
-    func setUiViewTabGesture() {
-        let tapGesture = UITapGestureRecognizer()
-        self.preview.addGestureRecognizer(tapGesture)
-    }
-    
-    // 뷰 스크롤 제스쳐 - x
-    @objc private func swipeEvent(_ swipe: UISwipeGestureRecognizer) {
-        if swipe.direction == .up {
-            calendar.setScope(.week, animated: true)
-        } else if swipe.direction == .down {
-            calendar.setScope(.month, animated: true)
-        }
     }
     
 }
@@ -280,11 +248,10 @@ private extension CalendarViewController {
         setAttribute()
         setCalender()
         setCalenderAttribute()
-        setUiViewTabGesture()
     }
     
     private func setLayout() {
-        self.view.addSubviews(calendarBackgroundView, previousButton, nextButton, yearLabel, monthLabel, preview)
+        self.view.addSubviews(calendarBackgroundView, previousButton, nextButton, yearLabel, monthLabel, preview, emptyPreview)
         
         calendarBackgroundView.addSubview(calendar)
         
@@ -335,6 +302,11 @@ private extension CalendarViewController {
             $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
+        emptyPreview.snp.makeConstraints {
+            $0.top.equalTo(calendar.snp.bottom).offset(15)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
+        
     }
     
     private func setAttribute() {
@@ -345,6 +317,9 @@ private extension CalendarViewController {
 
         preview.backgroundColor = UIColor(named: "CellColor")
         preview.layer.cornerRadius = 20
+        
+        emptyPreview.backgroundColor = UIColor(named: "CellColor")
+        emptyPreview.layer.cornerRadius = 20
     }
 }
 
@@ -394,9 +369,6 @@ extension CalendarViewController {
 // MARK: - FSCalendar DataSource, Delegate
 extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
-    //FIXME: subscribe에서 data fetch -> data 저장 -> refresh 메서드 호출
-    
-    //     캘린더 셀 정의
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         
         guard let cell = calendar.dequeueReusableCell(
@@ -407,6 +379,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         
         if let image = isHappyDay(String(date.getFormattedYMD())) {
             cell.backgroundView = UIImageView(image: image)
+            cell.alpha = 1.0
         } else {
             cell.backgroundView = nil
         }
@@ -429,33 +402,13 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
         return nil
     }
     
-    // FIXME: 데이터 선택 메서드 호출가능한지 알아보기
-    // 캘린더 선택
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        // 서버에서 날짜에 해당하는 데이터 api 통신 (day data)
-        if let _ = isHappyDay(String(date.getFormattedYMD())) {
-            self.reactor?.action.onNext(.selectDate(date))
-        } else {
-            // TODO: 텅 뷰 세팅 + 프리뷰 터치 불가능하게 세팅
-        }
+        self.reactor?.action.onNext(.selectDate(date))
     }
     
-    // FIXME: onNext 로 reactor action 전달
-    // 캘린더 페이지 변경시 year, month update, data, cell update
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        
         let currentPage = calendar.currentPage
-        
-//        if currentPage > previousPage {
-//            print("페이지가 증가했습니다.")
-//            self.reactor?.action.onNext(.changeCurrentPage(currentPage))
-//        } else if currentPage < previousPage {
-//            print("페이지가 감소했습니다.")
-//            self.reactor?.action.onNext(.tapPreviousButton)
-//        }
-        
         self.reactor?.action.onNext(.changeCurrentPage(currentPage))
-        self.previousPage = currentPage
     }
     
     // MARK: 주말 텍스트 색 설정
