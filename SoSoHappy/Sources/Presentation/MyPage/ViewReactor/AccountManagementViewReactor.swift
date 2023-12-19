@@ -62,8 +62,6 @@ class AccountManagementViewReactor: Reactor {
             return Observable.just(Mutation.showResignCheckAlert(true))
             
         case .logout:
-            // MARK: -  로그아웃할 때 removeObserver 해줘야 해서 여기에서 post
-            NotificationCenter.default.post(name: NSNotification.Name.logoutNotification, object: nil)
             return .concat([logout(), .just(Mutation.clearErrorAlert)])
             
         case .resign:

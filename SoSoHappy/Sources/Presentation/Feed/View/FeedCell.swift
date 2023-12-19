@@ -13,9 +13,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-/*
- 1. 하트 버튼 연타 처리 (debounce, throttle) - 서버 요청 , local ui update
- */
 
 final class FeedCell: BaseCell {
     // MARK: - Properties
@@ -87,10 +84,18 @@ extension FeedCell: View {
             .compactMap { $0.isLike } 
             .bind { [weak self] isLike in
                 guard let `self` = self else { return }
-                print("cell heartButton : \(isLike)")
                 heartButton.setHeartButton(isLike)
             }
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.showServerErrorAlert }
+            .distinctUntilChanged()
+            .bind(onNext: { showServerErrorAlert in
+                if showServerErrorAlert {
+                    CustomAlert.presentErrorAlertWithoutDescription()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
-

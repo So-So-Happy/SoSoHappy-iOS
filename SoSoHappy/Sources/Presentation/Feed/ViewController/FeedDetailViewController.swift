@@ -12,11 +12,6 @@ import Then
 import ReactorKit
 import RxGesture
 
-/*
- 리팩토링
- 1. heartbutton throttle  적용
- */
-
 final class FeedDetailViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: FeedDetailCoordinatorInterface?
@@ -30,34 +25,20 @@ final class FeedDetailViewController: BaseDetailViewController {
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
     
-    // 피드가 삭제되었습니다 (empty view)
-    lazy var exceptionView = FeedExceptionView(
-        title: "피드가 삭제되었습니다.",
+    lazy var exceptionView = ExceptionView(
+        title: "",
         inset: 200
     ).then {
         $0.isHidden = true
-        $0.backgroundColor = UIColor(named: "BGgrayColor")
+    }
+    
+    private lazy var networkNotConnectedView = NetworkNotConnectedView(inset: 300).then {
+        $0.isHidden = true
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutForDetail()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        if let tabBarController = self.tabBarController as? TabBarController {
-            tabBarController.addButton.isHidden = true
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        if let tabBarController = self.tabBarController as? TabBarController {
-            tabBarController.addButton.isHidden = false
-        }
     }
     
     init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
@@ -86,10 +67,16 @@ extension FeedDetailViewController {
     private func setLayoutForDetail() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         self.view.addSubview(exceptionView)
+        self.view.addSubview(networkNotConnectedView)
+        
         self.contentView.addSubview(profileImageNameTimeStackView)
         self.contentView.addSubview(heartButton)
         
         exceptionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        networkNotConnectedView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
@@ -119,19 +106,19 @@ extension FeedDetailViewController: View {
         
         imageSlideView.tapObservable
             .subscribe(onNext: { [weak self] in
-                guard let `self` = self else { return }
-                self.imageSlideView.slideShowView.presentFullScreenController(from: self)
+                guard let self = self else { return }
+                imageSlideView.slideShowView.presentFullScreenController(from: self)
             })
             .disposed(by: disposeBag)
         
-        heartButton.rx.tap // debouce ? throttle
+        heartButton.rx.tap
             .map { Reactor.Action.toggleLike}
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         profileImageNameTimeStackView.profileImageView.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                guard let `self` = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
+                guard let self = self, let nickName = profileImageNameTimeStackView.profileNickNameLabel.text else { return }
                 coordinator?.showOwner(ownerNickName: nickName)
             })
             .disposed(by: disposeBag)
@@ -142,28 +129,50 @@ extension FeedDetailViewController: View {
                 coordinator?.dismiss()
             })
             .disposed(by: disposeBag)
-
-        reactor.state
-            .skip(1) // 바로 넣어준 거 제외 skip (서버로부터 받아온 것만 처리)
-            .map { $0.userFeed }
-            .distinctUntilChanged()
-            .bind { [weak self] userFeed in
-                guard let `self` = self else { return }
-                if let userFeed = userFeed {
-                    setFeed(feed: userFeed)
-                } else {
-                    exceptionView.isHidden = false
-                }
-            }
+        
+        networkNotConnectedView.retryButton.rx.tap
+            .map { Reactor.Action.fetchFeed }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap { $0.isLike } // Optional 벗기고 nil 값 filter
-            .bind { [weak self] isLike in
-                guard let `self` = self else { return }
-//                print("FeedReactor - FeedDetailViewController - ISLIKE : \(isLike)")
-                heartButton.setHeartButton(isLike)
-            }
+            .skip(2) // 첫 2개 제거
+            .compactMap { $0.userFeed }
+            .subscribe(onNext: { [weak self] userFeed in
+                guard let self = self else { return }
+                if let showNetworkErrorView = reactor.currentState.showNetworkErrorView,  !showNetworkErrorView {
+                    setFeed(feed: userFeed)
+                    networkNotConnectedView.isHidden = true
+                    exceptionView.isHidden = true
+                }
+                
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.showNetworkErrorView }
+            .distinctUntilChanged()
+            .debug()
+            .subscribe(onNext: { [weak self] showNetworkErrorView in
+                guard let self = self else { return }
+                if showNetworkErrorView {
+                    exceptionView.isHidden = true
+                    networkNotConnectedView.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.showServerErrorAlert }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] showServerErrorAlert in
+                guard let self = self else { return }
+                if showServerErrorAlert {
+                    exceptionView.isHidden = false
+                    exceptionView.titleLabel.text = ""
+                    networkNotConnectedView.isHidden = true
+                }
+            })
             .disposed(by: disposeBag)
     }
 }

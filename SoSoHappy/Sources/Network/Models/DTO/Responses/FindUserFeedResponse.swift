@@ -5,7 +5,6 @@
 //  Created by 박희경 on 2023/09/30.
 //
 
-
 import Foundation
 
 struct FindUserFeedResponse: Codable {
@@ -13,4 +12,3 @@ struct FindUserFeedResponse: Codable {
     let numberOfElements, pageNumber, pageSize: Int
     let isLast: Bool
 }
-

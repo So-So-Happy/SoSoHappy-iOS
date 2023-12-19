@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 
-
 extension Observable where Element == Data {
     func map<T: Decodable>(_ type: T.Type) -> Observable<T> {
         flatMap { element -> Observable<T> in

@@ -20,35 +20,26 @@ final class Cache<Key: Hashable, Value> {
         wrapped.countLimit = maximumEntryCount
     }
     
-    // MARK: 캐시에 저장 메서드
     func insert(_ value: Value, forKey key: Key) {
         let date = dateProvider().addingTimeInterval(entryLifeTime)
         let entry = Entry(value: value, expirationDate: date)
-        print("캐시에 저장 - value \(value), key: \(key)")
         wrapped.setObject(entry, forKey: WrappedKey(key))
     }
     
-    // MARK: 캐시에 저장된 object 가져오는 메서드
     func value(forKey key: Key) -> Value? {
         guard let entry = wrapped.object(forKey: WrappedKey(key)) else {
-            print("캐시에 없음")
-            return nil // key에 대해 저장된 항목이 없으면 nil
+            return nil
         }
         
         guard dateProvider() < entry.expirationDate else {
-            // Discard values that have expired
-            print("캐시 시간제한 넘어감")
-            removeValue(forKey: key) // 유효기간이 지났으면 항목을 삭제하고
-            return nil // key에 대한 value로 nil 반환
+            removeValue(forKey: key)
+            return nil
         }
         
-        print("캐시에 있음 : \(entry.value) ")
         return entry.value
     }
-    
-    // MARK: 캐시에 해당 key에 대한 entry 제거
+
     func removeValue(forKey key: Key) {
-        // Removes the value of the specified key in the cache.
         wrapped.removeObject(forKey: WrappedKey(key))
     }
 }
@@ -59,8 +50,6 @@ extension Cache {
         get { return value(forKey: key) }
         set {
             guard let value = newValue else {
-                // If nil was assigned using our subscript,
-                // then we remove any value for that key:
                 removeValue(forKey: key)
                 return
             }
@@ -69,8 +58,6 @@ extension Cache {
         }
     }
 }
-
-
 // MARK: - WrappedKey (Key)
 private extension Cache {
     final class WrappedKey: NSObject {
@@ -94,15 +81,13 @@ private extension Cache {
 private extension Cache {
     final class Entry: NSObject, NSDiscardableContent {
         let value: Value
-        let expirationDate: Date // 캐시 무효화 조건 - 특정 시간 간격 후에 캐시 항목을 제거해서 캐시 항목의 수명 제한 (만료날짜)
+        let expirationDate: Date
         
         init(value: Value, expirationDate: Date) {
             self.value = value
             self.expirationDate = expirationDate
         }
         
-        // Keep entries around after entering background state
-        // by overriding NSDiscardableContent
         func beginContentAccess() -> Bool { true }
         func endContentAccess() {}
         func discardContentIfPossible() {}

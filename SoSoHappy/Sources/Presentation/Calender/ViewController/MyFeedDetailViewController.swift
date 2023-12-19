@@ -88,8 +88,6 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }
 // MARK: - set up
 extension MyFeedDetailViewController {
@@ -334,7 +332,7 @@ extension MyFeedDetailViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] isPrivate in
                 guard let self = self else { return }
-                addKeyboardToolBar.setPrivateTo(isPrivate)
+//                addKeyboardToolBar.setPrivateTo(isPrivate)
             }
             .disposed(by: disposeBag)
         
@@ -351,7 +349,8 @@ extension MyFeedDetailViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-                setImageSlideView(imageList: images)
+//                setImageSlideView(images: images)
+
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)

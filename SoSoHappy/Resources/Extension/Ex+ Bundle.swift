@@ -51,8 +51,7 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["FIND_INTRODUCTION"] as? String else { fatalError("FIND_INTRODUCTION error") }
         return key
     }
-    
-    
+        
     // MARK: -  Server - Feed
     var saveFeedPath: String {
         guard let key = Bundle.main.infoDictionary?["SAVE_FEED_PATH"] as? String else { fatalError("SAVE_FEED_PATH error") }
@@ -136,4 +135,3 @@ extension Bundle {
         return key
     }
 }
-

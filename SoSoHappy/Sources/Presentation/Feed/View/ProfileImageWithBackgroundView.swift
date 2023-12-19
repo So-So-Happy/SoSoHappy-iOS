@@ -14,7 +14,7 @@ final class ProfileImageWithBackgroundView: UIView {
     var profileImageViewwSize: CGFloat
     
     // MARK: - UI Components
-    lazy var profileImageView = UIImageView().then {            // 프로필 이미지
+    lazy var profileImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
         $0.layer.masksToBounds = true
         $0.backgroundColor = .white
@@ -45,8 +45,6 @@ extension ProfileImageWithBackgroundView {
     }
     
     private func setLayout() {
-        // addSubview: 해당 뷰가 이미 하위 뷰로 있는지 확인하고, 이미 있다면 다시 추가하지 않음
-        // 따라서 updateProfileImageSize에서 다시 한번 호출이 되더라도 누적이 되지 않음
         addSubview(profileImageView)
 
         profileImageView.snp.makeConstraints { make in
@@ -65,4 +63,3 @@ extension ProfileImageWithBackgroundView {
         setView()
     }
 }
-

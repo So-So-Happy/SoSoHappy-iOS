@@ -34,7 +34,6 @@ final class HappinessStackView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setStackView()
-//        backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
@@ -67,10 +66,9 @@ extension HappinessStackView {
                 make.width.equalTo(button.snp.height).multipliedBy(aspectRatio)
             }
         }
-        
-        // button이 tap되면 tag로 추출
+    
         button.rx.tap
-            .map { tag } // 1, 2, 3, 4, 5
+            .map { tag }
             .bind(to: happinessButtonTappedSubject)
             .disposed(by: disposeBag)
         
@@ -80,7 +78,7 @@ extension HappinessStackView {
 
 // MARK: - HappinessStackView안의 버튼이 선택되는 효과를 담당하는 function
 extension HappinessStackView {
-    func updateButtonAppearance(_ selectedHappiness: Int?) { // 1, 2, 3, 4, 5
+    func updateButtonAppearance(_ selectedHappiness: Int?) {
         for (index, button) in happinessStackView.arrangedSubviews.enumerated() {
             guard let button = button as? UIButton else { continue }
             let isSelected = index + 1 == selectedHappiness
@@ -89,21 +87,15 @@ extension HappinessStackView {
     }
     
     private func updateButton(_ button: UIButton, isSelected: Bool) {
-        UIView.animate(withDuration: 0.2) { // 0.2초 동안의 애니메이션 효과 설정
+        UIView.animate(withDuration: 0.2) {
             if isSelected {
-                // 버튼을 조금 더 크게 만들기 위해 1.1배 확대
                 button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                
-                // 버튼에 그림자 추가
                 button.layer.shadowColor = UIColor(named: "DarkGrayTextColor")?.cgColor
                 button.layer.shadowOpacity = 0.8 // 0.5
                 button.layer.shadowOffset = CGSize(width: 0, height: 2)
                 button.layer.shadowRadius = 4
             } else {
-                // 버튼 크기를 원래 크기로 복원
                 button.transform = .identity
-                
-                // 그림자 제거
                 button.layer.shadowColor = nil
                 button.layer.shadowOpacity = 0
                 button.layer.shadowOffset = .zero

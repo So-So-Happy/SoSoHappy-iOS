@@ -47,20 +47,12 @@ class OwnerFeedHeaderView: UIView {
     }
     
     func update(with profile: Profile) {
-//        print("OwnerFeedHeaderView - update function")
         profileImageWithBackgroundView.profileImageView.image = profile.profileImg
         profileNickNameLabel.text = profile.nickName
         profileSelfIntroduction.text = profile.introduction
-        profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center) //위에 쓰면 적용이 안되길래 여기에 씀
+        profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center)
         dashImageView.image = UIImage(named: "dashImage4")
     }
-    
-//    func update(selfIntro: String) {
-//        print("OwnerHeaderView update(selfIntro: String) called")
-//        profileSelfIntroduction.text = selfIntro
-//        profileSelfIntroduction.setLineSpacing(lineSpacing: 6, alignment: .center) //위에 쓰면 적용이 안되길래 여기에 씀
-//        dashImageView.image = UIImage(named: "dashImage4")
-//    }
 }
 
 //MARK: - Add Subviews & Constraints
@@ -89,4 +81,3 @@ extension OwnerFeedHeaderView {
         stackView.addArrangedSubview(dashImageView)
     }
 }
-

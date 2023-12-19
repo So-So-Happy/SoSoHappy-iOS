@@ -19,7 +19,7 @@ import Foundation
 
 final class WebSocketManager: NSObject {
     static let shared = WebSocketManager() // 일단은 Singleton으로 만들어줬는데 좀 더 고민해보긴 해야 함
-    private var socket : WebSocket?
+    private var socket: WebSocket?
     var isConnected: Bool = false
     
     private override init() {
@@ -90,4 +90,3 @@ extension WebSocketManager: WebSocketDelegate {
       }
     
 }
-

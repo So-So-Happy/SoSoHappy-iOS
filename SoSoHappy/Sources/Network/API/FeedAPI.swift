@@ -9,7 +9,6 @@ import Moya
 import RxSwift
 import Alamofire
 
-
 enum FeedAPI {
     case saveFeed(SaveFeedRequest)
     case findDayFeed(FindFeedRequest)

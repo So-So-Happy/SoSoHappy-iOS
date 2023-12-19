@@ -100,6 +100,13 @@ extension KeychainService {
         }
     }
     
+    class func getNickName() -> String {
+        let provider = self.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        let nickname = self.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+        
+        return nickname
+    }
+    
 //    class func getEmail(serviceID: String) -> String? {
 //        let serviceID = serviceID
 //        if let email = self.read(serviceID, account: "email") {

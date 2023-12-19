@@ -11,7 +11,6 @@
 
 import UIKit
 
-
 struct FeedTemp: Hashable {
     let profileImage: UIImage           // String?
     let profileNickName: String         // 게시글 작성자 닉네임 - "소해피"
