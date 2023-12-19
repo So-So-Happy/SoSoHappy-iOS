@@ -12,9 +12,8 @@ import RxCocoa
 import ReactorKit
 import ImageSlideshow
 
-final class HappyListViewController : UIViewController {
-    
-    
+final class HappyListViewController: UIViewController {
+     
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
@@ -150,32 +149,6 @@ extension HappyListViewController: View {
                 guard let self = self else { return }
                 self.currentPage = currentPage
             }.disposed(by: disposeBag)
-        
-//        reactor.state
-//            .map { $0.detailViewDate }
-//            .subscribe { date in
-//                self.coordinator.pushDetailView(date: date)
-//            }.disposed(by: disposeBag)
-        
-        
-//        reactor.state
-//            .skip(1)
-//            .map { $0.feeds }
-//            .bind(to: happyTableView.rx.items(cellIdentifier: HappyListCell.cellIdentifier, cellType: HappyListCell.self)) { (row,  feed, cell) in
-//                // viewcontroller에서 직접 feed로 데이터를 전달해주는게 적합한지 잘 모르겠음
-//                // 이것마저 Reactor에서 다루는 참고 코드가 있는지 확인하고 적용해보면 좋을 듯
-//                let cellReactor = HappyListCellReactor(feed: feed)
-//                cell.reactor = cellReactor
-//
-//                cell.imageSlideView.tapObservable
-//                    .subscribe(onNext: { [weak self] in
-//                        guard let self = self else { return }
-//                        cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
-//                    })
-//                    .disposed(by: cell.disposeBag)
-//
-//            }
-//            .disposed(by: disposeBag)
     }
 }
 
@@ -192,7 +165,6 @@ extension HappyListViewController {
                 cell.setFeedCell(element)
             }
             .disposed(by: disposeBag)
-        
         
         self.happyTableView.rx.modelSelected(MyFeed.self)
         .subscribe(onNext: { feed in
