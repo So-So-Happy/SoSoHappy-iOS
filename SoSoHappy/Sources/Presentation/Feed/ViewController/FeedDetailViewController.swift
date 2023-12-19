@@ -39,6 +39,7 @@ final class FeedDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutForDetail()
+        addSwipeGesture()
     }
     
     init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
@@ -93,6 +94,12 @@ extension FeedDetailViewController {
         imageSlideView.snp.makeConstraints { make in
             make.height.equalTo(0)
         }
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
 }
 
@@ -174,5 +181,11 @@ extension FeedDetailViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension FeedDetailViewController {
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.dismiss()
     }
 }
