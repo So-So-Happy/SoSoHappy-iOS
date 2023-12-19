@@ -233,14 +233,6 @@ extension CalendarViewController: View {
                 self?.coordinator.pushDetailView(feed: reactor.currentState.dayFeed)
             }
             .disposed(by: disposeBag)
-        
-        reactor.state
-            .compactMap { $0.likedFeed }
-            .subscribe { [weak self] likedFeed in
-                print("🐵 gets called")
-                self?.coordinator.pushDetailView(feed: likedFeed)
-            }
-            .disposed(by: disposeBag)
     }
 }
 
