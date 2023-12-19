@@ -109,8 +109,8 @@ extension FeedHeaderView {
     
     private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
         selected.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
-        selected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .bold)
+        selected.titleLabel?.font = UIFont.customFont(size: 15, weight: .bold)
         notSelected.setTitleColor(UIColor(named: "DarkGrayTextColor"), for: .normal)
-        notSelected.titleLabel?.font =  UIFont.customFont(size: 15, weight: .medium)
+        notSelected.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
     }
 }

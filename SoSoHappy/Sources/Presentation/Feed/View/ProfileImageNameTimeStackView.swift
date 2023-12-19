@@ -22,7 +22,7 @@ final class ProfileImageNameTimeStackView: UIView {
     )
     
     // 피드 작성한 사람의 프로필 이미지
-    lazy var profileImageView =  UIImageView().then {
+    lazy var profileImageView = UIImageView().then {
         $0.contentMode = .scaleToFill
         $0.clipsToBounds = true
     }
@@ -94,4 +94,3 @@ extension ProfileImageNameTimeStackView {
         timeLabel.text = userFeed.timeAgoString
     }
 }
-

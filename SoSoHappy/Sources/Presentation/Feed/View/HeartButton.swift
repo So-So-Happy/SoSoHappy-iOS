@@ -12,7 +12,7 @@ final class HeartButton: UIButton {
     
     func setHeartButton(_ isLike: Bool) {
         let image: UIImage = isLike ? UIImage(systemName: "heart.fill", withConfiguration: heartImageConfiguration)! : UIImage(systemName: "heart", withConfiguration: heartImageConfiguration)!
-        let color: UIColor =  isLike ? UIColor.systemRed : UIColor.systemGray
+        let color: UIColor = isLike ? UIColor.systemRed : UIColor.systemGray
         
         setImage(image, for: .normal)
         tintColor = color
