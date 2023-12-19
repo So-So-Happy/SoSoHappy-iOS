@@ -63,7 +63,7 @@ final class CustomAlert {
         presentAlert(alert)
     }
     
-    static  func makeAlertController() -> UIAlertController {
+    static func makeAlertController() -> UIAlertController {
         let title = "⚠️ 네트워크 오류 ⚠️"
         let message = "잠시 후에 다시 시도해주세요."
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
