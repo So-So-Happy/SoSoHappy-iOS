@@ -132,7 +132,7 @@ extension BaseDetailViewController {
         
         categoryStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(140)
+            make.top.equalToSuperview().inset(112)
         }
         
         dateLabel.snp.makeConstraints { make in
