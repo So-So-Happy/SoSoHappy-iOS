@@ -10,29 +10,28 @@ import Moya
 import Alamofire
 import RxSwift
 
-class Interceptor : RequestInterceptor {
+class Interceptor: RequestInterceptor {
     
     private var disposeBag = DisposeBag()
     
     func adapt() {  }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        print("retry 진입")
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 403
         else {
             completion(.doNotRetryWithError(error))
             return
         }
         
-        let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? ""
-        let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? ""
-        let userEmail = "pkkyung26@gmail.com+google"
+        let accessToken = KeychainService.getAccessToken()
+        let refreshToken = KeychainService.getAccessToken()
+        let userEmail = KeychainService.getUserEmail()
         
-        let url = "https://sosohappy.dev/auth-service/reIssueToken"
+        let url = "\(Bundle.main.baseURL)\(Bundle.main.reIssueTokenPath)"
         let headers: HTTPHeaders = [
-            "Authorization" : accessToken,
-            "Authorization-refresh" : refreshToken,
-            "Email" : userEmail
+            "Authorization": accessToken,
+            "Authorization-refresh": refreshToken,
+            "Email": userEmail
         ]
         
         /// response 에 body 가 비어있고, header에 token 이 내려옴
@@ -48,14 +47,11 @@ class Interceptor : RequestInterceptor {
                        let refreshToken = headers["authorization-refresh"] {
                         KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: accessToken)
                         KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: refreshToken)
-                        print("토큰 재발급: accessToken: \(accessToken)")
-                        print("토큰 재발급: refreshToken: \(refreshToken)")
                         completion(.retry)
                     } else {
                         print("Error: Unable to retrieve tokens from headers.")
                     }
                 case .failure(let error):
-                    print("Error: \(error)")
                     completion(.doNotRetryWithError(error))
                 }
             }
@@ -63,4 +59,3 @@ class Interceptor : RequestInterceptor {
     }
     
 }
-

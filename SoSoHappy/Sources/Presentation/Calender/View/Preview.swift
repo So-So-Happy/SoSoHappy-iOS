@@ -11,13 +11,7 @@ import ReactorKit
 
 class Preview: UIView {
     
-    // MARK: - Properties
-    var disposeBag = DisposeBag()
-    
-    static var cellIdentifier: String {
-        return String(describing: Self.self)
-    }
-    
+    // MARK: - Propertie
     private var imageSlideViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - UI Components
@@ -76,11 +70,9 @@ extension Preview {
     
     private func addSubViews() {
         addSubview(cellBackgroundView)
-//        addSubview(weatherDateStackView)
         addSubview(dateLabel)
         addSubview(categoryStackView)
         addSubview(contentLabel)
-//        addSubview(imageSlideView)
     }
     
     private func setConstraints() {

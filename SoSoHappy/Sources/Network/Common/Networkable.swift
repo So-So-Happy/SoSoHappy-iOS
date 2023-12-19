@@ -20,17 +20,15 @@ extension Networkable {
     func accessProvider() -> MoyaProvider<Target> {
         let tokenClosure: (TargetType) -> HeaderType = { _ in
 
-            let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? "없음"
-            let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? "없음"
-            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-            let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
+            let accessToken = KeychainService.getAccessToken()
+            let refreshToken = KeychainService.getAccessToken()
+            let userEmail = KeychainService.getUserEmail()
             
             return HeaderType(email: userEmail, accessToken: accessToken, refreshToken: refreshToken)
         }
         
         let authPlugin = JWTPlugin(tokenClosure)
         
-//        return MoyaProvider<Target>(plugins: [authPlugin])
         return MoyaProvider<Target>(
             session: Moya.Session(interceptor: Interceptor()),
             plugins: [authPlugin]
@@ -46,5 +44,3 @@ extension Networkable {
         return MoyaProvider<Target>(plugins: [loggerPlugin])
     }
 }
-
-

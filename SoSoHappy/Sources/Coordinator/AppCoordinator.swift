@@ -25,12 +25,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func start() {
-//        let newAccess = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcwMjY5MTg4OCwiZW1haWwiOiJwa2t5dW5nMjZAZ21haWwuY29tK2dvb2dsZSJ9.93ScptD534uZX1FxkVxlGqtSR1V7fiG2sWyr_Ti9JB52hwHZDM2bdptkwUzY2Irt8sIgGeqY7FGbEfWwhR4QXw"
-//        let newRefresh = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MTQ3NTE4ODgsImVtYWlsIjoicGtreXVuZzI2QGdtYWlsLmNvbStnb29nbGUifQ.OJgeU1gO6AJ5keiQecozWKHcy8ZvUb4TmWlDAzqYk9yYfZZgk3gBXqRCLF6f46ZLmyTamhRff8XaL_FKqDGjaA"
-//        
-//        KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: newAccess)
-//        KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: newRefresh)
-
 
         let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? ""
         let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? ""
@@ -61,6 +55,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
               }
             )
         }
+        
     }
     
     func showAuthFlow() {

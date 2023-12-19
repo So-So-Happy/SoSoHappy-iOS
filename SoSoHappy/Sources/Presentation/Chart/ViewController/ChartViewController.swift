@@ -13,7 +13,6 @@ import ReactorKit
 
 final class ChartViewController: UIViewController {
     // MARK: - Properties
-//    private var coordinator: ChartCoordinatorInterface
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
@@ -70,8 +69,10 @@ final class ChartViewController: UIViewController {
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.showsVerticalScrollIndicator = false
     }
-    let contentView = UIView()
     
+    private lazy var privateTop3View = PrivateTop3View()
+    
+    let contentView = UIView()
     
     private var nickName: String = ""
     
@@ -105,31 +106,26 @@ extension ChartViewController: View {
     // MARK: - Input
     func bindAction(_ reactor: ChartViewReactor) {
         
-        // viewdidload
         self.rx.viewDidLoad
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // previousButton
         self.nextButton.rx.tap
             .map { Reactor.Action.tapNextButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // nextButton
         self.previousButton.rx.tap
             .map { Reactor.Action.tapPreviousButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // recommend refreshButton
         self.recommendView.refreshButton.rx.tap
             .map { Reactor.Action.tapRecommendRefreshButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // UISegmentedControl의 선택이 바뀔 때마다 Reactor에게 전달
         self.chartView.segmentedControl.rx.selectedSegmentIndex
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] selectedIndex in
@@ -141,7 +137,6 @@ extension ChartViewController: View {
     
     // MARK: - Output
     func bindState(_ reactor: ChartViewReactor) {
-        // year.month
         reactor.state
             .map { $0.monthYearText }
             .asDriver(onErrorJustReturn: "")
@@ -149,24 +144,34 @@ extension ChartViewController: View {
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
        
-        // top 3
         reactor.state
             .map { $0.happinessTopThree }
-            .distinctUntilChanged()
             .subscribe { [weak self] topThree in
-                if topThree.count == 3 {
-                   // TODO: - 텅뷰처리
+                guard let `self` = self else { return }
+                if topThree.count == 0 {
+                    self.awardsView.isHidden = true
+                    self.privateTop3View.isHidden = false
                 } else {
-                    self?.awardsView.setAwardsCategories(categories: topThree)
+                    self.awardsView.setAwardsCategories(categories: topThree)
+                    self.awardsView.isHidden = false
+                    self.privateTop3View.isHidden = true
                 }
             }.disposed(by: disposeBag)
         
-        // recommend
         reactor.state
             .map { $0.nowRecommendText }
             .asDriver(onErrorJustReturn: "")
             .distinctUntilChanged()
-            .drive(self.recommendView.recommendedHappinessLabel.rx.text)
+            .drive(onNext: { [weak self] text in
+                guard let `self` = self else { return }
+                if text == "피드 작성하기" {
+                    self.recommendView.recommendedHappinessLabel.text = text
+                    self.recommendView.refreshButton.isHidden = true
+                } else {
+                    self.recommendView.recommendedHappinessLabel.text = text
+                    self.recommendView.refreshButton.isHidden = false
+                }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
@@ -175,7 +180,7 @@ extension ChartViewController: View {
             .distinctUntilChanged()
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
-
+  
         reactor.state
             .map { $0.happinessChartData }
             .distinctUntilChanged()
@@ -206,15 +211,16 @@ extension ChartViewController {
         contentView.addSubview(awardsView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
+        contentView.addSubview(privateTop3View)
         
         scrollView.snp.makeConstraints {
-            $0.edges.equalToSuperview() // 스크롤뷰가 뷰에 가득 차도록 설정
+            $0.edges.equalToSuperview()
         }
         
         contentView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView) // 컨텐츠뷰도 스크롤뷰와 크기를 같도록 설정
-            $0.width.equalTo(view) // 컨텐츠뷰의 너비를 뷰와 같도록 설정
-            $0.height.equalTo(scrollView).priority(.low) // 컨텐츠뷰의 높이를 스크롤뷰와 같도록 설정, 우선순위를 낮춤
+            $0.edges.equalTo(scrollView)
+            $0.width.equalTo(view)
+            $0.height.equalTo(scrollView).priority(.low)
         }
         
         leftEmptyView.snp.makeConstraints {
@@ -227,14 +233,19 @@ extension ChartViewController {
         
         titleStack.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-//            $0.leading.equalToSuperview().inset(20)
             $0.top.equalToSuperview().inset(17)
         }
         
         awardsView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(titleStack.snp.bottom).offset(35)
-            $0.height.equalTo(255) // 이 부분은 awardsView의 높이 계산에 맞게 변경해야 함
+            $0.height.equalTo(255)
+        }
+        
+        privateTop3View.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(titleStack.snp.bottom).offset(35)
+            $0.height.equalTo(255)
         }
 
         recommendView.snp.makeConstraints {
@@ -252,17 +263,7 @@ extension ChartViewController {
     }
     
     func setNickName() {
-        let provider = KeychainService.loadData(
-            serviceIdentifier: "sosohappy.userInfo",
-            forKey: "provider"
-        ) ?? ""
-        
-        let nickName = KeychainService.loadData(
-            serviceIdentifier: "sosohappy.userInfo\(provider)",
-            forKey: "userNickName"
-        ) ?? ""
-        
+        let nickName = KeychainService.getNickName()
         self.nameLabel.text = nickName
-        
     }
 }

@@ -16,7 +16,6 @@ import RxCocoa
 // imageList type
 // reacotr mutate subscribe
 
-
 final class FeedRepository: FeedRepositoryProtocol, Networkable {
     // MARK: - Target
     typealias Target = FeedAPI
@@ -46,18 +45,13 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
     }
     
     func findDayFeed(request: FindFeedRequest) -> Observable<MyFeed> {
-//        let provider = accessProvider()
-//        return provider.rx.request(.findDayFeed(request))
-//            .map(FindAccountFeedResponse.self)
-//            .map({ $0.toDomain() })
-//            .asObservable()
-//
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findDayFeed(request))
                 .map(FindAccountFeedResponse.self)
                 .map({ $0.toDomain() })
                 .asObservable()
+                .catchAndReturn(MyFeed())
                 .subscribe { event in
                     switch event {
                     case .next(let response):
