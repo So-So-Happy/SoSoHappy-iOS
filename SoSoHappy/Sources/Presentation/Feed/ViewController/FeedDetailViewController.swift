@@ -100,7 +100,7 @@ extension FeedDetailViewController {
 extension FeedDetailViewController: View {
     func bind(reactor: FeedReactor) {
         self.rx.viewWillAppear
-            .map { Reactor.Action.fetchFeed(false) } // 원본 -fetchFeed
+            .map { Reactor.Action.fetchFeed }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -131,7 +131,7 @@ extension FeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         networkNotConnectedView.retryButton.rx.tap
-            .map { Reactor.Action.fetchFeed(true) }
+            .map { Reactor.Action.fetchFeed }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -140,10 +140,10 @@ extension FeedDetailViewController: View {
             .compactMap { $0.userFeed }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                print("FeedDetailViewController - userFeed ")
                 if let showNetworkErrorView = reactor.currentState.showNetworkErrorView,  !showNetworkErrorView {
                     setFeed(feed: userFeed)
                     networkNotConnectedView.isHidden = true
+                    exceptionView.isHidden = true
                 }
                 
             })
@@ -168,46 +168,11 @@ extension FeedDetailViewController: View {
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
                 if showServerErrorAlert {
-                    print("FeedDetailViewController - 서버 alert - \(showServerErrorAlert)")
                     exceptionView.isHidden = false
                     exceptionView.titleLabel.text = ""
                     networkNotConnectedView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
-
-//        reactor.state
-//            .skip(1)
-//            .map { $0.userFeed }
-//            .bind { [weak self] userFeed in
-//                guard let `self` = self else { return }
-//                print("FeedReactor - FeedDetailViewController - userFeed : \(userFeed)")
-//                networkNotConnectedView.isHidden = true
-//                if let userFeed = userFeed {
-//                    print("FeedReactor (138) setFeed : \(userFeed)")
-//                    setFeed(feed: userFeed)
-//                } else {
-//                    let text = "피드가 삭제되었습니다."
-//                    exceptionView.isHidden = false
-//                    exceptionView.titleLabel.text = text
-//                }
-//            }
-//            .disposed(by: disposeBag)
-//        
-//        // 네트워크 연결 안됨 - 재시도 했더니 서버오류
-//        reactor.state
-//            .compactMap { $0.showNetworkErrorView }
-//            .distinctUntilChanged()
-//            .subscribe(onNext: { [weak self] showNetworkErrorView in
-//                guard let self = self else { return }
-//                print("FeedDetailViewController showNetworkErrorView : \(showNetworkErrorView)")
-//                if showNetworkErrorView { // 네트워크 연결 안됨
-//                    print("270번째 줄")
-//                    networkNotConnectedView.isHidden = false
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//        
-
     }
 }
