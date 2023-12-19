@@ -74,6 +74,7 @@ class BaseCell: UITableViewCell {
         } else { // image가 있으면
             print("BaseCell 사진 있음(O)")
             imageSlideViewHeightConstraint?.isActive = true // 제약조건 활성화
+            print("feed.idlist: \(feed.imageIdList)")
             imageSlideView.setImages(ids: feed.imageIdList)
         }
                 

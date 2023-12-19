@@ -68,7 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: FCM 토큰이 등록 되었을 때 - apnsToken이랑 연결
     func application(_ application: UIApplication,
                         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-         Messaging.messaging().apnsToken = deviceToken
+        print("apnToken", Messaging.messaging().apnsToken!)
+        Messaging.messaging().apnsToken = deviceToken
        }
     
     
@@ -169,6 +170,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         let userInfo = notification.request.content.userInfo
         
         print("willPresent userInfo", userInfo)
+        print(userInfo as? [String : String] ?? [:])
         
         // Change this to your preferred presentation option
         let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting")

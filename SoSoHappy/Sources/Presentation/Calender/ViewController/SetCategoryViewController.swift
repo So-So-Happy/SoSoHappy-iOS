@@ -40,22 +40,9 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
         $0.allowsMultipleSelection = true
     }
     
-    private lazy var nextButton = NextButton()
-    
-    private lazy var backButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
-    }
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
-        print("--------AddSTEP2---------")
-        print("reactor.initialState.selectedWeather: \(reactor?.currentState.selectedWeather)")
-        print("reactor.initialState.selectedHappiness : \(reactor?.currentState.selectedHappiness)")
-        print("--------------------------")
     }
     
     init(reactor: MyFeedDetailViewReactor, coordinator: MyFeedDetailCoordinatorInterface) {
@@ -79,7 +66,6 @@ extension SetCategoryViewController {
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
     private func addViews() {
@@ -87,7 +73,6 @@ extension SetCategoryViewController {
         self.view.addSubview(categoryIntoLabel)
         self.view.addSubview(categorySelectionCautionLabel)
         self.view.addSubview(categoryCollectionView)
-        self.view.addSubview(nextButton)
     }
     
     private func setConstraints() {
@@ -110,13 +95,9 @@ extension SetCategoryViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(categorySelectionCautionLabel.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(28)
-            make.bottom.equalTo(nextButton.snp.top).inset(-40)// 여기 값 더 수정해줘야 함
+            make.bottom.equalToSuperview().inset(40)
         }
         
-        nextButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(40)
-        }
     }
 }
 
@@ -152,55 +133,30 @@ extension SetCategoryViewController: View {
         categoryCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        self.rx.viewWillAppear
+            .map { Reactor.Action.setCategories }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         Observable.of(reactor.categories)
             .bind(to: categoryCollectionView.rx.items(cellIdentifier: CategoryCell.cellIdentifier, cellType: CategoryCell.self)) { index, category, cell in
-//                print("1")
                 cell.setImage(category: category)
+                if reactor.currentState.selectedCategories.contains(category) {
+                    self.categoryCollectionView.selectItem(at: IndexPath(item: index, section: 0), animated: false, scrollPosition: [])
+                }
             }
             .disposed(by: disposeBag)
         
         categoryCollectionView.rx.modelSelected(String.self)
-            .map {
-                print("model Selected")
-                return Reactor.Action.selectCategory($0)
-            }
+            .map { Reactor.Action.selectCategory($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         categoryCollectionView.rx.modelDeselected(String.self)
-            .map {
-                print("model Deselected")
-                return Reactor.Action.deselectCategory($0)
-            }
+            .map { Reactor.Action.deselectCategory($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap
-            .map { Reactor.Action.tapNextButton(.step2) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        nextButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                print("AddStep2 - move to step3")
-//                coordinator?.showNextAdd(reactor: reactor, navigateTo: .addstep3)
-            })
-            .disposed(by: disposeBag)
-        
-        backButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                print("AddStep2 - navigate Back")
-//                coordinator?.navigateBack()
-            })
-            .disposed(by: disposeBag)
-        
-        reactor.state
-            .map { $0.selectedCategories.count > 0 }
-            .distinctUntilChanged()
-            .bind(to: nextButton.rx.isEnabled)
-            .disposed(by: disposeBag)
     }
 }
 
@@ -220,6 +176,14 @@ extension SetCategoryViewController {
         print("activated2 - true")
         print("~~~")
         return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? CategoryCell else {
+            return
+        }
+
+        cell.isSelected = true
     }
 
 }

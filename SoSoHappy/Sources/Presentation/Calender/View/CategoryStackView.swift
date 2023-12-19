@@ -27,7 +27,6 @@ final class CategoryStackView: UIView {
         setupStackView()
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

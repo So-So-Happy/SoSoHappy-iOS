@@ -5,20 +5,17 @@
 //  Created by 박희경 on 2023/11/05.
 //
 
-
-
 import ReactorKit
 import Foundation
-
-
 
 final class MyFeedDetailViewReactor: Reactor {
     
     private let feedRepository: FeedRepositoryProtocol
+    
     // MARK: Properties
     let weatherStrings = ["sunny", "partlyCloudy", "cloudy", "rainy", "snowy"]
 
-    var categories: [String] = [
+    let categories: [String] = [
         "beer", "books", "coffee", "cook",
         "dessert", "drive", "exercise", "food",
         "friends", "game", "home", "love",
@@ -28,39 +25,34 @@ final class MyFeedDetailViewReactor: Reactor {
     ]
     
     let maximumSelectionCount = 3
-    
+    var initialCategories: [String] = []
+     
     enum Action {
-        // Initial Setting
         case viewWillAppear(MyFeed)
         
-        // MARK: Add1
-        case weatherButtonTapped(Int) // 0, 1, 2, 3, 4
-        case happinessButtonTapped(Int) // 1, 2, 3, 4, 5
+        case setWeatherAndHappy
+        case setCategories
+        
+        case weatherButtonTapped(Int)
+        case happinessButtonTapped(Int)
         case tapNextButton(AddStep)
        
-        // MARK: Add2
         case selectCategory(String)
         case deselectCategory(String)
-        
-        // MARK: Add3
+
         case fetchDatasForAdd3
         case setContent(String)
         case setSelectedImages([UIImage])
         case tapLockButton
-        case tapSaveButton // 저장
+        case tapSaveButton
     }
     
     enum Mutation {
-        // MARK: Add1
         case setSelectedWeather(Int)
         case setSelectedHappiness(Int)
         case setBeforeMovingToNextStep(AddStep)
-        
-        // MARK: Add2
         case selectedCategories([String])
         case setDate(String)
-        
-        // MARK: DetailView
         case setImageStackView
         case setContent(String)
         case setInitialImages([UIImage])
@@ -70,21 +62,15 @@ final class MyFeedDetailViewReactor: Reactor {
     }
     
     struct State {
-        // MARK: Add1
         var selectedWeather: Int?
         var selectedHappiness: Int?
         var date: Date?
-
-        // MARK: Add2
         var selectedCategories: [String] = []
         var deselectCategoryItem: Int?
-        
-        // MARK: Add3
         var happyAndCategory: [String]?
         var dateString: String?
         var weatherString: String?
-        var isPrivate: Bool = true // true - 비공개 , false - 공개
-//        var isSaveFeedSuccess: Bool?
+        var isPrivate: Bool = true 
         var isSaveFeedSuccess: Save?
         var content: String = ""
         var selectedImages: [UIImage]?
@@ -95,14 +81,12 @@ final class MyFeedDetailViewReactor: Reactor {
     init(feedRepository: FeedRepositoryProtocol) {
         initialState = State()
         self.feedRepository = feedRepository
-        
     }
     
-    // TODO: VC 에 Feed 데이터 넘겨준 후 viewWillAppear 액션에서 init setting
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear(let feed):
-            // findFeedImage(ids: )
+            self.initialCategories = feed.categoryList
             return .concat([
                 .just(.setSelectedWeather(getWeatherIndex(for: feed.weather) ?? 0)),
                 .just(.setSelectedHappiness(feed.happiness)),
@@ -115,44 +99,44 @@ final class MyFeedDetailViewReactor: Reactor {
                 .just(.isPrivate(feed.isPulic))
             ])
         case let .weatherButtonTapped(tag):
-//            print("mutate - Weather 버튼 눌림, tag: \(tag)")
             return Observable.just(.setSelectedWeather(tag))
             
         case let .happinessButtonTapped(tag):
-//            print("muate - Happiness 버튼 눌림, tag: \(tag)")
-            return Observable.just(.setSelectedHappiness(tag))
+            return .concat([
+                .just(.setSelectedHappiness(tag)),
+                .just(.setImageStackView)
+            ])
             
         case let .tapNextButton(addStep):
             return Observable.just(.setBeforeMovingToNextStep(addStep))
             
         case let .selectCategory(category):
-//            print("mutate - selectCategory")
-            return setSelectedCategory(category)
+            return .concat([
+                setSelectedCategory(category),
+                .just(.setImageStackView)
+            ])
             
         case .deselectCategory(let category):
-//            print("mutate - deselectCategory")
-            return setDeselectCategory(category)
+            return .concat([
+                setDeselectCategory(category),
+                .just(.setImageStackView)
+            ])
             
         case .fetchDatasForAdd3:
-//            print("muate -  fetchDatasForAdd3")
             return Observable.just(.setImageStackView)
             
         case let .setContent(content):
             let limitedText = String(content.prefix(3000))
-//            print("muate -  setContent :\(limitedText)")
             return .just(.setContent(limitedText))
             
         case let .setSelectedImages(images):
             return Observable.just(.setSelectedImages(images))
             
         case .tapLockButton:
-//            print("muate -  tapLockButton")
             let isPrivate = !currentState.isPrivate
             return Observable.just(.isPrivate(isPrivate))
             
         case .tapSaveButton:
-            // 필요한 것 : text, image, isPublic
-            // MARK: 이 부분 강제 언래핑하는거 좀 더 유연하게 처리 필요
             let saveFeedRequest = SaveFeedRequest(
                 text: currentState.content,
                 images: currentState.selectedImages,
@@ -161,10 +145,17 @@ final class MyFeedDetailViewReactor: Reactor {
                 date: currentState.date!.getFormattedYMDH(),
                 weather: weatherStrings[currentState.selectedWeather!],
                 happiness: currentState.selectedHappiness!,
-                nickname: "디저트러버2")
-            print("date: \(currentState.date!.getFormattedYMDH())")
+                nickname: KeychainService.getNickName())
             return feedRepository.saveFeed(request: saveFeedRequest)
                 .map { Mutation.saveFeed($0) }
+        case .setWeatherAndHappy:
+            return .concat([
+                .just(.setSelectedHappiness(currentState.selectedHappiness ?? 0)),
+                .just(.setSelectedWeather(currentState.selectedWeather ?? 0)),
+                .just(.setImageStackView)
+            ])
+        case .setCategories:
+            return .empty()
         }
     }
     
@@ -187,17 +178,10 @@ final class MyFeedDetailViewReactor: Reactor {
             }
             
         case let .selectedCategories(categories):
-            print("~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~ ~~~~~~~~ ")
-            print("reduce - selectedCategories: \(categories)")
-            print("~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~ ~~~~~~~~ ")
-            print("  ")
-            print("  ")
-
             newState.selectedCategories = categories
             
         case .setImageStackView:
             if let happyInt = state.selectedHappiness {
-                // 행복 + 카테고리
                 let happineesImageName = "happy\(happyInt)"
                 let happinessAndCategories = [happineesImageName] + state.selectedCategories
                 
@@ -205,16 +189,14 @@ final class MyFeedDetailViewReactor: Reactor {
             }
             
         case .setDate(let date):
-            if let date = date.toDate() {
-                newState.date = date
-                newState.dateString = date.getFormattedYMDE()
-            }
+            let date = date.toDate()
+            newState.date = date
+            newState.dateString = date.getFormattedYMDE()
             
         case let .setContent(content):
             newState.content = content
             
         case let .setInitialImages(images):
-            print("setInitialImages: \(images)")
             newState.selectedImages = images
             
         case let .setSelectedImages(images):
@@ -224,11 +206,7 @@ final class MyFeedDetailViewReactor: Reactor {
             newState.isPrivate = isPrivate
             
         case let .saveFeed(isSuccess):
-            // 네트워크에 연결되어 있지 않습니다.
-            // 등록되었습니다.
-            print("reduce .saveFeed : \(isSuccess)")
             newState.isSaveFeedSuccess = isSuccess ? .saved : .networkError
-            
         }
         return newState
     }
@@ -289,13 +267,4 @@ extension MyFeedDetailViewReactor {
         case snowy = 4
     }
     
-    
-    enum Happiness: Int {
-        case happy1 = 1
-        case happy2 = 2
-        case happy3 = 3
-        case happy4 = 4
-        case happy5 = 5
-    }
 }
-
