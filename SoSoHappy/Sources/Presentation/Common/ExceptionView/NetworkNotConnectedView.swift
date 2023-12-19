@@ -32,14 +32,11 @@ final class NetworkNotConnectedView: UIView {
         $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    convenience init(inset: Int) {
+        self.init(frame: .zero)
         backgroundColor = UIColor(named: "BGgrayColor")
         setView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        self.modifyInset(inset: inset)
     }
 }
 
@@ -77,6 +74,14 @@ extension NetworkNotConnectedView {
             make.top.equalTo(subTitleLabel.snp.bottom).offset(24)
             make.width.equalTo(100)
             make.centerX.equalToSuperview()
+        }
+    }
+}
+
+extension NetworkNotConnectedView {
+    func modifyInset(inset: Int) {
+        wifiImageView.snp.updateConstraints { make in
+            make.top.equalToSuperview().inset(inset)
         }
     }
 }
