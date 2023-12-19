@@ -12,7 +12,6 @@ import RxSwift
 import RxCocoa
 
 final class WeatherStackView: UIView {
-    // 날씨 버튼이 탭될 때 버튼의 'tag'를 발행하는 데 사용
     let weatherButtonTappedSubject = PublishSubject<Int>()
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -35,7 +34,6 @@ final class WeatherStackView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setStackView()
-//        backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +67,6 @@ extension WeatherStackView {
             }
         }
     
-        // button이 tap되면 tag로 추출
         button.rx.tap
             .map { tag }
             .bind(to: weatherButtonTappedSubject)
@@ -91,21 +88,15 @@ extension WeatherStackView {
     }
     
     private func updateButton(_ button: UIButton, isSelected: Bool) {
-        UIView.animate(withDuration: 0.2) { // 0.2초 동안의 애니메이션 효과 설정
+        UIView.animate(withDuration: 0.2) {
             if isSelected {
-                // 버튼을 조금 더 크게 만들기 위해 1.1배 확대
                 button.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                
-                // 버튼에 그림자 추가
                 button.layer.shadowColor = UIColor(named: "DarkGrayTextColor")?.cgColor
                 button.layer.shadowOpacity = 0.8 // 0.5
                 button.layer.shadowOffset = CGSize(width: 0, height: 2)
                 button.layer.shadowRadius = 4
             } else {
-                // 버튼 크기를 원래 크기로 복원
                 button.transform = .identity
-                
-                // 그림자 제거
                 button.layer.shadowColor = nil
                 button.layer.shadowOpacity = 0
                 button.layer.shadowOffset = .zero

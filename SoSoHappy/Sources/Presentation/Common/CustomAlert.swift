@@ -23,10 +23,10 @@ final class CustomAlert {
         
         presentAlert(alert)
     }
-    
+
     static func presentCheckAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+      
         applyFontToAlert(alert, title: title, message: message)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -44,6 +44,7 @@ final class CustomAlert {
         applyFontToAlert(alert, title: title, message: message)
         
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
+            print("Alert OK")
             okActionHandler()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)

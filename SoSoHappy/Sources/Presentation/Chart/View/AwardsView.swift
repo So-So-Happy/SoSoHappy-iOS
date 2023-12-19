@@ -23,7 +23,7 @@ final class AwardsView: UIView {
     private lazy var image1 = UIImageView(image: UIImage(named: "food"))
     private lazy var image2 = UIImageView(image: UIImage(named: "dessert"))
     private lazy var image3 = UIImageView(image: UIImage(named: "trip"))
-    private lazy var emptyView = FeedExceptionView()
+    private lazy var emptyView = ExceptionView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)

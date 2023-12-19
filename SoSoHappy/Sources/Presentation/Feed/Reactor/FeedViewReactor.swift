@@ -1,5 +1,5 @@
 //
-//  FeedViewReactor2.swift
+//  FeedViewReactor.swift
 //  SoSoHappy
 //
 //  Created by Sue on 12/2/23.
@@ -11,7 +11,7 @@ import UIKit
 enum SortOption {
     case today
     case total
-    case currentSort // 미리 설정되어 있던 sortOption 설정해주기 위한 case
+    case currentSort
 }
 
 enum DataRenewal {
@@ -24,15 +24,13 @@ final class FeedViewReactor: Reactor {
     private let userRepository: UserRepositoryProtocol
     private var ongoingProfileImageRequests: [String: Observable<UIImage>] = [:]
     
-    var dataTestArr: [Date] = []
-    var tempData = Date()
-    
     private let cancelPreviousFetchSubject = PublishSubject<Void>()
     
     var isLastPage: Bool = false
     var pages: Int = 0
     let initialState: State
-    
+    var currentAction: DataRenewal?
+ 
     enum Action {
         case refresh
         case fetchFeeds(SortOption)
@@ -45,6 +43,8 @@ final class FeedViewReactor: Reactor {
         case isLoading(Bool)
         case isPaging(Bool)
         case updateDataSource([UserFeedSection.Item])
+        case showNetworkErrorView(Bool) // 네트워크 에러
+        case showServerErrorAlert(Bool) // 500에러
     }
     
     struct State {
@@ -56,6 +56,8 @@ final class FeedViewReactor: Reactor {
           model: 0,
           items: []
         )
+        var showNetworkErrorView: Bool? // 네트워크 에러
+        var showServerErrorAlert: Bool? // 500
     }
     
     init(
@@ -71,19 +73,24 @@ final class FeedViewReactor: Reactor {
     // MARK: mutate()
     func mutate(action: Action) -> Observable<Mutation> {
         cancelPreviousFetchSubject.onNext(())
-
+        if !Connectivity.isConnectedToInternet() {
+            currentAction = nil
+            return .just(.showNetworkErrorView(true))
+        }
+    
         switch action {
         case .refresh: // 새로고침
-            print("mutate - refresh")
+            currentAction = .refresh
+            
             return .concat([
+                .just(.showNetworkErrorView(false)),
                 .just(.setRefreshing(true)),
-                fetchAndProcessFeeds(setSortOption: currentState.sortOption!, page: 0)
+                fetchAndProcessFeeds(setSortOption: currentState.sortOption ?? .total, page: 0)
                     .take(until: cancelPreviousFetchSubject),
                 .just(.setRefreshing(false))
             ])
             
         case let .fetchFeeds(sortOption): // 정렬에 따른 fetch
-            
             let sort: SortOption = {
                 switch sortOption {
                 case .currentSort:
@@ -91,29 +98,27 @@ final class FeedViewReactor: Reactor {
                 default: return sortOption
                 }
             }()
+            currentAction = .load
             
-            print("mutate - fetchFeeds sortOption - \(sortOption) - date - \(Date())")
             return .concat([
+                .just(.showNetworkErrorView(false)),
                 .just(.sortOption(sort)),
                 .just(.isLoading(true)),
-                
                 fetchAndProcessFeeds(setSortOption: sort, page: 0)
                     .take(until: cancelPreviousFetchSubject),
-                
                 .just(.isLoading(false))
             ])
             
         case .pagination: // paging
-            print("~~~ mutate - pagination - date - \(Date())")
+            currentAction = nil
+        
             return .concat([
+                .just(.showNetworkErrorView(false)),
                 .just(.isPaging(true)),
-                
                 fetchAndProcessFeeds(setSortOption: currentState.sortOption!, page: nil)
                     .take(until: cancelPreviousFetchSubject),
-                
                 .just(.isPaging(false))
             ])
-            
         }
     }
     
@@ -122,57 +127,38 @@ final class FeedViewReactor: Reactor {
         var state = state
         switch mutation {
         case let .sortOption(sortOption):
-//            print("reduce (157) sortOption - \(sortOption), isLoading : \(state.isLoading), setRefreshing : \(state.isRefreshing), isPaging: \(state.isPaging), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
             state.sortOption = sortOption
-//            tempData = Date()
             
         case let .isLoading(isLoading):
-//            print("reduce (162) sortOption - \(state.sortOption), isLoading : \(isLoading), setRefreshing : \(state.isRefreshing), isPaging: \(state.isPaging), pages: \(pages), isLastPage : \(isLastPage), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
-//            
-//            // MARK: 시간 확인용 test 코드
-//            if !isLoading {
-//                let interval = Date().timeIntervalSince(tempData)
-//                print("Time interval!!!!! : \(interval)")
-//            }
-
             state.isLoading = isLoading
             
         case let .setRefreshing(isRefreshing):
-//            print("reduce (172) sortOption - \(state.sortOption), isLoading : \(state.isLoading), setRefreshing : \(isRefreshing), isPaging: \(state.isPaging), pages: \(pages), isLastPage : \(isLastPage), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
-            
             state.isRefreshing = isRefreshing
             
         case let .isPaging(isPaging):
-//            print("reduce (176) sortOption - \(state.sortOption), isLoading : \(state.isLoading), setRefreshing : \(state.isRefreshing), isPaging: \(isPaging), pages: \(pages), isLastPage : \(isLastPage), ongoingProfileImageRequests : \(ongoingProfileImageRequests) ")
-            
-            // MARK: 시간 확인용 test 코드
-//            print("🤍 isPaging: \(isPaging), time : \(Date())")
-            if isPaging {
-                tempData = Date()
-            } else {
-                let interval = Date().timeIntervalSince(tempData)
-                print("~~~ Time interval : \(interval)")
-            }
-            
             state.isPaging = isPaging
             
         case .updateDataSource(let sectionItem):
             if state.isPaging == true {
                 state.sections.items.append(contentsOf: sectionItem)
-//                print("reduce (paging)  : \(state.sections.items.count)")
             } else {
                 state.sections.items = sectionItem
-//                print("reduce (fetching)  : \(state.sections.items.count)")
             }
+
+        case .showNetworkErrorView(let showNetworkErrorView):
+            if showNetworkErrorView {
+                state.sections.items = []
+                state.isRefreshing = false
+            }
+            state.showNetworkErrorView = showNetworkErrorView
             
-            print("~~~reduce (updateDataSource) - \(state.sections.items.count)")
+        case .showServerErrorAlert(let showServerErrorAlert):
+            state.showServerErrorAlert = showServerErrorAlert
         }
         
         return state
     }
-    
 }
-
 
 extension FeedViewReactor {
     // MARK: request 날짜 설정
@@ -190,9 +176,8 @@ extension FeedViewReactor {
         pages = 0
     }
     
-    // MARK: - fetchAndProcessFeedsFinal
+    // MARK: fetchAndProcessFeeds()
     private func fetchAndProcessFeeds(setSortOption: SortOption, page: Int?) -> Observable<Mutation> {
-    
         if page != nil {
             resetPagination()
         } else if isLastPage {
@@ -202,15 +187,13 @@ extension FeedViewReactor {
         }
         
         let requestDate: Int64? = setRequestDateBy(setSortOption)
-        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-        let nickname = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
-    
-        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: nickname, date: requestDate, page: pages, size: 24)) // 원래 size 7
+        let nickname: String = KeychainService.getNickName()
+        
+        return feedRepository.findOtherFeed(request: FindOtherFeedRequest(nickname: nickname, date: requestDate, page: pages, size: 21))
             .flatMap { [weak self] (userFeeds, isLast) -> Observable<Mutation> in
                 guard let self = self else { return .empty() }
+                
                 isLastPage = isLast
-                print("🐨isLast: \(isLast), userFeeds: \(userFeeds)")
-                print("🐨🐨 count : \(userFeeds.count)")
 
                 if userFeeds.isEmpty { return Observable.just(.updateDataSource([])) }
                 
@@ -225,8 +208,15 @@ extension FeedViewReactor {
                         return Mutation.updateDataSource(items)
                     }
             }
+            .catch { _ in
+                return .concat([
+                    .just(.showServerErrorAlert(true)),
+                    .just(.showServerErrorAlert(false)) // 비워주기
+                ])
+            }
     }
     
+    // MARK: processFeedWithProfileImage
     private func processFeedWithProfileImage(_ feed: UserFeed) -> Observable<UserFeedSection.Item> {
         if let cachedImage = ImageCache.shared.cache[feed.nickName] {
             return Observable.just(handleProfileImageRequestResult(cachedImage, feed))
@@ -236,31 +226,26 @@ extension FeedViewReactor {
             return ongoingRequest
                 .map { [weak self] profileImg in
                     guard let self = self else { return .feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())) }
-//                    print("🚜🚜 name : \(feed.nickName), 날짜 : \(feed.dateFormattedString)")
+                    
                     return handleProfileImageRequestResult(profileImg, feed)
                 }
                 .catch { _ in Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository()))) }
         }
         
-
         let request = self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: feed.nickName))
-//        print("request에 넣음 ")
+
         let sharedRequest = request.share()
         
-        self.ongoingProfileImageRequests[feed.nickName] = sharedRequest //  sharedRequest
+        self.ongoingProfileImageRequests[feed.nickName] = sharedRequest
         
         return sharedRequest
             .map { profileImgFromServer in
-                print("🎉 요청 시작 , nickname : \(feed.nickName), 날짜 : \(feed.dateFormattedString)")
                 return self.handleProfileImageRequestResult(profileImgFromServer, feed, cacheImage: true)
-//                            return reactor
             }
             .catch { error in
-                print("🚫 프로필 이지 조회 error : \(error.localizedDescription), nickname : \(feed.nickName)")
                 return Observable.just(.feed(FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())))
             }
             .do(onDispose: {
-//                print("🎀 do DISPOSE - nickname : \(feed.nickName), 날짜 : \(feed.dateFormattedString)")
                 self.ongoingProfileImageRequests[feed.nickName] = nil
             })
         

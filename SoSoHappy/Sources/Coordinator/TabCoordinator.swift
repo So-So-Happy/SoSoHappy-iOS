@@ -87,17 +87,9 @@ final class TabCoordinator: NSObject, Coordinator {
         self.tabBarController = tabBarController
         super.init()
         self.tabBarController.addDelegate = self
-        addObservers()
     }
     
-    deinit {
-        print("TabCoordinator deinit")
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // UITabBarItem 생성
     private func createTabBarItem(of page: TabBarPage) -> UITabBarItem {
-        // MARK: .add는 그냥 위치만 잡아주는 용
         switch page {
         case .add:
             let item = UITabBarItem(title: page.pageTitleValue(),
@@ -111,12 +103,9 @@ final class TabCoordinator: NSObject, Coordinator {
                                 tag: page.pageOrderNumber())
         }
     }
-    
-    // 탭바 페이지대로 탭바 생성
+
     private func createTabNavigationController(tabBarItem: UITabBarItem) -> UINavigationController {
         let tabNavigationController = UINavigationController()
-        
-        // 상단에서 NavigationBar 숨김 해제
         tabNavigationController.setNavigationBarHidden(false, animated: false)
         tabNavigationController.tabBarItem = tabBarItem
         
@@ -124,20 +113,17 @@ final class TabCoordinator: NSObject, Coordinator {
     }
     
     private func startTabCoordinator(tabNavigationController: UINavigationController) {
-        // tag 번호로 TabBarPage로 변경
         let tabBarItemTag: Int = tabNavigationController.tabBarItem.tag
         guard let tabBarItemType: TabBarPage = TabBarPage(index: tabBarItemTag) else { return }
         
         switch tabBarItemType {
         case .home:
-            print("selected - home")
             let calendarCoordinator = CalendarCoordinator(navigationController: tabNavigationController)
             calendarCoordinator.finishDelegate = self
             self.childCoordinators.append(calendarCoordinator)
             calendarCoordinator.start()
             
         case .chart:
-            print("selected - chart")
             let chartCoordinator = ChartCoordinator(navigationController: tabNavigationController)
             chartCoordinator.finishDelegate = self
             self.childCoordinators.append(chartCoordinator)
@@ -147,7 +133,6 @@ final class TabCoordinator: NSObject, Coordinator {
             break
             
         case .feed:
-            print("selected - feed")
             let feedCoordinator = FeedCoordinator(navigationController: tabNavigationController)
             feedCoordinator.parentCoordinator = self
             feedCoordinator.finishDelegate = self
@@ -155,7 +140,6 @@ final class TabCoordinator: NSObject, Coordinator {
             feedCoordinator.start()
             
         case .profile:
-            print("selected - profile")
             let profileCoordinator = MyPageCoordinator(navigationController: tabNavigationController)
             profileCoordinator.finishDelegate = self
             self.childCoordinators.append(profileCoordinator)
@@ -173,8 +157,6 @@ final class TabCoordinator: NSObject, Coordinator {
     }
     
     private func addTabBarController() {
-        // 화면에 추가
-//        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
         self.navigationController.pushViewController(self.tabBarController, animated: true)
     }
     
@@ -182,7 +164,6 @@ final class TabCoordinator: NSObject, Coordinator {
         //  MARK: 탭바에 넣고 싶은 item들
         let pages: [TabBarPage] = TabBarPage.allCases
     
-        
         // 2. pages에 해당하는 UITabBar item들 생성
         let tabBarItems: [UITabBarItem] = pages.map {
             self.createTabBarItem(of: $0)
@@ -217,11 +198,12 @@ extension TabCoordinator: CoordinatorFinishDelegate {
 extension TabCoordinator: TabBarAddButtonDelegate {
     func addButtonTapped() {
         let addCoordinator = AddCoordinator(navigationController: UINavigationController())
+        
         addCoordinator.parentCoordinator = self
         addCoordinator.finishDelegate = self
-        print("ADD coordinator count - \(self.childCoordinators.count)")
         self.childCoordinators.append(addCoordinator)
         addCoordinator.start()
+        
         addCoordinator.navigationController.modalPresentationStyle = .fullScreen
         tabBarController.present(addCoordinator.navigationController, animated: true)
     }
@@ -241,43 +223,3 @@ extension TabCoordinator: TabCoordinatorProtocol {
         TabBarPage(index: self.tabBarController.selectedIndex)
     }
 }
-// MARK: - NotificationCeneter observer
-extension TabCoordinator {
-    private func addObservers() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(didReceiveLikeNotification(_:)),
-            name: NSNotification.Name.DidReceiveLikeNotification,
-            object: nil)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(didReceiveLogoutNotification(_:)),
-            name: NSNotification.Name.logoutNotification,
-            object: nil)
-    }
-    
-    @objc func didReceiveLikeNotification(_ notification: Notification) {
-        print("likedDidReceive- tab coordinator")
-        guard let date = notification.userInfo?[NotificationCenterKey.likeFeed] as? Int64 else { return }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(70)) { [weak self] in
-            self?.setSelectedIndex(0) // Calender로 이동
-            
-        }
-//        let dateString = "2023121300000000" // 2023-12-12 15:00:00 +0000
-//        let dateStrToDate = String(date).makeData()
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
-//        NotificationCenter.default.post(
-//            name: NSNotification.Name.DidReceiveShowLikedPostNotification,
-//            object: nil,
-//            userInfo: [NotificationCenterKey.likeFeed: dateStrToDate])
-//        }
-    }
-    
-    @objc func didReceiveLogoutNotification(_ notification: Notification) {
-        NotificationCenter.default.removeObserver(self)
-    }
-}
-

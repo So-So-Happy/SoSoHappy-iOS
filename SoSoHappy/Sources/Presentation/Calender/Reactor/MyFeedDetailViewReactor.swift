@@ -227,7 +227,7 @@ final class MyFeedDetailViewReactor: Reactor {
             // 네트워크에 연결되어 있지 않습니다.
             // 등록되었습니다.
             print("reduce .saveFeed : \(isSuccess)")
-            newState.isSaveFeedSuccess = isSuccess ? .saved : .networkError
+//            newState.isSaveFeedSuccess = isSuccess ? .saved : .networkError
             
         }
         return newState

@@ -16,5 +16,3 @@ struct FindMonthFeedResponse: Decodable {
     let categoryList, imageList, likeNicknameList: [String]
     
 }
-
-

@@ -17,7 +17,7 @@ final class StatusBarStackView: UIView {
     private lazy var statusBarStackView = UIStackView(
         axis: .horizontal,
         alignment: .fill,
-        distribution: .fillEqually, // 뷰를 동일한 크기로 분배
+        distribution: .fillEqually,
         spacing: 0
     )
     

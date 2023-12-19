@@ -8,22 +8,20 @@
 import UIKit
 import SnapKit
 
-// lock , lock.open
-// photo
-// chevron.down
-
 final class AddKeyboardToolBar: UIToolbar {
     // MARK: - UI Components
     lazy var photoBarButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: nil, action: nil)
+    
     lazy var lockBarButton = UIBarButtonItem(image: UIImage(systemName: "lock"), style: .plain, target: nil, action: nil)
+    
     private lazy var flexibleSpace = UIBarButtonItem(systemItem: .flexibleSpace)
+    
     lazy var keyboardDownBarButton = UIBarButtonItem(image: UIImage(systemName: "chevron.down"), style: .plain, target: nil, action: nil)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.items = [photoBarButton, lockBarButton, flexibleSpace, keyboardDownBarButton]
         self.sizeToFit()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -33,9 +31,8 @@ final class AddKeyboardToolBar: UIToolbar {
 
 // MARK: - setting functions
 extension AddKeyboardToolBar {
-    // MARK: isPrivate에 따라 lockBarButton 이미지 세팅
-    func setPrivateTo(_ isPrivate: Bool) {
-        let systemName = isPrivate ? "lock" : "lock.open"
+    func setPublicTo(_ isPublic: Bool) {
+        let systemName = isPublic ? "lock.open" : "lock"
         let image = UIImage(systemName: systemName)
         lockBarButton.image = image
     }

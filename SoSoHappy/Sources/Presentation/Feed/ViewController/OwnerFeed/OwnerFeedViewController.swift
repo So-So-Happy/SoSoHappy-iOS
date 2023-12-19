@@ -15,12 +15,6 @@ import NVActivityIndicatorView
 import RxDataSources
 import RxSwiftExt
 
-/*
- 1. refreshControl이 여기에서 꼭 필요가 있을까? (없을 것 같긴 함)
- 2. profile update가 refresh될 때마다 한 3번 정도 호출이 되는 것 같은데 takeUntil, merge를 쓰면 된다고 하던데 수정해보기
- */
-
-// MARK: 원본 
 final class OwnerFeedViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -39,7 +33,6 @@ final class OwnerFeedViewController: UIViewController {
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 300
-        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var backButton = UIButton().then {
@@ -52,14 +45,18 @@ final class OwnerFeedViewController: UIViewController {
     }
     
     private lazy var loadingView = LoadingView().then {
-        $0.isHidden = true // true
+        $0.isHidden = true
     }
     
-    private lazy var exceptionView = FeedExceptionView(
+    private lazy var noFeedExceptionView = ExceptionView(
         title: "등록된 피드가 없습니다.",
         inset: 40
     ).then {
-        $0.isHidden = true //true
+        $0.isHidden = true
+    }
+    
+    private lazy var networkNotConnectedView = NetworkNotConnectedView(inset: 56).then {
+        $0.isHidden = true
     }
     
     private lazy var pagingIndicatorView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 50)
@@ -73,22 +70,6 @@ final class OwnerFeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        if let tabBarController = self.tabBarController as? TabBarController {
-            tabBarController.addButton.isHidden = true
-        }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        if let tabBarController = self.tabBarController as? TabBarController {
-            tabBarController.addButton.isHidden = false
-        }
     }
 
     init(reactor: OwnerFeedViewReactor, coordinator: OwnerFeedCoordinatorInterface) {
@@ -114,7 +95,8 @@ extension OwnerFeedViewController {
     private func setLayout() {
         view.addSubview(tableView)
         view.addSubview(loadingView)
-        tableView.addSubview(exceptionView)
+        tableView.addSubview(noFeedExceptionView)
+        tableView.addSubview(networkNotConnectedView)
         
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -125,19 +107,26 @@ extension OwnerFeedViewController {
             make.height.equalToSuperview().multipliedBy(0.6)
         }
         
-        exceptionView.snp.makeConstraints { make in
+        noFeedExceptionView.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
             make.center.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.4)
         }
+        
+        networkNotConnectedView.snp.makeConstraints { make in
+            make.horizontalEdges.bottom.equalToSuperview()
+            make.center.equalToSuperview()
+            make.height.equalToSuperview().multipliedBy(0.4)
+        }
+        
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
     }
 }
 
 // MARK: - ReactorKit - bind func
 extension OwnerFeedViewController: View {
-    // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: OwnerFeedViewReactor) {
-        self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag) // 반드시 필요
+        self.tableView.rx.setDelegate(self).disposed(by: self.disposeBag)
         dataSource = self.createDataSource()
 
         self.rx.viewWillAppear
@@ -147,7 +136,7 @@ extension OwnerFeedViewController: View {
         
         tableView.rx.reachedBottom(offset: -20)
             .skip(1)
-            .throttle(.milliseconds(100), latest: false, scheduler: MainScheduler.instance) 
+            .throttle(.milliseconds(130), latest: false, scheduler: MainScheduler.instance)
             .debug()
             .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
@@ -173,6 +162,12 @@ extension OwnerFeedViewController: View {
                     coordinator?.showDetails(feedReactor: feedReactor)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        networkNotConnectedView.retryButton.rx.tap
+            .map { Reactor.Action.fetchFeeds }
+            .debug()
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         reactor.state
@@ -201,7 +196,6 @@ extension OwnerFeedViewController: View {
         
         reactor.state
             .compactMap { $0.isRefreshing }
-            .distinctUntilChanged()
             .bind(to: self.refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
@@ -229,25 +223,42 @@ extension OwnerFeedViewController: View {
             })
             .disposed(by: disposeBag)
         
-        
         reactor.state
             .compactMap { $0.isBlockSucceeded }
             .subscribe(onNext: { [weak self] isBlockSucceeded in
                 guard let self = self else { return }
-                // 가장 root로 옮기고 '차단 되었습니다' 토스트 메시지 띄우기
                 coordinator?.goBackToRoot()
-                
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func configureCell(_ cell: OwnerFeedCell) {
-        cell.imageSlideView.tapObservable
-            .subscribe(onNext: { [weak self] in
+        
+        reactor.state
+            .compactMap { $0.showNetworkErrorView }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
-                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+                print("OwnerFeedViewController showNetworkErrorView : \(showNetworkErrorView)")
+                if showNetworkErrorView {
+                    loadingView.isHidden = true
+                    noFeedExceptionView.isHidden = true
+                    networkNotConnectedView.isHidden = false // 보여주기
+                }
             })
-            .disposed(by: cell.disposeBag) // cell.disposeBag ?
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.showServerErrorAlert }
+            .distinctUntilChanged()
+            .bind(onNext: { [weak self] showServerErrorAlert in
+                guard let self = self else { return }
+                print("++++ OwnerFeedViewController showServerErrorAlert \(showServerErrorAlert)")
+                if showServerErrorAlert {
+                    let asyncAfter: Double = reactor.currentAction == .refresh ? 0.7 : 0
+                    DispatchQueue.main.asyncAfter(deadline: .now() + asyncAfter) {
+                        CustomAlert.presentErrorAlertWithoutDescription()
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -261,14 +272,23 @@ extension OwnerFeedViewController {
                 cell.reactor = reactor
                 self?.configureCell(cell)
             }
-            
             return cell
         }
     }
     
+    private func configureCell(_ cell: OwnerFeedCell) {
+        cell.imageSlideView.tapObservable
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                cell.imageSlideView.slideShowView.presentFullScreenController(from: self)
+            })
+            .disposed(by: cell.disposeBag)
+    }
+    
     private func updateViewsVisibility(isLoading: Bool, itemsIsEmpty: Bool, dataRenewal: DataRenewal) {
         if isLoading {
-            exceptionView.isHidden = true
+            networkNotConnectedView.isHidden = true
+            noFeedExceptionView.isHidden = true
             if dataRenewal == .load {
                 loadingView.isHidden = false
             }
@@ -276,7 +296,7 @@ extension OwnerFeedViewController {
             if dataRenewal == .load {
                 loadingView.isHidden = true
             }
-            exceptionView.isHidden = !itemsIsEmpty
+            noFeedExceptionView.isHidden = !itemsIsEmpty
         }
     }
 }

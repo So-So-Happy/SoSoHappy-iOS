@@ -12,7 +12,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-// MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
 final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -47,16 +46,9 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
     
-    private var gradientLayer: CAGradientLayer?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        
-        print("--------AddSTEP2---------")
-        print("reactor.initialState.selectedWeather: \(String(describing: reactor?.currentState.selectedWeather))")
-        print("reactor.initialState.selectedHappiness : \(String(describing: reactor?.currentState.selectedHappiness))")
-        print("--------------------------")
     }
     
     init(reactor: AddViewReactor, coordinator: AddCoordinatorInterface) {
@@ -163,18 +155,12 @@ extension AddStep2ViewController: View {
             .disposed(by: disposeBag)
         
         categoryCollectionView.rx.modelSelected(String.self)
-            .map {
-                print("model Selected")
-                return Reactor.Action.selectCategory($0)
-            }
+            .map { Reactor.Action.selectCategory($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         categoryCollectionView.rx.modelDeselected(String.self)
-            .map {
-                print("model Deselected")
-                return Reactor.Action.deselectCategory($0)
-            }
+            .map { Reactor.Action.deselectCategory($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -186,7 +172,6 @@ extension AddStep2ViewController: View {
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("AddStep2 - move to step3")
                 coordinator?.showNextAdd(reactor: reactor, navigateTo: .addstep3)
             })
             .disposed(by: disposeBag)
@@ -194,7 +179,6 @@ extension AddStep2ViewController: View {
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                print("AddStep2 - navigate Back")
                 coordinator?.navigateBack()
             })
             .disposed(by: disposeBag)
@@ -207,22 +191,14 @@ extension AddStep2ViewController: View {
     }
 }
 
-// MARK: - CollectionView의 cell 선택에 Limit 설정
+// MARK: - CollectionView cell selecting count limit
 extension AddStep2ViewController {
-    // cell을 선택할 때마다 호출 (deselect일 때는 호출되지 않음)
-    // didSelectItemAt 이전에 동작함
-    // cell의 isSelected를 true/false로 만드는 것을 결정
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("activated ")
         
         if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems, let reactor = reactor {
-            print("activated 1 : \(indexPathsForSelectedItems.count < reactor.maximumSelectionCount)")
-            print("~~~")
             return indexPathsForSelectedItems.count < reactor.maximumSelectionCount
         }
-        print("activated2 - true")
-        print("~~~")
+        
         return true
     }
-
 }

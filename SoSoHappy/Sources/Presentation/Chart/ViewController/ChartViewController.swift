@@ -176,7 +176,6 @@ extension ChartViewController: View {
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
 
-        
         reactor.state
             .map { $0.happinessChartData }
             .distinctUntilChanged()
@@ -185,7 +184,6 @@ extension ChartViewController: View {
                 self.chartView.setChart(data)
             }
             .disposed(by: disposeBag)
-        
     }
     
 }

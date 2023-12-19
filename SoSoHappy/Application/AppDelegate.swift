@@ -15,8 +15,6 @@ import FirebaseCore
 import FirebaseMessaging
 import UserNotifications
 
-
-// TODO: badge, background 혹은 killed 되었을 때 처리
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -142,9 +140,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 // MARK: - MessagingDelegate
 extension AppDelegate: MessagingDelegate {
-    // MARK: FCM 등록 토큰을 받았을 때
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-      print("Firebase registration token: \(String(describing: fcmToken))")
       UserDefaults.standard.setValue(fcmToken, forKey: "fcmToken")
 
       let dataDict: [String: String] = ["token": fcmToken ?? ""]
@@ -153,102 +149,34 @@ extension AppDelegate: MessagingDelegate {
         object: nil,
         userInfo: dataDict
       )
-      // TODO: If necessary send token to application server.
-      // Note: This callback is fired at each app startup and whenever a new token is generated.
+      
     }
-
 }
 
-// MARK: - UNUserNotificationCenterDelegate : 푸시가 보여질 때, 푸시 받았을 때
+// MARK: - UNUserNotificationCenterDelegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    // MARK: 앱이 foreground일 때만 호출된다고 알고 있음
-    // background 일 때도 혹시나 되는지 한번 확인해보기
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification) async
     -> UNNotificationPresentationOptions {
         let userInfo = notification.request.content.userInfo
         
-        print("willPresent userInfo", userInfo)
-        
-        // Change this to your preferred presentation option
         let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting")
         return isOnNotificationSetting ? [[.alert, .sound]] : []
     }
     
-    // MARK: 푸시 메시지 들어올 때 (background 포함)
     // MARK: 알림 탭했을 작동하는 곳
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse) async {
-        let userInfo = response.notification.request.content.userInfo
     
-        // Print full message.
-        print("didReceive userInfo: \(userInfo)")
-        let title = response.notification.request.content.title
-        print("title: \(title)")
-        let body = response.notification.request.content.body
-        print("body: \(body)")
-        
-        // TODO: 실제 알림 받아보고 date 빼내는 코드 추가 필요
-        
-        let date: Int64 = 2023122319321353 // 예제
-        
-        // 일단 알림을 받았다는건 로그인이 되어있다는 것이 기본이기 때문에
-        // AppCoordinator -> TabCoordinator
-        // tabBarController.selectedIndex = index
-        // findDayFeed 해서 받은 MyFeed를 
-        // calender coordinator에서 pushDetailView(feed:)
-        
-        // CoreData에서 삭제해줘야 함
-        
-        let application = UIApplication.shared
-        
-//        NotificationCenter.default.post(
-//            name: NSNotification.Name.liked,
-//            object: nil,
-//            userInfo: [NotificationCenterKey.LikeFeed: date])
-//
-        // MARK: 이 경우 고려하지 않아도 될 것 같음
-        //앱이 켜져있는 상태에서 푸쉬 알림을 눌렀을 때
-        if application.applicationState == .active {
-            print("푸쉬알림 탭(앱 켜져있음)")
-        }
-        
-        //앱이 백그라운드에 있는 상태에서 푸쉬 알림을 눌렀을 때
-        if application.applicationState == .background {
-            print("푸쉬알림 탭(앱 백그라운드)")
-        }
-        
-        //앱이 꺼져있는 상태에서 푸쉬 알림을 눌렀을 때
-        if application.applicationState == .inactive {
-            print("푸쉬알림 탭(앱 꺼져있음)")
-        }
-        
-        NotificationCenter.default.post(
-            name: NSNotification.Name.DidReceiveLikeNotification,
-            object: nil,
-            userInfo: [NotificationCenterKey.likeFeed: date])
     }
     
-
-        
     // MARK: Handles silent push notifications
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
       -> UIBackgroundFetchResult {
-      // If you are receiving a notification message while your app is in the background,
-      // this callback will not be fired till the user taps on the notification launching the application.
-      // TODO: Handle data of notification
-
-      // With swizzling disabled you must let Messaging know about the message, for Analytics
-      // Messaging.messaging().appDidReceiveMessage(userInfo)
-
-      // Print message ID.
       if let messageID = userInfo[gcmMessageIDKey] {
-        print("Message ID: \(messageID)")
-      }
 
-      // Print full message.
-      print(userInfo)
+      }
 
       return UIBackgroundFetchResult.newData
     }
