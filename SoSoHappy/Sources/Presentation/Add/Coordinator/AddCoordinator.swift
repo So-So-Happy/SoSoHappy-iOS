@@ -33,21 +33,14 @@ final class AddCoordinator: AddCoordinatorInterface {
         let addViewReactor = AddViewReactor(feedRepository: FeedRepository())
         let addStep1VC = AddStep1ViewController(reactor: addViewReactor, coordinator: self)
         navigationController.pushViewController(addStep1VC, animated: true)
-        print("🗂️ 쌓여 있는 AddCoordinator -  VC: \(navigationController.viewControllers.count)개")
-        print("ADD coordinator count - start: \(String(describing: parentCoordinator?.childCoordinators.count))")
     }
 }
 
 extension AddCoordinator {
     // MARK: 모달 내리기
     func dismiss() {
-        print("dismissed")
         navigationController.dismiss(animated: true)
-        print("🗂️ Dismiss 후 쌓여 있는 AddCoordinator -  VC: \(navigationController.viewControllers.count)개")
-        // 이걸 해줘야 하나? 이걸 안해주면 Add 볼 때마다 addCoordinator가 추가가 됨
-        
         parentCoordinator?.childDidFinish(self, parent: parentCoordinator)
-        print("ADD coordinator count - dismiss : \(String(describing: parentCoordinator?.childCoordinators.count))")
     }
     
     // MARK: 다음 VC로 이동
@@ -56,11 +49,10 @@ extension AddCoordinator {
         case .addstep2:
             let addStep2VC = AddStep2ViewController(reactor: reactor, coordinator: self)
             navigationController.pushViewController(addStep2VC, animated: true)
-            print("🗂️ 쌓여 있는 AddCoordinator  addstep2-  VC: \(navigationController.viewControllers.count)개")
+
         case .addstep3:
             let addStep3VC = AddStep3ViewController(reactor: reactor, coordinator: self)
             navigationController.pushViewController(addStep3VC, animated: true)
-            print("🗂️ 쌓여 있는 AddCoordinator  addStep3-  VC: \(navigationController.viewControllers.count)개")
         }
     }
     
