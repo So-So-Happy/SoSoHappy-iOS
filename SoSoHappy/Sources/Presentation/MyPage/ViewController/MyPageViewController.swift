@@ -43,21 +43,18 @@ final class MyPageViewController: UIViewController {
 
 // MARK: - Reactor (bind func)
 extension MyPageViewController: View {
-    // MARK: Reactor를 설정하는 메서드
     func bind(reactor: MypageViewReactor) {
         bindActions(reactor)
         bindState(reactor)
     }
     
-    // MARK: bind actions
     private func bindActions(_ reactor: MypageViewReactor) {
         self.rx.viewWillAppear
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
-    // MARK: bind state (Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트)
+
     private func bindState(_ reactor: MypageViewReactor) {
         reactor.state.compactMap { $0.profile }
             .subscribe(onNext: { [weak self] image in
@@ -131,8 +128,6 @@ extension MyPageViewController {
 
 // MARK: - Set RxSwift without Reactor
 extension MyPageViewController {
-    // Reactor를 거치지 않고 바로 바인딩 되는 단순 이벤트를 정의합니다.
-    // 보통 coordinator로 네비게이션하는 일은 reactor가 필요 X
     func bindEvent() {
         self.profileView.profileImage.editButton.rx.tap
             .subscribe(onNext: { [weak self] in

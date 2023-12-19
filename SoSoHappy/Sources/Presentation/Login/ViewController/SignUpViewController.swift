@@ -13,13 +13,6 @@ import ReactorKit
 import Then
 import RxKeyboard
 
-/*
- 1. ReactorKit 작성한 코드 리팩토링 - 버튼에 throttle, debouce 적용해보기 (중복검사, 시작하기 연타 방지)
- 2. 이미지 설정 카메라로 찍기도 추가해볼까 생각중
- 3. .onDrag로 keyboard 내려가게 했는데 tap했을 때도 해놓으면 좋을 것 같긴 함
- 4. 시간이 괜찮다면 keyboard contentInset를 좀 더 정확히 계산해서 넣어주는 코드를 작성해봐도 좋을 듯
- */
-
 final class SignUpViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -27,9 +20,8 @@ final class SignUpViewController: UIViewController {
     private let coordinator: AuthCoordinatorProtocol?
     
     // MARK: - UI Components
-    private lazy var scrollView = UIScrollView()
-        .then {
-            $0.keyboardDismissMode = .onDrag // 스크롤시 키보드 내리기
+    private lazy var scrollView = UIScrollView().then {
+        $0.keyboardDismissMode = .onDrag
     }
     
     private lazy var contentView = UIView()
@@ -51,7 +43,7 @@ final class SignUpViewController: UIViewController {
         setup()
     }
     
-    // MARK: Initializing
+    // MARK: Init
     init(reactor: SignUpViewReactor, coordinator: AuthCoordinatorProtocol) {
         self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
@@ -69,8 +61,7 @@ extension SignUpViewController {
         setLayout()
         setAttribute()
     }
-    
-    // Add SubViews & Contstraints
+
     private func setLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubviews(contentView)
@@ -117,29 +108,26 @@ extension SignUpViewController {
             make.height.equalTo(44)
         }
     }
-    
-    // ViewController의 전체적인 속성 설정
+
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "BGgrayColor")
     }
 }
 
-// MARK: - ReactorKit - bind func
+// MARK: - ReactorKit
 extension SignUpViewController: View {
-    // MARK: bind - reactor에 새로운 값이 들어올 때만 트리거
     func bind(reactor: SignUpViewReactor) {
-        // MARK: Action (View -> Reactor) 인풋
         profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
                     picker.allowsEditing = true
                     picker.sourceType = .photoLibrary
                 }
-                .flatMap { $0.rx.didFinishPickingMediaWithInfo } // 사진 다 골랐다
-                .take(1) // 단 1개의 아이템(사진)만 내보내는 것을 보장
+                .flatMap { $0.rx.didFinishPickingMediaWithInfo }
+                .take(1)
             }
             .map{ info in
-                let img = info[.editedImage] as? UIImage // UIImage 옵셔널 type
+                let img = info[.editedImage] as? UIImage
                 return Reactor.Action.selectImage(img)
             }
             .bind(to: reactor.action)
@@ -169,8 +157,7 @@ extension SignUpViewController: View {
             .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        // MARK: State (Reactor -> State) 아웃풋
+
         reactor.state
             .map { $0.profileImage }
             .bind(to: profileImageEditButton.profileImageWithBackgroundView.profileImageView.rx.image)
@@ -194,7 +181,7 @@ extension SignUpViewController: View {
                 if let isDuplicate = state.isDuplicate {
                     text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
-                } else { // nil이면
+                } else {
                     text = ""
                     color = UIColor(named: "CustomBlueColor") ?? .systemBlue
                 }
@@ -239,7 +226,6 @@ extension SignUpViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                print("goToMain", result)
                 if result {
                     coordinator?.pushMainView()
                 }
@@ -248,20 +234,19 @@ extension SignUpViewController: View {
         
         reactor.state.compactMap { $0.showErrorAlert }
             .subscribe(onNext: { [weak self] error in
-                guard let self = self else { return }
+                guard self != nil else { return }
                 CustomAlert.presentErrorAlert(error: error)
             })
             .disposed(by: disposeBag)
-        
-        // MARK: RxKeyboard.instance
+
         RxKeyboard.instance.willShowVisibleHeight
             .drive(onNext: { [weak self] keyboardVisibleHeight in
                 guard let `self` = self else { return }
             
-                if UIResponder.currentFirst() is UITextField {  // textfield
-                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0) //80
-                } else {    // textview
-                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 217 , right: 0) // 240
+                if UIResponder.currentFirst() is UITextField {
+                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
+                } else {
+                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 217 , right: 0)
                 }
             })
             .disposed(by: disposeBag)
@@ -271,16 +256,15 @@ extension SignUpViewController: View {
             .drive(onNext: { [weak self] isHidden in
                 guard let `self` = self, let contentInset = contentInset else { return }
                 
-                if isHidden { // 키보드가 안보일 때
+                if isHidden {
                     self.scrollView.scrollIndicatorInsets = .zero
                     self.scrollView.contentInset = .zero
-                } else { // 키보드가 보일 때
+                } else {
                     self.scrollView.contentInset = contentInset
                     self.scrollView.scrollIndicatorInsets = contentInset
                     let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
                     self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
-                
             })
             .disposed(by: disposeBag)
     }

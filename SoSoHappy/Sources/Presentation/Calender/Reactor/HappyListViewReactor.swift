@@ -77,7 +77,6 @@ class HappyListViewReactor: Reactor {
                                 )
     ]
     
-    
     //[UIImage(named: "cafe")!, UIImage(named: "churros")!]
     func mutate(action: Action) -> Observable<Mutation> {
         let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
@@ -97,7 +96,7 @@ class HappyListViewReactor: Reactor {
                     .map { Mutation.setFeedList($0) }
             ])
         case .tapPreviousButton:
-            self.currentPage  = currentPage.moveToPreviousMonth()
+            self.currentPage = currentPage.moveToPreviousMonth()
             return .concat([
                 .just(.setDate(currentPage)),
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
@@ -123,4 +122,3 @@ class HappyListViewReactor: Reactor {
         return newState
     }
 }
-

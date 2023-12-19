@@ -59,11 +59,11 @@ final class CustomAlert {
     
     private static func applyFontToAlert(_ alert: UIAlertController, title: String, message: String) {
         let attributedTitle = NSAttributedString(string: title, attributes: [
-            NSAttributedString.Key.font : UIFont.customFont(size: 16, weight: .bold)
+            NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .bold)
         ])
         
         let attributedMessage = NSAttributedString(string: message, attributes: [
-            NSAttributedString.Key.font : UIFont.customFont(size: 13, weight: .medium)
+            NSAttributedString.Key.font: UIFont.customFont(size: 13, weight: .medium)
         ])
         
         alert.setValue(attributedTitle, forKey: "attributedTitle")

@@ -72,18 +72,3 @@ extension ToSViewController {
         }
     }
 }
-
-// MARK: - WebView Settings
-extension ToSViewController {
-    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-//        activityIndicator.startAnimating()
-    }
-
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-//        activityIndicator.stopAnimating()
-    }
-    
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-//        activityIndicator.stopAnimating()
-    }
-}

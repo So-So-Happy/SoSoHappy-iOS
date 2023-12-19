@@ -407,8 +407,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             if calendar.gregorian.isDateInToday(date) {
                 calendar.appearance.todayColor = .clear
             }
-            
-            print("캘린더 정의", date, reactor?.currentState.selectedDate)
             cell.backImageView.alpha = reactor?.currentState.selectedDate == date ? 0.5 : 1
             cell.titleLabel.isHidden = !(reactor?.currentState.selectedDate == date)
 
@@ -439,9 +437,8 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         // 서버에서 날짜에 해당하는 데이터 api 통신 (day data)
         self.reactor?.action.onNext(.selectDate(date))
-        print("캘린더 선택", date, reactor?.currentState.selectedDate)
         
-        if let _ = isHappyDay(String(date.getFormattedYMD())) {
+        if isHappyDay(String(date.getFormattedYMD())) != nil {
             if let cell = calendar.cell(for: date, at: monthPosition) as? CalendarCell {
                 UIImageView.animate(withDuration: 0.15) {
                     cell.backImageView.alpha = 0.5
@@ -458,8 +455,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
     }
     
     public func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print(date, "해제")
-        if let _ = isHappyDay(String(date.getFormattedYMD())) {
+        if isHappyDay(String(date.getFormattedYMD())) != nil {
             if let cell = calendar.cell(for: date, at: monthPosition) as? CalendarCell {
                 UIImageView.animate(withDuration: 0.15) {
                     cell.backImageView.alpha = 1

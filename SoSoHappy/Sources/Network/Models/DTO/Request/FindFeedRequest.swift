@@ -11,5 +11,3 @@ struct FindFeedRequest: Codable {
     let date: Int64
     let nickName: String
 }
-
-
