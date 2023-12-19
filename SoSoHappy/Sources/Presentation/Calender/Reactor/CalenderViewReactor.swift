@@ -10,7 +10,6 @@ import RxSwift
 import ReactorKit
 import Moya
 
-
 final class CalendarViewReactor: Reactor {
     
     // MARK: - property
@@ -22,11 +21,6 @@ final class CalendarViewReactor: Reactor {
     private let userRepository: UserRepositoryProtocol
     
     var currentPage: Date = Date()
-    
-    private let provider = KeychainService.loadData(
-        serviceIdentifier: "sosohappy.userInfo",
-        forKey: "provider"
-    ) ?? ""
     
     private var nickName: String = ""
     
@@ -46,15 +40,12 @@ final class CalendarViewReactor: Reactor {
         self.userRepository = userRepository
         self.initialState = state
         
-        self.nickName = KeychainService.loadData(
-            serviceIdentifier: "sosohappy.userInfo\(provider)",
-            forKey: "userNickName"
-        ) ?? ""
+        self.nickName = KeychainService.getNickName()
     }
     
     // MARK: - Action
     enum Action {
-        case viewWillAppear
+        case viewDidLoad
         case tapAlarmButton
         case tapListButton
         case tapPreviousButton
@@ -88,16 +79,16 @@ final class CalendarViewReactor: Reactor {
         var currentPage: Date
         var dayFeed: MyFeed
         var selectedDate: Date
+        @Pulse var showEmptyPreview: Void?
         @Pulse var presentAlertView: Void?
         @Pulse var presentListView: Void?
         @Pulse var presentDetailView: Void?
     }
     
-    
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewWillAppear:
+        case .viewDidLoad:
             return .concat([
                 .just(.setYear),
                 .just(.setMonth),
@@ -105,8 +96,8 @@ final class CalendarViewReactor: Reactor {
                     .map {
                         return Mutation.setCalendarCell($0)
                     },
-                feedRepository.findDayFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
-                    .map { .setPreview($0) }
+                feedRepository.findDayFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: nickName))
+                .map { .setPreview($0) }
             ])
         case .tapAlarmButton:
             return .just(.presentAlertView)
@@ -116,9 +107,10 @@ final class CalendarViewReactor: Reactor {
             return .concat([
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
                     .map({ Mutation.setCalendarCell($0) }),
-                .just(.changeCurrentPage(date)),
                 .just(.setMonth),
-                .just(.setYear)
+                .just(.setYear),
+                feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
+                .map { .setPreview($0) }
             ])
         case .tapNextButton:
             let nextPage = currentPage.moveToNextMonth()
@@ -175,6 +167,5 @@ final class CalendarViewReactor: Reactor {
     }
     
 }
-
 
 

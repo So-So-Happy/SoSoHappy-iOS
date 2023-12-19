@@ -38,10 +38,17 @@ extension String {
 
     }
     
-    func toDate() -> Date? {
+    func toDate() -> Date {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyyMMddHHmmssSSSS"
-        return dateFormatter.date(from: self)
+        dateFormatter.dateFormat = "yyyyMMddHHmmssSSS"
+
+        if let date = dateFormatter.date(from: self) {
+            print("Parsed Date: \(date)")
+            return date
+        } else {
+            print("Failed to parse date.")
+            return Date()
+        }
     }
     
     func makeData() -> Date {

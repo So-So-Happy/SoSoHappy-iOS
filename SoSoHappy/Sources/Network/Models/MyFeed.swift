@@ -43,6 +43,20 @@ struct MyFeed: FeedType {
     
 }
 
+extension MyFeed: Equatable {
+    static func ==(lhs: MyFeed, rhs: MyFeed) -> Bool {
+        return lhs.text == rhs.text &&
+               lhs.imageIdList == rhs.imageIdList &&
+               lhs.categoryList == rhs.categoryList &&
+               lhs.isPulic == rhs.isPulic &&
+               lhs.date == rhs.date &&
+               lhs.weather == rhs.weather &&
+               lhs.happiness == rhs.happiness &&
+               lhs.nickName == rhs.nickName &&
+               lhs.likeNickNameList == rhs.likeNickNameList
+    }
+}
+
 extension MyFeed {
     var happyImage: String {
         switch happiness {

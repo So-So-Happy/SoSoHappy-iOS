@@ -234,16 +234,7 @@ final class ChartView: UIView, ChartViewDelegate {
     }
     
     func setNickName() {
-        let provider = KeychainService.loadData(
-            serviceIdentifier: "sosohappy.userInfo",
-            forKey: "provider"
-        ) ?? ""
-        
-        let nickName = KeychainService.loadData(
-            serviceIdentifier: "sosohappy.userInfo\(provider)",
-            forKey: "userNickName"
-        ) ?? ""
-        
+        let nickName: String = KeychainService.getNickName()
         self.graphLabel.text = "\(nickName)님의 행복 그래프 💖"
         
     }
