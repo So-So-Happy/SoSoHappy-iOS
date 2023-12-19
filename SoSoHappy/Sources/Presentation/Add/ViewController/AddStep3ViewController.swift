@@ -15,29 +15,18 @@ import PhotosUI
 import RxKeyboard
 import RxGesture
 
-/*
- 9. textview에 제한된 글자 넘어가서 1개 더 보이는 문제 해결하기
- 10. 토스트 메시지
-    - 성공하면 '등록했습니다' 하고 delay 좀 있다가 dismiss (완료)
-    - 실패하면 '등록하지 못했습니다?"
-    - 와이파이 연결 안되어 있으면 '네트워크에 연결할 수 없습니다'
- 
- 11. savebutton handling한게 최선의 방법인지 (tapSave)
- */
-
 final class AddStep3ViewController: BaseDetailViewController {
     // MARK: - Properties
     private weak var coordinator: AddCoordinatorInterface?
-    var tapSave: Bool = false
+    private var tapSave: Bool = false
     private var selection = [String: PHPickerResult]()
     private var selectedAssetIdentifiers = [String]()
     
     // MARK: - UI Components
     private lazy var statusBarStackView = StatusBarStackView(step: 3)
+    
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
-        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
-        
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
@@ -72,6 +61,11 @@ final class AddStep3ViewController: BaseDetailViewController {
         $0.text = "소소한 행복을 기록해보세요~"
     }
     
+    private lazy var saveSpinner = UIActivityIndicatorView().then {
+        $0.hidesWhenStopped = true
+        $0.color = .black
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -90,7 +84,6 @@ final class AddStep3ViewController: BaseDetailViewController {
 // MARK: - set up
 extension AddStep3ViewController {
     private func setup() {
-        print("AddStep3 setup")
         setAttributes()
         setLayoutForAddStep3()
     }
@@ -100,7 +93,6 @@ extension AddStep3ViewController {
         textView.inputAccessoryView = addKeyboardToolBar
         self.navigationItem.rightBarButtonItem = saveButton
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-//        print("editable \(textView.isEditable)")
     }
     
     private func setLayoutForAddStep3() {
@@ -114,9 +106,8 @@ extension AddStep3ViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        // 카테고리 설정
         categoryStackView.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(80)
+            make.top.equalToSuperview().offset(70)
         }
         
         // 이미지 설정
@@ -142,8 +133,8 @@ extension AddStep3ViewController {
         
         // placeholder
         placeholderLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(5)
-            make.top.equalToSuperview().offset(10)
+            make.leading.equalToSuperview().inset(5)
+            make.top.equalToSuperview().inset(8)
         }
     }
 }
@@ -166,9 +157,7 @@ extension AddStep3ViewController: View {
         self.view.rx.tapGesture().when(.recognized)
             .subscribe { [weak self] _ in
                 guard let self = self else { return }
-                if textView.isFirstResponder {
-                    textView.resignFirstResponder()
-                }
+                checkIsTextViewFirstResponder()
             }
             .disposed(by: disposeBag)
 
@@ -192,9 +181,8 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.photoBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.view.endEditing(true)
+                checkIsTextViewFirstResponder()
                 setAndPresentPicker()
-                
             })
             .disposed(by: disposeBag)
         
@@ -206,22 +194,20 @@ extension AddStep3ViewController: View {
         addKeyboardToolBar.keyboardDownBarButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
-                self.view.endEditing(true)
+                checkIsTextViewFirstResponder()
             })
             .disposed(by: disposeBag)
         
-        // TODO: debouce ? throttle 적용 필요
         saveButton.rx.tap
             .throttle(.seconds(2), latest: false, scheduler: MainScheduler.instance)
-            .map {
-                self.view.endEditing(true)
-                self.tapSave = true
+            .map { [weak self] _ in
+                self?.checkIsTextViewFirstResponder()
+                self?.tapSave = true
                 return Reactor.Action.tapSaveButton
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-       
         backButton.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let self = self else { return }
@@ -238,16 +224,6 @@ extension AddStep3ViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        // MARK: 작업용 (임시)
-//        categoryStackView.rx.tapGesture()
-//            .subscribe(onNext: { [weak self] _ in
-//                guard let self = self else { return }
-//                print("AddStep3 - show 앨범")
-//                setAndPresentPicker()
-//            })
-//            .disposed(by: disposeBag)
-        
-        // 행복 + 카테고리
         reactor.state
             .compactMap { $0.happyAndCategory }
             .distinctUntilChanged()
@@ -257,14 +233,12 @@ extension AddStep3ViewController: View {
             }
             .disposed(by: disposeBag)
         
-        // 날짜
         reactor.state
             .map { $0.dateString }
             .distinctUntilChanged()
             .bind(to: self.dateLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // 날씨 배경
         reactor.state
             .compactMap { $0.weatherString }
             .distinctUntilChanged()
@@ -283,24 +257,21 @@ extension AddStep3ViewController: View {
             .bind(to: self.textView.rx.text)
             .disposed(by: disposeBag)
 
-        // 작성 글자 수 label
         reactor.state
             .map { "(\($0.content.count) / 3000)" }
             .distinctUntilChanged()
             .bind(to: self.textCountLabel.rx.text)
             .disposed(by: disposeBag)
         
-        // isPrivate에 따라서 자물쇠 image 변경
         reactor.state
-            .map { $0.isPrivate }
+            .map { $0.isPublic }
             .distinctUntilChanged()
-            .bind { [weak self] isPrivate in
+            .bind { [weak self] isPublic in
                 guard let self = self else { return }
-                addKeyboardToolBar.setPrivateTo(isPrivate)
+                addKeyboardToolBar.setPublicTo(isPublic)
             }
             .disposed(by: disposeBag)
         
-        // 저장 버튼 활성화
         reactor.state
             .map { !$0.content.isEmpty }
             .distinctUntilChanged()
@@ -312,34 +283,60 @@ extension AddStep3ViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
-//                print("images.count : \(images.count)")
                 setImageSlideView(imageList: images)
                 removeImageButton.isHidden = images.isEmpty ? true : false
             })
             .disposed(by: disposeBag)
         
-
+        reactor.state
+            .compactMap{ $0.isSaveLoading }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isSaveLoading in
+                guard let self = self else { return }
+                if isSaveLoading {
+                    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveSpinner)
+                    saveSpinner.startAnimating()
+                } else { // 로딩 완료 - 저장 버튼
+                    navigationItem.rightBarButtonItem = saveButton
+                    saveSpinner.stopAnimating()
+                }
+                
+                saveButton.isEnabled = !isSaveLoading
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .compactMap { self.tapSave ? $0.isSaveFeedSuccess : nil }
             .subscribe(onNext: { [weak self] save in
-                self?.showToast(save.rawValue, withDuration: 2.0, delay: 0.8)
-                self?.tapSave = false
+                guard let self = self else { return }
+                showToast(save.rawValue, withDuration: 2.0, delay: 0.8)
+                tapSave = false
                 
                 if save == .saved {
                     Observable<Void>
                         .just(())
-                        .delay(.milliseconds(3100), scheduler: MainScheduler.instance) // Adjust the delay duration as needed
+                        .delay(.milliseconds(3100), scheduler: MainScheduler.instance)
                         .subscribe(onNext: { [weak self] _ in
                             self?.coordinator?.dismiss()
                         })
-                        .disposed(by: self?.disposeBag ?? DisposeBag())
+                        .disposed(by: disposeBag)
                 }
             })
             .disposed(by: disposeBag)
         
+        reactor.state
+            .compactMap { $0.showServerErrorAlert }
+            .distinctUntilChanged()
+            .bind(onNext: {[weak self]  showServerErrorAlert in
+                guard let self = self else { return }
+                if showServerErrorAlert {
+                    let alert = CustomAlert.makeAlertContorller()
+                    self.present(alert, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
-
 
 // MARK: - PHPickerViewControllerDelegate & picker preseent
 // 권한 요청이 필요없음
@@ -359,7 +356,6 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        var selectedImages: [UIImage] = []
         picker.dismiss(animated: true)
         
         let existingSelection = self.selection
@@ -417,6 +413,10 @@ extension AddStep3ViewController: PHPickerViewControllerDelegate {
             reactor?.action.onNext(.setSelectedImages(selectedImages))
         }
     }
+    
+    private func checkIsTextViewFirstResponder() {
+        if textView.isFirstResponder {
+            textView.resignFirstResponder()
+        }
+    }
 }
-
-
