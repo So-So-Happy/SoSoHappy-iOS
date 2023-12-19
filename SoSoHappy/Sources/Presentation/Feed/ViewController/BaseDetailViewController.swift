@@ -55,6 +55,7 @@ class BaseDetailViewController: UIViewController {
     lazy var imageSlideView = ImageSlideView().then {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
         $0.slideShowView.addGestureRecognizer(tapGesture)
+        $0.layer.cornerRadius = 16
     }
     
     override func viewDidLoad() {
@@ -140,7 +141,7 @@ extension BaseDetailViewController {
         }
         
         contentBackground.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(dateLabel.snp.bottom).offset(26)
         }
                 
@@ -152,7 +153,7 @@ extension BaseDetailViewController {
         // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
         imageSlideView.snp.makeConstraints { make in
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
-            make.horizontalEdges.equalToSuperview().inset(30)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }
