@@ -15,12 +15,9 @@ class CalendarCell: FSCalendarCell {
     }
     
     // 뒤에 표시될 이미지
-    var backImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFill
-        view.clipsToBounds = true
-        return view
-    }()
+    var backImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFit
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,9 +30,8 @@ class CalendarCell: FSCalendarCell {
         contentView.insertSubview(backImageView, at: 0)
         backImageView.snp.makeConstraints { make in
             make.center.equalTo(contentView)
-            make.size.equalTo(minSize())
+            make.edges.equalToSuperview().inset(3)
         }
-        backImageView.layer.cornerRadius = minSize()/2
     }
     
     required init(coder aDecoder: NSCoder!) {
@@ -50,13 +46,5 @@ class CalendarCell: FSCalendarCell {
         super.prepareForReuse()
         
         backImageView.image = nil
-    }
-    
-    // 셀의 높이와 너비 중 작은 값을 리턴한다
-    func minSize() -> CGFloat {
-        let width = contentView.bounds.width - 6
-        let height = contentView.bounds.height - 6
-
-        return (width > height) ? height : width
     }
 }
