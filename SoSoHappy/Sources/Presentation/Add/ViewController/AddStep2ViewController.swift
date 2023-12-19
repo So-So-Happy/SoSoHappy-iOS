@@ -41,10 +41,10 @@ final class AddStep2ViewController: UIViewController, UIScrollViewDelegate {
     
     private lazy var nextButton = NextButton()
     
-//    private lazy var backButton = UIButton().then {
-//        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-//        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
-//    }
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +72,11 @@ extension AddStep2ViewController {
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
     
     private func addViews() {
@@ -175,6 +180,13 @@ extension AddStep2ViewController: View {
             })
             .disposed(by: disposeBag)
         
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.navigateBack()
+            })
+            .disposed(by: disposeBag)
+        
         reactor.state
             .map { $0.selectedCategories.count > 0 }
             .distinctUntilChanged()
@@ -192,5 +204,9 @@ extension AddStep2ViewController {
         }
         
         return true
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.navigateBack()
     }
 }

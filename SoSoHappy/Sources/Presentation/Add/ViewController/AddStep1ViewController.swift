@@ -71,6 +71,10 @@ extension AddStep1ViewController {
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
+        
+        let swipeGestureRecognizerDown = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerDown.direction = .down
+        view.addGestureRecognizer(swipeGestureRecognizerDown)
     }
     
     private func addViews() {
@@ -173,5 +177,11 @@ extension AddStep1ViewController: View {
             .distinctUntilChanged()
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
+    }
+}
+
+extension AddStep1ViewController {
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.dismiss()
     }
 }
