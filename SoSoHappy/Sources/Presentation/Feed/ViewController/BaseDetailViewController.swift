@@ -39,7 +39,7 @@ class BaseDetailViewController: UIViewController {
         $0.textColor = .black
         $0.backgroundColor = .clear
         $0.isUserInteractionEnabled = false
-        $0.isScrollEnabled = false // 얘를 설정해줬더니 TextView에 따로 높이를 지정해주지 않아도 content에 맞게 높이가 설정됨 (label의 numberOfLines을 0으로 넣는 것과 동일
+        $0.isScrollEnabled = false
     }
     
     // 작성 글 잘 보이도록 사용하는 background
@@ -85,8 +85,7 @@ class BaseDetailViewController: UIViewController {
             
         } else {
             imageSlideView.isHidden = false
-            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("imageSlideView  updateConstraints 사진 있음")
+            imageSlideView.snp.updateConstraints { make in
                 make.height.equalTo(300)
             }
             
@@ -99,20 +98,16 @@ class BaseDetailViewController: UIViewController {
     func setImageSlideView(imageList: [UIImage]) {
         if imageList.isEmpty {
             imageSlideView.isHidden = true
-            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 없음")
+            imageSlideView.snp.updateConstraints { make in
                 make.height.equalTo(0)
             }
             
         } else {
             imageSlideView.isHidden = false
-            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("BaseFeedDetailViewController - imageSlideView  updateConstraints 사진 있음")
+            imageSlideView.snp.updateConstraints { make in
                 make.height.equalTo(300)
             }
-            
             imageSlideView.setContentsWithImageList(imageList: imageList)
-            
         }
     }
 }
@@ -120,7 +115,6 @@ class BaseDetailViewController: UIViewController {
 // MARK: - setLayout()
 extension BaseDetailViewController {
     func setLayout() {
-        print("BaseFeedDetailViewController - setLayout")
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubviews(categoryStackView, dateLabel, contentBackground, textView, imageSlideView)
@@ -157,7 +151,6 @@ extension BaseDetailViewController {
         
         // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
         imageSlideView.snp.makeConstraints { make in
-            print("imageSlideView  makeConstraints")
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
             make.horizontalEdges.equalToSuperview().inset(30)
         }
@@ -167,7 +160,6 @@ extension BaseDetailViewController {
 // MARK: - Action
 extension BaseDetailViewController {
     @objc func didTap(sender: UITapGestureRecognizer? = nil) {
-        print("ViewController - didTap() called")
         imageSlideView.slideShowView.presentFullScreenController(from: self)
     }
 }
