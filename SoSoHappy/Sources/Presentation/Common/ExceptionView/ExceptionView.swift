@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-// 올라온 피드가 없습니다
+
 final class ExceptionView: UIView {
     lazy var titleLabel = UILabel()
     

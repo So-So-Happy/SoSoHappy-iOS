@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 final class AddKeyboardToolBar: UIToolbar {
     // MARK: - UI Components
     lazy var photoBarButton = UIBarButtonItem(image: UIImage(systemName: "photo"), style: .plain, target: nil, action: nil)

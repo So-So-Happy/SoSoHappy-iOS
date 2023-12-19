@@ -55,7 +55,7 @@ extension CategoryCell {
     }
 }
 
-// - MARK: Select됨에 따라 크기 변경과 그림자 설정
+// MARK: - Select됨에 따라 크기 변경과 그림자 설정
 extension CategoryCell {
     override var isSelected: Bool {
         didSet {
