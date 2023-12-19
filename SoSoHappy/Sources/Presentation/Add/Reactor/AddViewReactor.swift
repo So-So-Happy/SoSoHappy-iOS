@@ -14,19 +14,13 @@ enum AddStep {
 }
 
 enum Save: String {
-    // 네트웤에 연결할 수 없습니다.
-    // 저장되었습니다.
-    // 오류가 발생했습니다. 다시 시도해주세요.
     case saved = "저장되었습니다."
-    case wifiNotConnected = "네트워크에 연결할 수 없습니다"
-    case networkError = "오류가 발생했습니다. 다시 시도해주세요"
+    case notSaved = "피드 등록에 실패했습니다."
+    case wifiNotConnected = "네트워크에 연결할 수 없습니다."
 }
-
 
 final class AddViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
-    // MARK: Properties
-    // 서버에 보낼 때는 weather를 String으로 보내줘야 해서 인덱스를 뽑아서 사용할 수 있도록 만들었음
     let weatherStrings = ["sunny", "partlyCloudy", "cloudy", "rainy", "snowy"]
     var categories: [String] = [
         "beer", "books", "coffee", "cook",
@@ -53,10 +47,10 @@ final class AddViewReactor: Reactor {
         case fetchDatasForAdd3
         case setContent(String)
         case setSelectedImages([UIImage])
-        case tapLockButton
+        case tapLockButton // 잠금
         case tapSaveButton // 저장
     }
-    
+     
     enum Mutation {
         // MARK: Add1
         case setSelectedWeather(Int)
@@ -70,9 +64,10 @@ final class AddViewReactor: Reactor {
         case setDatasForAdd3
         case setContent(String)
         case setSelectedImages([UIImage])
-        case isPrivate(Bool)
-//        case saveFeed(Bool)
-        case saveFeed(Bool)
+        case isPublic(Bool)
+        case isSaveLoading(Bool)
+        case saveFeed(Save)
+        case showServerErrorAlert(Bool)
     }
     
     struct State {
@@ -89,10 +84,12 @@ final class AddViewReactor: Reactor {
         var happyAndCategory: [String]?
         var dateString: String?
         var weatherString: String?
-        var isPrivate: Bool = true // true - 비공개 , false - 공개
-        var isSaveFeedSuccess: Save?
+        var isPublic: Bool = false // 기본 false (비공개)
         var content: String = ""
         var selectedImages: [UIImage]?
+        var isSaveLoading: Bool?
+        var isSaveFeedSuccess: Save?
+        var showServerErrorAlert: Bool?
     }
     
     let initialState: State
@@ -105,125 +102,118 @@ final class AddViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .weatherButtonTapped(tag):
-//            print("mutate - Weather 버튼 눌림, tag: \(tag)")
             return Observable.just(.setSelectedWeather(tag))
             
         case let .happinessButtonTapped(tag):
-//            print("muate - Happiness 버튼 눌림, tag: \(tag)")
             return Observable.just(.setSelectedHappiness(tag))
             
         case let .tapNextButton(addStep):
             return Observable.just(.setBeforeMovingToNextStep(addStep))
             
         case let .selectCategory(category):
-//            print("mutate - selectCategory")
             return setSelectedCategory(category)
             
         case .deselectCategory(let category):
-//            print("mutate - deselectCategory")
             return setDeselectCategory(category)
             
         case .fetchDatasForAdd3:
-//            print("muate -  fetchDatasForAdd3")
             return Observable.just(.setDatasForAdd3)
             
         case let .setContent(content):
             let limitedText = String(content.prefix(3000))
-//            print("muate -  setContent :\(limitedText)")
             return .just(.setContent(limitedText))
             
         case let .setSelectedImages(images):
             return Observable.just(.setSelectedImages(images))
             
         case .tapLockButton:
-//            print("muate -  tapLockButton")
-            let isPrivate = !currentState.isPrivate
-            return Observable.just(.isPrivate(isPrivate))
+            let isPublic = !currentState.isPublic
+            return Observable.just(.isPublic(isPublic))
             
         case .tapSaveButton:
-            // 필요한 것 : text, image, isPublic
+            if !Connectivity.isConnectedToInternet() {
+                return .just(.saveFeed(.wifiNotConnected))
+            }
             
-            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-            let nickname = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+            let nickname = KeychainService.getNickName()
             
-            // MARK: 이 부분 강제 언래핑하는거 좀 더 유연하게 처리 필요
             let saveFeedRequest = SaveFeedRequest(
                 text: currentState.content,
                 images: currentState.selectedImages,
                 categoryList: currentState.selectedCategories,
-                isPublic: currentState.isPrivate,
+                isPublic: currentState.isPublic,
                 date: currentState.date!.getFormattedYMDH(),
                 weather: weatherStrings[currentState.selectedWeather!],
                 happiness: currentState.selectedHappiness!,
                 nickname: nickname)
             
-            print("date: \(currentState.date!.getFormattedYMDH())")
-            return feedRepository.saveFeed(request: saveFeedRequest)
-                .map { Mutation.saveFeed($0) }
+            return .concat([
+                .just(.isSaveLoading(true)),
+                feedRepository.saveFeed(request: saveFeedRequest)
+                    .map { Mutation.saveFeed($0 ? .saved : .notSaved) }
+                    .catch { _ in
+                        return .concat([
+                            .just(.showServerErrorAlert(true)),
+                            .just(.showServerErrorAlert(false))
+                        ])
+                    },
+                .just(.isSaveLoading(false))
+            ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
+        var state = state
         switch mutation {
         case let .setSelectedWeather(tag):
-            newState.selectedWeather = tag
-            newState.weatherString = weatherStrings[tag]
+            state.selectedWeather = tag
+            state.weatherString = weatherStrings[tag]
             
         case let .setSelectedHappiness(tag):
-            newState.selectedHappiness = tag
+            state.selectedHappiness = tag
             
         case let .setBeforeMovingToNextStep(stepNow):
             switch stepNow {
             case .step1:
-                newState.selectedCategories = []
+                state.selectedCategories = []
             case .step2:
-                newState.date = Date()
+                state.date = Date()
             }
             
         case let .selectedCategories(categories):
-            print("~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~ ~~~~~~~~ ")
-            print("reduce - selectedCategories: \(categories)")
-            print("~~~~~~~~~~~~~~~~~~~~  ~~~~~~~~~ ~~~~~~~~ ")
-            print("  ")
-            print("  ")
-
-            newState.selectedCategories = categories
+            state.selectedCategories = categories
             
         case .setDatasForAdd3:
-            print("reduce - setDatasForAdd3")
-            // 행복/카테고리 배열
-            print("state.selectedHappiness : \(type(of: state.selectedHappiness))") // Optional<Int>
-            print("state.selectedWeather: \(type(of: state.selectedWeather))") // Optional<Int>
-            if let happyInt = state.selectedHappiness {
-                // 행복 + 카테고리
+            if let happyInt = state.selectedHappiness, let todayDate = state.date {
                 let happineesImageName = "happy\(happyInt)"
                 let happinessAndCategories = [happineesImageName] + state.selectedCategories
                 
-                //날짜
-                let todayDate = Date()
                 let dateToString = todayDate.getFormattedYMDE()
-                
-                newState.happyAndCategory = happinessAndCategories
-                newState.dateString = dateToString
+            
+                state.happyAndCategory = happinessAndCategories
+                state.dateString = dateToString
             }
             
         case let .setContent(content):
-            newState.content = content
+            state.content = content
             
         case let .setSelectedImages(images):
-            newState.selectedImages = images
+            state.selectedImages = images
             
-        case let .isPrivate(isPrivate):
-            newState.isPrivate = isPrivate
+        case let .isPublic(isPublic):
+            state.isPublic = isPublic
+            
+        case .isSaveLoading(let isSaveLoading):
+            state.isSaveLoading = isSaveLoading
             
         case let .saveFeed(isSuccess):
-            // 네트워크에 연결되어 있지 않습니다.
-            // 등록되었습니다.
-            print("reduce .saveFeed : \(isSuccess)")
-            newState.isSaveFeedSuccess = isSuccess ? .saved : .networkError
+            state.isSaveFeedSuccess = isSuccess
+                    
+        case .showServerErrorAlert(let showServerErrorAlert):
+            state.showServerErrorAlert = showServerErrorAlert
         }
-        return newState
+        
+        return state
     }
 }
 
@@ -246,4 +236,3 @@ extension AddViewReactor {
         return Observable.just(.selectedCategories(selectedCategories))
     }
 }
-
