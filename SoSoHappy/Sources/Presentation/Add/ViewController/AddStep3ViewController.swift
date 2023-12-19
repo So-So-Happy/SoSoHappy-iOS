@@ -30,11 +30,6 @@ final class AddStep3ViewController: BaseDetailViewController {
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
-
-    private lazy var backButton = UIButton().then {
-        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
-        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
-    }
     
     private lazy var removeImageButton = UIButton().then {
         $0.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -92,7 +87,6 @@ extension AddStep3ViewController {
         textView.isUserInteractionEnabled = true
         textView.inputAccessoryView = addKeyboardToolBar
         self.navigationItem.rightBarButtonItem = saveButton
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
     
     private func setLayoutForAddStep3() {
@@ -206,13 +200,6 @@ extension AddStep3ViewController: View {
                 return Reactor.Action.tapSaveButton
             }
             .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        backButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                coordinator?.navigateBack()
-            })
             .disposed(by: disposeBag)
         
         removeImageButton.rx.tap
