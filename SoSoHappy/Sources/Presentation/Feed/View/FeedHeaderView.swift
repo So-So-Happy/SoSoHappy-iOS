@@ -32,7 +32,7 @@ final class FeedHeaderView: UIView {
     )
     
     lazy var sortTodayButton = UIButton().then {
-        $0.setTitleColor(UIColor(named: "GrayTextColor"), for: .normal)
+        $0.setTitleColor(UIColor(named: "LightGrayTextColor"), for: .normal)
         $0.setTitle("오늘", for: .normal)
         $0.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
     }
@@ -110,7 +110,7 @@ extension FeedHeaderView {
     private func setSortTextColorAttribute(_ selected: UIButton, _ notSelected: UIButton) {
         selected.setTitleColor(UIColor(named: "MainTextColor"), for: .normal)
         selected.titleLabel?.font = UIFont.customFont(size: 15, weight: .bold)
-        notSelected.setTitleColor(UIColor(named: "DarkGrayTextColor"), for: .normal)
+        notSelected.setTitleColor(UIColor(named: "LightGrayTextColor"), for: .normal)
         notSelected.titleLabel?.font = UIFont.customFont(size: 15, weight: .medium)
     }
 }
