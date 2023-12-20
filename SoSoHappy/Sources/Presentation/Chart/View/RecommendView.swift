@@ -89,10 +89,7 @@ private extension RecommendView {
 
 // MARK: - Action
 private extension RecommendView {
-    
     // MARK: 새로고침 버튼 클릭될 때 호출되는 메서드
     @objc private func refreshButtonTapped() {
-        // Button tapped action
-        print("refreshButton tapped!")
     }
 }

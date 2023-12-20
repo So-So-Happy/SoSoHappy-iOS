@@ -57,7 +57,6 @@ final class ChartView: UIView, ChartViewDelegate {
     
     @objc func segmentedControlValueChanged(_ sender: UISegmentedControl) {
         let selectedSegmentIndex = sender.selectedSegmentIndex
-        print("Selected Segment Index: \(selectedSegmentIndex)")
     }
     
     //  MARK: - 뷰 구성요소 세팅

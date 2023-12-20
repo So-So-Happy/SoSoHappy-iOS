@@ -34,13 +34,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         if nickName.isEmpty || accessToken.isEmpty {
             showAuthFlow()
         } else {
-            // TODO: 수월한 개발을 위한 print문입니다. 추후 제거 예정
-            print("================= 사용자 정보 (개발용) =================")
-            print("👤 accessToken: \(String(describing: accessToken))")
-            print("👤 refreshToken: \(String(describing: refreshToken))")
-            print("👤 userEmail: \(String(describing: userEmail))")
-            print("👤 nickName: \(String(describing: nickName))")
-            print("===================================================")
             showMainFlow()
             
             // MARK: - 처음에 여기에서 세팅해주면 마이페이지 알림에도 적용해줘야할 것 같음
@@ -49,12 +42,10 @@ final public class AppCoordinator: AppCoordinatorProtocol {
               options: authOptions,
               completionHandler: { granted, error in
                   if granted {
-                      print("알림이 등록되었습니다.")
                   }
               }
             )
         }
-        
     }
     
     func showAuthFlow() {
