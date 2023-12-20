@@ -132,7 +132,8 @@ final class PrivateTop3View: UIView {
     // 날씨 이미지
     private lazy var emptyHappyImage = UIImageView().then {
         $0.layer.masksToBounds = true
-        $0.image = UIImage(named: "happy1")
+        $0.image = UIImage(named: "emptyImage")
+        $0.contentMode = .scaleAspectFit
     }
     
     // 내용 텍스트
@@ -172,15 +173,16 @@ final class PrivateTop3View: UIView {
             $0.edges.equalToSuperview()
         }
         
-        contentsLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(30)
-        }
-        
         emptyHappyImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(contentsLabel).inset(30)
-            $0.width.height.equalTo(30)
+            $0.top.equalToSuperview().inset(15)
+            $0.width.equalTo(140)
+            $0.height.equalTo(110)
+        }
+        
+        contentsLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(emptyHappyImage.snp.bottom).offset(5)
         }
         
     }

@@ -50,7 +50,7 @@ final class LoginViewController: UIViewController, View {
         setup()
         bind(reactor: self.reactor ?? LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager: GoogleSigninManager()))
     }
-    
+
     // MARK: - Reactor를 설정하는 메서드
     func bind(reactor: LoginViewReactor) {
         bindActions(reactor)
