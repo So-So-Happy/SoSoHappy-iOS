@@ -15,7 +15,6 @@ class BlockButton: UIButton {
     weak var delegate: BlockButtonDelegate?
     
     private lazy var block = UIAction() { _ in
-        print("작성자 차단 tapped")
         self.delegate?.blockButtonDidTap(self)
     }
     

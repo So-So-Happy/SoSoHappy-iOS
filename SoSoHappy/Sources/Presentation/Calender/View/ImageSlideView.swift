@@ -12,16 +12,8 @@ import RxCocoa
 import Kingfisher
 
 final class ImageSlideView: UIView {
-    // Create a PublishSubject to emit tap events
-    // Subject : Observable이자 Observer
-    // Hot Observable :  구독한 시점부터 방출되는 이벤트만 받을 수 있고, 내가 구독하기 전에 이미 방출되어버린 이벤트는 받을 수 없음!!
-    
-    // 값을 동적으로 스트림에 추가할 수 있음
-    //PublishSubject - 어떤 항목을 방출할 것인에 대한 정의가 없음
     let tapSubject = PublishSubject<Void>()
     
-    // Expose an Observable property for tap events
-    // Observable을 사용하여 tapSubject를 노출하는 것이 RxSwift 및 ReactorKit의 일반적인 관용적인 사용법에 더 부합
     var tapObservable: Observable<Void> {
         return tapSubject.asObservable()
     }
@@ -31,7 +23,7 @@ final class ImageSlideView: UIView {
     
     var slideShowView = ImageSlideshow().then {
         $0.isUserInteractionEnabled = true
-        $0.contentScaleMode = .scaleAspectFill // default value = scaleAspectFill
+        $0.contentScaleMode = .scaleAspectFill
         $0.layer.cornerRadius = 10
     }
     

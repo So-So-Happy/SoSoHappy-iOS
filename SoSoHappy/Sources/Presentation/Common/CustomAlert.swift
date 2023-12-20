@@ -44,7 +44,6 @@ final class CustomAlert {
         applyFontToAlert(alert, title: title, message: message)
         
         let okAction = UIAlertAction(title: buttonTitle, style: .default) { _ in
-            print("Alert OK")
             okActionHandler()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)

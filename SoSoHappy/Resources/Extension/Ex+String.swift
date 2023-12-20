@@ -43,10 +43,8 @@ extension String {
         dateFormatter.dateFormat = "yyyyMMddHHmmssSSS"
 
         if let date = dateFormatter.date(from: self) {
-            print("Parsed Date: \(date)")
             return date
         } else {
-            print("Failed to parse date.")
             return Date()
         }
     }
@@ -58,7 +56,6 @@ extension String {
         if let date = dateFormatter.date(from: self) {
             return date
         } else {
-            print("dateToDateType failed to parse date")
             return Date()
         }
     }

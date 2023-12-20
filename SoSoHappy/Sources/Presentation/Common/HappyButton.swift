@@ -4,7 +4,6 @@
 //
 //  Created by Sue on 2023/08/31.
 //
-// https://brontoxx.medium.com/proper-way-to-set-uibutton-background-color-for-disabled-state-15d4c6482bd
 
 import UIKit
 

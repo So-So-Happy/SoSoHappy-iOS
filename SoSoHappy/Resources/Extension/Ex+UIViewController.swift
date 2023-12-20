@@ -29,7 +29,6 @@ extension UIViewController {
             make.height.equalTo(40)
         }
         
-        // TODO: .animate 이해해가
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveLinear, animations: {
             toastLabel.alpha = 0.0
         }, completion: {(isCompleted) in

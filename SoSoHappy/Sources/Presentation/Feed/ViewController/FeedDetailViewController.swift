@@ -143,13 +143,12 @@ extension FeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .skip(2) // 첫 2개 제거
+            .skip(2)
             .map { $0.userFeed }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
                 
                 guard let userFeed = userFeed else {
-                    // 피드가 삭제된 경우
                     exceptionView.isHidden = false
                     exceptionView.titleLabel.text = "피드가 삭제되었습니다."
                     networkNotConnectedView.isHidden = true

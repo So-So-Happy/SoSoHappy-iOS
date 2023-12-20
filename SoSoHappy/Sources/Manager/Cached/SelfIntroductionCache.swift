@@ -7,8 +7,9 @@
 
 import Foundation
 
+// MARK: 닉네임(key) 자시고개 글(value) 캐시
 final class SelfIntroductionCache {
-    typealias CacheType = Cache<String, String> // 닉네임, 자기소개 글
+    typealias CacheType = Cache<String, String>
     
     static let shared = SelfIntroductionCache()
     var cache: CacheType = CacheType()

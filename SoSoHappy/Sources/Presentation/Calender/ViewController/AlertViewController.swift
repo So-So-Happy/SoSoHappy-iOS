@@ -11,7 +11,6 @@ class AlertViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("AlertViewController viewdidload start" )
         // Do any additional setup after loading the view.
     }
     

@@ -15,7 +15,6 @@ struct FindProfileImgResponse: Decodable {
 extension FindProfileImgResponse {
     func toDomain() -> UIImage {
         guard let data = Data(base64Encoded: profileImg, options: .ignoreUnknownCharacters), let uiImage = UIImage(data: data) else {
-            print("FindProfileImgResponse - 프로필 이미지 변환 실패")
             return UIImage(named: "profile")!
         }
         

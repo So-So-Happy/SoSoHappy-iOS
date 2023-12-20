@@ -40,7 +40,6 @@ class DMListCell: UITableViewCell {
         setCellAttributes()
         addSubViews()
         setConstraints()
-        print("contentView.height : \(self.contentView.frame.height)")
     }
     
     required init?(coder: NSCoder) {

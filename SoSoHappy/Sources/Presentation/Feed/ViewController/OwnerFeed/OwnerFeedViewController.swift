@@ -244,11 +244,11 @@ extension OwnerFeedViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
-                print("OwnerFeedViewController showNetworkErrorView : \(showNetworkErrorView)")
+                
                 if showNetworkErrorView {
                     loadingView.isHidden = true
                     noFeedExceptionView.isHidden = true
-                    networkNotConnectedView.isHidden = false // 보여주기
+                    networkNotConnectedView.isHidden = false
                 }
             })
             .disposed(by: disposeBag)
@@ -258,7 +258,7 @@ extension OwnerFeedViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
-                print("++++ OwnerFeedViewController showServerErrorAlert \(showServerErrorAlert)")
+                
                 if showServerErrorAlert {
                     let asyncAfter: Double = reactor.currentAction == .refresh ? 0.7 : 0
                     DispatchQueue.main.asyncAfter(deadline: .now() + asyncAfter) {
