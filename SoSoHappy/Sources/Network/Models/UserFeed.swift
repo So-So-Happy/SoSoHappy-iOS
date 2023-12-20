@@ -40,17 +40,6 @@ struct UserFeed: FeedType, Equatable {
     }
     
     static func == (lhs: UserFeed, rhs: UserFeed) -> Bool {
-        let bool = lhs.profileImage?.isEqual(rhs.profileImage) ?? true &&
-        lhs.nickName == rhs.nickName &&
-        lhs.nickName == rhs.nickName &&
-        lhs.date == rhs.date &&
-        lhs.weather == rhs.weather &&
-        lhs.happiness == rhs.happiness &&
-        lhs.categoryList == rhs.categoryList &&
-        lhs.text == rhs.text &&
-        lhs.isLiked == rhs.isLiked &&
-        lhs.imageIdList == rhs.imageIdList
-        
         return lhs.profileImage?.isEqual(rhs.profileImage) ?? true &&
                lhs.nickName == rhs.nickName &&
                lhs.nickName == rhs.nickName &&
