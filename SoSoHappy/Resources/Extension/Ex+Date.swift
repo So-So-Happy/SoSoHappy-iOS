@@ -28,7 +28,7 @@ extension Date {
     /// format: yyyy.MM.dd E요일
     func getFormattedYMDE() -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier:"ko_KR")
+        formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "yyyy.MM.dd E요일"
         let convertStr = formatter.string(from: self)
         return convertStr
@@ -88,14 +88,14 @@ extension Date {
     
     func moveToNextMonth() -> Date {
         let calendar = Calendar.current
-        var nextPage = calendar.date(byAdding: .month, value: 1, to: self) ?? Date()
+        let nextPage = calendar.date(byAdding: .month, value: 1, to: self) ?? Date()
         
         return nextPage
     }
     
     func moveToPreviousMonth() -> Date {
         let calendar = Calendar.current
-        var previousPage = calendar.date(byAdding: .month, value: -1, to: self) ?? Date()
+        let previousPage = calendar.date(byAdding: .month, value: -1, to: self) ?? Date()
         
         return previousPage
     }
@@ -135,6 +135,4 @@ extension Date {
         
         return days
     }
-    
-    
 }
