@@ -58,4 +58,3 @@ extension NickNameRecentMessageStackView {
         stackView.addArrangedSubview(recentMessageLabel)
     }
 }
-

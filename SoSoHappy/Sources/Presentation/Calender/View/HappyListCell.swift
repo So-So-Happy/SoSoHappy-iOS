@@ -29,8 +29,6 @@ final class HappyListCell: BaseCell {
 //MARK: - ReactorKit - bind function
 extension HappyListCell: View {
     func bind(reactor: HappyListCellReactor) {
-        // TODO: 여기 HappyListCellReactor 수정됨에 맞게 고쳐주면 됨
-        guard let currentFeed = reactor.currentState.feed else { return }
-//        setFeedCell(currentFeed)
+        guard let _ = reactor.currentState.feed else { return }
     }
 }

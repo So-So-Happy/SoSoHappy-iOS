@@ -257,7 +257,6 @@ extension OwnerFeedViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
-                
                 if showServerErrorAlert {
                     let asyncAfter: Double = reactor.currentAction == .refresh ? 0.7 : 0
                     DispatchQueue.main.asyncAfter(deadline: .now() + asyncAfter) {

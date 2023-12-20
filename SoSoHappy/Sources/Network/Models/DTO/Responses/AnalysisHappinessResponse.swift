@@ -11,5 +11,3 @@ struct AnalysisHappinessResponse: Codable {
     let bestCategoryList: [String]
     let recommendCategoryList: [String]
 }
-
-

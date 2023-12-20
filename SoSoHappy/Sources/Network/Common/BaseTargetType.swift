@@ -8,7 +8,6 @@
 import Foundation
 import Moya
 
-
 protocol BaseTargetType: TargetType {
     func getPath() -> String
     func getMethod() -> Moya.Method
@@ -25,7 +24,6 @@ extension BaseTargetType {
     var sampleData: Data { Data() }
     var authorizationType: JWTAuthorizationType? { return .accessToken }
 }
-
 
 extension BaseTargetType {
     

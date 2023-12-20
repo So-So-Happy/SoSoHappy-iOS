@@ -182,20 +182,14 @@ extension SetCategoryViewController {
     // didSelectItemAt 이전에 동작함
     // cell의 isSelected를 true/false로 만드는 것을 결정
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("activated ")
-        
         if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems, let reactor = reactor {
-            print("activated 1 : \(indexPathsForSelectedItems.count < reactor.maximumSelectionCount)")
-            print("~~~")
             return indexPathsForSelectedItems.count < reactor.maximumSelectionCount
         }
-        print("activated2 - true")
-        print("~~~")
+    
         return true
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-
         if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems, let reactor = reactor {
             return indexPathsForSelectedItems.count > reactor.minimumSelectionCount
         }

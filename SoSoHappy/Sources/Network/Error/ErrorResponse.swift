@@ -22,4 +22,3 @@ struct ErrorResponse: Decodable {
     message = try values.decodeIfPresent(String.self, forKey: .message) ?? ""
   }
 }
-

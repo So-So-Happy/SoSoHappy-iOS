@@ -59,7 +59,6 @@ final class SetWeatherHappinessViewController: UIViewController {
         $0.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -175,4 +174,3 @@ extension SetWeatherHappinessViewController: View {
         
     }
 }
-

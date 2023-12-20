@@ -99,8 +99,6 @@ extension SetAppThemeController {
         cells.forEach { cell in
             cell.setImage(selectedTheme: self.selectedTheme)
         }
-        
-        print("selectedTheme: \(selectedTheme)")
     }
     
     @objc func selectLightMode() {
@@ -109,8 +107,6 @@ extension SetAppThemeController {
         cells.forEach { cell in
             cell.setImage(selectedTheme: self.selectedTheme)
         }
-        
-        print("selectedTheme: \(selectedTheme)")
     }
     
     @objc func selectSystemMode() {
@@ -119,7 +115,6 @@ extension SetAppThemeController {
         cells.forEach { cell in
             cell.setImage(selectedTheme: self.selectedTheme)
         }
-        print("selectedTheme: \(selectedTheme)")
     }
 }
 

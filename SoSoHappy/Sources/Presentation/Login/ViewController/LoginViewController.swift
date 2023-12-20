@@ -121,7 +121,7 @@ final class LoginViewController: UIViewController, View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] result in
                 guard let self = self else { return }
-                if KeychainService.getNickName() == "" {
+                if KeychainService.getNickName().isEmpty {
                     coordinator?.pushSignUpView()
                 } else {
                     coordinator?.pushMainView()
@@ -164,8 +164,6 @@ extension LoginViewController {
             make.top.equalTo(loginLabel.snp.bottom).offset(23)
             make.width.equalTo(appDescriptionStackView.snp.width)
         }
-        
-        
     }
     
     private func setAttribute() {

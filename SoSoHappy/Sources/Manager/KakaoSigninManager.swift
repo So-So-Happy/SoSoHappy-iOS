@@ -136,7 +136,7 @@ final class KakaoSigninManager: SigninManagerProtocol {
     // MARK: - 사용자 정보 가져오기
     func getUserInfo() {
         UserApi.shared.rx.me()
-            .subscribe (onSuccess:{ user in
+            .subscribe (onSuccess: { user in
                 let request = SigninRequest(
                     email: user.kakaoAccount?.email ?? "unknownEmail",
                     provider: "kakao",

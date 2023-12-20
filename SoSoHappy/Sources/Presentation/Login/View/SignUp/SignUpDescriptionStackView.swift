@@ -44,5 +44,3 @@ extension SignUpDescriptionStackView {
         signUpDescriptionStackView.addArrangedSubview(setProfileGuideLabel)
     }
 }
-
-

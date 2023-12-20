@@ -24,7 +24,6 @@ extension FindMonthHappinessResponse {
 
 }
 
-
 struct FindYearHappinessResponse: Decodable {
     let happiness: Double
     let formattedDate: String

@@ -26,7 +26,6 @@ final class AuthCoordinator: Coordinator {
     }
     
     func start() {
-        print("🗂️ 쌓여 있는 VC: \(navigationController.viewControllers.count)개")
         pushLoginView()
     }
     
@@ -54,7 +53,7 @@ extension AuthCoordinator: AuthCoordinatorProtocol {
 
 extension AuthCoordinator {
     func makeLoginViewController() -> UIViewController {
-        let viewController = LoginViewController(reactor: LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager:GoogleSigninManager()), coordinator: self)
+        let viewController = LoginViewController(reactor: LoginViewReactor(userRepository: UserRepository(), kakaoManager: KakaoSigninManager(), appleManager: AppleSigninManager(), googleMagager: GoogleSigninManager()), coordinator: self)
         return viewController
     }
     
