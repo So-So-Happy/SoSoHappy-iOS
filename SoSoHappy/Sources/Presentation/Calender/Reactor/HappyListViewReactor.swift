@@ -29,7 +29,7 @@ class HappyListViewReactor: BaseReactor, Reactor {
     
     // MARK: - Action
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case tapNextButton
         case tapPreviousButton
         case tapHappyListCell(String)
@@ -58,7 +58,7 @@ class HappyListViewReactor: BaseReactor, Reactor {
         }
         let nickName = KeychainService.getNickName()
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return .concat([
                 .just(.setDate(currentPage)),
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))

@@ -53,7 +53,7 @@ final class ChartViewReactor: BaseReactor, Reactor {
     }
     
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case tapAwardsDetailButton
         case tapRecommendRefreshButton
         case tapNextButton
@@ -91,7 +91,8 @@ final class ChartViewReactor: BaseReactor, Reactor {
             return .just(.showNetworkErrorView(BaseError.networkConnectionError))
         }
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
+            self.nickName = KeychainService.getNickName()
             return .concat([
                 .just(.setMonthYearText(date.getFormattedYM2())),
                 feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))

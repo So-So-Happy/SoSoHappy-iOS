@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-
 protocol MyFeedDetailCoordinatorInterface: Coordinator {
     func showDetailView(feed: MyFeed)
     func showAdd1Modal(reactor: MyFeedDetailViewReactor)
@@ -75,5 +73,4 @@ extension MyFeedDetailCoordinator {
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
-
 

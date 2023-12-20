@@ -95,6 +95,7 @@ final class CalendarViewReactor: BaseReactor, Reactor {
         }
         switch action {
         case .viewWillAppear:
+            self.nickName = KeychainService.getNickName()
             return .concat([
                 .just(.setYear),
                 .just(.setMonth),

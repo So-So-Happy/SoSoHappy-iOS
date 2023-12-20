@@ -138,8 +138,8 @@ extension HappyListViewController: View {
     // MARK: bind
     func bind(reactor: HappyListViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
