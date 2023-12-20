@@ -67,7 +67,6 @@ final class FeedDetailViewController: BaseDetailViewController {
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: heartButton)
         
         self.view.addSubview(exceptionView)
         self.view.addSubview(networkNotConnectedView)
@@ -84,17 +83,21 @@ extension FeedDetailViewController {
         }
         
         profileImageNameTimeStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(30)
+            make.top.equalToSuperview().inset(3)
             make.left.equalTo(contentView.safeAreaLayoutGuide).inset(30)
         }
         
         heartButton.snp.makeConstraints { make in
             make.right.equalTo(contentView.safeAreaLayoutGuide).inset(30)
-            make.top.equalTo(profileImageNameTimeStackView)
+            make.centerY.equalTo(profileImageNameTimeStackView)
         }
         
         imageSlideView.snp.makeConstraints { make in
             make.height.equalTo(0)
+        }
+        
+        categoryStackView.snp.updateConstraints { make in
+            make.top.equalToSuperview().inset(90)
         }
     }
     
