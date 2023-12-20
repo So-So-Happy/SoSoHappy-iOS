@@ -36,6 +36,10 @@ final class EditProfileViewController: UIViewController {
         $0.setBackgroundColor(UIColor.lightGray, for: .disabled)
         $0.setBackgroundColor(UIColor(named: "AccentColor"), for: .enabled)
     }
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
 
     // MARK: Initializing
     init(reactor: EditProfileViewReactor, coordinator: MyPageCoordinatorProtocol) {
@@ -75,6 +79,7 @@ extension EditProfileViewController {
     private func setup() {
         setLayout()
         setAttribute()
+        addSwipeGesture()
     }
 
     private func setLayout() {
@@ -121,6 +126,13 @@ extension EditProfileViewController {
 
     private func setAttribute() {
         self.view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
 }
 
@@ -167,6 +179,13 @@ extension EditProfileViewController: View {
             .map { Reactor.Action.tapSignUpButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.goBackToMypage()
+            })
+            .disposed(by: disposeBag)
 
         reactor.state
             .map { $0.profileImage }
@@ -189,7 +208,7 @@ extension EditProfileViewController: View {
                 let color: UIColor
                 
                 if let isDuplicate = state.isDuplicate {
-                    text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
+                    text = isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
                 } else {
                     text = " "
@@ -267,5 +286,11 @@ extension EditProfileViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension EditProfileViewController {
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.goBackToMypage()
     }
 }

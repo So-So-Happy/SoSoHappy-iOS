@@ -33,6 +33,10 @@ class AccountManagementViewController: UIViewController {
         $0.setTitleColor(.systemRed, for: .normal)
         $0.titleLabel?.font = UIFont.customFont(size: 16, weight: .medium)
     }
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
     
     // MARK: - Init
     public init(reactor: AccountManagementViewReactor, coordinator: MyPageCoordinatorProtocol) {
@@ -88,6 +92,13 @@ extension AccountManagementViewController: View {
             .map { Reactor.Action.tapResignButton }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.goBackToMypage()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: bind state (Reactor의 상태를 바탕으로 로딩 상태 및 다른 UI 업데이트)
@@ -134,10 +145,12 @@ extension AccountManagementViewController {
     private func setup() {
         setAttribute()
         setLayout()
+        addSwipeGesture()
     }
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
     private func setLayout() {
@@ -150,5 +163,15 @@ extension AccountManagementViewController {
             make.leading.equalToSuperview().inset(30)
             make.top.equalTo(self.view.safeAreaLayoutGuide).inset(20)
         }
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.goBackToMypage()
     }
 }

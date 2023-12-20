@@ -76,4 +76,3 @@ extension HappyListCoordinator: CoordinatorFinishDelegate {
         childDidFinish(childCoordinator, parent: self)
     }
 }
-
