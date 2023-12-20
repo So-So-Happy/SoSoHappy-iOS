@@ -19,8 +19,6 @@ final class SetWeatherHappinessViewController: UIViewController {
     private weak var coordinator: MyFeedDetailCoordinatorInterface?
 
     // MARK: - UI Components
-    private lazy var statusBarStackView = StatusBarStackView(step: 1)
-    
     private lazy var introLabel = UILabel().then {
         $0.text = "소소한 행복을 기록해주세요"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
@@ -42,14 +40,14 @@ final class SetWeatherHappinessViewController: UIViewController {
     private lazy var weatherStackView = WeatherStackView()
     
     private lazy var happinessLabel = UILabel().then {
-        $0.text = "OO님, 오늘 얼마나 행복하셨나요?"
+        let nickName = KeychainService.getNickName()
+        $0.text = "\(nickName)님, 오늘 얼마나 행복하셨나요?"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var happinessStackView = HappinessStackView()
 
-    
     private lazy var dismissButton = UIButton().then {
         $0.setImage(UIImage(systemName: "xmark"), for: .normal)
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
@@ -85,7 +83,6 @@ extension SetWeatherHappinessViewController {
     }
     
     private func addViews() {
-        self.view.addSubview(statusBarStackView)
         self.view.addSubview(weatherLabel)
         self.view.addSubview(weatherStackView)
         self.view.addSubview(happinessLabel)
@@ -93,14 +90,9 @@ extension SetWeatherHappinessViewController {
     }
     
     private func setConstraints() {
-        statusBarStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-        }
-        
         weatherLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStackView.snp.bottom).offset(120)
+            make.top.equalToSuperview().offset(150)
         }
         
         weatherStackView.snp.makeConstraints { make in

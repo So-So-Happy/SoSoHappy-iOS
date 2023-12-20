@@ -12,7 +12,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-
 // MARK: 그때 24개로 하기로 해서 카테고리 중에서 1개 빼야할 것 같음
 final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
     // MARK: - Properties
@@ -20,10 +19,8 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
     private weak var coordinator: MyFeedDetailCoordinatorInterface?
 
     // MARK: - UI Components
-    private lazy var statusBarStackView = StatusBarStackView(step: 2)
-    
     private lazy var categoryIntoLabel = UILabel().then {
-        $0.text = "오늘 당신을 행복하게 해준 것은?"
+        $0.text = "당신을 행복하게 해준 것은?"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
@@ -38,6 +35,11 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
         $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.cellIdentifier)
         $0.backgroundColor = .clear
         $0.allowsMultipleSelection = true
+    }
+    
+    private lazy var saveButton = UIButton().then {
+        $0.setTitle("저장", for: .normal)
+        $0.titleLabel?.font = UIFont.customFont(size: 16, weight: .bold)
     }
     
     override func viewDidLoad() {
@@ -69,21 +71,17 @@ extension SetCategoryViewController {
     }
     
     private func addViews() {
-        self.view.addSubview(statusBarStackView)
         self.view.addSubview(categoryIntoLabel)
         self.view.addSubview(categorySelectionCautionLabel)
         self.view.addSubview(categoryCollectionView)
+        self.view.addSubview(saveButton)
     }
     
     private func setConstraints() {
-        statusBarStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-        }
         
         categoryIntoLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStackView.snp.bottom).offset(40)
+            make.top.equalToSuperview().offset(80)
         }
         
         categorySelectionCautionLabel.snp.makeConstraints { make in
@@ -96,6 +94,12 @@ extension SetCategoryViewController {
             make.top.equalTo(categorySelectionCautionLabel.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(28)
             make.bottom.equalToSuperview().inset(40)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.width.height.equalTo(50)
+            $0.top.equalToSuperview().inset(30)
+            $0.trailing.equalToSuperview().inset(40)
         }
         
     }
@@ -187,6 +191,3 @@ extension SetCategoryViewController {
     }
 
 }
-
-
-

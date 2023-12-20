@@ -27,7 +27,6 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     private var selectedImages: [UIImage] = []
     
     // MARK: - UI Components
-    private lazy var statusBarStackView = StatusBarStackView(step: 3)
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
@@ -96,14 +95,8 @@ extension MyFeedDetailViewController {
     }
     
     private func setLayoutForAddStep3() {
-        self.contentView.addSubview(statusBarStackView)
         self.contentView.addSubview(textCountLabel)
         textView.addSubview(placeholderLabel)
-        
-        statusBarStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-        }
         
         categoryStackView.snp.updateConstraints { make in
             make.top.equalToSuperview().offset(80)
