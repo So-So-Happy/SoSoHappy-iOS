@@ -312,6 +312,21 @@ extension MyFeedDetailViewController: View {
             })
             .disposed(by: disposeBag)
         
+        
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     func setGestureRecognizer() {
