@@ -113,6 +113,11 @@ extension ChartViewController: View {
         
         self.nextButton.rx.tap
             .map { Reactor.Action.tapNextButton }
+            .filter { [weak self] _ in
+                guard let self = self else { return false }
+                let nowDate = Date().getFormattedYM2()
+                return nowDate != reactor.currentState.monthYearText
+            }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
