@@ -194,6 +194,21 @@ extension ChartViewController: View {
                 self.chartView.setChart(data)
             }
             .disposed(by: disposeBag)
+        
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
+            }
+            .disposed(by: disposeBag)
+        
     }
     
 }
