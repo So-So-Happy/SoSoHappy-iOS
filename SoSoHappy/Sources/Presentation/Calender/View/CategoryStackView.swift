@@ -41,7 +41,6 @@ final class CategoryStackView: UIView {
 
 extension CategoryStackView {
     func addImageViews(images: [String], imageSize: CGFloat = 30) {
-        print("CategoryStackView - addImageViews : \(images)")
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         let images = images.map { imageName in

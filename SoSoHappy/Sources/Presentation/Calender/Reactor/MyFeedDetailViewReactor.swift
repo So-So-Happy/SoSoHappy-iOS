@@ -206,7 +206,7 @@ final class MyFeedDetailViewReactor: Reactor {
             newState.isPrivate = isPrivate
             
         case let .saveFeed(isSuccess):
-            newState.isSaveFeedSuccess = isSuccess ? .saved : .networkError
+            newState.isSaveFeedSuccess = isSuccess ? .saved : .notSaved
         }
         return newState
     }

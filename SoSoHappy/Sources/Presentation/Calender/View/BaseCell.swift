@@ -52,7 +52,6 @@ class BaseCell: UITableViewCell {
     }
     
     func setFeedCell(_ feed: FeedType) {
-        print("BaseCell setFeedCell()")
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 45)
         contentLabel.text = feed.text

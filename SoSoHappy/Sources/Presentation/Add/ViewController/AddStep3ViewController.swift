@@ -330,7 +330,7 @@ extension AddStep3ViewController: View {
             .bind(onNext: {[weak self]  showServerErrorAlert in
                 guard let self = self else { return }
                 if showServerErrorAlert {
-                    let alert = CustomAlert.makeAlertContorller()
+                    let alert = CustomAlert.makeAlertController()
                     self.present(alert, animated: true)
                 }
             })

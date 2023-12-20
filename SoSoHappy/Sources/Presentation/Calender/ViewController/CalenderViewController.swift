@@ -15,7 +15,6 @@ import RxSwift
 import Moya
 import Network
 
-
 final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
@@ -117,7 +116,6 @@ extension CalendarViewController: View {
     }
     
     func bindAction(_ reactor: CalendarViewReactor) {
-        // viewDidLoad: month, day data fetch, monthText, yearText
         self.rx.viewWillAppear
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
@@ -167,7 +165,6 @@ extension CalendarViewController: View {
         reactor.state
             .map { $0.month }
             .asDriver(onErrorJustReturn: "")
-            .distinctUntilChanged()
             .drive(self.monthLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -225,7 +222,6 @@ extension CalendarViewController: View {
                 self?.coordinator.pushListView(date: reactor.currentState.currentPage)
             }
             .disposed(by: disposeBag)
-        
         reactor.pulse(\.$presentDetailView)
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: ())
@@ -234,13 +230,6 @@ extension CalendarViewController: View {
             }
             .disposed(by: disposeBag)
         
-        reactor.state
-            .compactMap { $0.likedFeed }
-            .subscribe { [weak self] likedFeed in
-                print("🐵 gets called")
-                self?.coordinator.pushDetailView(feed: likedFeed)
-            }
-            .disposed(by: disposeBag)
     }
 }
 
