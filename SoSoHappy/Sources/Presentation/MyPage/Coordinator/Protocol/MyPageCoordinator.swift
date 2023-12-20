@@ -58,12 +58,12 @@ extension MyPageCoordinator: MyPageCoordinatorProtocol {
     
     func pushToSView() {
         let viewController = makeToSViewController()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController.present(viewController, animated: true)
     }
     
     func pushPrivatePolicyView() {
         let viewController = makePrivatePolicyViewController()
-        navigationController.pushViewController(viewController, animated: true)
+        navigationController.present(viewController, animated: true)
     }
     
     func pushAccountManagementView() {

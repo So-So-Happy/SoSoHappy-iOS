@@ -267,5 +267,12 @@ extension SignUpViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        selfIntroductionSection.addKeyboardToolBar.keyboardDownBarButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                selfIntroductionSection.checkIsTextViewFirstResponder()
+            })
+            .disposed(by: disposeBag)
     }
 }

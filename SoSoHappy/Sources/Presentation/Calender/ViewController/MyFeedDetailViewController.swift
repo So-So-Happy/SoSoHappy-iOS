@@ -100,7 +100,7 @@ extension MyFeedDetailViewController {
         textView.addSubview(placeholderLabel)
         
         categoryStackView.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(80)
+            make.top.equalToSuperview().offset(70)
         }
         
         imageSlideView.snp.makeConstraints { make in
@@ -211,7 +211,7 @@ extension MyFeedDetailViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] happyAndCategory in
                 guard let self = self else { return }
-                categoryStackView.addImageViews(images: happyAndCategory, imageSize: 62)
+                categoryStackView.addImageViews(images: happyAndCategory, imageSize: 55)
                 categoryStackView.layoutIfNeeded()
                 self.setGestureRecognizer()
             }
