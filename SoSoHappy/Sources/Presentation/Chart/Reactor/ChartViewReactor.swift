@@ -10,7 +10,7 @@ import ReactorKit
 import RxSwift
 import Moya
 
-final class ChartViewReactor: Reactor {
+final class ChartViewReactor: BaseReactor, Reactor {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
@@ -68,6 +68,8 @@ final class ChartViewReactor: Reactor {
         case showNextRecommend
         case setMonthYearText(String)
         case setSegementBarState(ChartState)
+        case showNetworkErrorView(Error)
+        case showServerErrorAlert(Error)
     }
 
     struct State {
@@ -85,12 +87,16 @@ final class ChartViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
+        if !Connectivity.isConnectedToInternet() {
+            return .just(.showNetworkErrorView(BaseError.networkConnectionError))
+        }
         switch action {
         case .viewDidLoad:
             return .concat([
                 .just(.setMonthYearText(date.getFormattedYM2())),
                 feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                    .map { Mutation.fetchAnalysisHappiness($0) },
+                    .map { Mutation.fetchAnalysisHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    },
                 .just(.showNextRecommend),
                 feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                     .map { Mutation.fetchHappiness($0) }
@@ -108,12 +114,15 @@ final class ChartViewReactor: Reactor {
                     .just(.setSegementBarState(.year)),
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
+                        .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        }
                 ])
             } else {
                 return .concat([
                     .just(.setSegementBarState(.month)),
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                        .map { Mutation.fetchHappiness($0) }
+                        .map { Mutation.fetchHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        }
                 ])
             }
         case .tapNextButton:
@@ -123,7 +132,8 @@ final class ChartViewReactor: Reactor {
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                        .map { Mutation.fetchAnalysisHappiness($0) },
+                        .map { Mutation.fetchAnalysisHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        },
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -131,7 +141,8 @@ final class ChartViewReactor: Reactor {
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                        .map { Mutation.fetchAnalysisHappiness($0) },
+                        .map { Mutation.fetchAnalysisHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        },
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -143,7 +154,8 @@ final class ChartViewReactor: Reactor {
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                        .map { Mutation.fetchAnalysisHappiness($0) },
+                        .map { Mutation.fetchAnalysisHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        },
                     feedRepository.findYearHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -151,7 +163,8 @@ final class ChartViewReactor: Reactor {
                 return .concat([
                     .just(.setMonthYearText(date.getFormattedYM2())),
                     feedRepository.analysisHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
-                        .map { Mutation.fetchAnalysisHappiness($0) },
+                        .map { Mutation.fetchAnalysisHappiness($0) } .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                        },
                     feedRepository.findMonthHappiness(request: HappinessRequest(nickname: nickName, date: date.getFormattedYMDH()))
                         .map { Mutation.fetchHappiness($0) }
                 ])
@@ -180,6 +193,10 @@ final class ChartViewReactor: Reactor {
         case .setSegementBarState(let state):
             newState.segementBarState = state
             self.segementBarState = state
+        case .showNetworkErrorView(let error):
+            self.showNetworkErrorViewPublisher.accept(error)
+        case .showServerErrorAlert(let error):
+            self.showErrorAlertPublisher.accept(error)
         }
         
         return newState

@@ -19,8 +19,6 @@ final class SetWeatherHappinessViewController: UIViewController {
     private weak var coordinator: MyFeedDetailCoordinatorInterface?
 
     // MARK: - UI Components
-    private lazy var statusBarStackView = StatusBarStackView(step: 1)
-    
     private lazy var introLabel = UILabel().then {
         $0.text = "소소한 행복을 기록해주세요"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
@@ -42,18 +40,25 @@ final class SetWeatherHappinessViewController: UIViewController {
     private lazy var weatherStackView = WeatherStackView()
     
     private lazy var happinessLabel = UILabel().then {
-        $0.text = "OO님, 오늘 얼마나 행복하셨나요?"
+        let nickName = KeychainService.getNickName()
+        $0.text = "\(nickName)님, 오늘 얼마나 행복하셨나요?"
         $0.textColor = UIColor(named: "DarkGrayTextColor")
         $0.font = UIFont.customFont(size: 16, weight: .medium)
     }
     
     private lazy var happinessStackView = HappinessStackView()
 
-    
     private lazy var dismissButton = UIButton().then {
         $0.setImage(UIImage(systemName: "xmark"), for: .normal)
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
+    
+    private lazy var saveButton = UIButton().then {
+        $0.setTitle("저장", for: .normal)
+        $0.titleLabel?.font = UIFont.customFont(size: 16, weight: .bold)
+        $0.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,22 +90,17 @@ extension SetWeatherHappinessViewController {
     }
     
     private func addViews() {
-        self.view.addSubview(statusBarStackView)
         self.view.addSubview(weatherLabel)
         self.view.addSubview(weatherStackView)
         self.view.addSubview(happinessLabel)
         self.view.addSubview(happinessStackView)
+        self.view.addSubview(saveButton)
     }
     
     private func setConstraints() {
-        statusBarStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide)
-        }
-        
         weatherLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(statusBarStackView.snp.bottom).offset(120)
+            make.top.equalToSuperview().offset(150)
         }
         
         weatherStackView.snp.makeConstraints { make in
@@ -118,6 +118,12 @@ extension SetWeatherHappinessViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(happinessLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(32)
+        }
+        
+        saveButton.snp.makeConstraints {
+            $0.width.height.equalTo(50)
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(12)
         }
         
     }
@@ -142,13 +148,12 @@ extension SetWeatherHappinessViewController: View {
             .map { Reactor.Action.happinessButtonTapped($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
-        dismissButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
+         
+        saveButton.rx.tap
+            .subscribe { [weak self] _ in
                 guard let self = self else { return }
                 coordinator?.dismiss()
-            })
-            .disposed(by: disposeBag)
+            }.disposed(by: disposeBag)
         
         reactor.state
             .skip(1)
@@ -170,5 +175,4 @@ extension SetWeatherHappinessViewController: View {
         
     }
 }
-
 

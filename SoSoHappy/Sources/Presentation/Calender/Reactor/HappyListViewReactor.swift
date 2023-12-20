@@ -1,22 +1,14 @@
-//
-//  HappyListViewReactor.swift
-//  SoSoHappy
-//
-//  Created by Sue on 2023/09/21.
-//
 
 import ReactorKit
 
-class HappyListViewReactor: Reactor {
-    
-    
+class HappyListViewReactor: BaseReactor, Reactor {
+     
     //MARK: - Properties
     let initialState: State
     
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
     private var currentPage: Date
-    
     
     // MARK: - Init
     init (feedRepository: FeedRepositoryProtocol,
@@ -46,8 +38,10 @@ class HappyListViewReactor: Reactor {
     // MARK: - Mutation
     enum Mutation {
         case setFeedList([MyFeed])
-        case setDate(Date) // ex) 2023.10
+        case setDate(Date)
         case presentDetailView(String)
+        case showNetworkErrorView(Error)
+        case showServerErrorAlert(Error)
     }
     
     // MARK: - State
@@ -58,35 +52,19 @@ class HappyListViewReactor: Reactor {
         var detailViewDate: String
     }
     
-    var forTest: [FeedTemp] = [
-        FeedTemp(profileImage: UIImage(named: "profile")!,
-                                profileNickName: "구름이", time: "10분 전",
-                                isLike: true, weather: "sunny",
-                                feedDate: "2023.09.18 월요일",
-                                categories: ["sohappy", "coffe", "donut"],
-                                content: "오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다.오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다오늘은 카페에 가서 맛있는 커피랑 배아굴울 먹었다. 잠깐이지만 마음 편하게 쉰 것 같아서 행복했다",
-                                images: [UIImage(named: "bagel")!]
-                                ),
-        FeedTemp(profileImage: UIImage(named: "cafe")!,
-                                profileNickName: "날씨조아", time: "15분 전",
-                                isLike: false, weather: "rainy",
-                                feedDate: "2023.09.07 목요일",
-                                categories: ["sohappy", "coffe", "coffe"],
-                                content: "오호라 잘 나타나는구만",
-                                images: []
-                                )
-    ]
-    
-    //[UIImage(named: "cafe")!, UIImage(named: "churros")!]
     func mutate(action: Action) -> Observable<Mutation> {
-        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+        if !Connectivity.isConnectedToInternet() {
+            return .just(.showNetworkErrorView(BaseError.networkConnectionError))
+        }
+        let nickName = KeychainService.getNickName()
         switch action {
         case .viewDidLoad:
             return .concat([
                 .just(.setDate(currentPage)),
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    }
             ])
         case .tapNextButton:
             self.currentPage = currentPage.moveToNextMonth()
@@ -94,6 +72,8 @@ class HappyListViewReactor: Reactor {
                 .just(.setDate(currentPage)),
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    }
             ])
         case .tapPreviousButton:
             self.currentPage = currentPage.moveToPreviousMonth()
@@ -101,6 +81,8 @@ class HappyListViewReactor: Reactor {
                 .just(.setDate(currentPage)),
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: currentPage.getFormattedYMDH(), nickName: nickName))
                     .map { Mutation.setFeedList($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    }
             ])
         case .tapHappyListCell(let date):
             return .just(.presentDetailView(date))
@@ -117,6 +99,10 @@ class HappyListViewReactor: Reactor {
             newState.date = date.getFormattedYM()
         case .presentDetailView(let date):
             newState.detailViewDate = date
+        case .showNetworkErrorView(let error):
+            self.showNetworkErrorViewPublisher.accept(error)
+        case .showServerErrorAlert(let error):
+            self.showErrorAlertPublisher.accept(error)
         }
         
         return newState

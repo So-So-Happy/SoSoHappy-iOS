@@ -8,7 +8,7 @@
 import ReactorKit
 import Foundation
 
-final class MyFeedDetailViewReactor: Reactor {
+final class MyFeedDetailViewReactor: BaseReactor, Reactor {
     
     private let feedRepository: FeedRepositoryProtocol
     
@@ -25,6 +25,7 @@ final class MyFeedDetailViewReactor: Reactor {
     ]
     
     let maximumSelectionCount = 3
+    let minimumSelectionCount = 1
     var initialCategories: [String] = []
      
     enum Action {
@@ -59,6 +60,8 @@ final class MyFeedDetailViewReactor: Reactor {
         case setSelectedImages([UIImage])
         case isPrivate(Bool)
         case saveFeed(Bool)
+        case showNetworkErrorView(Error)
+        case showServerErrorAlert(Error)
     }
     
     struct State {
@@ -84,6 +87,9 @@ final class MyFeedDetailViewReactor: Reactor {
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
+        if !Connectivity.isConnectedToInternet() {
+            return .just(.showNetworkErrorView(BaseError.networkConnectionError))
+        }
         switch action {
         case .viewWillAppear(let feed):
             self.initialCategories = feed.categoryList
@@ -95,7 +101,9 @@ final class MyFeedDetailViewReactor: Reactor {
                 .just(.setImageStackView),
                 .just(.setContent(feed.text)),
                 feedRepository.getFeedImages(ids: feed.imageIdList)
-                    .map { .setInitialImages($0) },
+                    .map { .setInitialImages($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    },
                 .just(.isPrivate(feed.isPulic))
             ])
         case let .weatherButtonTapped(tag):
@@ -148,6 +156,8 @@ final class MyFeedDetailViewReactor: Reactor {
                 nickname: KeychainService.getNickName())
             return feedRepository.saveFeed(request: saveFeedRequest)
                 .map { Mutation.saveFeed($0) }
+                .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                }
         case .setWeatherAndHappy:
             return .concat([
                 .just(.setSelectedHappiness(currentState.selectedHappiness ?? 0)),
@@ -207,6 +217,13 @@ final class MyFeedDetailViewReactor: Reactor {
             
         case let .saveFeed(isSuccess):
             newState.isSaveFeedSuccess = isSuccess ? .saved : .notSaved
+            
+        case .showNetworkErrorView(let error):
+            self.showNetworkErrorViewPublisher.accept(error)
+            
+        case .showServerErrorAlert(let error):
+            self.showErrorAlertPublisher.accept(error)
+            
         }
         return newState
     }
@@ -217,7 +234,7 @@ extension MyFeedDetailViewReactor {
     private func setSelectedCategory(_ category: String) -> Observable<Mutation> {
         var selectedCategories = currentState.selectedCategories
         selectedCategories.append(category)
-
+        print("selectedCategoies: \(selectedCategories)")
         return Observable.just(.selectedCategories(selectedCategories))
     }
     
@@ -226,12 +243,12 @@ extension MyFeedDetailViewReactor {
         var selectedCategories = currentState.selectedCategories
         if let index = selectedCategories.firstIndex(of: category) {
             selectedCategories.remove(at: index)
+            print("selectedCategoies: \(selectedCategories)")
         }
         
         return Observable.just(.selectedCategories(selectedCategories))
     }
 }
-
 
 extension MyFeedDetailViewReactor {
     
