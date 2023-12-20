@@ -60,8 +60,8 @@ extension MyFeed: Equatable {
 extension MyFeed {
     var happyImage: String {
         switch happiness {
-        case 1 : return "happy1"
-        case 2 : return "happy2"
+        case 1: return "happy1"
+        case 2: return "happy2"
         case 3: return "happy3"
         case 4: return "happy4"
         default: return "happy5"

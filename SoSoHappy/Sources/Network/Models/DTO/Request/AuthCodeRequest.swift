@@ -10,4 +10,3 @@ import Foundation
 struct AuthCodeRequest: Codable {
     let codeChallenge: String
 }
-

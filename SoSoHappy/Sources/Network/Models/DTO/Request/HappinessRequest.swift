@@ -11,7 +11,7 @@ struct HappinessRequest: Codable, Requestable {
     let nickname: String
     let date: Int64
     
-    var params: [String : Any] {
+    var params: [String: Any] {
         return [
             "nickname": self.nickname,
             "date": self.date
