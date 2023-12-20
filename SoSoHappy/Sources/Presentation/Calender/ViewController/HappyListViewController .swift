@@ -196,14 +196,14 @@ extension HappyListViewController: View {
         reactor.showErrorAlertPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentErrorAlertWithoutDescription()
+                CustomAlert.presentInternarServerAlert()
             }
             .disposed(by: disposeBag)
         
         reactor.showNetworkErrorViewPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentInternarServerAlert()
+                CustomAlert.presentErrorAlertWithoutDescription()
             }
             .disposed(by: disposeBag)
     }
