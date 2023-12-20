@@ -215,7 +215,6 @@ extension FeedViewController: View {
         reactor.state
             .compactMap { $0.showNetworkErrorView }
             .distinctUntilChanged()
-            .debug()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
                 if showNetworkErrorView {
