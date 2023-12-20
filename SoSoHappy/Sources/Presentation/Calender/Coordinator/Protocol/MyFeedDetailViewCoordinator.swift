@@ -68,7 +68,6 @@ extension MyFeedDetailCoordinator {
     
     func dismiss() {
         self.navigationController.dismiss(animated: false)
-        self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
     
     func finished() {

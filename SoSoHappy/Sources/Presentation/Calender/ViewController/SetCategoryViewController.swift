@@ -40,6 +40,7 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
     private lazy var saveButton = UIButton().then {
         $0.setTitle("저장", for: .normal)
         $0.titleLabel?.font = UIFont.customFont(size: 16, weight: .bold)
+        $0.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
     }
     
     override func viewDidLoad() {
@@ -98,8 +99,8 @@ extension SetCategoryViewController {
         
         saveButton.snp.makeConstraints {
             $0.width.height.equalTo(50)
-            $0.top.equalToSuperview().inset(30)
-            $0.trailing.equalToSuperview().inset(40)
+            $0.top.equalToSuperview().inset(12)
+            $0.trailing.equalToSuperview().inset(12)
         }
         
     }
@@ -161,6 +162,12 @@ extension SetCategoryViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        saveButton.rx.tap
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.dismiss()
+            }.disposed(by: disposeBag)
+        
     }
 }
 
@@ -179,6 +186,15 @@ extension SetCategoryViewController {
         }
         print("activated2 - true")
         print("~~~")
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+
+        if let indexPathsForSelectedItems = collectionView.indexPathsForSelectedItems, let reactor = reactor {
+            return indexPathsForSelectedItems.count > reactor.minimumSelectionCount
+        }
+        
         return true
     }
     
