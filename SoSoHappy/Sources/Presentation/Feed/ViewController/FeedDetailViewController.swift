@@ -142,42 +142,55 @@ extension FeedDetailViewController: View {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        // 1. reactor 넣어주면서 - 1번
+        // 2. (와이파이 연결되어 있다는 가정 하에) showNetWorkErrorView - false로 설정하면서 - 1번
+        // 3 - 1. (잘 fetch) skip(2)하고 가져온게 최신 - 1번
+        // 3 - 2. (서버 에러 나면) true했다가 false하기 때문에 - 2번
         reactor.state
             .skip(2) // 첫 2개 제거
-            .compactMap { $0.userFeed }
+            .map { $0.userFeed }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                if let showNetworkErrorView = reactor.currentState.showNetworkErrorView,  !showNetworkErrorView {
-                    setFeed(feed: userFeed)
+                print("FeedDetailViewController userFeed 들어옴, userFeed : \(userFeed)")
+                guard let userFeed = userFeed else {
+                    // 피드가 삭제된 경우
+                    exceptionView.isHidden = false
+                    exceptionView.titleLabel.text = "피드가 삭제되었습니다."
                     networkNotConnectedView.isHidden = true
-                    exceptionView.isHidden = true
+                    return
                 }
                 
+                setFeed(feed: userFeed)
+               
             })
             .disposed(by: disposeBag)
         
+        // 네트워크 에러 나면 무조건 exceptionview는 hidden, networkNotConnectedView 보여주기
         reactor.state
             .compactMap { $0.showNetworkErrorView }
-            .distinctUntilChanged()
-            .debug()
+//            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
+                print("FeedDetailViewController 와이파이 연결 X : \(showNetworkErrorView)")
                 if showNetworkErrorView {
                     exceptionView.isHidden = true
                     networkNotConnectedView.isHidden = false
+                } else {
+                    networkNotConnectedView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
         
+        // 서버 오류나면 exceptionView를 보여주고 networkConnectedView는 가려주고
         reactor.state
             .compactMap { $0.showServerErrorAlert }
             .distinctUntilChanged()
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
+                print("서버오류 \(showServerErrorAlert)")
                 if showServerErrorAlert {
+                    exceptionView.titleLabel.text = "서버로부터 피드를 불러오지 못했습니다.\n\n 지속적으로 발생할 경우 문의해주세요."
                     exceptionView.isHidden = false
-                    exceptionView.titleLabel.text = ""
-                    networkNotConnectedView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
