@@ -11,13 +11,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-/*
- Delegate Proxy
- 1. delegate를 사용하는 부분을 RxSwift로 표현할 수 있도록 한 것
- */
-
-
-/// UIImagePickerControllerDelagate  - delegate 등록 필요
 open class RxImagePickerDelegateProxy
     : RxNavigationControllerDelegateProxy, UIImagePickerControllerDelegate {
 

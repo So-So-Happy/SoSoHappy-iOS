@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 
-
 final class ExceptionView: UIView {
     lazy var titleLabel = UILabel()
     

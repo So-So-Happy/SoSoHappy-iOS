@@ -94,7 +94,7 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
         }
     }
     
-    /// findDetailFeed: 디테일 피드 데이터 fetch
+    /// findDetailFeed: 디테일 피드 데이터 fetch (삭제된 경우 200 nil로 내려옴)
     func findDetailFeed(request: FindDetailFeedRequest) -> Observable<UserFeed?> {
         return Observable.create { emitter in
             let provider = self.accessProvider()
@@ -124,7 +124,6 @@ final class FeedRepository: FeedRepositoryProtocol, Networkable {
         return Observable.create { emitter in
             let provider = self.accessProvider()
             let disposable = provider.rx.request(.findOtherFeed(request))
-                .debug()
                 .map(FindOtherFeedResponse.self)
                 .map { ($0.content.map { $0.toDomain() }, $0.isLast) }
                 .asObservable()

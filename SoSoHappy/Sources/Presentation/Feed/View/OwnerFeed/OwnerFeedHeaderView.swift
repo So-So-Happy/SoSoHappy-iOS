@@ -38,7 +38,6 @@ class OwnerFeedHeaderView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("OwnerHeaderView init")
         setup()
     }
     

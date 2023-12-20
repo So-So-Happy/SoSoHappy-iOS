@@ -11,7 +11,6 @@ import RxCocoa
 import Moya
 import Alamofire
 
-
 final class UserRepository: UserRepositoryProtocol, Networkable {
     
     // MARK: - Target
@@ -138,10 +137,8 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("response: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()

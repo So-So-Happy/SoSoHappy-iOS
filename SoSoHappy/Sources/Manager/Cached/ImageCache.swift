@@ -7,11 +7,10 @@
 
 import UIKit
 
+// MARK: 닉네임(key) 프로필 이미지(value) 캐시
 final class ImageCache {
-    // typealias 별칭
-    typealias CacheType = Cache<String, UIImage> // 닉네임, 프로필 이미지
+    typealias CacheType = Cache<String, UIImage>
     
-    // singleton - keep alive for the app's existence regarding the ui rendering
     static let shared = ImageCache()
     var cache: CacheType = CacheType()
     

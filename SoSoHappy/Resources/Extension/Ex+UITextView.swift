@@ -20,18 +20,3 @@ extension UITextView {
         self.font = UIFont.systemFont(ofSize: fontSize, weight: .thin)
     }
 }
-
-/*
- let style = NSMutableParagraphStyle()
- let fontSize: CGFloat = 16
- let lineheight = fontSize * 1.6  //font size * multiple
- style.minimumLineHeight = lineheight
- style.maximumLineHeight = lineheight
-
- textView.attributedText = NSAttributedString(
-     string: feed.content,
-     attributes: [
-     .paragraphStyle: style
-   ])
- textView.font = .systemFont(ofSize: fontSize, weight: .thin)
- */

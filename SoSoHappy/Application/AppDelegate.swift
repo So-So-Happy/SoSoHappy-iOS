@@ -38,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         
         if let notification = launchOptions?[.remoteNotification] as? [String:AnyObject] {
-            print("notification", notification)
         }
 
         // MARK: Messaging Delegate
@@ -66,7 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: FCM 토큰이 등록 되었을 때 - apnsToken이랑 연결
     func application(_ application: UIApplication,
                         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("apnToken", Messaging.messaging().apnsToken!)
         Messaging.messaging().apnsToken = deviceToken
        }
     

@@ -73,6 +73,10 @@ extension AddStep2ViewController {
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
     
     private func addViews() {
@@ -200,5 +204,9 @@ extension AddStep2ViewController {
         }
         
         return true
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.navigateBack()
     }
 }

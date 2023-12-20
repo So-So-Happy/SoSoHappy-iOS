@@ -39,6 +39,7 @@ final class FeedDetailViewController: BaseDetailViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setLayoutForDetail()
+        addSwipeGesture()
     }
     
     init(reactor: FeedReactor, coordinator: FeedDetailCoordinatorInterface) {
@@ -94,6 +95,12 @@ extension FeedDetailViewController {
             make.height.equalTo(0)
         }
     }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
+    }
 }
 
 //MARK: - bind func
@@ -136,28 +143,33 @@ extension FeedDetailViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .skip(2) // 첫 2개 제거
-            .compactMap { $0.userFeed }
+            .skip(2)
+            .map { $0.userFeed }
             .subscribe(onNext: { [weak self] userFeed in
                 guard let self = self else { return }
-                if let showNetworkErrorView = reactor.currentState.showNetworkErrorView,  !showNetworkErrorView {
-                    setFeed(feed: userFeed)
+                
+                guard let userFeed = userFeed else {
+                    exceptionView.isHidden = false
+                    exceptionView.titleLabel.text = "피드가 삭제되었습니다."
                     networkNotConnectedView.isHidden = true
-                    exceptionView.isHidden = true
+                    return
                 }
                 
+                setFeed(feed: userFeed)
+               
             })
             .disposed(by: disposeBag)
         
         reactor.state
             .compactMap { $0.showNetworkErrorView }
-            .distinctUntilChanged()
-            .debug()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
+                
                 if showNetworkErrorView {
                     exceptionView.isHidden = true
                     networkNotConnectedView.isHidden = false
+                } else {
+                    networkNotConnectedView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
@@ -168,11 +180,16 @@ extension FeedDetailViewController: View {
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
                 if showServerErrorAlert {
+                    exceptionView.titleLabel.text = "서버로부터 피드를 불러오지 못했습니다.\n\n 지속적으로 발생할 경우 문의해주세요."
                     exceptionView.isHidden = false
-                    exceptionView.titleLabel.text = ""
-                    networkNotConnectedView.isHidden = true
                 }
             })
             .disposed(by: disposeBag)
+    }
+}
+
+extension FeedDetailViewController {
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.dismiss()
     }
 }

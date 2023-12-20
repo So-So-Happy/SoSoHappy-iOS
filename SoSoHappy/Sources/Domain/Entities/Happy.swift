@@ -16,8 +16,8 @@ struct Happy {
 extension Happy {
     var charactor: String {
         switch happinessRate {
-        case 20 : return "happy1"
-        case 40 : return "happy2"
+        case 20: return "happy1"
+        case 40: return "happy2"
         default: return "happy3"
 
         }

@@ -179,7 +179,7 @@ extension SignUpViewController: View {
                 let color: UIColor
                 
                 if let isDuplicate = state.isDuplicate {
-                    text =  isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
+                    text = isDuplicate ? "이미 사용 중인 닉네임이에요." : "멋진 닉네임이네요!"
                     color = isDuplicate ? UIColor.systemRed : UIColor(named: "CustomBlueColor") ?? .systemBlue
                 } else {
                     text = ""

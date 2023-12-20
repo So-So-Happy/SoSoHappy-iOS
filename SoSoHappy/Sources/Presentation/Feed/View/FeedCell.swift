@@ -13,7 +13,6 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-
 final class FeedCell: BaseCell {
     // MARK: - Properties
     let profileImageTapSubject = PublishSubject<String>()

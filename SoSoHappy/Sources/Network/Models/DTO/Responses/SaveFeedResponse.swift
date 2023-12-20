@@ -7,9 +7,7 @@
 
 import Foundation
 
-
 struct SaveFeedResponse: Decodable {
     let success: Bool
     let message: String? // "등록 성공" or null
 }
-

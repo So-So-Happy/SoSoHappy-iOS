@@ -55,6 +55,7 @@ class BaseDetailViewController: UIViewController {
     lazy var imageSlideView = ImageSlideView().then {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
         $0.slideShowView.addGestureRecognizer(tapGesture)
+        $0.layer.cornerRadius = 16
     }
     
     override func viewDidLoad() {
@@ -63,7 +64,6 @@ class BaseDetailViewController: UIViewController {
     }
     
     func setFeed(feed: FeedType) {
-        print("BaseDetailViewController - setFeed: \(feed)")
         let bgName: String = feed.weather + "Bg"
         let image = UIImage(named: bgName)!
         scrollView.backgroundColor = UIColor(patternImage: image)
@@ -79,7 +79,6 @@ class BaseDetailViewController: UIViewController {
         if ids.isEmpty {
             imageSlideView.isHidden = true
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("imageSlideView  updateConstraints 사진 없음")
                 make.height.equalTo(0)
             }
             
@@ -131,7 +130,7 @@ extension BaseDetailViewController {
         
         categoryStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(140)
+            make.top.equalToSuperview().inset(112)
         }
         
         dateLabel.snp.makeConstraints { make in
@@ -140,7 +139,7 @@ extension BaseDetailViewController {
         }
         
         contentBackground.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(20)
+            make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(dateLabel.snp.bottom).offset(26)
         }
                 
@@ -152,7 +151,7 @@ extension BaseDetailViewController {
         // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
         imageSlideView.snp.makeConstraints { make in
             make.top.equalTo(contentBackground.snp.bottom).offset(22)
-            make.horizontalEdges.equalToSuperview().inset(30)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

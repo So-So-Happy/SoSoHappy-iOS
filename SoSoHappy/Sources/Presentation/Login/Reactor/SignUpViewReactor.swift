@@ -92,7 +92,7 @@ class SignUpViewReactor: Reactor {
         case let .isDuplicate(bool):
             newState.isDuplicate = bool
             
-        case let .signUpSuccessed(bool) :
+        case let .signUpSuccessed(bool):
             // 여기에서 가입 성공 여부를 처리하고 필요한 동작 수행 필요
             print("reduce() - .signUpSuccessed")
             // fail 실패했을 때 사용자한테 alert? 이런거 띄워야 할 듯?
@@ -102,5 +102,3 @@ class SignUpViewReactor: Reactor {
         return newState
     }
 }
-
-

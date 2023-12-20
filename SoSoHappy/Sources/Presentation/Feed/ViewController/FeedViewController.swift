@@ -32,7 +32,7 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
         $0.register(FeedCell.self, forCellReuseIdentifier: FeedCell.cellIdentifier)
         $0.refreshControl = self.refreshControl
         $0.tableHeaderView = feedHeaderView
-        $0.tableHeaderView?.frame.size.height = 120   // 고정된 값으로 줘도 됨. 94
+        $0.tableHeaderView?.frame.size.height = 120
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.separatorStyle = .none
         $0.rowHeight = UITableView.automaticDimension
@@ -215,7 +215,6 @@ extension FeedViewController: View {
         reactor.state
             .compactMap { $0.showNetworkErrorView }
             .distinctUntilChanged()
-            .debug()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
                 if showNetworkErrorView {

@@ -26,14 +26,6 @@ struct Content: Codable {
 
 extension Content {
     func toDomain() -> UserFeed {
-//        let uiImageList: [UIImage] = imageList.compactMap { image in
-//            guard let data = Data(base64Encoded: image, options: .ignoreUnknownCharacters),
-//                  let uiImage = UIImage(data: data) else {
-//                return nil
-//            }
-//            return uiImage
-//        }
-        
         return .init(
             nickName: nickname,
             date: String(date),

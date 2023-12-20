@@ -86,10 +86,18 @@ final class OwnerFeedViewController: UIViewController {
 //MARK: - Set Navigation & Add Subviews & Constraints
 extension OwnerFeedViewController {
     private func setup() {
+        setAttributes()
+        setLayout()
+    }
+    
+    private func setAttributes() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: blockButton)
         self.navigationItem.title = ""
-        setLayout()
+        
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
 
     private func setLayout() {
@@ -236,11 +244,11 @@ extension OwnerFeedViewController: View {
             .distinctUntilChanged()
             .subscribe(onNext: { [weak self] showNetworkErrorView in
                 guard let self = self else { return }
-                print("OwnerFeedViewController showNetworkErrorView : \(showNetworkErrorView)")
+                
                 if showNetworkErrorView {
                     loadingView.isHidden = true
                     noFeedExceptionView.isHidden = true
-                    networkNotConnectedView.isHidden = false // 보여주기
+                    networkNotConnectedView.isHidden = false
                 }
             })
             .disposed(by: disposeBag)
@@ -250,7 +258,7 @@ extension OwnerFeedViewController: View {
             .distinctUntilChanged()
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
-                print("++++ OwnerFeedViewController showServerErrorAlert \(showServerErrorAlert)")
+                
                 if showServerErrorAlert {
                     let asyncAfter: Double = reactor.currentAction == .refresh ? 0.7 : 0
                     DispatchQueue.main.asyncAfter(deadline: .now() + asyncAfter) {
@@ -316,5 +324,9 @@ extension OwnerFeedViewController: BlockButtonDelegate {
     func blockButtonDidTap(_ blockButton: BlockButton) {
         CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자의 피드를 볼 수 없습니다.(차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.block)
         }
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.dismiss()
     }
 }

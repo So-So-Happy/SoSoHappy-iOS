@@ -12,5 +12,3 @@ struct UpdatePublicStatusResponse: Codable {
     let message: String
     
 }
-
-

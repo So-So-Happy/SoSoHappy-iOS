@@ -10,5 +10,3 @@ import Foundation
 struct ResignRequest: Codable {
     let email: String
 }
-
-
