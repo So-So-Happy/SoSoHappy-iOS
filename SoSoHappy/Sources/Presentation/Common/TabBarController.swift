@@ -37,7 +37,7 @@ public final class TabBarController: UITabBarController {
     
     class TabBar: UITabBar {
         override func sizeThatFits(_ size: CGSize) -> CGSize {
-            return CGSize(width: UIScreen.main.bounds.width, height: 96)
+            return CGSize(width: UIScreen.main.bounds.width, height: 90)
         }
     }
 }
@@ -62,7 +62,7 @@ extension TabBarController {
     private func setupMiddleButton() {
         // MARK: frame 구체화
         var addButtonFrame = addButton.frame
-        addButtonFrame.origin.y = view.bounds.height - addButtonFrame.height - 47
+        addButtonFrame.origin.y = view.bounds.height - addButtonFrame.height - 40
         addButtonFrame.origin.x = view.bounds.width / 2 - addButtonFrame.size.width / 2
         addButton.frame = addButtonFrame
         addButton.layer.cornerRadius = addButtonFrame.height / 2

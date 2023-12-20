@@ -26,11 +26,10 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     
     func start() {
 
-        let accessToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken") ?? ""
-        let refreshToken = KeychainService.loadData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken") ?? ""
-        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-        let userEmail = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
-        let nickName = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName") ?? ""
+        let accessToken = KeychainService.getAccessToken()
+        let refreshToken = KeychainService.getRefreshToken()
+        let userEmail = KeychainService.getUserEmail()
+        let nickName = KeychainService.getNickName()
         
         if nickName.isEmpty || accessToken.isEmpty {
             showAuthFlow()
@@ -69,7 +68,6 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
 }
 
-
 private extension AppCoordinator {
     func makeAuthCoordinator() -> Coordinator {
         let coordinator = AuthCoordinator(navigationController: navigationController)
@@ -87,7 +85,6 @@ private extension AppCoordinator {
         return coordinator
     }
 }
-
 
 extension AppCoordinator: CoordinatorFinishDelegate {
     func coordinatorDidFinish(childCoordinator: Coordinator) {

@@ -23,7 +23,8 @@ final class AwardsView: UIView {
     private lazy var image2 = UIImageView(image: UIImage(named: "dessert"))
     private lazy var image3 = UIImageView(image: UIImage(named: "trip"))
     private lazy var emptyView = ExceptionView()
-
+    lazy var privateTop3View = PrivateTop3View()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
@@ -43,14 +44,11 @@ private extension AwardsView {
         addSubview(awardsLabel)
         addSubview(awardsImageView)
         addSubviews(image1, image2, image3)
+        addSubview(privateTop3View)
     }
     
     //  MARK: 뷰 구성요소 제약 설정
     private func setConstraints() {
-        addSubview(awardsLabel)
-        addSubview(awardsImageView)
-        addSubviews(image1, image2, image3)
-        
         awardsLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(20)
             $0.top.equalToSuperview()
@@ -81,6 +79,12 @@ private extension AwardsView {
             $0.centerX.equalToSuperview().offset(110)
             $0.bottom.equalTo(awardsImageView.snp.top).offset(61)
         }
+        
+        privateTop3View.snp.makeConstraints {
+            $0.height.equalTo(180)
+            $0.top.equalTo(awardsLabel.snp.bottom).offset(10)
+            $0.horizontalEdges.equalToSuperview().inset(20)
+        }
     }
     
     func setEmptyView() {
@@ -94,7 +98,7 @@ private extension AwardsView {
 extension AwardsView {
     func setAwardsCategories(categories: [String]) {
         if categories.count == 0 { return }
-
+        
         switch categories.count {
         case 1:
             self.image2.image = UIImage(named: "\(categories[0])")
@@ -118,11 +122,9 @@ extension AwardsView {
     }
 }
 
-
 final class PrivateTop3View: UIView {
     // MARK: - UI Components
     lazy var cellBackgroundView = UIView().then {
-//        $0.backgroundColor = UIColor(named: "CellColor")
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 16
     }
@@ -135,8 +137,8 @@ final class PrivateTop3View: UIView {
     
     // 내용 텍스트
     private lazy var contentsLabel = UILabel().then {
-        $0.text = "아직 베스트 소확행 순위가 공개되지 않았어요!🤫"
-        $0.font = UIFont.customFont(size: 17, weight: .medium)
+        $0.text = "아직 베스트 소확행 순위가 공개되지 않았어요!"
+        $0.font = UIFont.customFont(size: 15, weight: .medium)
         $0.numberOfLines = 4
         $0.sizeToFit()
         $0.textColor = UIColor(named: "GrayTextColor")
@@ -153,23 +155,23 @@ final class PrivateTop3View: UIView {
     }
     
     private func setUp() {
-        setCellAttributes()
+        //        setCellAttributes()
         setConstraints()
     }
     
     private func setCellAttributes() {
         backgroundColor = .clear
     }
-
+    
     private func setConstraints() {
         
         addSubview(cellBackgroundView)
         cellBackgroundView.addSubviews(emptyHappyImage, contentsLabel)
         
         cellBackgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
+            $0.edges.equalToSuperview()
         }
-         
+        
         contentsLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(30)
@@ -178,7 +180,6 @@ final class PrivateTop3View: UIView {
         emptyHappyImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(contentsLabel).inset(30)
-            $0.bottom.equalToSuperview().inset(30)
             $0.width.height.equalTo(30)
         }
         

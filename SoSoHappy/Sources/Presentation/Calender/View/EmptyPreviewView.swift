@@ -68,11 +68,9 @@ final class EmptyPreviewView: UIView {
         emptyHappyImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(contentsLabel).inset(30)
-            $0.bottom.equalToSuperview().inset(30)
             $0.width.height.equalTo(23)
         }
         
     }
    
 }
-

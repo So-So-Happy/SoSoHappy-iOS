@@ -233,7 +233,7 @@ extension AddStep3ViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] happyAndCategory in
                 guard let self = self else { return }
-                categoryStackView.addImageViews(images: happyAndCategory, imageSize: 62)
+                categoryStackView.addImageViews(images: happyAndCategory, imageSize: 55)
             }
             .disposed(by: disposeBag)
         

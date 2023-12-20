@@ -205,7 +205,6 @@
 		808650F52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */; };
 		808650F92ADA800C0036CCFB /* ExceptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650F82ADA800C0036CCFB /* ExceptionView.swift */; };
 		808651092ADD3BF50036CCFB /* AddStep3ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */; };
-		8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */; };
 		8086510D2ADD71300036CCFB /* Ex+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510C2ADD71300036CCFB /* Ex+UITextView.swift */; };
 		8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */; };
 		8099CFDE2AF7CE1600A7BFC2 /* SaveFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8099CFDD2AF7CE1600A7BFC2 /* SaveFeedRequest.swift */; };
@@ -469,7 +468,6 @@
 		808650E52AD6CCFE0036CCFB /* FindMonthFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FindMonthFeedResponse.swift; sourceTree = "<group>"; };
 		808650F82ADA800C0036CCFB /* ExceptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExceptionView.swift; sourceTree = "<group>"; };
 		808651082ADD3BF50036CCFB /* AddStep3ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep3ViewController.swift; sourceTree = "<group>"; };
-		8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
 		8086510C2ADD71300036CCFB /* Ex+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UITextView.swift"; sourceTree = "<group>"; };
 		8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBar.swift; sourceTree = "<group>"; };
 		8099CFDD2AF7CE1600A7BFC2 /* SaveFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFeedRequest.swift; sourceTree = "<group>"; };
@@ -1894,7 +1892,6 @@
 				6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */,
 				80AD68B92AC69A8A00DD3D5F /* WeatherStackView.swift in Sources */,
 				0661C9B82A90CDCC0075B5A3 /* SettingStackView.swift in Sources */,
-				8086510B2ADD3C340036CCFB /* BaseDetailViewController.swift in Sources */,
 				06D825EB2AE2D5E300319D1A /* HappyListCoordinator.swift in Sources */,
 				80AD687A2AC1A14700DD3D5F /* BaseError.swift in Sources */,
 				67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */,
