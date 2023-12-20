@@ -533,7 +533,6 @@
 		060DE1972A83CFA100C60392 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				80C0A2EA2AC06E6400107332 /* BaseCell.swift */,
 				060DE1982A83CFE000C60392 /* HappyListCell.swift */,
 				060DE19C2A850A6500C60392 /* CategoryStackView.swift */,
 				06F685EF2A87D6400096EBF3 /* ImageSlideView.swift */,
@@ -631,6 +630,8 @@
 				67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */,
 				802C6C952AB8775B001142B4 /* HappyButton.swift */,
 				67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */,
+				80C0A2EA2AC06E6400107332 /* BaseCell.swift */,
+				8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */,
 				808650F72ADA7F400036CCFB /* ExceptionView */,
 			);
 			path = Common;
@@ -1219,7 +1220,6 @@
 		80380C0D2A98DC330077048D /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */,
 				807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */,
 				80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */,
 				80380C2C2A98DF650077048D /* OwnerFeed */,
