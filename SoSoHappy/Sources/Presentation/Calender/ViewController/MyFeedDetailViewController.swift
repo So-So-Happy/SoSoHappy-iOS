@@ -85,6 +85,7 @@ extension MyFeedDetailViewController {
     private func setup() {
         setAttributes()
         setLayoutForAddStep3()
+        addSwipeGesture()
     }
     
     private func setAttributes() {
@@ -115,6 +116,12 @@ extension MyFeedDetailViewController {
             make.leading.equalToSuperview().offset(5)
             make.top.equalToSuperview().offset(10)
         }
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
 }
 
@@ -340,5 +347,9 @@ extension MyFeedDetailViewController: View {
             let tapGesture = (index == 0) ? happyTapGesture : tapGestureArray[index - 1]
             imageView.addGestureRecognizer(tapGesture)
         }
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.finished()
     }
 }

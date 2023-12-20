@@ -56,6 +56,11 @@ final class HappyListViewController: UIViewController {
         $0.tintColor = UIColor(named: "AccentColor")
     })
     
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
+    
     private lazy var noFeedExceptionView = ExceptionView(
         title: "이달에 등록된 소소해피가 없어요! \n\n ",
         inset: 40
@@ -63,12 +68,12 @@ final class HappyListViewController: UIViewController {
         $0.isHidden = true
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("HappyListViewController viewDidLoad start")
         setLayout()
         initialize()
+        addSwipeGesture()
     }
     
     init(reactor: HappyListViewReactor,
@@ -90,6 +95,7 @@ final class HappyListViewController: UIViewController {
 private extension HappyListViewController  {
     private func setLayout() {
         self.view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
         self.view.addSubviews(happyTableView, noFeedExceptionView, yearMonthLabel, nextButton, previousButton)
         
         self.yearMonthLabel.snp.makeConstraints {
@@ -113,12 +119,17 @@ private extension HappyListViewController  {
             $0.bottom.left.right.equalToSuperview()
             $0.top.equalTo(yearMonthLabel.snp.bottom).offset(10)
         }
-        
+      
         self.noFeedExceptionView.snp.makeConstraints {
             $0.bottom.left.right.equalToSuperview()
             $0.top.equalTo(yearMonthLabel.snp.bottom).offset(10)
         }
-        
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
     }
 }
 
@@ -145,6 +156,13 @@ extension HappyListViewController: View {
         self.previousButton.rx.tap
             .map { Reactor.Action.tapPreviousButton }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator.finished()
+            })
             .disposed(by: disposeBag)
         
         // MARK: State (Reactor -> State) 아웃풋
@@ -232,7 +250,9 @@ extension HappyListViewController {
                     }).disposed(by: self.disposeBag)
                 */
         
-        
     }
     
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator.finished()
+    }
 }

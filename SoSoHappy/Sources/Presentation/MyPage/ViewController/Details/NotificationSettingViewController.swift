@@ -34,6 +34,10 @@ class NotificationSettingViewController: UIViewController {
         $0.textColor = UIColor(named: "DarkGrayTextColor")
     }
     lazy var alarmSwitch = UISwitch()
+    private lazy var backButton = UIButton().then {
+        $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
+    }
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -77,6 +81,13 @@ extension NotificationSettingViewController: View {
             .withLatestFrom(alarmSwitch.rx.value)
             .map { isOn in Reactor.Action.tapSwitch(isOn) }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        backButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                coordinator?.goBackToMypage()
+            })
             .disposed(by: disposeBag)
     }
     
@@ -131,10 +142,12 @@ extension NotificationSettingViewController {
     private func setup() {
         setAttribute()
         setLayout()
+        addSwipeGesture()
     }
     
     private func setAttribute() {
         view.backgroundColor = UIColor(named: "BGgrayColor")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
     }
 
     private func setLayout() {
@@ -149,5 +162,15 @@ extension NotificationSettingViewController {
             make.top.equalTo(self.view.safeAreaLayoutGuide).inset(15)
             make.trailing.equalToSuperview().inset(30)
         }
+    }
+    
+    private func addSwipeGesture() {
+        let swipeGestureRecognizerRight = UISwipeGestureRecognizer(target: self, action: #selector(didSwipe(_:)))
+        swipeGestureRecognizerRight.direction = .right
+        view.addGestureRecognizer(swipeGestureRecognizerRight)
+    }
+    
+    @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
+        coordinator?.goBackToMypage()
     }
 }
