@@ -174,6 +174,20 @@ extension HappyListViewController: View {
                 guard let self = self else { return }
                 self.currentPage = currentPage
             }.disposed(by: disposeBag)
+        
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
