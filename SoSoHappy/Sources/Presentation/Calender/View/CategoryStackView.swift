@@ -13,14 +13,7 @@ import SnapKit
 final class CategoryStackView: UIView {
     private var images: [String] = []
     lazy var stackView = UIStackView(axis: .horizontal, alignment: .fill, distribution: .fillEqually, spacing: 8)
-    
-//    init(imageSize: CGFloat = 30) {
-//        self.imageSize = imageSize
-//        super.init(frame: .zero)
-//        setupStackView()
-//        addImageViews(images: images)
-//    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupStackView()
@@ -41,7 +34,6 @@ final class CategoryStackView: UIView {
 
 extension CategoryStackView {
     func addImageViews(images: [String], imageSize: CGFloat = 30) {
-        print("CategoryStackView - addImageViews : \(images)")
         stackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         
         let images = images.map { imageName in

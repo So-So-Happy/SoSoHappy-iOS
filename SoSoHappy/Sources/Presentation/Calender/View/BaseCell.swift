@@ -11,7 +11,6 @@ import ImageSlideshow
 import Then
 import ReactorKit
 
-
 class BaseCell: UITableViewCell {
     // MARK: - Properties
     var disposeBag = DisposeBag()
@@ -23,7 +22,7 @@ class BaseCell: UITableViewCell {
     private var imageSlideViewHeightConstraint: NSLayoutConstraint?
     
     // MARK: - UI Components
-    lazy var cellBackgroundView =  UIView().then {
+    lazy var cellBackgroundView = UIView().then {
         $0.backgroundColor = UIColor(named: "CellColor")
         $0.layer.cornerRadius = 16
     }
@@ -52,7 +51,6 @@ class BaseCell: UITableViewCell {
     }
     
     func setFeedCell(_ feed: FeedType) {
-        print("BaseCell setFeedCell()")
         weatherDateStackView.setContents(feed: feed)
         categoryStackView.addImageViews(images: feed.happinessAndCategoryArray, imageSize: 45)
         contentLabel.text = feed.text
