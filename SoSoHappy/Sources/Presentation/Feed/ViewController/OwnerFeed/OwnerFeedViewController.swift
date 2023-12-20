@@ -33,6 +33,7 @@ final class OwnerFeedViewController: UIViewController {
         $0.backgroundColor = UIColor(named: "BGgrayColor")
         $0.rowHeight = UITableView.automaticDimension
         $0.estimatedRowHeight = 300
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var backButton = UIButton().then {
@@ -314,7 +315,7 @@ extension OwnerFeedViewController: UITableViewDelegate {
 
 extension OwnerFeedViewController: BlockButtonDelegate {
     func blockButtonDidTap(_ blockButton: BlockButton) {
-        CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자의 피드를 볼 수 없습니다.(차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.block)
+        CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 차단하시겠어요?", message: "차단하면 해당 작성자의 피드를 볼 수 없습니다.\n(차단 여부는 상대방이 알 수 없습니다.)", buttonTitle: "차단") { self.reactor?.action.onNext(.block)
         }
     }
 }

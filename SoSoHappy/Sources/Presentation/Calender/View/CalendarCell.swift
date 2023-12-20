@@ -30,7 +30,7 @@ class CalendarCell: FSCalendarCell {
         contentView.insertSubview(backImageView, at: 0)
         backImageView.snp.makeConstraints { make in
             make.center.equalTo(contentView)
-            make.edges.equalToSuperview().inset(3)
+            make.edges.equalToSuperview().inset(2)
         }
     }
     

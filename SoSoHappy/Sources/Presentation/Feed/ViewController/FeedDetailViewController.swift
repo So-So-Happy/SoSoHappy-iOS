@@ -66,6 +66,8 @@ final class FeedDetailViewController: BaseDetailViewController {
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: heartButton)
+        
         self.view.addSubview(exceptionView)
         self.view.addSubview(networkNotConnectedView)
         

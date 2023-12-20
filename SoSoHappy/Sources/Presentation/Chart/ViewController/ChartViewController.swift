@@ -70,8 +70,6 @@ final class ChartViewController: UIViewController {
         $0.showsVerticalScrollIndicator = false
     }
     
-    private lazy var privateTop3View = PrivateTop3View()
-    
     let contentView = UIView()
     
     private var nickName: String = ""
@@ -143,18 +141,16 @@ extension ChartViewController: View {
             .distinctUntilChanged()
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
-       
+        
         reactor.state
             .map { $0.happinessTopThree }
             .subscribe { [weak self] topThree in
                 guard let `self` = self else { return }
                 if topThree.count == 0 {
-                    self.awardsView.isHidden = true
-                    self.privateTop3View.isHidden = false
+                    self.awardsView.privateTop3View.isHidden = false
                 } else {
                     self.awardsView.setAwardsCategories(categories: topThree)
-                    self.awardsView.isHidden = false
-                    self.privateTop3View.isHidden = true
+                    self.awardsView.privateTop3View.isHidden = true
                 }
             }.disposed(by: disposeBag)
         
@@ -166,10 +162,10 @@ extension ChartViewController: View {
                 guard let `self` = self else { return }
                 if text == "피드 작성하기" {
                     self.recommendView.recommendedHappinessLabel.text = text
-                    self.recommendView.refreshButton.isHidden = true
+                    self.recommendView.refreshButton.isEnabled = false
                 } else {
                     self.recommendView.recommendedHappinessLabel.text = text
-                    self.recommendView.refreshButton.isHidden = false
+                    self.recommendView.refreshButton.isEnabled = true
                 }
             })
             .disposed(by: disposeBag)
@@ -180,7 +176,7 @@ extension ChartViewController: View {
             .distinctUntilChanged()
             .drive(self.yearMonthLabel.rx.text)
             .disposed(by: disposeBag)
-  
+        
         reactor.state
             .map { $0.happinessChartData }
             .distinctUntilChanged()
@@ -211,7 +207,6 @@ extension ChartViewController {
         contentView.addSubview(awardsView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
-        contentView.addSubview(privateTop3View)
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -220,20 +215,28 @@ extension ChartViewController {
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView)
             $0.width.equalTo(view)
-            $0.height.equalTo(scrollView).priority(.low)
+            $0.height.equalTo(scrollView).offset(-30)
         }
         
         leftEmptyView.snp.makeConstraints {
-            $0.width.equalTo(90)
+            $0.width.equalTo(80)
         }
         
         rightEmptyView.snp.makeConstraints {
-            $0.width.equalTo(90)
+            $0.width.equalTo(80)
         }
         
         titleStack.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(17)
+        }
+        
+        previousButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.width.height.equalTo(30)
         }
         
         awardsView.snp.makeConstraints {
@@ -242,23 +245,17 @@ extension ChartViewController {
             $0.height.equalTo(255)
         }
         
-        privateTop3View.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(titleStack.snp.bottom).offset(35)
-            $0.height.equalTo(255)
-        }
-
         recommendView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(awardsView.snp.bottom)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(140)
         }
-
+        
         chartView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(recommendView.snp.bottom)
-            $0.height.equalTo(250)
+            $0.height.equalTo(300)
         }
     }
     

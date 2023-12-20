@@ -17,7 +17,9 @@ class BaseDetailViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
-    lazy var scrollView = UIScrollView()
+    lazy var scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
     
     // scrollView에 들어갈 container view
     lazy var contentView = UIView()
@@ -131,7 +133,7 @@ extension BaseDetailViewController {
         
         categoryStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(140)
+            make.top.equalToSuperview().offset(100)
         }
         
         dateLabel.snp.makeConstraints { make in

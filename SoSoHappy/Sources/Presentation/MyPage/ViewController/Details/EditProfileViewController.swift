@@ -23,6 +23,7 @@ final class EditProfileViewController: UIViewController {
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
         $0.keyboardDismissMode = .onDrag
+        $0.showsVerticalScrollIndicator = false
     }
     private lazy var contentView = UIView()
     private lazy var profileImageEditButton = ImageEditButtonView(image: "camera.fill")
@@ -265,6 +266,13 @@ extension EditProfileViewController: View {
                     let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
                     self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        selfIntroductionSection.addKeyboardToolBar.keyboardDownBarButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                selfIntroductionSection.checkIsTextViewFirstResponder()
             })
             .disposed(by: disposeBag)
     }

@@ -261,13 +261,13 @@ private extension CalendarViewController {
         
         previousButton.snp.makeConstraints {
             $0.left.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(140)
+            $0.top.equalToSuperview().inset(135)
             $0.width.height.equalTo(20)
         }
         
         nextButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(140)
+            $0.top.equalToSuperview().inset(135)
             $0.width.height.equalTo(20)
         }
         

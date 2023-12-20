@@ -38,6 +38,8 @@ final class SelfIntroductionStackView: UIView {
         }
     }
     
+    lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
+    
     lazy var textCountLabel = UILabel().then {
         $0.font = UIFont.customFont(size: 13, weight: .medium)
         $0.textColor = UIColor(named: "LightGrayTextColor")
@@ -63,6 +65,16 @@ extension SelfIntroductionStackView {
         selfIntroductionView.addArrangedSubview(selfIntroductionGuideLabel)
         selfIntroductionView.addArrangedSubview(selfIntroductionTextView)
         selfIntroductionView.addArrangedSubview(textCountLabel)
-
+        
+        addKeyboardToolBar.lockBarButton.isHidden = true
+        addKeyboardToolBar.photoBarButton.isHidden = true
+        selfIntroductionTextView.isUserInteractionEnabled = true
+        selfIntroductionTextView.inputAccessoryView = addKeyboardToolBar
+    }
+    
+    func checkIsTextViewFirstResponder() {
+        if selfIntroductionTextView.isFirstResponder {
+            selfIntroductionTextView.resignFirstResponder()
+        }
     }
 }

@@ -82,17 +82,17 @@ extension Preview {
         }
         
         categoryStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(25)
             make.centerX.equalToSuperview()
         }
         
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(categoryStackView.snp.bottom).offset(10)
+            $0.top.equalTo(categoryStackView.snp.bottom).offset(12)
             $0.centerX.equalToSuperview()
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(dateLabel.snp.bottom).offset(20)
+            make.top.equalTo(dateLabel.snp.bottom).offset(17)
             make.horizontalEdges.equalTo(cellBackgroundView).inset(15)
             make.centerX.equalToSuperview()
         }
