@@ -111,7 +111,7 @@ class SignUpViewReactor: Reactor {
         case let .isDuplicate(bool):
             newState.isDuplicate = bool
             
-        case let .showFinalAlert(bool) :
+        case let .showFinalAlert(bool):
             newState.showFinalAlert = bool
             
         case let .goToMain(bool):

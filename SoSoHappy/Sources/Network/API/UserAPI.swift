@@ -25,7 +25,7 @@ extension UserAPI: BaseTargetType {
     var path: String { self.getPath() }
     var method: Moya.Method { self.getMethod() }
     var task: Moya.Task { self.getTask() }
-    var headers: [String : String]? { self.getHeader() }
+    var headers: [String: String]? { self.getHeader() }
 }
 
 extension UserAPI {
@@ -107,7 +107,7 @@ extension UserAPI {
             return .requestPlain
             
         case .setProfile(let profile):
-            let imageData =  MultipartFormData(provider: .data(profile.profileImg.jpegData(compressionQuality: 0.1)!), name: "profileImg", fileName: "jpeg", mimeType: "image/jpeg")
+            let imageData = MultipartFormData(provider: .data(profile.profileImg.jpegData(compressionQuality: 0.1)!), name: "profileImg", fileName: "jpeg", mimeType: "image/jpeg")
             let nickNameData = MultipartFormData(provider: .data(profile.nickName.data(using: .utf8)!), name: "nickname")
             let emailData = MultipartFormData(provider: .data(profile.email.data(using: .utf8)!), name: "email")
             let introData = MultipartFormData(provider: .data(profile.introduction.data(using: .utf8)!), name: "introduction")

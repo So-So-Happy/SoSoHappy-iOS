@@ -29,7 +29,6 @@ final class SettingCellView: UIView {
     }
 }
 
-
 extension SettingCellView {
     
     // MARK: - Layout
@@ -57,5 +56,3 @@ extension SettingCellView {
     }
     
 }
-
-

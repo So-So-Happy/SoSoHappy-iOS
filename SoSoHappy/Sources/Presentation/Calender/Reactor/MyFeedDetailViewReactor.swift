@@ -234,7 +234,7 @@ extension MyFeedDetailViewReactor {
     private func setSelectedCategory(_ category: String) -> Observable<Mutation> {
         var selectedCategories = currentState.selectedCategories
         selectedCategories.append(category)
-        print("selectedCategoies: \(selectedCategories)")
+        
         return Observable.just(.selectedCategories(selectedCategories))
     }
     
@@ -243,7 +243,7 @@ extension MyFeedDetailViewReactor {
         var selectedCategories = currentState.selectedCategories
         if let index = selectedCategories.firstIndex(of: category) {
             selectedCategories.remove(at: index)
-            print("selectedCategoies: \(selectedCategories)")
+            
         }
         
         return Observable.just(.selectedCategories(selectedCategories))

@@ -15,7 +15,7 @@ extension TargetType {
             fallthrough
         case let afError as AFError:
             return afError.underlyingError as? URLError
-        case let MoyaError.underlying(urlError as URLError, _) :
+        case let MoyaError.underlying(urlError as URLError, _):
             fallthrough
         case let urlError as URLError:
             return urlError

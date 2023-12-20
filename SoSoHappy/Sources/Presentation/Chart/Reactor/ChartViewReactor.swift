@@ -204,7 +204,6 @@ final class ChartViewReactor: BaseReactor, Reactor {
     }
 }
 
-
 enum ChartState {
     case year
     case month

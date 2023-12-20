@@ -9,12 +9,7 @@ import UIKit
 import Moya
 import RxSwift
 
-
 class JWTService: Networkable {
-    
-//    static let shared = JWTService()
-    
-    
     typealias Target = UserAPI
     
     func getRefreshToken() -> Observable<RelssueTokenResponse> {
@@ -26,10 +21,8 @@ class JWTService: Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("response: \(response)")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("error: \(error.localizedDescription)")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()

@@ -45,7 +45,6 @@ extension LocalKey {
     }
 }
 
-
 public protocol LocalStorageService: AnyObject {
     func read(key: LocalKey) -> Any?
     func write(key: LocalKey, value: Any)
@@ -71,7 +70,7 @@ extension UserDefaults: LocalStorageService {
 
 extension UserDefaults {
     public func makeKey(email: String, socialType: String) -> String {
-        var key = email + socialType
+        let key = email + socialType
         return key
     }
 }
@@ -87,4 +86,3 @@ extension UserDefaults {
 //            }
 //        }
 //    }
-

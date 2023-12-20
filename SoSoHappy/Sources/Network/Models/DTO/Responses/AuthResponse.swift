@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 // body x header 그래서 헤더로 처리를 해야함.
 struct AuthResponse: Decodable {
     let authorization: String // accessToken

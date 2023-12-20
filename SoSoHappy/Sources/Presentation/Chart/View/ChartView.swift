@@ -21,7 +21,7 @@ final class ChartView: UIView, ChartViewDelegate {
     lazy var segmentedControl = UISegmentedControl(items: ["월간", "연간"]).then {
         $0.selectedSegmentIndex = 0
         let selectedTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(named: "AccentColor"), .font: UIFont.customFont(size: 14, weight: .medium)]
-        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key : Any], for: .selected)
+        $0.setTitleTextAttributes(selectedTextAttributes as [NSAttributedString.Key: Any], for: .selected)
         $0.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.customFont(size: 14, weight: .medium)], for: .normal)
         $0.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
     }

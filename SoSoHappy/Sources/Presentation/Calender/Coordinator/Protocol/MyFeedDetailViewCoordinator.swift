@@ -73,4 +73,3 @@ extension MyFeedDetailCoordinator {
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
-

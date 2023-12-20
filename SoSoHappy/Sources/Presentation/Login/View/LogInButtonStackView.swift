@@ -113,7 +113,6 @@ extension LogInButtonStackView {
     }
 }
 
-
 // MARK: - Coordinator TestCode
 /// Login -> Home으로 넘어가는 액션 타겟 정의 함수
 extension LogInButtonStackView {

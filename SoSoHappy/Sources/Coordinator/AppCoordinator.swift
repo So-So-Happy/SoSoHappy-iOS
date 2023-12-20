@@ -25,10 +25,7 @@ final public class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func start() {
-
         let accessToken = KeychainService.getAccessToken()
-        let refreshToken = KeychainService.getRefreshToken()
-        let userEmail = KeychainService.getUserEmail()
         let nickName = KeychainService.getNickName()
         
         if nickName.isEmpty || accessToken.isEmpty {

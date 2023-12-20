@@ -84,7 +84,6 @@ final class CalendarViewController: UIViewController {
     }
     
     private var currentPage: Date?
-
     private let today: Date = {
         return Date()
     }()
