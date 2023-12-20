@@ -15,7 +15,6 @@ import RxSwift
 import Moya
 import Network
 
-
 final class CalendarViewController: UIViewController {
     
     // MARK: - Properties
@@ -72,10 +71,19 @@ final class CalendarViewController: UIViewController {
     private lazy var preview = Preview()
     private lazy var emptyPreview = EmptyPreviewView()
     
+    private lazy var noFeedExceptionView = ExceptionView(
+        title: "! \n\n ",
+        inset: 40
+    ).then {
+        $0.isHidden = true
+    }
+    
+    
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
         $0.image = image
     }
+    
     
     private var currentPage: Date?
 
@@ -117,7 +125,6 @@ extension CalendarViewController: View {
     }
     
     func bindAction(_ reactor: CalendarViewReactor) {
-        // viewDidLoad: month, day data fetch, monthText, yearText
         self.rx.viewWillAppear
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
@@ -167,7 +174,6 @@ extension CalendarViewController: View {
         reactor.state
             .map { $0.month }
             .asDriver(onErrorJustReturn: "")
-            .distinctUntilChanged()
             .drive(self.monthLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -231,6 +237,20 @@ extension CalendarViewController: View {
             .asDriver(onErrorJustReturn: ())
             .drive { [weak self] _ in
                 self?.coordinator.pushDetailView(feed: reactor.currentState.dayFeed)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
             }
             .disposed(by: disposeBag)
     }

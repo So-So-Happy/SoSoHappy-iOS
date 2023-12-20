@@ -62,6 +62,25 @@ final class CustomAlert {
         presentAlert(alert)
     }
     
+    static func presentInternarServerAlert() {
+        let alert = makeInternarServerAlert()
+        presentAlert(alert)
+    }
+    
+    static func makeInternarServerAlert() -> UIAlertController {
+        let title = "⚠️ Internal Server Error ⚠️"
+        let message = "잠시 후에 다시 시도해주세요."
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        applyFontToAlert(alert, title: title, message: message)
+        
+        let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
+        
+        okAction.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        
+        alert.addAction(okAction)
+        return alert
+    }
+    
     static func makeAlertController() -> UIAlertController {
         let title = "⚠️ 네트워크 오류 ⚠️"
         let message = "잠시 후에 다시 시도해주세요."

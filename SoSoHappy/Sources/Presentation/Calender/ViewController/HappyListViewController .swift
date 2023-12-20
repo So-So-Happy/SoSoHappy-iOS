@@ -56,6 +56,14 @@ final class HappyListViewController: UIViewController {
         $0.tintColor = UIColor(named: "AccentColor")
     })
     
+    private lazy var noFeedExceptionView = ExceptionView(
+        title: "이달에 등록된 소소해피가 없어요! \n\n ",
+        inset: 40
+    ).then {
+        $0.isHidden = true
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("HappyListViewController viewDidLoad start")
@@ -82,7 +90,7 @@ final class HappyListViewController: UIViewController {
 private extension HappyListViewController  {
     private func setLayout() {
         self.view.backgroundColor = UIColor(named: "BGgrayColor")
-        self.view.addSubviews(happyTableView, yearMonthLabel, nextButton, previousButton)
+        self.view.addSubviews(happyTableView, noFeedExceptionView, yearMonthLabel, nextButton, previousButton)
         
         self.yearMonthLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
@@ -102,6 +110,11 @@ private extension HappyListViewController  {
         }
         
         self.happyTableView.snp.makeConstraints {
+            $0.bottom.left.right.equalToSuperview()
+            $0.top.equalTo(yearMonthLabel.snp.bottom).offset(10)
+        }
+        
+        self.noFeedExceptionView.snp.makeConstraints {
             $0.bottom.left.right.equalToSuperview()
             $0.top.equalTo(yearMonthLabel.snp.bottom).offset(10)
         }
@@ -145,7 +158,14 @@ extension HappyListViewController: View {
         reactor.state
             .map { $0.monthHappinessData }
             .subscribe { data in
-                self.monthHappinessList.accept(data)
+                if data.isEmpty {
+                    self.happyTableView.isHidden = true
+                    self.noFeedExceptionView.isHidden = false
+                } else {
+                    self.monthHappinessList.accept(data)
+                    self.happyTableView.isHidden = false
+                    self.noFeedExceptionView.isHidden = true
+                }
             }.disposed(by: disposeBag)
         
         reactor.state
@@ -154,6 +174,20 @@ extension HappyListViewController: View {
                 guard let self = self else { return }
                 self.currentPage = currentPage
             }.disposed(by: disposeBag)
+        
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
