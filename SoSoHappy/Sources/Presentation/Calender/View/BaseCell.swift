@@ -124,4 +124,3 @@ extension BaseCell {
         imageSlideViewHeightConstraint?.priority = .defaultLow
     }
 }
-

@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 struct FindAccountFeedResponse: Decodable {
     let nickname, weather: String
     let date: Int64

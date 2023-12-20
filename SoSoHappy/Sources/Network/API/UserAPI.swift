@@ -9,8 +9,6 @@ import Moya
 import RxSwift
 import Alamofire
 
-
-
 enum UserAPI {
     case getAuthorizeCode(codeChallenge: AuthCodeRequest)
     case signIn(userInfo: SigninRequest)

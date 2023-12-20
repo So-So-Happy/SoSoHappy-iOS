@@ -14,4 +14,3 @@ struct User: Hashable {
     let introduction: String
     
 }
-

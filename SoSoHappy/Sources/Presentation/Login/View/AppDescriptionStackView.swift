@@ -58,4 +58,3 @@ extension AppDescriptionStackView {
         appDescriptionStackView.addArrangedSubview(appDescription)
     }
 }
-
