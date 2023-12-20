@@ -20,7 +20,6 @@ final class ChartCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     
-    
     var finishDelegate: CoordinatorFinishDelegate?
     
     init(navigationController: UINavigationController = UINavigationController() ) {
@@ -41,7 +40,6 @@ extension ChartCoordinator: ChartCoordinatorInterface {
         navigationController.pushViewController(viewController, animated: false)
     }
     
-    
     func dismiss() {
         self.navigationController.dismiss(animated: false)
         self.finishDelegate?.coordinatorDidFinish(childCoordinator: self)
@@ -61,9 +59,3 @@ extension ChartCoordinator {
 
     }
 }
-
-
-
-
-
-

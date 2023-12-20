@@ -49,7 +49,7 @@ class Interceptor: RequestInterceptor {
                         KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: refreshToken)
                         completion(.retry)
                     } else {
-                        print("Error: Unable to retrieve tokens from headers.")
+                
                     }
                 case .failure(let error):
                     completion(.doNotRetryWithError(error))

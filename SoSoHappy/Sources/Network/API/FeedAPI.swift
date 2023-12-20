@@ -29,7 +29,7 @@ extension FeedAPI: BaseTargetType {
     var path: String { self.getPath() }
     var method: Moya.Method { self.getMethod() }
     var task: Moya.Task { self.getTask() }
-    var headers: [String : String]? { self.getHeader() }
+    var headers: [String: String]? { self.getHeader() }
 }
 
 extension FeedAPI {
@@ -92,12 +92,10 @@ extension FeedAPI {
         }
     }
     
-    
     func getTask() -> Task {
         switch self {
         case .saveFeed(let data):
             var formData: [Moya.MultipartFormData] = saveFeedMultiparFormData(data: data)
-
             return .uploadMultipart(formData)
         case .findDayFeed(let data):
             var formData: [Moya.MultipartFormData] = []
@@ -233,4 +231,3 @@ extension FeedAPI {
         return formData
     }
 }
-
