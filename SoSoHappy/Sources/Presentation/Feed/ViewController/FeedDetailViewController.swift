@@ -185,7 +185,7 @@ extension FeedDetailViewController: View {
             .bind(onNext: { [weak self] showServerErrorAlert in
                 guard let self = self else { return }
                 if showServerErrorAlert {
-                    exceptionView.titleLabel.text = "서버로부터 피드를 불러오지 못했습니다.\n\n 지속적으로 발생할 경우 문의해주세요."
+                    exceptionView.titleLabel.text = "서버로부터 피드를 불러오지 못했습니다.\n지속적으로 발생할 경우 문의해주세요."
                     exceptionView.isHidden = false
                 }
             })

@@ -45,7 +45,7 @@ final class FeedViewController: UIViewController, UIScrollViewDelegate {
     }
     
     private lazy var noFeedExceptionView = ExceptionView(
-        title: "등록된 피드가 없습니다.\n\n 소소한 행복을 공유하고 함께 응원해주세요!",
+        title: "등록된 피드가 없습니다.\n소소한 행복을 공유하고 함께 응원해주세요!",
         inset: 40
     ).then {
         $0.isHidden = true

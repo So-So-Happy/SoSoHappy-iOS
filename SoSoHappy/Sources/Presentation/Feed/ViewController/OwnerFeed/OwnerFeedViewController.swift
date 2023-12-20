@@ -146,7 +146,6 @@ extension OwnerFeedViewController: View {
         tableView.rx.reachedBottom(offset: -20)
             .skip(1)
             .throttle(.milliseconds(130), latest: false, scheduler: MainScheduler.instance)
-            .debug()
             .map { Reactor.Action.pagination }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -175,7 +174,6 @@ extension OwnerFeedViewController: View {
         
         networkNotConnectedView.retryButton.rx.tap
             .map { Reactor.Action.fetchFeeds }
-            .debug()
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
