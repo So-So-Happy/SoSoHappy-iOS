@@ -43,7 +43,7 @@
 		069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642D2AD83432003834E5 /* FeedRepository.swift */; };
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
-		06AFDA6D2B33160F0077CCC8 /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFDA6C2B33160F0077CCC8 /* BaseReactor.swift */; };
+		06AFDA6F2B3321E90077CCC8 /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */; };
 		06B157162B306811009C1F50 /* AddKeyboardToolBarForCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */; };
 		06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */; };
 		06B3FA462B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */; };
@@ -294,6 +294,7 @@
 		069D7AF82AD0344300C815F1 /* HappinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappinessLevel.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06AFDA6C2B33160F0077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
+		06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBarForCalender.swift; sourceTree = "<group>"; };
 		06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFeedDetailViewCoordinator.swift; sourceTree = "<group>"; };
 		06B3FA452B20B7A7009F72E7 /* SetWeatherHappinessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetWeatherHappinessViewController.swift; sourceTree = "<group>"; };
@@ -634,6 +635,7 @@
 				67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */,
 				80C0A2EA2AC06E6400107332 /* BaseCell.swift */,
 				8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */,
+				06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */,
 				808650F72ADA7F400036CCFB /* ExceptionView */,
 			);
 			path = Common;
@@ -721,6 +723,7 @@
 				67348FD12B1F3E5100BE2FDD /* Config.xcconfig */,
 				807C97562B19B25B00F5A128 /* Config.xcconfig */,
 				807C97522B19B0AE00F5A128 /* GoogleService-Info.plist */,
+				06AFDA6C2B33160F0077CCC8 /* BaseReactor.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1849,7 +1852,7 @@
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */,
 				06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */,
-				06AFDA6D2B33160F0077CCC8 /* BaseReactor.swift in Sources */,
+				06AFDA6F2B3321E90077CCC8 /* BaseReactor.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,

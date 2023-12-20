@@ -14,4 +14,3 @@ class BaseReactor {
     let showLoadingPublisher = PublishRelay<Bool>()
     let showToastPublisher = PublishRelay<String>()
 }
-

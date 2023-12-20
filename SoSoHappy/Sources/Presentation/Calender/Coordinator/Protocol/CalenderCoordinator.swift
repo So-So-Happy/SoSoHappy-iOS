@@ -58,9 +58,7 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
         coordinator.parentCoordinator = self
         coordinator.finishDelegate = self
         self.childCoordinators.append(coordinator)
-        print("feed: \(feed)")
         coordinator.showDetailView(feed: feed)
-        print("check: \(childCoordinators.count), \(navigationController.viewControllers.count)")
     }
     
     func dismiss() {
@@ -69,7 +67,6 @@ extension CalendarCoordinator: CalendarCoordinatorInterface {
     }
     
     func finished() {
-//        navigationController.popViewController(animated: true)
         finishDelegate?.coordinatorDidFinish(childCoordinator: self)
     }
 }
