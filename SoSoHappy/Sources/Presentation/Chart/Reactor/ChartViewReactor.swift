@@ -21,7 +21,7 @@ final class ChartViewReactor: BaseReactor, Reactor {
     private let userRepository: UserRepositoryProtocol
     
     private var nowRecommendListIdx: Int = 0
-    private var recommendList: [String] = []
+    private var recommendList: [String] = [""]
     private var date = Date()
     private var segementBarState: ChartState = .month
     
@@ -32,9 +32,9 @@ final class ChartViewReactor: BaseReactor, Reactor {
         feedRepository: FeedRepositoryProtocol,
         userRepository: UserRepositoryProtocol,
         state: State = State(
-            happinessTopThree: [],
-            bestCategoryList: [],
-            recommendCategoryList: [], 
+            happinessTopThree: [""],
+            bestCategoryList: [""],
+            recommendCategoryList: [""],
             nowRecommendText: "",
             monthYearText: "",
             chartText: "" ,
