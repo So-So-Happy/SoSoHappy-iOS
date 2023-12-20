@@ -32,22 +32,6 @@ class CategoryCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        
-//        // 선택 여부에 따라 알파 값을 설정합니다.
-//        if isSelected {
-//            // 선택된 경우 크기를 키우고 알파 값을 1로 설정합니다.
-//            self.categoryImageView.transform = CGAffineTransform(scaleX: self.selectedScale, y: self.selectedScale)
-//            self.categoryImageView.alpha = 1
-//        } else {
-//            // 선택되지 않은 경우 기본 알파 값을 0.5로 설정합니다.
-//            self.categoryImageView.transform = CGAffineTransform.identity
-//            self.categoryImageView.alpha = 0.5
-//        }
-//    }
-
 }
 // MARK: -  Set layout
 extension CategoryCell {

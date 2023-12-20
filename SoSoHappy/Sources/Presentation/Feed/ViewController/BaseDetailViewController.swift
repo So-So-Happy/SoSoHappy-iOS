@@ -64,7 +64,6 @@ class BaseDetailViewController: UIViewController {
     }
     
     func setFeed(feed: FeedType) {
-        print("BaseDetailViewController - setFeed: \(feed)")
         let bgName: String = feed.weather + "Bg"
         let image = UIImage(named: bgName)!
         scrollView.backgroundColor = UIColor(patternImage: image)
@@ -80,7 +79,6 @@ class BaseDetailViewController: UIViewController {
         if ids.isEmpty {
             imageSlideView.isHidden = true
             imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                print("imageSlideView  updateConstraints 사진 없음")
                 make.height.equalTo(0)
             }
             
