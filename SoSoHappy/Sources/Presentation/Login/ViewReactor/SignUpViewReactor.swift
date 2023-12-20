@@ -101,12 +101,9 @@ class SignUpViewReactor: Reactor {
             if currentState.nickNameText != newText {
                 newState.isDuplicate = nil
             }
-            
-            let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-            let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName")
-            let isSameNickname = nickNameFromKeychain == newText
-            
-            newState.isSameNickName = isSameNickname
+
+            let nickNameFromKeychain = KeychainService.getNickName()
+            newState.isSameNickName = nickNameFromKeychain == newText
             
         case let .setSelfIntroText(text):
             newState.selfIntroText = String(text.prefix(60))
@@ -143,8 +140,7 @@ extension SignUpViewReactor {
             .do(onNext: { _ in })
             .flatMap { [weak self] response -> Observable<Mutation> in
                 guard self != nil else { return .error(BaseError.unknown) }
-                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-                guard let nickNameFromKeychain = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userNickName"), nickNameFromKeychain == self?.currentState.nickNameText else {
+                guard KeychainService.getNickName() == self?.currentState.nickNameText else {
                     return .just(.isDuplicate(Bool(response.isPresent)))
                 }
                 return .just(.isDuplicate(false))
@@ -154,9 +150,9 @@ extension SignUpViewReactor {
     
     // MARK: 프로필 설정 완료 후 서버와의 통신 결과 받아오기 & 키체인에 닉네임 저장
     func setProfile() -> Observable<Mutation> {
-        let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+        let provider = KeychainService.getProvider()
         let trimmedSelfIntroText = currentState.selfIntroText.trimTrailingWhitespaces()
-        let email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(provider)", forKey: "userEmail") ?? ""
+        let email = KeychainService.getUserEmail()
         let nickName = currentState.nickNameText
         let profileImage = currentState.profileImage
         let intro = trimmedSelfIntroText

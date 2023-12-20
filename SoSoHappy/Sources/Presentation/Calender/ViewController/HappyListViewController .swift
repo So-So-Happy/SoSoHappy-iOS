@@ -70,7 +70,6 @@ final class HappyListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("HappyListViewController viewDidLoad start")
         setLayout()
         initialize()
         addSwipeGesture()
