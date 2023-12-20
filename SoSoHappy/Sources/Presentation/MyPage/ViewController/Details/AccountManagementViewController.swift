@@ -55,6 +55,22 @@ class AccountManagementViewController: UIViewController {
         setup()
         bind(reactor: self.reactor ?? AccountManagementViewReactor())
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = true
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        if let tabBarController = self.tabBarController as? TabBarController {
+            tabBarController.addButton.isHidden = false
+        }
+    }
 }
 
 // MARK: - Reactor (bind func)
