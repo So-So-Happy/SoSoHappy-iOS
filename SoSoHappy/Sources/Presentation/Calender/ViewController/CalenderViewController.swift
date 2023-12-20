@@ -78,12 +78,10 @@ final class CalendarViewController: UIViewController {
         $0.isHidden = true
     }
     
-    
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
         $0.image = image
     }
-    
     
     private var currentPage: Date?
 
@@ -95,10 +93,6 @@ final class CalendarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     // MARK: - Init
@@ -114,7 +108,6 @@ final class CalendarViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 extension CalendarViewController: View {
@@ -268,6 +261,11 @@ private extension CalendarViewController {
     }
     
     private func setLayout() {
+        //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.shadowImage = UIImage()
+        
         self.view.addSubviews(calendarBackgroundView, previousButton, nextButton, yearLabel, monthLabel, preview, emptyPreview)
         
         calendarBackgroundView.addSubview(calendar)
@@ -347,6 +345,7 @@ extension CalendarViewController {
         self.calendar.delegate = self
         self.calendar.dataSource = self
         self.calendar.register(CalendarCell.self, forCellReuseIdentifier: CalendarCell.identifier)
+        self.calendar.select(Date())
     }
     
     private func setCalenderAttribute() {
@@ -354,9 +353,7 @@ extension CalendarViewController {
         calendar.appearance.titleDefaultColor = UIColor(named: "DarkGrayTextColor")
         calendar.appearance.selectionColor = UIColor(named: "LightGrayTextColor")
         calendar.appearance.titleSelectionColor = UIColor(named: "ReverseMainTextColor")
-        calendar.appearance.todayColor = UIColor(named: "DarkGrayTextColor")
-        calendar.appearance.titleTodayColor = .white
-        calendar.appearance.todayColor = UIColor(named: "AccentColor")
+        calendar.appearance.todayColor = .clear
         calendar.appearance.weekdayTextColor = UIColor(named: "DarkGrayTextColor")
         calendar.placeholderType = .none
         calendar.headerHeight = 0.0
@@ -393,7 +390,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             for: date,
             at: position
         ) as? CalendarCell else { return FSCalendarCell() }
-        
+
         if let image = isHappyDay(String(date.getFormattedYMD())) {
             cell.backImageView.image = image
             cell.titleLabel.isHidden = true
@@ -475,8 +472,6 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
                 return calendar.maximumDate < date ? .systemRed.withAlphaComponent(0.3) : .systemRed
             } else if weekday == 7 {
                 return calendar.maximumDate < date ? .systemBlue.withAlphaComponent(0.3) : .systemBlue
-            } else if calendar.gregorian.isDateInToday(date) {
-                return .white
             } else if calendar.maximumDate < date {
                 return UIColor(named: "ReverseLightGrayColor")
             } else {
