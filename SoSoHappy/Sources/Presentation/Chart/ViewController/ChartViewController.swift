@@ -75,10 +75,9 @@ final class ChartViewController: UIViewController {
     private var nickName: String = ""
     
     // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setUp()
-        
     }
     
     init(reactor: ChartViewReactor
@@ -104,15 +103,14 @@ extension ChartViewController: View {
     // MARK: - Input
     func bindAction(_ reactor: ChartViewReactor) {
         
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         self.nextButton.rx.tap
             .map { Reactor.Action.tapNextButton }
-            .filter { [weak self] _ in
-                guard let self = self else { return false }
+            .filter {  _ in
                 let nowDate = Date().getFormattedYM2()
                 return nowDate != reactor.currentState.monthYearText
             }
@@ -194,14 +192,14 @@ extension ChartViewController: View {
         reactor.showErrorAlertPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentErrorAlertWithoutDescription()
+                CustomAlert.presentInternarServerAlert()
             }
             .disposed(by: disposeBag)
         
         reactor.showNetworkErrorViewPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentInternarServerAlert()
+                CustomAlert.presentErrorAlertWithoutDescription()
             }
             .disposed(by: disposeBag)
         
@@ -282,5 +280,7 @@ extension ChartViewController {
     func setNickName() {
         let nickName = KeychainService.getNickName()
         self.nameLabel.text = nickName
+        self.chartView.graphLabel.text = "\(nickName)님의 행복 그래프 💖"
     }
+    
 }

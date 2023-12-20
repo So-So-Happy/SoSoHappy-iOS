@@ -138,8 +138,8 @@ extension HappyListViewController: View {
     // MARK: bind
     func bind(reactor: HappyListViewReactor) {
         // MARK: Action (View -> Reactor) 인풋
-        self.rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        self.rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -196,14 +196,14 @@ extension HappyListViewController: View {
         reactor.showErrorAlertPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentErrorAlertWithoutDescription()
+                CustomAlert.presentInternarServerAlert()
             }
             .disposed(by: disposeBag)
         
         reactor.showNetworkErrorViewPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentInternarServerAlert()
+                CustomAlert.presentErrorAlertWithoutDescription()
             }
             .disposed(by: disposeBag)
     }

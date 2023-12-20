@@ -13,7 +13,7 @@ import Then
 final class ChartView: UIView, ChartViewDelegate {
     
     // MARK: - Properties
-    private lazy var graphLabel = UILabel().then {
+    lazy var graphLabel = UILabel().then {
         $0.text = "OOOOOOOOOO님의 행복 그래프 💖"
         $0.font = UIFont.customFont(size: 16, weight: .semibold)
     }

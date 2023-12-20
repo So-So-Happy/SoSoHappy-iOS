@@ -78,12 +78,10 @@ final class CalendarViewController: UIViewController {
         $0.isHidden = true
     }
     
-    
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
         $0.image = image
     }
-    
     
     private var currentPage: Date?
 
@@ -166,46 +164,48 @@ extension CalendarViewController: View {
     func bindState(_ reactor: CalendarViewReactor) {
         reactor.state
             .map { $0.year }
-            .asDriver(onErrorJustReturn: "")
             .distinctUntilChanged()
-            .drive(self.yearLabel.rx.text)
+            .bind(to: self.yearLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.month }
-            .asDriver(onErrorJustReturn: "")
-            .drive(self.monthLabel.rx.text)
+            .distinctUntilChanged()
+            .bind(to: self.monthLabel.rx.text)
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.currentPage }
+            .observe(on: MainScheduler.asyncInstance)
             .distinctUntilChanged()
             .filter { [weak self] date in
                 guard let self = self else { return false }
                 return self.currentPage != date
             }
-            .subscribe { [weak self] date in
+            .subscribe(onNext: { [weak self] date in
                 guard let `self` = self else { return }
                 self.currentPage = date
                 self.calendar.setCurrentPage(date, animated: true)
-            }
+            })
             .disposed(by: disposeBag)
         
         reactor.state
             .map { $0.monthHappinessData }
+            .observe(on: MainScheduler.asyncInstance)
             .distinctUntilChanged()
-            .subscribe { [weak self] feeds in
+            .subscribe(onNext: { [weak self] feeds in
                 guard let `self` = self else { return }
                 self.monthFeedList = feeds
                 calendar.reloadData()
-            }
+            })
             .disposed(by: disposeBag)
         
         // setFeedCell(FeedType) 일 경우 Argument type 'Event<Date>' does not conform to expected type 'FeedType' 에러 이슈 -> setFeedCell(MyFeed)로 타입매개변수 타입 변경함.
         reactor.state
             .map{ $0.dayFeed }
             .distinctUntilChanged()
-            .subscribe { [weak self] feed in
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] feed in
                 guard let `self` = self else { return }
                 if feed.text.isEmpty {
                     self.preview.isHidden = true
@@ -215,7 +215,8 @@ extension CalendarViewController: View {
                     self.emptyPreview.isHidden = true
                     self.preview.isHidden = false
                 }
-            }.disposed(by: disposeBag)
+            })
+            .disposed(by: disposeBag)
         
         reactor.pulse(\.$presentAlertView)
             .compactMap { $0 }
@@ -244,14 +245,14 @@ extension CalendarViewController: View {
         reactor.showErrorAlertPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentErrorAlertWithoutDescription()
+                CustomAlert.presentInternarServerAlert()
             }
             .disposed(by: disposeBag)
         
         reactor.showNetworkErrorViewPublisher
             .asDriver(onErrorJustReturn: BaseError.unknown)
             .drive { error in
-                CustomAlert.presentInternarServerAlert()
+                CustomAlert.presentErrorAlertWithoutDescription()
             }
             .disposed(by: disposeBag)
     }
