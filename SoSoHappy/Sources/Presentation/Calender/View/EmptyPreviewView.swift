@@ -19,7 +19,8 @@ final class EmptyPreviewView: UIView {
     // 날씨 이미지
     private lazy var emptyHappyImage = UIImageView().then {
         $0.layer.masksToBounds = true
-        $0.image = UIImage(named: "happy1")
+        $0.image = UIImage(named: "emptyImage")
+        $0.contentMode = .scaleAspectFit
     }
     
     // 내용 텍스트
@@ -56,19 +57,20 @@ final class EmptyPreviewView: UIView {
         cellBackgroundView.addSubviews(emptyHappyImage, contentsLabel)
         
         cellBackgroundView.snp.makeConstraints {
-            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-            $0.bottom.equalTo(emptyHappyImage.snp.bottom).offset(15)
+            $0.edges.equalToSuperview().inset(UIEdgeInsets(top: 14, left: 16, bottom: 14, right: 16))
+            $0.bottom.equalTo(contentsLabel.snp.bottom).offset(15)
         }
          
-        contentsLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(30)
-        }
-        
         emptyHappyImage.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(contentsLabel).inset(30)
-            $0.width.height.equalTo(23)
+            $0.top.equalToSuperview()
+            $0.width.equalTo(100)
+            $0.height.equalTo(80)
+        }
+        
+        contentsLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(emptyHappyImage.snp.bottom).offset(1.5)
         }
         
     }
