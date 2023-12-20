@@ -180,7 +180,8 @@ final class ChartViewReactor: BaseReactor, Reactor {
             newState.monthYearText = date
         case .fetchAnalysisHappiness(let data):
             newState.bestCategoryList = data.bestCategoryList
-            newState.happinessTopThree = Array(data.bestCategoryList.prefix(3))
+            newState.happinessTopThree = Array(data.bestCategoryList.prefix(3)).map({ "\($0)NoSpace"
+            })
             newState.recommendCategoryList = data.recommendCategoryList
             self.recommendList = data.recommendCategoryList
             nowRecommendListIdx = 0
