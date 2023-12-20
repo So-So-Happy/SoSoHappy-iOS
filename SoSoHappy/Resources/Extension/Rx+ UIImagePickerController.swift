@@ -6,30 +6,13 @@
 //
 //https://www.jianshu.com/p/19585b49a38f
 
-
-
 #if os(iOS)
 
 import RxSwift
 import RxCocoa
 import UIKit
 
-//extension Reactive where Base: UITextField {
-//
-//    /// Reactive wrapper for `TouchUpInside` control event.
-//    public var editBegin: ControlEvent<Void> {
-//        controlEvent(.editingDidBegin)
-//    }
-//}
-
-
-
-/// 扩展 UIImagePickerControllerDelegate
 extension Reactive where Base: UIImagePickerController {
-    
-    /**
-     Reactive wrapper for `delegate` message.
-     */
     public var didFinishPickingMediaWithInfo: Observable<[UIImagePickerController.InfoKey : AnyObject]> {
         return delegate
             .methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerController(_:didFinishPickingMediaWithInfo:)))
@@ -38,18 +21,13 @@ extension Reactive where Base: UIImagePickerController {
             })
     }
     
-    /**
-     Reactive wrapper for `delegate` message.
-     */
     public var didCancel: Observable<()> {
         return delegate
             .methodInvoked(#selector(UIImagePickerControllerDelegate.imagePickerControllerDidCancel(_:)))
             .map {_ in () }
     }
-    
 }
 
-/// 扩展UIImagePickerController init
 extension Reactive where Base: UIImagePickerController {
     
     static func createWithParent(_ parent: UIViewController?, animated: Bool = true, configureImagePicker: @escaping (UIImagePickerController) throws -> Void = { x in }) -> Observable<UIImagePickerController> {
@@ -84,7 +62,6 @@ extension Reactive where Base: UIImagePickerController {
         }
     }
 }
-
 
 #endif
 

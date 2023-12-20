@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Notification Name 설정
 extension Notification.Name {
     static let DidReceiveLikeNotification = Notification.Name("DidReceiveLikeNotification")
     static let DidReceiveShowLikedPostNotification = Notification.Name("DidReceiveShowLikedPostNotification")

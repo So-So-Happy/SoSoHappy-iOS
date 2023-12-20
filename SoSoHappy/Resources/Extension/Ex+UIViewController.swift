@@ -8,10 +8,8 @@
 import UIKit
 import Then
 
-// https://www.youtube.com/watch?v=SxBP271AuWI
 extension UIViewController {
     func showToast(_ message: String, withDuration: Double, delay: Double) {
-//        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-700, width: 150, height: 35))
         let toastLabel = UILabel()
         toastLabel.backgroundColor = UIColor(named: "AccentColor")
         toastLabel.textColor = UIColor.white
