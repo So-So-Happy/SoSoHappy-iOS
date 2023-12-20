@@ -9,8 +9,9 @@ import Foundation
 import RxSwift
 import ReactorKit
 import Moya
+import RxRelay
 
-final class CalendarViewReactor: Reactor {
+final class CalendarViewReactor: BaseReactor, Reactor {
     
     // MARK: - property
     let disposeBag = DisposeBag()
@@ -69,6 +70,8 @@ final class CalendarViewReactor: Reactor {
         case moveToPreviousMonth(Date)
         case testOtherFeed(UpdateLikeResponse)
         case presentDetailView
+        case showNetworkErrorView(Error)
+        case showServerErrorAlert(Error)
     }
     
     // MARK: - State
@@ -87,6 +90,9 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
+        if !Connectivity.isConnectedToInternet() {
+            return .just(.showNetworkErrorView(BaseError.networkConnectionError))
+        }
         switch action {
         case .viewWillAppear:
             return .concat([
@@ -95,10 +101,12 @@ final class CalendarViewReactor: Reactor {
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: self.currentPage.getFormattedYMDH(), nickName: nickName))
                     .map {
                         return Mutation.setCalendarCell($0)
+                    }.catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
                     },
                 feedRepository.findDayFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: nickName))
                 .map { .setPreview($0) }
             ])
+            
         case .tapAlarmButton:
             return .just(.presentAlertView)
         case .tapListButton:
@@ -106,7 +114,8 @@ final class CalendarViewReactor: Reactor {
         case .changeCurrentPage(let date):
             return .concat([
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
-                    .map({ Mutation.setCalendarCell($0) }),
+                    .map({ Mutation.setCalendarCell($0) })
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError)) },
                 .just(.changeCurrentPage(date)),
                 .just(.setMonth),
                 .just(.setYear),
@@ -122,7 +131,8 @@ final class CalendarViewReactor: Reactor {
         case .selectDate(let date):
             return .concat([
                 feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
-                .map { .setPreview($0) },
+                    .map { .setPreview($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError)) },
                 .just(.setSelectedDate(date))
             ])
         case .tapPreview:
@@ -162,6 +172,10 @@ final class CalendarViewReactor: Reactor {
             newState.selectedDate = date
         case .presentDetailView:
             newState.presentDetailView = ()
+        case .showNetworkErrorView(let error):
+            self.showNetworkErrorViewPublisher.accept(error)
+        case .showServerErrorAlert(let error):
+            self.showErrorAlertPublisher.accept(error)
         }
         
         return newState

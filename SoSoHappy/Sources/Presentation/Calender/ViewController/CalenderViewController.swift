@@ -71,10 +71,19 @@ final class CalendarViewController: UIViewController {
     private lazy var preview = Preview()
     private lazy var emptyPreview = EmptyPreviewView()
     
+    private lazy var noFeedExceptionView = ExceptionView(
+        title: "! \n\n ",
+        inset: 40
+    ).then {
+        $0.isHidden = true
+    }
+    
+    
     private lazy var dividerLine = UIImageView().then {
         let image = UIImage(named: "dividerLine")
         $0.image = image
     }
+    
     
     private var currentPage: Date?
 
@@ -222,6 +231,7 @@ extension CalendarViewController: View {
                 self?.coordinator.pushListView(date: reactor.currentState.currentPage)
             }
             .disposed(by: disposeBag)
+        
         reactor.pulse(\.$presentDetailView)
             .compactMap { $0 }
             .asDriver(onErrorJustReturn: ())
@@ -230,6 +240,19 @@ extension CalendarViewController: View {
             }
             .disposed(by: disposeBag)
         
+        reactor.showErrorAlertPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentErrorAlertWithoutDescription()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.showNetworkErrorViewPublisher
+            .asDriver(onErrorJustReturn: BaseError.unknown)
+            .drive { error in
+                CustomAlert.presentInternarServerAlert()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
