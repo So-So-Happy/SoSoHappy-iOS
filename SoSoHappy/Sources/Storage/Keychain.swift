@@ -73,9 +73,7 @@ private extension KeychainService {
 }
 
 extension KeychainService {
-    
     class func getAccessToken() -> String {
-
         let accessToken = KeychainService.loadData(
             serviceIdentifier: "sosohappy.tokens",
             forKey: "accessToken"
@@ -108,7 +106,6 @@ extension KeychainService {
     }
     
     class func getNickName() -> String {
-
         let provider = KeychainService.loadData(
             serviceIdentifier: "sosohappy.userInfo",
             forKey: "provider"
@@ -122,4 +119,18 @@ extension KeychainService {
         return nickName
     }
     
+    class func getProvider() -> String {
+        let provider = KeychainService.loadData(
+            serviceIdentifier: "sosohappy.userInfo",
+            forKey: "provider"
+        ) ?? ""
+        
+        return provider
+    }
+    
+    class func getUserIntro() -> String {
+        let intro = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "userIntro") ?? ""
+        
+        return intro
+    }
 }
