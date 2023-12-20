@@ -100,7 +100,7 @@ extension MyFeedDetailViewController {
         textView.addSubview(placeholderLabel)
         
         categoryStackView.snp.updateConstraints { make in
-            make.top.equalToSuperview().offset(70)
+            make.top.equalToSuperview().offset(50)
         }
         
         imageSlideView.snp.makeConstraints { make in

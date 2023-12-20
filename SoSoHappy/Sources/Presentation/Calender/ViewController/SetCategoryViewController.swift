@@ -35,6 +35,7 @@ final class SetCategoryViewController: UIViewController, UIScrollViewDelegate {
         $0.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.cellIdentifier)
         $0.backgroundColor = .clear
         $0.allowsMultipleSelection = true
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var saveButton = UIButton().then {
@@ -110,24 +111,28 @@ extension SetCategoryViewController {
 // 이 사이즈를 좀 더 조정해주면 좋을 것 같음. 선택될 때 약간 짤린 듯한 느낌 남 (비행기)
 extension SetCategoryViewController: UICollectionViewDelegateFlowLayout, UITableViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfColumns: CGFloat = 4
-        let numberOfRows: CGFloat = 6
-        let spacingBetweenItems: CGFloat = 10
-        let totalHorizontalSpacing = (numberOfColumns - 1) * spacingBetweenItems
-        let totalVerticalSpacing = (numberOfRows - 1) * spacingBetweenItems
+        let width = collectionView.bounds.width
+        let numberOfItemsPerRow: CGFloat = 3
+        let spacing: CGFloat = 30
+        let availableWidth = width - spacing * (numberOfItemsPerRow + 1)
+        let itemDimension = floor(availableWidth / numberOfItemsPerRow)
         
-        let width = (collectionView.bounds.width - totalHorizontalSpacing) / numberOfColumns
-        let height = (collectionView.bounds.height - totalVerticalSpacing) / numberOfRows
-        
-        return CGSize(width: width, height: height)
+        return CGSize(width: itemDimension, height: itemDimension)
     }
     
+    // 섹션에서 콘텐츠를 배치하는 데 사용되는 여백
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+    }
+    
+    // 그리드의 항목 줄 사이에 사용할 최소 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10 // Adjust the spacing between rows as needed
+        return 20
     }
     
+    // 같은 행에 있는 항목 사이에 사용할 최소 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10 // Adjust the spacing between columns as needed
+        return 20
     }
 }
 
