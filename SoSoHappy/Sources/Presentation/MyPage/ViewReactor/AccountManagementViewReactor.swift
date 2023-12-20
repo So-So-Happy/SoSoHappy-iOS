@@ -23,8 +23,8 @@ class AccountManagementViewReactor: Reactor {
     // MARK: - Init
     init(state: State = State()) {
         self.initialState = state
-        self.provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
-        self.email = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo\(self.provider)", forKey: "userEmail") ?? ""
+        self.provider = KeychainService.getProvider()
+        self.email = KeychainService.getUserEmail()
     }
     
     // MARK: - Action
@@ -160,7 +160,7 @@ class AccountManagementViewReactor: Reactor {
     func resign() -> Observable<Mutation> {
         return userRepository.resign(email: ResignRequest(email: self.email))
             .do(onNext: { _ in
-                let provider = KeychainService.loadData(serviceIdentifier: "sosohappy.userInfo", forKey: "provider") ?? ""
+                let provider = KeychainService.getProvider()
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "accessToken")
                 KeychainService.deleteTokenData(identifier: "sosohappy.tokens", account: "refreshToken")
                 KeychainService.deleteTokenData(identifier: "sosohappy.userInfo\(provider)", account: "userEmail")
