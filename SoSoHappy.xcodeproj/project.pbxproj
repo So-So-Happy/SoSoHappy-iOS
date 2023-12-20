@@ -92,6 +92,7 @@
 		6790DC262ACB13AC00BDCE4F /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6790DC252ACB13AC00BDCE4F /* EditProfileViewController.swift */; };
 		67A48D222AA21BCC003B18F0 /* LoginViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */; };
 		67B1F52B2AA0BD49000DA458 /* AppleUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B1F52A2AA0BD49000DA458 /* AppleUser.swift */; };
+		67CE533D2B3326E600850D9B /* BaseDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CE533C2B3326E600850D9B /* BaseDetailViewController.swift */; };
 		67D5762E2AC4521700C40232 /* Ex+ Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */; };
 		67E1B7B92AEC1308000EFCE0 /* AnimationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */; };
 		67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */; };
@@ -349,6 +350,7 @@
 		67A306AE2AD96ECA00BFF044 /* SoSoHappy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoSoHappy.entitlements; sourceTree = "<group>"; };
 		67A48D212AA21BCC003B18F0 /* LoginViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewReactor.swift; sourceTree = "<group>"; };
 		67B1F52A2AA0BD49000DA458 /* AppleUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleUser.swift; sourceTree = "<group>"; };
+		67CE533C2B3326E600850D9B /* BaseDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseDetailViewController.swift; sourceTree = "<group>"; };
 		67D5762D2AC4521700C40232 /* Ex+ Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+ Bundle.swift"; sourceTree = "<group>"; };
 		67E1B7B82AEC1308000EFCE0 /* AnimationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationButton.swift; sourceTree = "<group>"; };
 		67E1B7BB2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManagementViewReactor.swift; sourceTree = "<group>"; };
@@ -632,8 +634,8 @@
 				802C6C952AB8775B001142B4 /* HappyButton.swift */,
 				67E1B7C92AF134B2000EFCE0 /* CustomAlert.swift */,
 				80C0A2EA2AC06E6400107332 /* BaseCell.swift */,
-				8086510A2ADD3C340036CCFB /* BaseDetailViewController.swift */,
 				06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */,
+				67CE533C2B3326E600850D9B /* BaseDetailViewController.swift */,
 				808650F72ADA7F400036CCFB /* ExceptionView */,
 			);
 			path = Common;
@@ -1947,6 +1949,7 @@
 				802C6C9E2AB8782F001142B4 /* Rx+ UIImagePickerController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,
+				67CE533D2B3326E600850D9B /* BaseDetailViewController.swift in Sources */,
 				0613BCE42AA9EFBA00E2B97F /* BaseTargetType.swift in Sources */,
 				06F685F02A87D6400096EBF3 /* ImageSlideView.swift in Sources */,
 				808650F02AD6CCFE0036CCFB /* FindUserFeedResponse.swift in Sources */,
