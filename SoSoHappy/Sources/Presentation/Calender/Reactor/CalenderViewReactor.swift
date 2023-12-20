@@ -45,7 +45,7 @@ final class CalendarViewReactor: Reactor {
     
     // MARK: - Action
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case tapAlarmButton
         case tapListButton
         case tapPreviousButton
@@ -88,7 +88,7 @@ final class CalendarViewReactor: Reactor {
     // MARK: - mutate func
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return .concat([
                 .just(.setYear),
                 .just(.setMonth),
@@ -107,6 +107,7 @@ final class CalendarViewReactor: Reactor {
             return .concat([
                 feedRepository.findMonthFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
                     .map({ Mutation.setCalendarCell($0) }),
+                .just(.changeCurrentPage(date)),
                 .just(.setMonth),
                 .just(.setYear),
                 feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
