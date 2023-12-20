@@ -43,13 +43,7 @@ class BaseDetailViewController: UIViewController {
     }
     
     // 작성 글 잘 보이도록 사용하는 background
-    lazy var contentBackground = UIView().then {
-        $0.layer.backgroundColor = UIColor(named: "CellColor")?.cgColor
-        $0.layer.opacity = 0.4
-        $0.layer.cornerRadius = 16
-        $0.layer.borderWidth = 0.3
-        $0.layer.borderColor = UIColor.lightGray.cgColor
-    }
+    lazy var contentBackground = UIView()
     
     // 피드 이미지
     lazy var imageSlideView = ImageSlideView().then {
@@ -140,17 +134,17 @@ extension BaseDetailViewController {
         
         contentBackground.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.top.equalTo(dateLabel.snp.bottom).offset(26)
+            make.top.equalTo(dateLabel.snp.bottom).offset(21)
         }
                 
         textView.snp.makeConstraints { make in
             make.verticalEdges.equalTo(contentBackground).inset(12)
-            make.horizontalEdges.equalToSuperview().inset(40)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
         
         // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
         imageSlideView.snp.makeConstraints { make in
-            make.top.equalTo(contentBackground.snp.bottom).offset(22)
+            make.top.equalTo(contentBackground.snp.bottom)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
     }
