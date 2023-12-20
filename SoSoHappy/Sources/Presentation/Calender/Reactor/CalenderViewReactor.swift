@@ -103,7 +103,7 @@ final class CalendarViewReactor: BaseReactor, Reactor {
                         return Mutation.setCalendarCell($0)
                     }.catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
                     },
-                feedRepository.findDayFeed(request: FindFeedRequest(date: Date().getFormattedYMDH(), nickName: nickName))
+                feedRepository.findDayFeed(request: FindFeedRequest(date: currentState.selectedDate.getFormattedYMDH(), nickName: nickName))
                 .map { .setPreview($0) }
             ])
             
@@ -119,7 +119,7 @@ final class CalendarViewReactor: BaseReactor, Reactor {
                 .just(.changeCurrentPage(date)),
                 .just(.setMonth),
                 .just(.setYear),
-                feedRepository.findDayFeed(request: FindFeedRequest(date: date.getFormattedYMDH(), nickName: nickName))
+                feedRepository.findDayFeed(request: FindFeedRequest(date: currentState.selectedDate.getFormattedYMDH(), nickName: nickName))
                 .map { .setPreview($0) }
             ])
         case .tapNextButton:

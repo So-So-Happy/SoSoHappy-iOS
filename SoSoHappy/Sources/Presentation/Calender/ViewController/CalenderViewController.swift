@@ -193,6 +193,7 @@ extension CalendarViewController: View {
         
         reactor.state
             .map { $0.monthHappinessData }
+            .distinctUntilChanged()
             .subscribe { [weak self] feeds in
                 guard let `self` = self else { return }
                 self.monthFeedList = feeds
