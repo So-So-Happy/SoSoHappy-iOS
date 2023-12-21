@@ -18,6 +18,7 @@ final class ExceptionView: UIView {
     
     convenience init(title: String, inset: Int) {
         self.init(frame: .zero)
+        backgroundColor = UIColor(named: "BGgrayColor")
         self.configureUI(title: title, inset: inset)
     }
 }
