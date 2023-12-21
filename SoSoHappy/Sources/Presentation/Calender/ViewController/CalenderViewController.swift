@@ -394,6 +394,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             
             if calendar.gregorian.isDateInToday(date) {
                 calendar.appearance.selectionColor = .clear
+                calendar.appearance.titleSelectionColor = UIColor(named: "MainTextColor")
             }
             cell.backImageView.alpha = reactor?.currentState.selectedDate == date ? 0.5 : 1
             cell.titleLabel.isHidden = !(reactor?.currentState.selectedDate == date)
