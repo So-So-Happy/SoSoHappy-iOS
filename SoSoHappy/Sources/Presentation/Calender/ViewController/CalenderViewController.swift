@@ -77,12 +77,7 @@ final class CalendarViewController: UIViewController {
     ).then {
         $0.isHidden = true
     }
-    
-    private lazy var dividerLine = UIImageView().then {
-        let image = UIImage(named: "dividerLine")
-        $0.image = image
-    }
-    
+
     private var currentPage: Date?
     private let today: Date = {
         return Date()
