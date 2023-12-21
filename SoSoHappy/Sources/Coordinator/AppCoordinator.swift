@@ -31,6 +31,8 @@ final public class AppCoordinator: AppCoordinatorProtocol {
         if nickName.isEmpty || accessToken.isEmpty {
             showAuthFlow()
         } else {
+            print(KeychainService.getAccessToken())
+            print(KeychainService.getUserEmail())
             showMainFlow()
             
             // MARK: - 처음에 여기에서 세팅해주면 마이페이지 알림에도 적용해줘야할 것 같음

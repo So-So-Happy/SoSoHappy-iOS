@@ -106,6 +106,10 @@ extension MyFeedDetailViewController {
         imageSlideView.snp.makeConstraints { make in
             make.height.equalTo(0)
         }
+        
+        imageSlideView.snp.updateConstraints { make in
+            make.top.equalTo(contentBackground.snp.bottom).offset(36)
+        }
 
         textCountLabel.snp.makeConstraints { make in
             make.top.equalTo(contentBackground.snp.bottom).offset(10)

@@ -22,6 +22,7 @@ final class SignUpViewController: UIViewController {
     // MARK: - UI Components
     private lazy var scrollView = UIScrollView().then {
         $0.keyboardDismissMode = .onDrag
+        $0.showsVerticalScrollIndicator = false
     }
     
     private lazy var contentView = UIView()

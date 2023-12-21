@@ -9,7 +9,7 @@ import UIKit
 
 final class CustomAlert {
     static func presentErrorAlert(error: Error) {
-        let title = "⚠️ 네트워크 오류 ⚠️"
+        let title = "⚠️ Internal Server Error ⚠️"
         let message = "잠시 후에 다시 시도해주세요.\n\(error.localizedDescription)"
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -82,7 +82,7 @@ final class CustomAlert {
     }
     
     static func makeAlertController() -> UIAlertController {
-        let title = "⚠️ 네트워크 오류 ⚠️"
+        let title = "⚠️ Internal Server Error ⚠️"
         let message = "잠시 후에 다시 시도해주세요."
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         applyFontToAlert(alert, title: title, message: message)

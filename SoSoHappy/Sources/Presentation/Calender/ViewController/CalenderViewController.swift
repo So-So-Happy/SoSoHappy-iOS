@@ -393,7 +393,7 @@ extension CalendarViewController: FSCalendarDelegate, FSCalendarDataSource, FSCa
             cell.titleLabel.isHidden = true
             
             if calendar.gregorian.isDateInToday(date) {
-                calendar.appearance.todayColor = .clear
+                calendar.appearance.selectionColor = .clear
             }
             cell.backImageView.alpha = reactor?.currentState.selectedDate == date ? 0.5 : 1
             cell.titleLabel.isHidden = !(reactor?.currentState.selectedDate == date)
