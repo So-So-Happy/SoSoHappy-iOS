@@ -17,7 +17,9 @@ class BaseDetailViewController: UIViewController {
     var disposeBag = DisposeBag()
     
     // MARK: - UI Components
-    lazy var scrollView = UIScrollView()
+    lazy var scrollView = UIScrollView().then {
+        $0.showsVerticalScrollIndicator = false
+    }
     
     // scrollView에 들어갈 container view
     lazy var contentView = UIView()
@@ -36,7 +38,7 @@ class BaseDetailViewController: UIViewController {
     lazy var textView = UITextView().then {
         $0.textAlignment = .left
         $0.font = UIFont.customFont(size: 16, weight: .medium)
-        $0.textColor = .black
+        $0.textColor = UIColor(named: "MainTextColor")
         $0.backgroundColor = .clear
         $0.isUserInteractionEnabled = false
         $0.isScrollEnabled = false

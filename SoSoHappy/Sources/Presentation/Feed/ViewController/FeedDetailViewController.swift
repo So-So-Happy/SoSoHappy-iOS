@@ -59,6 +59,7 @@ final class FeedDetailViewController: BaseDetailViewController {
             profileImageNameTimeStackView.setContents(userFeed: userFeed)
             heartButton.setHeartButton(userFeed.isLiked)
             textView.font = UIFont.customFont(size: 16, weight: .medium)
+            textView.textColor = UIColor(named: "MainTextColor")
         }
     }
 }
@@ -83,12 +84,12 @@ extension FeedDetailViewController {
         }
         
         profileImageNameTimeStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(3)
-            make.left.equalTo(contentView.safeAreaLayoutGuide).inset(30)
+            make.top.equalToSuperview().inset(10)
+            make.left.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
         heartButton.snp.makeConstraints { make in
-            make.right.equalTo(contentView.safeAreaLayoutGuide).inset(30)
+            make.right.equalTo(contentView.safeAreaLayoutGuide).inset(20)
             make.centerY.equalTo(profileImageNameTimeStackView)
         }
         

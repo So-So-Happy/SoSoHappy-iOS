@@ -94,7 +94,7 @@ extension BaseCell {
     private func setConstraints() {
         cellBackgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-            make.bottom.equalTo(imageSlideView.snp.bottom).offset(40)
+            make.bottom.equalTo(imageSlideView.snp.bottom).offset(16)
         }
         
         weatherDateStackView.snp.makeConstraints { make in
@@ -110,8 +110,8 @@ extension BaseCell {
         }
         
         contentLabel.snp.makeConstraints { make in
-            make.top.equalTo(categoryStackView.snp.bottom).offset(24)
-            make.horizontalEdges.equalTo(cellBackgroundView).inset(15)
+            make.top.equalTo(categoryStackView.snp.bottom).offset(40)
+            make.horizontalEdges.equalTo(cellBackgroundView).inset(20)
         }
         
         imageSlideView.snp.makeConstraints { make in
