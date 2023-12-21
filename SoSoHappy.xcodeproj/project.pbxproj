@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		060002A22A8CED1F0071E98C /* Ex+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060002A12A8CED1F0071E98C /* Ex+UIColor.swift */; };
+		06027A822B34ADE000537815 /* KingFisherImageCachingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06027A812B34ADE000537815 /* KingFisherImageCachingManager.swift */; };
 		060DE1992A83CFE100C60392 /* HappyListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE1982A83CFE000C60392 /* HappyListCell.swift */; };
 		060DE19D2A850A6600C60392 /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE19C2A850A6500C60392 /* CategoryStackView.swift */; };
 		060DE19F2A8540F000C60392 /* HappyListViewController .swift in Sources */ = {isa = PBXBuildFile; fileRef = 060DE19E2A8540F000C60392 /* HappyListViewController .swift */; };
@@ -251,6 +252,7 @@
 
 /* Begin PBXFileReference section */
 		060002A12A8CED1F0071E98C /* Ex+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIColor.swift"; sourceTree = "<group>"; };
+		06027A812B34ADE000537815 /* KingFisherImageCachingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherImageCachingManager.swift; sourceTree = "<group>"; };
 		060DE1982A83CFE000C60392 /* HappyListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyListCell.swift; sourceTree = "<group>"; };
 		060DE19C2A850A6500C60392 /* CategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
 		060DE19E2A8540F000C60392 /* HappyListViewController .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HappyListViewController .swift"; sourceTree = "<group>"; };
@@ -1419,6 +1421,7 @@
 				809C1A202AF28D8C00A7841F /* Cache.swift */,
 				809C1A272AF3512600A7841F /* ProfileImageCache.swift */,
 				809C1A292AF3E01400A7841F /* SelfIntroductionCache.swift */,
+				06027A812B34ADE000537815 /* KingFisherImageCachingManager.swift */,
 			);
 			path = Cached;
 			sourceTree = "<group>";
@@ -1956,6 +1959,7 @@
 				0613BCDA2AA8AC4200E2B97F /* NetworkLoggerPlugin.swift in Sources */,
 				06D825ED2AE3AC8B00319D1A /* AwardsDetailViewController.swift in Sources */,
 				808650EB2AD6CCFE0036CCFB /* AnalysisHappinessResponse.swift in Sources */,
+				06027A822B34ADE000537815 /* KingFisherImageCachingManager.swift in Sources */,
 				067179F82ADD0426007252AE /* UserFeed.swift in Sources */,
 				80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */,
 				808650962AD5AFC40036CCFB /* WebSocketManager.swift in Sources */,
