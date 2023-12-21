@@ -15,8 +15,8 @@ final class ExceptionView: UIView {
         $0.image = UIImage(named: "emptyImage")
         $0.contentMode = .scaleAspectFit
     }
-    
-    convenience init(title: String, inset: Int) {
+
+    convenience init(title: String, inset: Int = 0) {
         self.init(frame: .zero)
         backgroundColor = UIColor(named: "BGgrayColor")
         self.configureUI(title: title, inset: inset)
@@ -31,16 +31,16 @@ extension ExceptionView {
         titleLabel.numberOfLines = 3
         titleLabel.textAlignment = .center
         titleLabel.setLineSpacing(lineSpacing: 10, alignment: .center)
-        
+
         self.addSubview(emptyHappyImage)
         self.addSubview(titleLabel)
 
         emptyHappyImage.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(30)
+            make.top.equalToSuperview().inset(30 + inset)
             make.size.equalTo(200)
             make.centerX.equalToSuperview()
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(emptyHappyImage.snp.bottom)
