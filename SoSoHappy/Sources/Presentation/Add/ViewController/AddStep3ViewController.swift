@@ -27,6 +27,7 @@ final class AddStep3ViewController: BaseDetailViewController {
     
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
+        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .selected)
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))

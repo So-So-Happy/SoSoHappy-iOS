@@ -30,6 +30,7 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     private lazy var saveButton = UIBarButtonItem(title: "저장", style: .plain, target: self, action: nil).then {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .normal)
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .disabled)
+        $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .selected)
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBarForCalender(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
