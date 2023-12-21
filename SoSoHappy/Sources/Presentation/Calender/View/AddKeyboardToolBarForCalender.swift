@@ -28,8 +28,8 @@ final class AddKeyboardToolBarForCalender: UIToolbar {
 // MARK: - setting functions
 extension AddKeyboardToolBarForCalender {
     // MARK: isPrivate에 따라 lockBarButton 이미지 세팅
-    func setPrivateTo(_ isPrivate: Bool) {
-        let systemName = isPrivate ? "lock" : "lock.open"
+    func setPublicTo(_ isPublic: Bool) {
+        let systemName = isPublic ? "lock.open" : "lock"
         let image = UIImage(systemName: systemName)
         lockBarButton.image = image
     }
