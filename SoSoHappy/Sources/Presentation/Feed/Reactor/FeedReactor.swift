@@ -99,7 +99,7 @@ extension FeedReactor {
                    return Observable.just(userFeed)
                }
                
-               if let cachedImage = ImageCache.shared.cache[userFeed.nickName] {
+               if let cachedImage = ProfileImageCache.shared.cache[userFeed.nickName] {
                    var userFeedWithCachedProfileImage = userFeed
                    userFeedWithCachedProfileImage.profileImage = cachedImage
                    return Observable.just(userFeedWithCachedProfileImage)
@@ -109,7 +109,7 @@ extension FeedReactor {
                    .map { profileImage in
                        var userFeedWithProfileImage = userFeed
                        userFeedWithProfileImage.profileImage = profileImage
-                       ImageCache.shared.cache[userFeed.nickName] = profileImage
+                       ProfileImageCache.shared.cache[userFeed.nickName] = profileImage
                        return userFeedWithProfileImage
                    }
                    .catch { _ in

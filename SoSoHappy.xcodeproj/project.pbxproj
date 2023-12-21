@@ -210,7 +210,7 @@
 		8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */; };
 		8099CFDE2AF7CE1600A7BFC2 /* SaveFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8099CFDD2AF7CE1600A7BFC2 /* SaveFeedRequest.swift */; };
 		809C1A212AF28D8C00A7841F /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A202AF28D8C00A7841F /* Cache.swift */; };
-		809C1A282AF3512600A7841F /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A272AF3512600A7841F /* ImageCache.swift */; };
+		809C1A282AF3512600A7841F /* ProfileImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A272AF3512600A7841F /* ProfileImageCache.swift */; };
 		809C1A2A2AF3E01400A7841F /* SelfIntroductionCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809C1A292AF3E01400A7841F /* SelfIntroductionCache.swift */; };
 		80AD686E2AC19EA700DD3D5F /* KakaoSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */; };
 		80AD68702AC19ED600DD3D5F /* AppleSigninManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AD686F2AC19ED600DD3D5F /* AppleSigninManager.swift */; };
@@ -474,7 +474,7 @@
 		8086510E2ADE8A400036CCFB /* AddKeyboardToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBar.swift; sourceTree = "<group>"; };
 		8099CFDD2AF7CE1600A7BFC2 /* SaveFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveFeedRequest.swift; sourceTree = "<group>"; };
 		809C1A202AF28D8C00A7841F /* Cache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
-		809C1A272AF3512600A7841F /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		809C1A272AF3512600A7841F /* ProfileImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageCache.swift; sourceTree = "<group>"; };
 		809C1A292AF3E01400A7841F /* SelfIntroductionCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfIntroductionCache.swift; sourceTree = "<group>"; };
 		80AB09742AF0A49500EDBAFC /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		80AD686D2AC19EA700DD3D5F /* KakaoSigninManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakaoSigninManager.swift; sourceTree = "<group>"; };
@@ -1417,7 +1417,7 @@
 			isa = PBXGroup;
 			children = (
 				809C1A202AF28D8C00A7841F /* Cache.swift */,
-				809C1A272AF3512600A7841F /* ImageCache.swift */,
+				809C1A272AF3512600A7841F /* ProfileImageCache.swift */,
 				809C1A292AF3E01400A7841F /* SelfIntroductionCache.swift */,
 			);
 			path = Cached;
@@ -1790,7 +1790,7 @@
 				06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */,
 				67E7DB642A8136DF00C33988 /* CalenderViewController.swift in Sources */,
 				069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */,
-				809C1A282AF3512600A7841F /* ImageCache.swift in Sources */,
+				809C1A282AF3512600A7841F /* ProfileImageCache.swift in Sources */,
 				80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */,
 				06CAC0812AF6B0730064BD33 /* MyFeedDetailViewReactor.swift in Sources */,
 				0613BCD62AA89AE400E2B97F /* Ex+Encodable.swift in Sources */,

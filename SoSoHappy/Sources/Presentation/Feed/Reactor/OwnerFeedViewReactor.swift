@@ -190,14 +190,14 @@ extension OwnerFeedViewReactor {
     }
     
     private func fetchProfileImage(owner dstNickname: String) -> Observable<Mutation> {
-        if let cachedImage = ImageCache.shared.cache[dstNickname] {
+        if let cachedImage = ProfileImageCache.shared.cache[dstNickname] {
             self.profileImage = cachedImage
             return .empty()
         }
         
         self.userRepository.findProfileImg(request: FindProfileImgRequest(nickname: dstNickname))
             .map { profileImage in
-                ImageCache.shared.cache[dstNickname] = profileImage
+                ProfileImageCache.shared.cache[dstNickname] = profileImage
                 self.profileImage = profileImage
             }
             .catch { _ in
