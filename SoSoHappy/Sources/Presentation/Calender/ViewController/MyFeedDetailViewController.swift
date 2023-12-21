@@ -282,7 +282,7 @@ extension MyFeedDetailViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] isPrivate in
                 guard let self = self else { return }
-//                addKeyboardToolBar.setPrivateTo(isPrivate)
+                addKeyboardToolBar.setPublicTo(isPrivate)
             }
             .disposed(by: disposeBag)
 

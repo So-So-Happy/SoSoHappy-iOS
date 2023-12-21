@@ -32,7 +32,7 @@ final class ChartView: UIView, ChartViewDelegate {
         $0.axis = .vertical
         $0.alignment = .center
         $0.distribution = .fill
-        $0.spacing = 5
+        $0.spacing = 7
     }
     
     private lazy var chartStackView = UIStackView().then {
@@ -104,7 +104,7 @@ final class ChartView: UIView, ChartViewDelegate {
     }
     
     func makeHappyStackView() {
-        let imageNames = ["happy5", "happy4", "happy3", "happy2", "happy1", "nohappy"]
+        let imageNames = ["happy5", "happy4", "happy3", "happy2", "happy1", ""]
         
         for imageName in imageNames {
             let imageView = UIImageView(image: UIImage(named: imageName))
@@ -112,13 +112,12 @@ final class ChartView: UIView, ChartViewDelegate {
             imageStackView.addArrangedSubview(imageView)
             
             imageView.snp.makeConstraints { make in
-                make.width.equalTo(20.0)  // 이미지의 폭을 조절
-                make.height.equalTo(20.0) // 이미지의 높이를 조절
+                make.width.equalTo(22.0)
+                make.height.equalTo(22.0)
             }
         }
     }
-    
-    
+      
     // MARK: - Chart Data 생성
     func setChartData(data: [ChartEntry]) {
         var dataEntries: [ChartDataEntry] = []
