@@ -8,10 +8,10 @@
 import UIKit
 
 // MARK: 닉네임(key) 프로필 이미지(value) 캐시
-final class ImageCache {
+final class ProfileImageCache {
     typealias CacheType = Cache<String, UIImage>
     
-    static let shared = ImageCache()
+    static let shared = ProfileImageCache()
     var cache: CacheType = CacheType()
     
     private init() { }

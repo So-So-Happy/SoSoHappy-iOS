@@ -218,7 +218,7 @@ extension FeedViewReactor {
     
     // MARK: processFeedWithProfileImage
     private func processFeedWithProfileImage(_ feed: UserFeed) -> Observable<UserFeedSection.Item> {
-        if let cachedImage = ImageCache.shared.cache[feed.nickName] {
+        if let cachedImage = ProfileImageCache.shared.cache[feed.nickName] {
             return Observable.just(handleProfileImageRequestResult(cachedImage, feed))
         }
     
@@ -254,7 +254,7 @@ extension FeedViewReactor {
     // MARK: handleProfileImageRequestResult
     private func handleProfileImageRequestResult(_ profileImg: UIImage, _ feed: UserFeed, cacheImage: Bool = false) -> UserFeedSection.Item {
         if cacheImage {
-            ImageCache.shared.cache[feed.nickName] = profileImg
+            ProfileImageCache.shared.cache[feed.nickName] = profileImg
         }
         let feed = feed.with(profileImage: profileImg)
         let reactor = FeedReactor(userFeed: feed, feedRepository: FeedRepository(), userRepository: UserRepository())
