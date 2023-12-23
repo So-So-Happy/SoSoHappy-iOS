@@ -34,8 +34,28 @@
 <br>
 
 ## 🛠️ 스킬
+- MVVM-C
+- ReactorKit
+- Clean Architecture
 
 <br>
+
+## Framework
+- UIKit
+  
+<br>
+
+## Library
+- RxSwift / RxDataSources / RxCocoa : 비동기 처리
+- Moya / RxMoya : Network
+- SnapKit : Layout
+- Swinject : DI
+- Kingfisher : 이미지 처리
+
+<br>
+
+## Figma
+
 
 ## 🤝🏻 규칙
 <details>
