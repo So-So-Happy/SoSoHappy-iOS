@@ -95,7 +95,7 @@
 <br>
 
 ### 7. 마이페이지
-<img width="1363" alt="sosohappy readme 007" src="https://github.com/So-So-Happy/SoSoHappy-iOS/assets/82339184/a9ce5d9a-9488-421d-9695-8b7ba78b650c">
+<img width="1363" alt="sosohappy readme 007" src="https://github.com/So-So-Happy/SoSoHappy-iOS/assets/82339184/3f15a25f-1b5f-4b51-959e-ba78a0dca476">
 <br>
 <br>
 
