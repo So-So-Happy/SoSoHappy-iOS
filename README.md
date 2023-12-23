@@ -125,7 +125,7 @@
 <br>
 
 ## 🎨 피그마
-- [소소해피](https://www.figma.com/file/0HWG978G5jtqINRaodhfCg/SoSoHappy?type=design&node-id=0-1&mode=design)
+- [소소해피 피그마](https://www.figma.com/file/0HWG978G5jtqINRaodhfCg/SoSoHappy?type=design&node-id=0-1&mode=design)
 
 <br>
 
