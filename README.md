@@ -4,7 +4,7 @@
 
 <br>
 
-# SoSoHappy-iOS 💖<img src="https://github.com/So-So-Happy/SoSoHappy-iOS/assets/82339184/37d5616c-79f5-4bcb-a71b-ab3a765b482f" align=left width=100>
+# 소소해피 💖<img src="https://github.com/So-So-Happy/SoSoHappy-iOS/assets/82339184/37d5616c-79f5-4bcb-a71b-ab3a765b482f" align=left width=100>
 > 일상 속 작은 행복의 발견
 
 <br>
