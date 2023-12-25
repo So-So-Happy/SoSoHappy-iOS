@@ -21,7 +21,7 @@ extension Networkable {
         let tokenClosure: (TargetType) -> HeaderType = { _ in
 
             let accessToken = KeychainService.getAccessToken()
-            let refreshToken = KeychainService.getAccessToken()
+            let refreshToken = KeychainService.getRefreshToken()
             let userEmail = KeychainService.getUserEmail()
             
             return HeaderType(email: userEmail, accessToken: accessToken, refreshToken: refreshToken)
