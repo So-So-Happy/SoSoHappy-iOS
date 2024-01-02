@@ -54,6 +54,14 @@ final class OwnerFeedViewController: UIViewController {
         inset: 40
     ).then {
         $0.isHidden = true
+        $0.emptyHappyImage.snp.updateConstraints { make in
+            make.size.equalTo(150)
+            make.top.equalToSuperview().inset(7)
+            make.centerX.equalToSuperview().offset(24)
+        }
+        $0.titleLabel.snp.updateConstraints { make in
+            make.centerX.equalToSuperview().offset(10)
+        }
     }
     
     private lazy var networkNotConnectedView = NetworkNotConnectedView(inset: 56).then {
