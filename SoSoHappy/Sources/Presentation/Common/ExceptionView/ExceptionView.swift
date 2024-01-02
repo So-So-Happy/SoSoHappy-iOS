@@ -10,7 +10,7 @@ import SnapKit
 
 final class ExceptionView: UIView {
     lazy var titleLabel = UILabel()
-    private lazy var emptyHappyImage = UIImageView().then {
+    lazy var emptyHappyImage = UIImageView().then {
         $0.layer.masksToBounds = true
         $0.image = UIImage(named: "emptyImage")
         $0.contentMode = .scaleAspectFit
@@ -38,7 +38,7 @@ extension ExceptionView {
         emptyHappyImage.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(30 + inset)
             make.size.equalTo(200)
-            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview().offset(26)
         }
 
         titleLabel.snp.makeConstraints { make in
