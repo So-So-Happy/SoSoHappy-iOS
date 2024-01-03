@@ -329,7 +329,7 @@ extension OwnerFeedViewController: BlockButtonDelegate {
     func reportButtonDidTap(_ blockButton: BlockButton) {
         CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 신고하시겠어요?", message: "", buttonTitle: "신고") {
             let alert = UIAlertController(title: "신고 사유를 선택해주세요",
-                                          message: "신고에 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다.(누적 신고횟수가 3회 이상인 유저는 피드 작성을 할 수 없게 됩니다",
+                                          message: "신고에 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다.(누적 신고횟수가 3회 이상인 유저는 피드 작성을 할 수 없게 됩니다)",
                                           preferredStyle: .alert)
 
             // 2. Creeate Actions
