@@ -9,7 +9,7 @@ import UIKit
 import Then
 
 extension UIViewController {
-    func showToast(_ message: String, withDuration: Double, delay: Double) {
+    func showToast(_ message: String, withDuration: Double, delay: Double, isToastPlacedOnTop: Bool = true) {
         let toastLabel = UILabel()
         toastLabel.backgroundColor = UIColor(named: "AccentColor")
         toastLabel.textColor = UIColor.white
@@ -23,10 +23,14 @@ extension UIViewController {
         self.view.addSubview(toastLabel)
         
         toastLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(16)
             make.width.equalTo(toastLabel.intrinsicContentSize.width + 30)
+            make.centerX.equalToSuperview()
             make.height.equalTo(40)
+            if isToastPlacedOnTop {
+                make.top.equalTo(self.view.safeAreaLayoutGuide).offset(16)
+            } else {
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(60)
+            }
         }
         
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveLinear, animations: {

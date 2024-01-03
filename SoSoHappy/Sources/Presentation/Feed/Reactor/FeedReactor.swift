@@ -15,6 +15,7 @@ final class FeedReactor: Reactor {
     enum Action {
         case fetchFeed
         case toggleLike
+        case reportProblem(ServerReport)
     }
     
     enum Mutation {
@@ -22,6 +23,7 @@ final class FeedReactor: Reactor {
         case setLike(Bool)
         case showNetworkErrorView(Bool) // 네트워크 에러
         case showServerErrorAlert(Bool) // 500에러
+        case isReportProcessSucceded(Bool?)
     }
     
     struct State {
@@ -29,6 +31,7 @@ final class FeedReactor: Reactor {
         var isLike: Bool?
         var showNetworkErrorView: Bool? // 네트워크 처리
         var showServerErrorAlert: Bool? // 500
+        var isReportProcessSucceded: Bool?
     }
     
     init(userFeed: UserFeed, feedRepository: FeedRepositoryProtocol, userRepository: UserRepositoryProtocol) {
@@ -63,6 +66,12 @@ final class FeedReactor: Reactor {
                         .just(.showServerErrorAlert(false))
                     ])
                 }
+            
+        case let .reportProblem(serverReport):
+            return .concat([
+                .just(.isReportProcessSucceded(true)),
+                .just(.isReportProcessSucceded(nil))
+            ])
         }
     }
     
@@ -84,6 +93,9 @@ final class FeedReactor: Reactor {
             
         case .showServerErrorAlert(let showServerErrorAlert):
             state.showServerErrorAlert = showServerErrorAlert
+            
+        case let .isReportProcessSucceded(isReportProcessSucceded):
+            state.isReportProcessSucceded = isReportProcessSucceded
         
         }
         return state

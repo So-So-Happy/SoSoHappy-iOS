@@ -8,18 +8,21 @@
 import UIKit
 
 protocol BlockButtonDelegate: AnyObject {
+    func reportButtonDidTap(_ blockButton: BlockButton)
     func blockButtonDidTap(_ blockButton: BlockButton)
 }
 
 class BlockButton: UIButton {
     weak var delegate: BlockButtonDelegate?
     
+    private lazy var report = UIAction() { _ in
+        self.delegate?.reportButtonDidTap(self)
+    }
+    
     private lazy var block = UIAction() { _ in
         self.delegate?.blockButtonDidTap(self)
     }
     
-    private lazy var menus = UIMenu(children: [block])
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setBlockButton()
@@ -33,10 +36,17 @@ class BlockButton: UIButton {
         setImage(UIImage(systemName: "ellipsis.circle"), for: .normal)
         setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
         showsMenuAsPrimaryAction = true
-        let title = NSAttributedString(string: "작성자 신고", attributes: [
+        let title = NSAttributedString(string: "신고하기", attributes: [
             NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)
         ])
-        block.setValue(title, forKey: "attributedTitle")
-        menu = UIMenu(children: [block])
+        
+        let blockTitle = NSAttributedString(string: "작성자 차단", attributes: [
+            NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)
+        ])
+        
+        report.setValue(title, forKey: "attributedTitle")
+        block.setValue(blockTitle, forKey: "attributedTitle")
+        
+        menu = UIMenu(children: [report, block])
     }
 }
