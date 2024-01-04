@@ -58,7 +58,7 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
         case setContent(String)
         case setInitialImages([UIImage])
         case setSelectedImages([UIImage])
-        case isPrivate(Bool)
+        case isPublic(Bool)
         case saveFeed(Bool)
         case showNetworkErrorView(Error)
         case showServerErrorAlert(Error)
@@ -104,7 +104,7 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
                     .map { .setInitialImages($0) }
                     .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
                     },
-                .just(.isPrivate(feed.isPulic))
+                .just(.isPublic(feed.isPulic))
             ])
         case let .weatherButtonTapped(tag):
             return Observable.just(.setSelectedWeather(tag))
@@ -142,7 +142,7 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
             
         case .tapLockButton:
             let isPrivate = !currentState.isPrivate
-            return Observable.just(.isPrivate(isPrivate))
+            return Observable.just(.isPublic(isPrivate))
             
         case .tapSaveButton:
             let saveFeedRequest = SaveFeedRequest(
@@ -199,10 +199,9 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
             }
             
         case .setDate(let date):
-            let date = date.toDate()
+            let date = date.makeData()
             newState.date = date
             newState.dateString = date.getFormattedYMDE()
-            
         case let .setContent(content):
             newState.content = content
             
@@ -212,8 +211,8 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
         case let .setSelectedImages(images):
             newState.selectedImages = images
             
-        case let .isPrivate(isPrivate):
-            newState.isPrivate = isPrivate
+        case let .isPublic(isPublic):
+            newState.isPrivate = isPublic
             
         case let .saveFeed(isSuccess):
             newState.isSaveFeedSuccess = isSuccess ? .saved : .notSaved

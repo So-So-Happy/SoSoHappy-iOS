@@ -252,7 +252,7 @@ extension MyFeedDetailViewController: View {
         
         reactor.state
             .map { $0.dateString }
-            .distinctUntilChanged()
+//            .distinctUntilChanged()
             .bind(to: self.dateLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -285,9 +285,9 @@ extension MyFeedDetailViewController: View {
         reactor.state
             .map { $0.isPrivate }
             .distinctUntilChanged()
-            .bind { [weak self] isPrivate in
+            .bind { [weak self] isPublic in
                 guard let self = self else { return }
-                addKeyboardToolBar.setPublicTo(isPrivate)
+                addKeyboardToolBar.setPublicTo(isPublic)
             }
             .disposed(by: disposeBag)
 
