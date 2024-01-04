@@ -199,9 +199,11 @@ extension FeedDetailViewController: View {
         
         reactor.state
             .compactMap { $0.isReportProcessSucceded }
-            .subscribe(onNext: { [weak self] isBlockSucceeded in
+            .subscribe(onNext: { [weak self] isReportProcessSucceded in
                 guard let self = self else { return }
-                showToast("처리되었습니다", withDuration: 1.2, delay: 0.6, isToastPlacedOnTop: false)
+                if isReportProcessSucceded{
+                    coordinator?.goBackToRoot()
+                }
             })
             .disposed(by: disposeBag)
     }
