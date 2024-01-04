@@ -135,7 +135,6 @@ final class TabCoordinator: NSObject, Coordinator {
         case .feed:
             let feedCoordinator = FeedCoordinator(navigationController: tabNavigationController)
             feedCoordinator.parentCoordinator = self
-            feedCoordinator.finishDelegate = self
             self.childCoordinators.append(feedCoordinator)
             feedCoordinator.start()
             
