@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol BlockButtonDelegate: AnyObject {
-    func reportButtonDidTap(_ blockButton: BlockButton)
-    func blockButtonDidTap(_ blockButton: BlockButton)
+protocol ServerReportButtonDelegate: AnyObject {
+    func reportButtonDidTap(_ blockButton: ServerReportButton)
+    func blockButtonDidTap(_ blockButton: ServerReportButton)
 }
 
-class BlockButton: UIButton {
-    weak var delegate: BlockButtonDelegate?
+final class ServerReportButton: UIButton {
+    weak var delegate: ServerReportButtonDelegate?
     
     private lazy var report = UIAction() { _ in
         self.delegate?.reportButtonDidTap(self)
@@ -40,7 +40,7 @@ class BlockButton: UIButton {
             NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)
         ])
         
-        let blockTitle = NSAttributedString(string: "작성자 차단", attributes: [
+        let blockTitle = NSAttributedString(string: "작성자 차단하기", attributes: [
             NSAttributedString.Key.font: UIFont.customFont(size: 16, weight: .medium)
         ])
         
