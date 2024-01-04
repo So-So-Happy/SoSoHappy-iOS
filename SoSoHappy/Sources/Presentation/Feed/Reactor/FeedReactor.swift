@@ -67,9 +67,17 @@ final class FeedReactor: Reactor {
                     ])
                 }
             
-        case let .reportProblem(serverReport):
+        case .reportProblem(_):
             return .concat([
-                .just(.isReportProcessSucceded(true)),
+                userRepository.block(request: BlockRequest(srcNickname: srcNickname, dstNickname: dstNickname))
+                    .map { Mutation.isReportProcessSucceded($0) }
+                    .catch({ _ in
+                        return .concat([
+                            .just(.showServerErrorAlert(true)),
+                            .just(.showServerErrorAlert(false))
+                        ])
+                    }),
+                
                 .just(.isReportProcessSucceded(nil))
             ])
         }
