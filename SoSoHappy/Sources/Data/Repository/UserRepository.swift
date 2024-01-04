@@ -223,4 +223,57 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
             }
         }
     }
+    
+    // MARK: 유저 차단
+    func block(request: BlockRequest) -> Observable<Bool> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.block(request))
+                .map(BlockResponse.self)
+                .map { $0.success }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        print("block -  succes ")
+                        emitter.onNext(response)
+                    case .error(let error):
+                        print("block -  error - \(error.localizedDescription) ")
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
+    
+    
+    // MARK: 유저 차단 해제
+    func unblock(request: UnblockRequest) -> Observable<Bool> {
+        return Observable.create { emitter in
+            let provider = self.accessProvider()
+            let disposable = provider.rx.request(.unblock(request))
+                .map(UnblockResponse.self)
+                .map { $0.success }
+                .asObservable()
+                .subscribe { event in
+                    switch event {
+                    case .next(let response):
+                        emitter.onNext(response)
+                    case .error(let error):
+                        emitter.onError(error)
+                    case .completed:
+                        emitter.onCompleted()
+                    }
+                }
+            
+            return Disposables.create() {
+                disposable.dispose()
+            }
+        }
+    }
 }

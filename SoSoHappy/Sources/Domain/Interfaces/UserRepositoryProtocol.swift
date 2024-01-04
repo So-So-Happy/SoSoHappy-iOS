@@ -16,4 +16,6 @@ protocol UserRepositoryProtocol {
     func getRefreshToken() -> Observable<RelssueTokenResponse>
     func findProfileImg(request: FindProfileImgRequest) -> Observable<UIImage>
     func findIntroduction(request: FindIntroductionRequest) -> Observable<String>
+    func block(request: BlockRequest) -> Observable<Bool>
+    func unblock(request: UnblockRequest) -> Observable<Bool>
 }
