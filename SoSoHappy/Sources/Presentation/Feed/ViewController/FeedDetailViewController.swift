@@ -36,7 +36,7 @@ final class FeedDetailViewController: BaseDetailViewController {
         $0.isHidden = true
     }
     
-    private lazy var blockButton = BlockButton().then {
+    private lazy var blockButton = ServerReportButton().then {
         $0.delegate = self
     }
 
@@ -201,46 +201,24 @@ extension FeedDetailViewController: View {
             .compactMap { $0.isReportProcessSucceded }
             .subscribe(onNext: { [weak self] isBlockSucceeded in
                 guard let self = self else { return }
-                showToast("처리되었습니다", withDuration: 3.5, delay: 1.0, isToastPlacedOnTop: false)
+                showToast("처리되었습니다", withDuration: 1.2, delay: 0.6, isToastPlacedOnTop: false)
             })
             .disposed(by: disposeBag)
     }
 }
 
-extension FeedDetailViewController: BlockButtonDelegate {
-    func reportButtonDidTap(_ blockButton: BlockButton) {
+extension FeedDetailViewController: ServerReportButtonDelegate {
+    func reportButtonDidTap(_ blockButton: ServerReportButton) {
         CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 신고하시겠어요?", message: "", buttonTitle: "신고") {
-            let alert = UIAlertController(title: "신고 사유를 선택해주세요",
-                                          message: "신고에 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다.(누적 신고횟수가 3회 이상인 유저는 피드 작성을 할 수 없게 됩니다)",
-                                          preferredStyle: .alert)
-
-            // 2. Creeate Actions
-            alert.addAction(UIAlertAction(title: "상업적 광고",
-                                          style: .default,
-                                          handler: { [weak self] _ in self?.reactor?.action.onNext(.reportProblem(.report))}))
+            let alert = CustomAlert.createReportAlert { [weak self]  in
+                self?.reactor?.action.onNext(.reportProblem(.report))
+            }
             
-            alert.addAction(UIAlertAction(title: "폭력성",
-                                          style: .default,
-                                          handler: { [weak self] _ in self?.reactor?.action.onNext(.reportProblem(.report))}))
-            
-            alert.addAction(UIAlertAction(title: "음란물",
-                                          style: .default,
-                                          handler: { [weak self] _ in self?.reactor?.action.onNext(.reportProblem(.report))}))
-            
-            alert.addAction(UIAlertAction(title: "기타",
-                                          style: .default,
-                                          handler: { [weak self] _ in self?.reactor?.action.onNext(.reportProblem(.report))}))
-            
-            alert.addAction(UIAlertAction(title: "취소",
-                                          style: .cancel,
-                                          handler: { _ in print("Cancel tap") }))
-
             self.present(alert, animated: true, completion: nil)
-            
         }
     }
     
-    func blockButtonDidTap(_ blockButton: BlockButton) {
+    func blockButtonDidTap(_ blockButton: ServerReportButton) {
         CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자가 작성한 피드를 볼 수 없습니다. (차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.reportProblem(.block))
         }
     }
