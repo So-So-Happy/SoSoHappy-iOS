@@ -10,6 +10,7 @@ import UIKit
 protocol FeedDetailCoordinatorInterface: Coordinator {
     func dismiss()
     func showOwner(ownerNickName: String)
+    func goBackToRoot()
 }
 
 enum FeedNavigationSource {
@@ -52,10 +53,17 @@ extension FeedDetailCoordinator {
             let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName, navigatingFrom: .feedDetailViewController)
             
             ownerFeedCoordinator.parentCoordinator = self
+            ownerFeedCoordinator.finishDelegate = finishDelegate
             self.childCoordinators.append(ownerFeedCoordinator)
+        
             ownerFeedCoordinator.start()
         
         default: break
         }
+    }
+    
+    func goBackToRoot() {
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+        navigationController.popToRootViewController(animated: true)
     }
 }

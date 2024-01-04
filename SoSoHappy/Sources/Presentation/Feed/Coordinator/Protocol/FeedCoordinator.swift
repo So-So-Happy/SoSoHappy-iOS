@@ -13,6 +13,10 @@ protocol FeedCoordinatorInterface: Coordinator {
     func showOwner(ownerNickName: String)
 }
 
+protocol FeedCoordinatorDelegate: AnyObject {
+    func showProcessClearedToastMessage()
+}
+
 // MARK: - FeedCoordinator
 final class FeedCoordinator: FeedCoordinatorInterface {
     var type: CoordinatorType { .feed }
@@ -20,6 +24,7 @@ final class FeedCoordinator: FeedCoordinatorInterface {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     var finishDelegate: CoordinatorFinishDelegate?
+    weak var delegate: FeedCoordinatorDelegate?
     
     init(navigationController: UINavigationController = UINavigationController() ) {
         self.navigationController = navigationController
@@ -31,6 +36,7 @@ final class FeedCoordinator: FeedCoordinatorInterface {
             userRepository: UserRepository())
         
         let feedVC = FeedViewController(reactor: feedViewReactor, coordinator: self)
+        self.delegate = feedVC
         navigationController.pushViewController(feedVC, animated: true)
     }
 }
@@ -40,7 +46,9 @@ extension FeedCoordinator {
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedReactor: feedReactor, navigatingFrom: .feedViewController)
         
         feedDetailCoordinator.parentCoordinator = self
+        feedDetailCoordinator.finishDelegate = self
         self.childCoordinators.append(feedDetailCoordinator)
+        
         feedDetailCoordinator.start()
     }
     
@@ -48,7 +56,16 @@ extension FeedCoordinator {
         let ownerFeedCoordinator = OwnerFeedCoordinator(navigationController: self.navigationController, ownerNickName: ownerNickName, navigatingFrom: .feedViewController)
         
         ownerFeedCoordinator.parentCoordinator = self
+        ownerFeedCoordinator.finishDelegate = self
         self.childCoordinators.append(ownerFeedCoordinator)
+        
         ownerFeedCoordinator.start()
+    }
+}
+
+extension FeedCoordinator: CoordinatorFinishDelegate {
+    func coordinatorDidFinish(childCoordinator: Coordinator) {
+        childCoordinators.removeAll()
+        delegate?.showProcessClearedToastMessage()
     }
 }

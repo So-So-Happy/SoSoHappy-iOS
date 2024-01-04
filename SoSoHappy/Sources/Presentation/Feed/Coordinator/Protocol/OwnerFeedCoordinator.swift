@@ -50,11 +50,15 @@ extension OwnerFeedCoordinator {
         let feedDetailCoordinator = FeedDetailCoordinator(navigationController: self.navigationController, feedReactor: feedReactor, navigatingFrom: .ownerFeedViewController)
         
         feedDetailCoordinator.parentCoordinator = self
+        feedDetailCoordinator.finishDelegate = finishDelegate
         self.childCoordinators.append(feedDetailCoordinator)
+        
         feedDetailCoordinator.start()
     }
     
     // MARK: FeedViewController로 돌아가서 showToastMessage
     func goBackToRoot() {
+        finishDelegate?.coordinatorDidFinish(childCoordinator: self)
+        navigationController.popToRootViewController(animated: true)
     }
 }
