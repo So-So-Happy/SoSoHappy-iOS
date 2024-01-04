@@ -114,4 +114,33 @@ final class CustomAlert {
             rootViewController.present(alert, animated: true, completion: nil)
         }
     }
+    
+    
+    static func createReportAlert(with handler: (() -> Void)?) -> UIAlertController {
+            let alert = UIAlertController(title: "신고 사유를 선택해주세요",
+                                          message: "신고에 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다.(누적 신고횟수가 5회 이상인 유저는 피드 작성을 할 수 없게 됩니다)",
+                                          preferredStyle: .alert)
+
+            alert.addAction(UIAlertAction(title: "상업적 광고",
+                                          style: .default,
+                                          handler: { _ in handler?() }))
+            
+            alert.addAction(UIAlertAction(title: "폭력성",
+                                          style: .default,
+                                          handler: { _ in handler?() }))
+            
+            alert.addAction(UIAlertAction(title: "음란물",
+                                          style: .default,
+                                          handler: { _ in handler?() }))
+            
+            alert.addAction(UIAlertAction(title: "기타",
+                                          style: .default,
+                                          handler: { _ in handler?() }))
+            
+            alert.addAction(UIAlertAction(title: "취소",
+                                          style: .cancel,
+                                          handler: nil))
+            
+            return alert
+        }
 }
