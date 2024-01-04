@@ -128,5 +128,9 @@
 	<string>${UPDATE_LIKE_PATH}</string>
 	<key>UPDATE_PUBLIC_STATUS_PATH</key>
 	<string>${UPDATE_PUBLIC_STATUS_PATH}</string>
+	<key>BLOCK</key>
+	<string>${BLOCK}</string>
+	<key>UNBLOCK</key>
+	<string>${UNBLOCK}</string>
 </dict>
 </plist>

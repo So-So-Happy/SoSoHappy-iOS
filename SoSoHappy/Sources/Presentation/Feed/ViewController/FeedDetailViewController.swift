@@ -35,6 +35,10 @@ final class FeedDetailViewController: BaseDetailViewController {
     private lazy var networkNotConnectedView = NetworkNotConnectedView(inset: 300).then {
         $0.isHidden = true
     }
+    
+    private lazy var blockButton = ServerReportButton().then {
+        $0.delegate = self
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +72,7 @@ final class FeedDetailViewController: BaseDetailViewController {
 extension FeedDetailViewController {
     private func setLayoutForDetail() {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: backButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: blockButton)
         
         self.view.addSubview(exceptionView)
         self.view.addSubview(networkNotConnectedView)
@@ -191,10 +196,35 @@ extension FeedDetailViewController: View {
                 }
             })
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap { $0.isReportProcessSucceded }
+            .subscribe(onNext: { [weak self] isReportProcessSucceded in
+                guard let self = self else { return }
+                if isReportProcessSucceded{
+                    coordinator?.goBackToRoot()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
-extension FeedDetailViewController {
+extension FeedDetailViewController: ServerReportButtonDelegate {
+    func reportButtonDidTap(_ blockButton: ServerReportButton) {
+        CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 신고하시겠어요?", message: "", buttonTitle: "신고") {
+            let alert = CustomAlert.createReportAlert { [weak self]  in
+                self?.reactor?.action.onNext(.reportProblem(.report))
+            }
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func blockButtonDidTap(_ blockButton: ServerReportButton) {
+        CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자가 작성한 피드를 볼 수 없습니다. (차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.reportProblem(.block))
+        }
+    }
+    
     @objc private func didSwipe(_ sender: UISwipeGestureRecognizer) {
         coordinator?.dismiss()
     }

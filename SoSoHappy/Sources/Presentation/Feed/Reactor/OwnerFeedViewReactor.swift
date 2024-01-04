@@ -7,6 +7,11 @@
 
 import ReactorKit
 
+enum ServerReport {
+    case block
+    case report
+}
+
 final class OwnerFeedViewReactor: Reactor {
     private let feedRepository: FeedRepositoryProtocol
     private let userRepository: UserRepositoryProtocol
@@ -24,7 +29,7 @@ final class OwnerFeedViewReactor: Reactor {
         case refresh
         case fetchFeeds
         case pagination
-        case block
+        case reportProblem(ServerReport)
     }
     
     enum Mutation {
@@ -33,7 +38,7 @@ final class OwnerFeedViewReactor: Reactor {
         case isPaging(Bool)
         case setProfile(String)
         case updateDataSource([UserFeedSection.Item])
-        case isBlockSucceeded(Bool)
+        case isReportProcessSucceded(Bool?)
         case showNetworkErrorView(Bool) // 네트워크 에러
         case showServerErrorAlert(Bool) // 500에러
     }
@@ -47,7 +52,7 @@ final class OwnerFeedViewReactor: Reactor {
           model: 0,
           items: []
         )
-        var isBlockSucceeded: Bool?
+        var isReportProcessSucceded: Bool?
         var showNetworkErrorView: Bool? // 네트워크 에러
         var showServerErrorAlert: Bool? // 500
     }
@@ -100,9 +105,20 @@ final class OwnerFeedViewReactor: Reactor {
                 .just(.isPaging(false))
             ])
             
-        case .block:
-            return .just(.isBlockSucceeded(true))
-            
+        case .reportProblem(_):
+            let srcNickname = KeychainService.getNickName()
+            return .concat([
+                userRepository.block(request: BlockRequest(srcNickname: srcNickname, dstNickname: ownerNickName))
+                    .map { Mutation.isReportProcessSucceded($0) }
+                    .catch({ _ in
+                        return .concat([
+                            .just(.showServerErrorAlert(true)),
+                            .just(.showServerErrorAlert(false))
+                        ])
+                    }),
+                
+                .just(.isReportProcessSucceded(nil))
+            ])
         }
     }
 
@@ -128,8 +144,8 @@ final class OwnerFeedViewReactor: Reactor {
                 state.sections.items = sectionItem
             }
 
-        case let .isBlockSucceeded(isBlockSucceeded):
-            state.isBlockSucceeded = isBlockSucceeded
+        case let .isReportProcessSucceded(isReportProcessSucceded):
+            state.isReportProcessSucceded = isReportProcessSucceded
             
         case .showNetworkErrorView(let showNetworkErrorView):
             if showNetworkErrorView {

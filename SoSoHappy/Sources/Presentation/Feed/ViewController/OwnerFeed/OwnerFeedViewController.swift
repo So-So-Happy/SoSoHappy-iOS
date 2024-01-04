@@ -41,7 +41,7 @@ final class OwnerFeedViewController: UIViewController {
         $0.setPreferredSymbolConfiguration(.init(scale: .large), forImageIn: .normal)
     }
     
-    private lazy var blockButton = BlockButton().then {
+    private lazy var blockButton = ServerReportButton().then {
         $0.delegate = self
     }
     
@@ -239,10 +239,12 @@ extension OwnerFeedViewController: View {
             .disposed(by: disposeBag)
         
         reactor.state
-            .compactMap { $0.isBlockSucceeded }
-            .subscribe(onNext: { [weak self] isBlockSucceeded in
+            .compactMap { $0.isReportProcessSucceded }
+            .subscribe(onNext: { [weak self] isReportProcessSucceded in
                 guard let self = self else { return }
-                coordinator?.goBackToRoot()
+                if isReportProcessSucceded {
+                    coordinator?.goBackToRoot()
+                }
             })
             .disposed(by: disposeBag)
         
@@ -263,8 +265,7 @@ extension OwnerFeedViewController: View {
         reactor.state
             .compactMap { $0.showServerErrorAlert }
             .distinctUntilChanged()
-            .bind(onNext: { [weak self] showServerErrorAlert in
-                guard let self = self else { return }
+            .bind(onNext: { showServerErrorAlert in
                 if showServerErrorAlert {
                     let asyncAfter: Double = reactor.currentAction == .refresh ? 0.7 : 0
                     DispatchQueue.main.asyncAfter(deadline: .now() + asyncAfter) {
@@ -326,9 +327,19 @@ extension OwnerFeedViewController: UITableViewDelegate {
     }
 }
 
-extension OwnerFeedViewController: BlockButtonDelegate {
-    func blockButtonDidTap(_ blockButton: BlockButton) {
-        CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 신고하시겠어요?", message: "", buttonTitle: "신고") { self.reactor?.action.onNext(.block)
+extension OwnerFeedViewController: ServerReportButtonDelegate {
+    func reportButtonDidTap(_ blockButton: ServerReportButton) {
+        CustomAlert.presentCheckAndCancelAlert(title: "해당 작성자를 신고하시겠어요?", message: "", buttonTitle: "신고") {
+            let alert = CustomAlert.createReportAlert { [weak self]  in
+                self?.reactor?.action.onNext(.reportProblem(.report))
+            }
+
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func blockButtonDidTap(_ blockButton: ServerReportButton) {
+        CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자가 작성한 피드를 볼 수 없습니다. (차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.reportProblem(.block))
         }
     }
     

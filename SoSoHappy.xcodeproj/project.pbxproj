@@ -158,8 +158,12 @@
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		80416DD32B46AD9600A399DD /* BlockRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80416DD22B46AD9600A399DD /* BlockRequest.swift */; };
+		80416DD52B46AE2500A399DD /* UnblockRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80416DD42B46AE2500A399DD /* UnblockRequest.swift */; };
+		80416DD72B46AF3900A399DD /* BlockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80416DD62B46AF3900A399DD /* BlockResponse.swift */; };
+		80416DD92B46AFAF00A399DD /* UnblockResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80416DD82B46AFAF00A399DD /* UnblockResponse.swift */; };
 		806DA38B2AFA9CEB00970C8A /* Ex+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */; };
-		807285A62B1A115C00A401F4 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A52B1A115C00A401F4 /* BlockButton.swift */; };
+		807285A62B1A115C00A401F4 /* ServerReportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A52B1A115C00A401F4 /* ServerReportButton.swift */; };
 		807285A92B1B04AB00A401F4 /* UserFeedSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A82B1B04AB00A401F4 /* UserFeedSection.swift */; };
 		807285AB2B1B0B0200A401F4 /* FeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285AA2B1B0B0200A401F4 /* FeedViewReactor.swift */; };
 		807285AD2B1B0C5A00A401F4 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */; };
@@ -419,8 +423,12 @@
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		80416DD22B46AD9600A399DD /* BlockRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockRequest.swift; sourceTree = "<group>"; };
+		80416DD42B46AE2500A399DD /* UnblockRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnblockRequest.swift; sourceTree = "<group>"; };
+		80416DD62B46AF3900A399DD /* BlockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockResponse.swift; sourceTree = "<group>"; };
+		80416DD82B46AFAF00A399DD /* UnblockResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnblockResponse.swift; sourceTree = "<group>"; };
 		806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIViewController.swift"; sourceTree = "<group>"; };
-		807285A52B1A115C00A401F4 /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
+		807285A52B1A115C00A401F4 /* ServerReportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerReportButton.swift; sourceTree = "<group>"; };
 		807285A82B1B04AB00A401F4 /* UserFeedSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedSection.swift; sourceTree = "<group>"; };
 		807285AA2B1B0B0200A401F4 /* FeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewReactor.swift; sourceTree = "<group>"; };
 		807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -1238,7 +1246,7 @@
 		80380C0E2A98DC400077048D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				807285A52B1A115C00A401F4 /* BlockButton.swift */,
+				807285A52B1A115C00A401F4 /* ServerReportButton.swift */,
 				80C0A2EE2AC0867300107332 /* HeartButton.swift */,
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
@@ -1374,6 +1382,8 @@
 				8099CFDD2AF7CE1600A7BFC2 /* SaveFeedRequest.swift */,
 				80EB56942B23001A00029908 /* FindFeedImageRequest.swift */,
 				807E785E2B2A1C9900941C1D /* ImageRequest.swift */,
+				80416DD22B46AD9600A399DD /* BlockRequest.swift */,
+				80416DD42B46AE2500A399DD /* UnblockRequest.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1402,6 +1412,8 @@
 				80EB56962B23007D00029908 /* FindFeedImageResponse.swift */,
 				807E78602B2A1D7600941C1D /* ImageResponse.swift */,
 				06D5ABAB2B2C3B2900524E7F /* ReIssueTokenResponse.swift */,
+				80416DD62B46AF3900A399DD /* BlockResponse.swift */,
+				80416DD82B46AFAF00A399DD /* UnblockResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1775,6 +1787,7 @@
 				678025312A95086A004123AA /* ChartView.swift in Sources */,
 				06EC953B2AD62929003FFE52 /* AlertViewController.swift in Sources */,
 				6769C0942AD6D7BE00D1D2CD /* CalenderViewReactor.swift in Sources */,
+				80416DD52B46AE2500A399DD /* UnblockRequest.swift in Sources */,
 				67E7DB802A81381300C33988 /* ChartCoordinator.swift in Sources */,
 				80131E2B2B1E0B5B00AD9091 /* LoadingView.swift in Sources */,
 				8086510F2ADE8A400036CCFB /* AddKeyboardToolBar.swift in Sources */,
@@ -1855,10 +1868,12 @@
 				80380C262A98DEA00077048D /* DMListCell.swift in Sources */,
 				674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */,
 				06D825F02AE3AE1700319D1A /* ChartViewReactor.swift in Sources */,
+				80416DD32B46AD9600A399DD /* BlockRequest.swift in Sources */,
 				06AFDA6F2B3321E90077CCC8 /* BaseReactor.swift in Sources */,
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
+				80416DD92B46AFAF00A399DD /* UnblockResponse.swift in Sources */,
 				67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */,
 				80EB56952B23001A00029908 /* FindFeedImageRequest.swift in Sources */,
 				06896DEE2AC2A804001DCCFC /* AppCoordinator.swift in Sources */,
@@ -1918,6 +1933,7 @@
 				802C6CAE2AB87C36001142B4 /* OwnerFeedViewReactor.swift in Sources */,
 				807285AB2B1B0B0200A401F4 /* FeedViewReactor.swift in Sources */,
 				06F6BA382A8DE85300A6765A /* Happy.swift in Sources */,
+				80416DD72B46AF3900A399DD /* BlockResponse.swift in Sources */,
 				808650CE2AD6CCDD0036CCFB /* FindOtherFeedRequest.swift in Sources */,
 				808650B82AD6CB110036CCFB /* ResponseContainer.swift in Sources */,
 				674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */,
@@ -1948,7 +1964,7 @@
 				809C1A2A2AF3E01400A7841F /* SelfIntroductionCache.swift in Sources */,
 				80AD68AE2AC3F15B00DD3D5F /* OwnerFeedCoordinator.swift in Sources */,
 				808650CF2AD6CCDD0036CCFB /* UpdatePulicStatusRequest.swift in Sources */,
-				807285A62B1A115C00A401F4 /* BlockButton.swift in Sources */,
+				807285A62B1A115C00A401F4 /* ServerReportButton.swift in Sources */,
 				802C6C9E2AB8782F001142B4 /* Rx+ UIImagePickerController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,

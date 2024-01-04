@@ -18,6 +18,8 @@ enum UserAPI {
     case setProfile(profile: Profile)
     case findProfileImg(FindProfileImgRequest)
     case findIntroduction(FindIntroductionRequest)
+    case block(BlockRequest)
+    case unblock(UnblockRequest)
 }
 
 // MARK: UserAPI + TargetType
@@ -48,6 +50,10 @@ extension UserAPI {
             return Bundle.main.findProfileImgPath
         case .findIntroduction:
             return Bundle.main.findIntrodunction
+        case .block:
+            return Bundle.main.block
+        case .unblock:
+            return Bundle.main.unblock
         }
     }
     
@@ -68,6 +74,10 @@ extension UserAPI {
         case .findProfileImg:
             return .post
         case .findIntroduction:
+            return .post
+        case .block:
+            return .post
+        case .unblock:
             return .post
         }
     }
@@ -131,6 +141,22 @@ extension UserAPI {
             let nickname = data.nickname.data(using: .utf8)!
             formData.append(MultipartFormData(provider: .data(nickname), name: "nickname"))
             return .uploadMultipart(formData)
+            
+        case .block(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let srcNickname = data.srcNickname.data(using: .utf8)!
+            let dstNickname = data.dstNickname.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(srcNickname), name: "srcNickname"))
+            formData.append(MultipartFormData(provider: .data(dstNickname), name: "dstNickname"))
+            return .uploadMultipart(formData)
+            
+        case .unblock(let data):
+            var formData: [Moya.MultipartFormData] = []
+            let srcNickname = data.srcNickname.data(using: .utf8)!
+            let dstNickname = data.dstNickname.data(using: .utf8)!
+            formData.append(MultipartFormData(provider: .data(srcNickname), name: "srcNickname"))
+            formData.append(MultipartFormData(provider: .data(dstNickname), name: "dstNickname"))
+            return .uploadMultipart(formData)
         }
     }
 }
@@ -146,6 +172,8 @@ extension UserAPI: JWTAuthorizable {
         case .resign: return .accessToken
         case .findProfileImg: return .accessToken
         case .findIntroduction: return .accessToken
+        case .block: return .accessToken
+        case .unblock: return .accessToken
         }
     }
 }

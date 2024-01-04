@@ -287,3 +287,9 @@ extension FeedViewController {
         }
     }
 }
+
+extension FeedViewController: FeedCoordinatorDelegate {
+    func showProcessClearedToastMessage() {
+        showToast("처리되었습니다", withDuration: 1.8, delay: 1.8, isToastPlacedOnTop: false)
+    }
+}

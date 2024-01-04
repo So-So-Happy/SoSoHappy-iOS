@@ -51,6 +51,16 @@ extension Bundle {
         guard let key = Bundle.main.infoDictionary?["FIND_INTRODUCTION"] as? String else { fatalError("FIND_INTRODUCTION error") }
         return key
     }
+    
+    var block: String {
+        guard let key = Bundle.main.infoDictionary?["BLOCK"] as? String else { fatalError("BLOCK error") }
+        return key
+    }
+    
+    var unblock: String {
+        guard let key = Bundle.main.infoDictionary?["UNBLOCK"] as? String else { fatalError("UNBLOCK error") }
+        return key
+    }
         
     // MARK: -  Server - Feed
     var saveFeedPath: String {
