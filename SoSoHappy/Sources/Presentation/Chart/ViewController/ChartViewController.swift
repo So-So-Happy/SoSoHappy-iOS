@@ -228,7 +228,7 @@ extension ChartViewController {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
         
         yearMonthLabel.snp.makeConstraints {
-            $0.width.equalTo(130)
+            $0.width.equalTo(110)
         }
         
         scrollView.snp.makeConstraints {
