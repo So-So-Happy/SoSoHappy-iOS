@@ -158,8 +158,9 @@
 		80380C372A98DFFE0077048D /* DMChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C362A98DFFE0077048D /* DMChattingViewController.swift */; };
 		80380C412A9E23C30077048D /* ProfileImageNameTimeStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */; };
 		80380C432A9E2B610077048D /* WeatherDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80380C422A9E2B610077048D /* WeatherDateStackView.swift */; };
+		80416DD12B466DA400A399DD /* ReportAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80416DD02B466DA400A399DD /* ReportAlertController.swift */; };
 		806DA38B2AFA9CEB00970C8A /* Ex+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */; };
-		807285A62B1A115C00A401F4 /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A52B1A115C00A401F4 /* BlockButton.swift */; };
+		807285A62B1A115C00A401F4 /* ServerReportButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A52B1A115C00A401F4 /* ServerReportButton.swift */; };
 		807285A92B1B04AB00A401F4 /* UserFeedSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285A82B1B04AB00A401F4 /* UserFeedSection.swift */; };
 		807285AB2B1B0B0200A401F4 /* FeedViewReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285AA2B1B0B0200A401F4 /* FeedViewReactor.swift */; };
 		807285AD2B1B0C5A00A401F4 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */; };
@@ -419,8 +420,9 @@
 		80380C362A98DFFE0077048D /* DMChattingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DMChattingViewController.swift; sourceTree = "<group>"; };
 		80380C402A9E23C30077048D /* ProfileImageNameTimeStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageNameTimeStackView.swift; sourceTree = "<group>"; };
 		80380C422A9E2B610077048D /* WeatherDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDateStackView.swift; sourceTree = "<group>"; };
+		80416DD02B466DA400A399DD /* ReportAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportAlertController.swift; sourceTree = "<group>"; };
 		806DA38A2AFA9CEB00970C8A /* Ex+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIViewController.swift"; sourceTree = "<group>"; };
-		807285A52B1A115C00A401F4 /* BlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
+		807285A52B1A115C00A401F4 /* ServerReportButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerReportButton.swift; sourceTree = "<group>"; };
 		807285A82B1B04AB00A401F4 /* UserFeedSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFeedSection.swift; sourceTree = "<group>"; };
 		807285AA2B1B0B0200A401F4 /* FeedViewReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewReactor.swift; sourceTree = "<group>"; };
 		807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -1229,6 +1231,7 @@
 			children = (
 				807285AC2B1B0C5A00A401F4 /* FeedViewController.swift */,
 				80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */,
+				80416DD02B466DA400A399DD /* ReportAlertController.swift */,
 				80380C2C2A98DF650077048D /* OwnerFeed */,
 				80380C2D2A98DF700077048D /* DM */,
 			);
@@ -1238,7 +1241,7 @@
 		80380C0E2A98DC400077048D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				807285A52B1A115C00A401F4 /* BlockButton.swift */,
+				807285A52B1A115C00A401F4 /* ServerReportButton.swift */,
 				80C0A2EE2AC0867300107332 /* HeartButton.swift */,
 				80380C172A98DD950077048D /* FeedHeaderView.swift */,
 				80380C192A98DDA40077048D /* FeedCell.swift */,
@@ -1848,6 +1851,7 @@
 				67E1B7BC2AF0E53B000EFCE0 /* AccountManagementViewReactor.swift in Sources */,
 				06896DF02AC2A817001DCCFC /* Coordinator.swift in Sources */,
 				808650ED2AD6CCFE0036CCFB /* FindOtherFeedResponse.swift in Sources */,
+				80416DD12B466DA400A399DD /* ReportAlertController.swift in Sources */,
 				802C6C982AB877A0001142B4 /* SignUpViewReactor.swift in Sources */,
 				807285AF2B1C542700A401F4 /* Ex+Array.swift in Sources */,
 				6709C1E72B136DB000237A38 /* Ex+UIFont.swift in Sources */,
@@ -1948,7 +1952,7 @@
 				809C1A2A2AF3E01400A7841F /* SelfIntroductionCache.swift in Sources */,
 				80AD68AE2AC3F15B00DD3D5F /* OwnerFeedCoordinator.swift in Sources */,
 				808650CF2AD6CCDD0036CCFB /* UpdatePulicStatusRequest.swift in Sources */,
-				807285A62B1A115C00A401F4 /* BlockButton.swift in Sources */,
+				807285A62B1A115C00A401F4 /* ServerReportButton.swift in Sources */,
 				802C6C9E2AB8782F001142B4 /* Rx+ UIImagePickerController.swift in Sources */,
 				67E7DB8A2A81389C00C33988 /* ChartViewModel.swift in Sources */,
 				67E7DB492A8134C200C33988 /* Constants.swift in Sources */,
