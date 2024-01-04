@@ -227,6 +227,10 @@ extension ChartViewController {
         contentView.addSubview(chartView)
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
         
+        yearMonthLabel.snp.makeConstraints {
+            $0.width.equalTo(130)
+        }
+        
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
