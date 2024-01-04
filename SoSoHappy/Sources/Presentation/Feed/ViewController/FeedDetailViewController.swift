@@ -221,7 +221,7 @@ extension FeedDetailViewController: ServerReportButtonDelegate {
     }
     
     func blockButtonDidTap(_ blockButton: ServerReportButton) {
-        CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자가 작성한 피드를 볼 수 없습니다. (차단 여부는 상대방이 알 수 없습니다)", buttonTitle: "차단") { self.reactor?.action.onNext(.reportProblem(.block))
+        CustomAlert.presentCheckAndCancelAlert(title: "작성자 차단", message: "차단하시겠습니까? 차단하면 차단한 작성자가 작성한 피드를 볼 수 없습니다.\n(차단 여부는 상대방이 알 수 없습니다.)", buttonTitle: "차단") { self.reactor?.action.onNext(.reportProblem(.block))
         }
     }
     

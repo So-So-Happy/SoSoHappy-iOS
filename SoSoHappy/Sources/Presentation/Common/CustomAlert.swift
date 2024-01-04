@@ -23,10 +23,10 @@ final class CustomAlert {
         
         presentAlert(alert)
     }
-
+    
     static func presentCheckAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-      
+        
         applyFontToAlert(alert, title: title, message: message)
         
         let okAction = UIAlertAction(title: "확인", style: .default, handler: nil)
@@ -116,30 +116,43 @@ final class CustomAlert {
     }
     
     static func createReportAlert(with handler: (() -> Void)?) -> UIAlertController {
-            let alert = UIAlertController(title: "신고 사유를 선택해주세요",
-                                          message: "신고에 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다.(누적 신고횟수가 5회 이상인 유저는 피드 작성을 할 수 없게 됩니다)",
-                                          preferredStyle: .alert)
-
-            alert.addAction(UIAlertAction(title: "상업적 광고",
-                                          style: .default,
-                                          handler: { _ in handler?() }))
-            
-            alert.addAction(UIAlertAction(title: "폭력성",
-                                          style: .default,
-                                          handler: { _ in handler?() }))
-            
-            alert.addAction(UIAlertAction(title: "음란물",
-                                          style: .default,
-                                          handler: { _ in handler?() }))
-            
-            alert.addAction(UIAlertAction(title: "기타",
-                                          style: .default,
-                                          handler: { _ in handler?() }))
-            
-            alert.addAction(UIAlertAction(title: "취소",
-                                          style: .cancel,
-                                          handler: nil))
-            
-            return alert
-        }
+        let title = "신고 사유를 선택해주세요."
+        let message = "신고 사유에 맞지 않는 신고일 경우, 해당 신고는 처리되지 않습니다."
+        let alert = UIAlertController(title: title,
+                                      message: message,
+                                      preferredStyle: .alert)
+        applyFontToAlert(alert, title: title, message: message)
+        
+        let action1 = UIAlertAction(title: "상업적 광고",
+                                    style: .default,
+                                    handler: { _ in handler?() })
+        action1.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        alert.addAction(action1)
+        
+        let action2 = UIAlertAction(title: "폭력성",
+                                    style: .default,
+                                    handler: { _ in handler?() })
+        action2.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        alert.addAction(action2)
+        
+        let action3 = UIAlertAction(title: "음란물",
+                                    style: .default,
+                                    handler: { _ in handler?() })
+        action3.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        alert.addAction(action3)
+        
+        let action4 = UIAlertAction(title: "기타",
+                                    style: .default,
+                                    handler: { _ in handler?() })
+        action4.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        alert.addAction(action4)
+        
+        let action5 = UIAlertAction(title: "취소",
+                                    style: .cancel,
+                                    handler: nil)
+        action5.setValue(UIColor(named: "AccentColor"), forKey: "titleTextColor")
+        alert.addAction(action5)
+        
+        return alert
+    }
 }
