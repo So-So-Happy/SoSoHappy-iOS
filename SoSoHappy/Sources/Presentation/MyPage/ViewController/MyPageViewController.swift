@@ -32,6 +32,11 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     private lazy var profileView = ProfileView()
     private lazy var stackView = SettingStackView()
+    private lazy var scrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = false
+    }
+    private lazy var contentView = UIView()
     
     // MARK: - Life cycle
     override func viewDidLoad() {
@@ -109,11 +114,24 @@ extension MyPageViewController {
     }
     
     private func setLayout() {
-        view.addSubviews(profileView, stackView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubviews(profileView, stackView)
         view.backgroundColor = UIColor(named: "BGgrayColor")
         
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(scrollView)
+        }
+        
         profileView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
+//            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
         }

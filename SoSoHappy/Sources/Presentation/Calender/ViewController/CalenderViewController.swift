@@ -29,6 +29,13 @@ final class CalendarViewController: UIViewController {
     }
     private lazy var calendar = FSCalendar()
     
+    private lazy var scrollView = UIScrollView().then {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.showsVerticalScrollIndicator = false
+    }
+    
+    private lazy var contentView = UIView()
+    
     private lazy var previousButton = UIButton().then({
         let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .semibold)
         let image = UIImage(systemName: "chevron.left", withConfiguration: imageConfig)
@@ -65,8 +72,6 @@ final class CalendarViewController: UIViewController {
         $0.font = UIFont.customFont(size: 25, weight: .bold)
         $0.text = Date().getFormattedDate(format: "M월")
     }
-    
-    private lazy var scrollView = UIScrollView()
     
     private lazy var preview = Preview()
     private lazy var emptyPreview = EmptyPreviewView()
@@ -258,14 +263,34 @@ private extension CalendarViewController {
     }
     
     private func setLayout() {
-        //        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: alarmButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: listButton)
+        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
-        self.view.addSubviews(calendarBackgroundView, previousButton, nextButton, yearLabel, monthLabel, preview, emptyPreview)
+        self.view.addSubview(scrollView)
+        self.scrollView.addSubview(contentView)
+        self.contentView.addSubviews(
+            calendarBackgroundView,
+            previousButton,
+            nextButton,
+            yearLabel,
+            monthLabel,
+            preview,
+            emptyPreview
+        )
+        self.calendarBackgroundView.addSubview(calendar)
         
-        calendarBackgroundView.addSubview(calendar)
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+            $0.height.equalTo(scrollView)
+        }
         
         alarmButton.snp.makeConstraints {
             $0.width.height.equalTo(40)
@@ -277,13 +302,13 @@ private extension CalendarViewController {
         
         previousButton.snp.makeConstraints {
             $0.left.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(128)
+            $0.top.equalToSuperview().inset(65)
             $0.width.height.equalTo(20)
         }
         
         nextButton.snp.makeConstraints {
             $0.right.equalToSuperview().inset(120)
-            $0.top.equalToSuperview().inset(128)
+            $0.top.equalToSuperview().inset(65)
             $0.width.height.equalTo(20)
         }
         

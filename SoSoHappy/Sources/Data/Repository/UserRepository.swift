@@ -235,10 +235,8 @@ final class UserRepository: UserRepositoryProtocol, Networkable {
                 .subscribe { event in
                     switch event {
                     case .next(let response):
-                        print("block -  succes ")
                         emitter.onNext(response)
                     case .error(let error):
-                        print("block -  error - \(error.localizedDescription) ")
                         emitter.onError(error)
                     case .completed:
                         emitter.onCompleted()
