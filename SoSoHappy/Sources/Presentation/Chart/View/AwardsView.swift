@@ -108,9 +108,9 @@ extension AwardsView {
         case 2:
             self.image2.image = UIImage(named: "\(categories[0])")
             self.image1.image = UIImage(named: "\(categories[1])")
-            self.image1.isHidden = true
-            self.image2.isHidden = true
-            self.image3.isHidden = false
+            self.image1.isHidden = false
+            self.image2.isHidden = false
+            self.image3.isHidden = true
         default:
             self.image2.image = UIImage(named: "\(categories[0])")
             self.image1.image = UIImage(named: "\(categories[1])")
