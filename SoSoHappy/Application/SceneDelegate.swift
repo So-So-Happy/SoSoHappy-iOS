@@ -79,6 +79,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        checkAndUpdateIfNeeded()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -93,3 +94,72 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate {
+    // 업데이트가 필요한지 확인하는 함수
+     func checkAndUpdateIfNeeded() {
+         // 현재 앱스토어에 있는 버전
+         DispatchQueue.main.async { [weak self] in
+             guard let self = self else { return }
+             Task {
+                 do {
+                     let data = try await AppstoreCheck().latestVersionByFirebase()
+                     guard let version = data.0, let forceUpdate = data.1 else { return }
+                     let marketingVersion = version // 앱 스토어에 있는 버전
+                     
+                     // 현재 앱(프로젝트)의 버전
+                     let currentProjectVersion = AppstoreCheck.appVersion ?? ""
+                     
+                     // 앱스토어에 있는 버전을 .마다 나눈 것 (예: 1.2.1 버전이라면 [1, 2, 1])
+                     let splitMarketingVersion = marketingVersion.split(separator: ".").map { $0 }
+                     
+                     // 현재 프로젝트 버전을 .마다 나눈 것
+                     let splitCurrentProjectVersion = currentProjectVersion.split(separator: ".").map { $0 }
+                     
+                     // [Major].[Minor].[Revision] 중 [Major]을 비교하여 앱스토어에 있는 버전이 높을 경우 알럿 띄우기
+                     // major, minor에 변화가 있거나 forceupdate인 경우에만 update 시키면 됨
+                     
+                     if forceUpdate && (splitCurrentProjectVersion != splitMarketingVersion)  {
+                         self.showUpdateAlert(version: marketingVersion, isForced: true)
+                     }
+                     else if splitCurrentProjectVersion[0] < splitMarketingVersion[0] {
+                         self.showUpdateAlert(version: marketingVersion, isForced: false)
+                         
+                     // [Major].[Minor].[Revision] 중 [Minor]을 비교하여 앱스토어에 있는 버전이 높을 경우 알럿 띄우기
+                     } else if splitCurrentProjectVersion[1] < splitMarketingVersion[1] {
+                         self.showUpdateAlert(version: marketingVersion, isForced: false)
+                         
+                     // 나머지 상황에서는 업데이트 알럿을 띄우지 않음
+                     } else {
+                         print("현재 최신 버젼입니다.")
+                     }
+                     
+                 } catch {
+                     print("Error \(error)")
+                 }
+             }
+         }
+     }
+     
+    // 알럿을 띄우는 함수
+    func showUpdateAlert(version: String, isForced: Bool) {
+        let alert = UIAlertController(
+            title: "업데이트 알림",
+            message: "\(version)으로의 업데이트 사항이 있습니다. 앱스토어에서 앱을 업데이트 해주세요.",
+            preferredStyle: .alert
+        )
+        
+        // 업데이트 버튼을 누르면 앱스토어로 이동
+        let updateAction = UIAlertAction(title: "업데이트", style: .default) { _ in
+            AppstoreCheck().openAppStore()
+        }
+        
+        alert.addAction(updateAction)
+        
+        if !isForced {
+            let laterAction = UIAlertAction(title: "나중에", style: .default)
+            alert.addAction(laterAction)
+        }
+        
+        self.window?.rootViewController?.present(alert, animated: true, completion: nil)
+    }
+}

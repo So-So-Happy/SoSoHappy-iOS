@@ -233,6 +233,7 @@
 		80C0A2EB2AC06E6400107332 /* BaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EA2AC06E6400107332 /* BaseCell.swift */; };
 		80C0A2EF2AC0867300107332 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C0A2EE2AC0867300107332 /* HeartButton.swift */; };
 		80E89F532B2C138B00C33B7A /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */; };
+		80EA40D82B4FD487008DAEE8 /* AppstoreCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EA40D72B4FD487008DAEE8 /* AppstoreCheck.swift */; };
 		80EB56952B23001A00029908 /* FindFeedImageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB56942B23001A00029908 /* FindFeedImageRequest.swift */; };
 		80EB56972B23007D00029908 /* FindFeedImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB56962B23007D00029908 /* FindFeedImageResponse.swift */; };
 /* End PBXBuildFile section */
@@ -503,6 +504,7 @@
 		80C0A2EA2AC06E6400107332 /* BaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCell.swift; sourceTree = "<group>"; };
 		80C0A2EE2AC0867300107332 /* HeartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		80E89F522B2C138B00C33B7A /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
+		80EA40D72B4FD487008DAEE8 /* AppstoreCheck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppstoreCheck.swift; sourceTree = "<group>"; };
 		80EB56942B23001A00029908 /* FindFeedImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedImageRequest.swift; sourceTree = "<group>"; };
 		80EB56962B23007D00029908 /* FindFeedImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFeedImageResponse.swift; sourceTree = "<group>"; };
 		874EB24E7CA09CDE965462CC /* Pods-SoSoHappy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoSoHappy.release.xcconfig"; path = "Target Support Files/Pods-SoSoHappy/Pods-SoSoHappy.release.xcconfig"; sourceTree = "<group>"; };
@@ -1448,6 +1450,7 @@
 				808650952AD5AFC40036CCFB /* WebSocketManager.swift */,
 				80780E562B2F264E00F9758D /* Connectivity.swift */,
 				809C1A262AF34FB500A7841F /* Cached */,
+				80EA40D72B4FD487008DAEE8 /* AppstoreCheck.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1796,6 +1799,7 @@
 				671F97DD2AF23A7C00222811 /* MypageViewReactor.swift in Sources */,
 				0613BCE22AA9E86D00E2B97F /* HttpError.swift in Sources */,
 				06B3FA482B20B7B8009F72E7 /* SetCategoryViewController.swift in Sources */,
+				80EA40D82B4FD487008DAEE8 /* AppstoreCheck.swift in Sources */,
 				80380C062A98A14C0077048D /* NickNameStackView.swift in Sources */,
 				0613BCD12AA5F7B000E2B97F /* UserAPI.swift in Sources */,
 				67E7DB532A81357100C33988 /* Network.swift in Sources */,
@@ -2156,7 +2160,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SoSoHappy/SoSoHappy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -2174,11 +2178,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sosohappy.SoSoHappy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sosohappyDistribution;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sosohappyProfile2;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -2196,7 +2200,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SoSoHappy/SoSoHappy.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -2214,11 +2218,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sosohappy.SoSoHappy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sosohappyDistribution;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = sosohappyProfile2;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

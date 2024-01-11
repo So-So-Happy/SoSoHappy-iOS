@@ -151,4 +151,9 @@ extension Bundle {
 
         return key.replacingOccurrences(of: "\\n", with: "\n")
     }
+    
+    var appleID: String {
+        guard let key = Bundle.main.infoDictionary?["APPLEID"] as? String else { fatalError("APPLEID error") }
+        return key
+    }
 }
