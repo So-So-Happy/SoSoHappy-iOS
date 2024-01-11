@@ -225,7 +225,7 @@ extension ChartViewController {
         contentView.addSubview(awardsView)
         contentView.addSubview(recommendView)
         contentView.addSubview(chartView)
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 64, right: 0)
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
         
         scrollView.snp.makeConstraints {
             $0.edges.equalToSuperview()
@@ -238,7 +238,6 @@ extension ChartViewController {
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
-            $0.height.equalTo(scrollView).offset(30)
         }
         
         leftEmptyView.snp.makeConstraints {
@@ -279,6 +278,7 @@ extension ChartViewController {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(recommendView.snp.bottom)
             $0.height.equalTo(300)
+            $0.bottom.equalToSuperview()
         }
     }
     
@@ -289,4 +289,3 @@ extension ChartViewController {
     }
     
 }
-

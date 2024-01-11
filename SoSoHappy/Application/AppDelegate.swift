@@ -161,7 +161,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     -> UNNotificationPresentationOptions {
         let userInfo = notification.request.content.userInfo
         
-        let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting")
+        let isOnNotificationSetting = UserDefaults.standard.bool(forKey: "notificationSetting\(KeychainService.getProvider())")
         return isOnNotificationSetting ? [[.alert, .sound]] : []
     }
     

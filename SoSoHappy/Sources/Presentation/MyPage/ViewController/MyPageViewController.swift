@@ -126,11 +126,9 @@ extension MyPageViewController {
         contentView.snp.makeConstraints {
             $0.edges.equalTo(scrollView.contentLayoutGuide)
             $0.width.equalTo(scrollView.frameLayoutGuide)
-            $0.height.equalTo(scrollView)
         }
         
         profileView.snp.makeConstraints {
-//            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalToSuperview()
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
@@ -140,6 +138,7 @@ extension MyPageViewController {
             $0.top.equalTo(profileView.snp.bottom).offset(50)
             $0.centerX.equalToSuperview()
             $0.horizontalEdges.equalToSuperview().inset(25)
+            $0.bottom.equalToSuperview().inset(40)
         }
     }
 }

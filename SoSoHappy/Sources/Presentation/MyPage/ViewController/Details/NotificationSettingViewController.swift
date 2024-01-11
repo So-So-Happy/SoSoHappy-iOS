@@ -110,7 +110,7 @@ extension NotificationSettingViewController: View {
                         switch settings.authorizationStatus {
                         case .authorized:
                             DispatchQueue.main.async {
-                                UserDefaults.standard.setValue(true, forKey: "notificationSetting")
+                                UserDefaults.standard.setValue(true, forKey: "notificationSetting\(KeychainService.getProvider())")
                                 self.alarmSwitch.setOn(true, animated: false)
                             }
                         case .denied:
@@ -129,7 +129,7 @@ extension NotificationSettingViewController: View {
                         }
                     }
                 } else {
-                    UserDefaults.standard.setValue(false, forKey: "notificationSetting")
+                    UserDefaults.standard.setValue(false, forKey: "notificationSetting\(KeychainService.getProvider())")
                     self.alarmSwitch.setOn(false, animated: false)
                 }
             })

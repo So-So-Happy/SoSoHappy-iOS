@@ -106,7 +106,7 @@ final class LoginViewController: UIViewController, View {
                 logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
                 shouldRun ? logInButtonStackView.appleSpinner.startAnimating() : logInButtonStackView.appleSpinner.stopAnimating()
                 logInButtonStackView.kakaoLoginButton.isEnabled = !shouldRun
-                logInButtonStackView.appleLoginButton.isEnabled = !shouldRun
+                logInButtonStackView.googleLoginButton.isEnabled = !shouldRun
             })
             .disposed(by: disposeBag)
         

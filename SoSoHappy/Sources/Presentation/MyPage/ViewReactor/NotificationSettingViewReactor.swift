@@ -42,7 +42,7 @@ class NotificationSettingViewReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            let setting = UserDefaults.standard.bool(forKey: "notificationSetting")
+            let setting = UserDefaults.standard.bool(forKey: "notificationSetting\(KeychainService.getProvider())")
             return .just(.setFirstNotiSetting(setting))
             
         case .tapSwitch(let isOn):
