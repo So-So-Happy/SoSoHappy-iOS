@@ -1449,8 +1449,8 @@
 				80AD68712AC19F5000DD3D5F /* SigninManagerProtocol.swift */,
 				808650952AD5AFC40036CCFB /* WebSocketManager.swift */,
 				80780E562B2F264E00F9758D /* Connectivity.swift */,
-				809C1A262AF34FB500A7841F /* Cached */,
 				80EA40D72B4FD487008DAEE8 /* AppstoreCheck.swift */,
+				809C1A262AF34FB500A7841F /* Cached */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
