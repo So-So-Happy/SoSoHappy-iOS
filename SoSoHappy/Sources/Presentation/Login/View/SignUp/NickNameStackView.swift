@@ -87,4 +87,10 @@ extension NickNameStackView {
             make.height.equalTo(40)
         }
     }
+    
+    func checkIsNickNameTextFieldFirstResponder() {
+        if nickNameTextField.isFirstResponder {
+            nickNameTextField.resignFirstResponder()
+        }
+    }
 }

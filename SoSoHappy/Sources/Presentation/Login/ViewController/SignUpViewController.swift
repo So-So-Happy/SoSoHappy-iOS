@@ -12,6 +12,7 @@ import RxCocoa
 import ReactorKit
 import Then
 import RxKeyboard
+import RxGesture
 
 final class SignUpViewController: UIViewController {
     // MARK: - Properties
@@ -65,8 +66,9 @@ extension SignUpViewController {
 
     private func setLayout() {
         self.view.addSubview(scrollView)
-        scrollView.addSubviews(contentView)
         self.view.addSubview(signUpButton)
+        scrollView.addSubviews(contentView)
+                
         contentView.addSubviews(signUpDescriptionStackView, profileImageEditButton, nickNameSection, selfIntroductionSection)
 
         scrollView.snp.makeConstraints { make in
@@ -76,12 +78,12 @@ extension SignUpViewController {
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
-            make.bottom.equalTo(signUpButton).offset(40)
+            make.bottom.equalTo(selfIntroductionSection).offset(40)
         }
         
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(60)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(20)
         }
         
         profileImageEditButton.snp.makeConstraints { make in
@@ -118,6 +120,14 @@ extension SignUpViewController {
 // MARK: - ReactorKit
 extension SignUpViewController: View {
     func bind(reactor: SignUpViewReactor) {
+        self.view.rx.tapGesture().when(.recognized)
+            .subscribe { [weak self] _ in
+                guard let self = self else { return }
+                nickNameSection.checkIsNickNameTextFieldFirstResponder()
+                selfIntroductionSection.checkIsTextViewFirstResponder()
+            }
+            .disposed(by: disposeBag)
+        
         profileImageEditButton.editButton.rx.tap
             .flatMapLatest { [weak self] _ in
                 return UIImagePickerController.rx.createWithParent(self) { (picker) in
@@ -247,7 +257,7 @@ extension SignUpViewController: View {
                 if UIResponder.currentFirst() is UITextField {
                     self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 70, right: 0)
                 } else {
-                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 217 , right: 0)
+                    self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 250 , right: 0)
                 }
             })
             .disposed(by: disposeBag)
@@ -266,13 +276,6 @@ extension SignUpViewController: View {
                     let targetRect = selfIntroductionSection.frame.insetBy(dx: 0, dy: -50)
                     self.scrollView.scrollRectToVisible(targetRect, animated: true)
                 }
-            })
-            .disposed(by: disposeBag)
-        
-        selfIntroductionSection.addKeyboardToolBar.keyboardDownBarButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                selfIntroductionSection.checkIsTextViewFirstResponder()
             })
             .disposed(by: disposeBag)
     }

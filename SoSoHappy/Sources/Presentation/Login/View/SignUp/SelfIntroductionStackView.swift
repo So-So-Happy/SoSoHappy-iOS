@@ -66,10 +66,7 @@ extension SelfIntroductionStackView {
         selfIntroductionView.addArrangedSubview(selfIntroductionTextView)
         selfIntroductionView.addArrangedSubview(textCountLabel)
         
-        addKeyboardToolBar.lockBarButton.isHidden = true
-        addKeyboardToolBar.photoBarButton.isHidden = true
         selfIntroductionTextView.isUserInteractionEnabled = true
-        selfIntroductionTextView.inputAccessoryView = addKeyboardToolBar
     }
     
     func checkIsTextViewFirstResponder() {
