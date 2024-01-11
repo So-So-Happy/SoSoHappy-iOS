@@ -83,7 +83,7 @@ extension SignUpViewController {
         
         signUpDescriptionStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(20)
+            make.top.equalTo(contentView.safeAreaLayoutGuide).inset(60)
         }
         
         profileImageEditButton.snp.makeConstraints { make in
