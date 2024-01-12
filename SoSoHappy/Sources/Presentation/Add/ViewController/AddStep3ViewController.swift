@@ -273,6 +273,7 @@ extension AddStep3ViewController: View {
             .distinctUntilChanged()
             .bind { [weak self] isPublic in
                 guard let self = self else { return }
+                setLockImageVIew(isPublic: isPublic)
                 addKeyboardToolBar.setPublicTo(isPublic)
             }
             .disposed(by: disposeBag)

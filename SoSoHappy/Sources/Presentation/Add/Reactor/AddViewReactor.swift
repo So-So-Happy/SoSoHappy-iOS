@@ -84,7 +84,7 @@ final class AddViewReactor: Reactor {
         var happyAndCategory: [String]?
         var dateString: String?
         var weatherString: String?
-        var isPublic: Bool = false // 기본 false (비공개)
+        var isPublic: Bool = true // 기본 false (비공개)
         var content: String = ""
         var selectedImages: [UIImage]?
         var isSaveLoading: Bool?

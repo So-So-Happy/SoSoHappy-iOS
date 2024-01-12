@@ -34,6 +34,12 @@ class BaseDetailViewController: UIViewController {
         $0.textColor = .gray
     }
     
+    lazy var lockImageView = UIImageView().then {
+        $0.layer.masksToBounds = true
+        $0.image = UIImage(systemName: "lock")
+        $0.contentMode = .scaleAspectFit
+    }
+    
     // 피드 작성 글
     lazy var textView = UITextView().then {
         $0.textAlignment = .left
@@ -105,6 +111,11 @@ class BaseDetailViewController: UIViewController {
             imageSlideView.setContentsWithImageList(imageList: imageList)
         }
     }
+    
+    func setLockImageVIew(isPublic: Bool) {
+        let imageName = isPublic ? "lock.open" : "lock"
+        lockImageView.image = UIImage(systemName: imageName)
+    }
 }
 
 // MARK: - setLayout()
@@ -112,7 +123,7 @@ extension BaseDetailViewController {
     func setLayout() {
         self.view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubviews(categoryStackView, dateLabel, contentBackground, textView, imageSlideView)
+        contentView.addSubviews(categoryStackView, dateLabel, contentBackground, textView, imageSlideView, lockImageView)
         
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -132,6 +143,12 @@ extension BaseDetailViewController {
         dateLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(categoryStackView.snp.bottom).offset(20)
+        }
+        
+        lockImageView.snp.makeConstraints {
+            $0.centerY.equalTo(dateLabel)
+            $0.width.height.equalTo(20)
+            $0.leading.equalTo(dateLabel.snp.trailing).offset(5)
         }
         
         contentBackground.snp.makeConstraints { make in

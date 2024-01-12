@@ -44,6 +44,8 @@
 		069D642E2AD83432003834E5 /* FeedRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D642D2AD83432003834E5 /* FeedRepository.swift */; };
 		069D7AF92AD0344300C815F1 /* HappinessLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D7AF82AD0344300C815F1 /* HappinessLevel.swift */; };
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
+		06AB0A632B51767000878D50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AB0A622B51766F00878D50 /* GoogleService-Info.plist */; };
+		06AB0A652B51767E00878D50 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06AB0A642B51767E00878D50 /* Config.xcconfig */; };
 		06AFDA6F2B3321E90077CCC8 /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */; };
 		06B157162B306811009C1F50 /* AddKeyboardToolBarForCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */; };
 		06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */; };
@@ -83,7 +85,6 @@
 		67348FD42B1F6A8900BE2FDD /* ToSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */; };
 		67348FD62B1F799A00BE2FDD /* PrivatePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */; };
 		6738066B2B25B09100CB58EE /* Ex+UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */; };
-		6738066D2B25B0D700CB58EE /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6738066C2B25B0D700CB58EE /* Config.xcconfig */; };
 		674DAF822ADEB56800B4F4DF /* Ex+Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF812ADEB56800B4F4DF /* Ex+Data.swift */; };
 		674DAF862ADECD5F00B4F4DF /* AuthCodeResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */; };
 		674DAF882ADFF7F600B4F4DF /* AuthCodeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */; };
@@ -175,7 +176,6 @@
 		80780E552B2CE06300F9758D /* FeedTemp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E542B2CE06300F9758D /* FeedTemp.swift */; };
 		80780E572B2F264E00F9758D /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E562B2F264E00F9758D /* Connectivity.swift */; };
 		80780E5B2B3099A100F9758D /* NetworkNotConnectedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80780E5A2B3099A100F9758D /* NetworkNotConnectedView.swift */; };
-		807E78632B2AAE8200941C1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 807E78622B2AAE8200941C1D /* GoogleService-Info.plist */; };
 		808650962AD5AFC40036CCFB /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650952AD5AFC40036CCFB /* WebSocketManager.swift */; };
 		8086509A2AD5B11C0036CCFB /* AddStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */; };
 		8086509C2AD5B6CC0036CCFB /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8086509B2AD5B6CC0036CCFB /* CategoryCell.swift */; };
@@ -300,6 +300,8 @@
 		069D7AF62ACFFD9000C815F1 /* UpdatePublicStatusRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePublicStatusRequest.swift; sourceTree = "<group>"; };
 		069D7AF82AD0344300C815F1 /* HappinessLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappinessLevel.swift; sourceTree = "<group>"; };
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		06AB0A622B51766F00878D50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		06AB0A642B51767E00878D50 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		06AFDA6C2B33160F0077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBarForCalender.swift; sourceTree = "<group>"; };
@@ -341,7 +343,6 @@
 		67348FD32B1F6A8900BE2FDD /* ToSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToSViewController.swift; sourceTree = "<group>"; };
 		67348FD52B1F799A00BE2FDD /* PrivatePolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivatePolicyViewController.swift; sourceTree = "<group>"; };
 		6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UserDefaults.swift"; sourceTree = "<group>"; };
-		6738066C2B25B0D700CB58EE /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		674DAF812ADEB56800B4F4DF /* Ex+Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+Data.swift"; sourceTree = "<group>"; };
 		674DAF852ADECD5F00B4F4DF /* AuthCodeResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeResponse.swift; sourceTree = "<group>"; };
 		674DAF872ADFF7F600B4F4DF /* AuthCodeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCodeRequest.swift; sourceTree = "<group>"; };
@@ -445,7 +446,6 @@
 		807C97562B19B25B00F5A128 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		807E785E2B2A1C9900941C1D /* ImageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRequest.swift; sourceTree = "<group>"; };
 		807E78602B2A1D7600941C1D /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
-		807E78622B2AAE8200941C1D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		808650952AD5AFC40036CCFB /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		808650992AD5B11C0036CCFB /* AddStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStep2ViewController.swift; sourceTree = "<group>"; };
 		8086509B2AD5B6CC0036CCFB /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
@@ -952,9 +952,9 @@
 		67E7DB462A81343E00C33988 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				6738066C2B25B0D700CB58EE /* Config.xcconfig */,
+				06AB0A642B51767E00878D50 /* Config.xcconfig */,
 				67E7DB482A8134C200C33988 /* Constants.swift */,
-				807E78622B2AAE8200941C1D /* GoogleService-Info.plist */,
+				06AB0A622B51766F00878D50 /* GoogleService-Info.plist */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -1589,10 +1589,10 @@
 				67348FCC2B13814900BE2FDD /* dovemayo.otf in Resources */,
 				67E7DB982A81420400C33988 /* .swiftlint.yml in Resources */,
 				800F426F2A794A6E00ACD6C1 /* LaunchScreen.storyboard in Resources */,
-				807E78632B2AAE8200941C1D /* GoogleService-Info.plist in Resources */,
 				800F426C2A794A6E00ACD6C1 /* Assets.xcassets in Resources */,
-				6738066D2B25B0D700CB58EE /* Config.xcconfig in Resources */,
 				67348FCB2B13814900BE2FDD /* dovemayo_bold.otf in Resources */,
+				06AB0A652B51767E00878D50 /* Config.xcconfig in Resources */,
+				06AB0A632B51767000878D50 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2038,7 +2038,7 @@
 /* Begin XCBuildConfiguration section */
 		800F42872A794A6E00ACD6C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6738066C2B25B0D700CB58EE /* Config.xcconfig */;
+			baseConfigurationReference = 06AB0A642B51767E00878D50 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2099,7 +2099,7 @@
 		};
 		800F42882A794A6E00ACD6C1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6738066C2B25B0D700CB58EE /* Config.xcconfig */;
+			baseConfigurationReference = 06AB0A642B51767E00878D50 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
