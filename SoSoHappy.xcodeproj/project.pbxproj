@@ -1563,10 +1563,10 @@
 			};
 			buildConfigurationList = 800F42572A794A6D00ACD6C1 /* Build configuration list for PBXProject "SoSoHappy" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				ko,
 				Base,
 			);
 			mainGroup = 800F42532A794A6D00ACD6C1;
