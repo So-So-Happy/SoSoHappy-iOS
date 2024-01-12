@@ -24,7 +24,7 @@ class Interceptor: RequestInterceptor {
         }
         
         let accessToken = KeychainService.getAccessToken()
-        let refreshToken = KeychainService.getAccessToken()
+        let refreshToken = KeychainService.getRefreshToken()
         let userEmail = KeychainService.getUserEmail()
         
         let url = "\(Bundle.main.baseURL)\(Bundle.main.reIssueTokenPath)"
@@ -37,24 +37,33 @@ class Interceptor: RequestInterceptor {
         /// response 에 body 가 비어있고, header에 token 이 내려옴
         /// Alamofire 에서 Body 가 비어있어 에러로 처리
         /// .validate(statusCode: 200..<300) 추가 해서 성공 응답코드 지정해주면 body 가 비어있어도 성공으로 처리해줌
-        AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
-            .validate(statusCode: 200..<300)
-            .response { response in
-                switch response.result {
-                case .success(_):
-                    if let headers = response.response?.allHeaderFields as? [String: String],
-                       let accessToken = headers["Authorization"],
-                       let refreshToken = headers["authorization-refresh"] {
-                        KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: accessToken)
-                        KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: refreshToken)
-                        completion(.retry)
-                    } else {
-                
+        ///
+        var isRequestInProgress = false
+        
+        if !isRequestInProgress {
+            
+            isRequestInProgress = true
+            
+            AF.request(url, method: .get, encoding: JSONEncoding.default, headers: headers)
+                .validate(statusCode: 200..<300)
+                .response { response in
+                    isRequestInProgress = false
+                    switch response.result {
+                    case .success(_):
+                        if let headers = response.response?.allHeaderFields as? [String: String],
+                           let accessToken = headers["Authorization"],
+                           let refreshToken = headers["authorization-refresh"] {
+                            KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "accessToken", data: accessToken)
+                            KeychainService.saveData(serviceIdentifier: "sosohappy.tokens", forKey: "refreshToken", data: refreshToken)
+                            completion(.retry)
+                        } else {
+                            
+                        }
+                    case .failure(let error):
+                        completion(.doNotRetryWithError(error))
                     }
-                case .failure(let error):
-                    completion(.doNotRetryWithError(error))
                 }
-            }
+        }
         
     }
     
