@@ -59,6 +59,7 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
         case setInitialImages([UIImage])
         case setSelectedImages([UIImage])
         case isPublic(Bool)
+        case isSaveLoading(Bool)
         case saveFeed(Bool)
         case showNetworkErrorView(Error)
         case showServerErrorAlert(Error)
@@ -74,6 +75,7 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
         var dateString: String?
         var weatherString: String?
         var isPrivate: Bool = true 
+        var isSaveLoading: Bool?
         var isSaveFeedSuccess: Save?
         var content: String = ""
         var selectedImages: [UIImage]?
@@ -154,10 +156,15 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
                 weather: weatherStrings[currentState.selectedWeather!],
                 happiness: currentState.selectedHappiness!,
                 nickname: KeychainService.getNickName())
-            return feedRepository.saveFeed(request: saveFeedRequest)
-                .map { Mutation.saveFeed($0) }
-                .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
-                }
+            return .concat([
+                .just(.isSaveLoading(true)),
+                feedRepository.saveFeed(request: saveFeedRequest)
+                    .map { Mutation.saveFeed($0) }
+                    .catch { _ in .just(.showServerErrorAlert(BaseError.InternalServerError))
+                    },
+                .just(.isSaveLoading(false))
+            
+            ])
         case .setWeatherAndHappy:
             return .concat([
                 .just(.setSelectedHappiness(currentState.selectedHappiness ?? 0)),
@@ -214,6 +221,9 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
         case let .isPublic(isPublic):
             newState.isPrivate = isPublic
             
+        case .isSaveLoading(let isSaveLoading):
+            newState.isSaveLoading = isSaveLoading
+            
         case let .saveFeed(isSuccess):
             newState.isSaveFeedSuccess = isSuccess ? .saved : .notSaved
             
@@ -222,7 +232,6 @@ final class MyFeedDetailViewReactor: BaseReactor, Reactor {
             
         case .showServerErrorAlert(let error):
             self.showErrorAlertPublisher.accept(error)
-            
         }
         return newState
     }

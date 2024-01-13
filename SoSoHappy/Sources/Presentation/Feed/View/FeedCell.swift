@@ -35,9 +35,17 @@ final class FeedCell: BaseCell {
         super.setFeedCell(feed)
         
         if let userFeed = feed as? UserFeed {
+            let nickName = KeychainService.getNickName()
+            if nickName == feed.nickName { heartButton.isHidden = true }
             heartButton.setHeartButton(userFeed.isLiked)
             profileImageNameTimeStackView.setContents(userFeed: userFeed)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        // UITableViewCell이 재사용될 때 초기화
+        heartButton.isHidden = false
     }
 }
 

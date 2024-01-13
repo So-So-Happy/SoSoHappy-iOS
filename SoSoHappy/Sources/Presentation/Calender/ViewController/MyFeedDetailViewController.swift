@@ -33,6 +33,11 @@ final class MyFeedDetailViewController: BaseDetailViewController {
         $0.setTitleTextAttributes([.font: UIFont.customFont(size: 16, weight: .bold)], for: .selected)
     }
     
+    private lazy var saveSpinner = UIActivityIndicatorView().then {
+        $0.hidesWhenStopped = true
+        $0.color = .black
+    }
+    
     private lazy var addKeyboardToolBar = AddKeyboardToolBarForCalender(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
 
     private lazy var backButton = UIButton().then {
@@ -304,6 +309,23 @@ extension MyFeedDetailViewController: View {
             .bind(onNext: { [weak self] images in
                 guard let self = self else { return }
                 setImageSlideView(imageList: images )
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap{ $0.isSaveLoading }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isSaveLoading in
+                guard let self = self else { return }
+                if isSaveLoading {
+                    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveSpinner)
+                    saveSpinner.startAnimating()
+                } else {
+                    navigationItem.rightBarButtonItem = saveButton
+                    saveSpinner.stopAnimating()
+                }
+                
+                saveButton.isEnabled = !isSaveLoading
             })
             .disposed(by: disposeBag)
         

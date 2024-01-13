@@ -60,10 +60,13 @@ final class FeedDetailViewController: BaseDetailViewController {
         super.setFeed(feed: feed)
         
         if let userFeed = feed as? UserFeed {
+            let nickName = KeychainService.getNickName()
+            if nickName == userFeed.nickName { heartButton.isHidden = true }
             profileImageNameTimeStackView.setContents(userFeed: userFeed)
             heartButton.setHeartButton(userFeed.isLiked)
             textView.font = UIFont.customFont(size: 16, weight: .medium)
             textView.textColor = UIColor(named: "MainTextColor")
+            lockImageView.isHidden = true
         }
     }
 }
