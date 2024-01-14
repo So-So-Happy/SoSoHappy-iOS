@@ -35,7 +35,7 @@ final class MyFeedDetailViewController: BaseDetailViewController {
     
     private lazy var saveSpinner = UIActivityIndicatorView().then {
         $0.hidesWhenStopped = true
-        $0.color = .black
+        $0.color = UIColor(named: "MainTextColor")
     }
     
     private lazy var addKeyboardToolBar = AddKeyboardToolBarForCalender(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))

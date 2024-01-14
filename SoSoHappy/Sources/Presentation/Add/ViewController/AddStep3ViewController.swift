@@ -64,7 +64,7 @@ final class AddStep3ViewController: BaseDetailViewController {
     
     private lazy var saveSpinner = UIActivityIndicatorView().then {
         $0.hidesWhenStopped = true
-        $0.color = .black
+        $0.color = UIColor(named: "MainTextColor")
     }
     
     override func viewDidLoad() {
