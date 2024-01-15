@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDisplayName</key>
+	<string>소소해피</string>
 	<key>ANALYSIS_HAPPINESS_PATH</key>
 	<string>${ANALYSIS_HAPPINESS_PATH}</string>
 	<key>BASE_URL</key>
