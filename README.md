@@ -19,6 +19,11 @@
 
 <br>
 
+## 📱 앱 다운로드
+- [App Store](https://apps.apple.com/kr/app/%EC%86%8C%EC%86%8C%ED%95%B4%ED%94%BC/id6472613837)
+
+<br>
+
 ## 💻 참여자
 - 프로젝트 기간 : 2023.08 - 2023.12
   
