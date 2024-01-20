@@ -21,6 +21,17 @@ final class ImageSlideView: UIView {
     private lazy var kingfisherSources: [KingfisherSource] = []
     private lazy var imageSources: [ImageSource] = []
     
+    struct MyIndicator: Indicator {
+        let view: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        
+        func startAnimatingView() { print("start"); view.isHidden = false }
+        func stopAnimatingView() { view.isHidden = true }
+        
+        init() {
+            view.backgroundColor = UIColor.blue
+        }
+    }
+            
     var slideShowView = ImageSlideshow().then {
         $0.isUserInteractionEnabled = true
         $0.contentScaleMode = .scaleAspectFill
@@ -69,8 +80,22 @@ extension ImageSlideView {
     func setImages(ids: [Int]) {
         kingfisherSources = []
         kingfisherSources = ids.map { id in
-            return KingfisherSource(urlString: "\(Bundle.main.baseURL)\(Bundle.main.findFeedImage)/\(id)")!
+            let imageURLString = "\(Bundle.main.baseURL)\(Bundle.main.findFeedImage)/\(id)"
+            let placeholderColor = UIColor(named: "skeleton2") // Placeholder로 사용할 색상
+            let placeholderImage = UIImage(color: placeholderColor ?? UIColor.gray )
+//            let placeholderImage = UIImage(named: "happy1")
+            return KingfisherSource(
+                urlString: imageURLString,
+                placeholder: placeholderImage,
+                options: [
+                    .scaleFactor(UIScreen.main.scale),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ]
+            )!
         }
+        
+        self.slideShowView.activityIndicator = DefaultActivityIndicator(style: .large, color: nil)
         self.slideShowView.setImageInputs(kingfisherSources)
     }
 }

@@ -46,6 +46,7 @@
 		06A4961F2ABC5C7400DDEA64 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */; };
 		06AB0A632B51767000878D50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 06AB0A622B51766F00878D50 /* GoogleService-Info.plist */; };
 		06AB0A652B51767E00878D50 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 06AB0A642B51767E00878D50 /* Config.xcconfig */; };
+		06ACA9742B5A32CA008DECA9 /* Ex+UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06ACA9732B5A32CA008DECA9 /* Ex+UIImage.swift */; };
 		06AFDA6F2B3321E90077CCC8 /* BaseReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */; };
 		06B157162B306811009C1F50 /* AddKeyboardToolBarForCalender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */; };
 		06B3FA402B205428009F72E7 /* MyFeedDetailViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B3FA3F2B205428009F72E7 /* MyFeedDetailViewCoordinator.swift */; };
@@ -302,6 +303,7 @@
 		06A4961E2ABC5C7400DDEA64 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
 		06AB0A622B51766F00878D50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06AB0A642B51767E00878D50 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		06ACA9732B5A32CA008DECA9 /* Ex+UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ex+UIImage.swift"; sourceTree = "<group>"; };
 		06AFDA6C2B33160F0077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		06AFDA6E2B3321E90077CCC8 /* BaseReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseReactor.swift; sourceTree = "<group>"; };
 		06B157152B306811009C1F50 /* AddKeyboardToolBarForCalender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardToolBarForCalender.swift; sourceTree = "<group>"; };
@@ -936,6 +938,7 @@
 				6738066A2B25B09100CB58EE /* Ex+UserDefaults.swift */,
 				807285AE2B1C542700A401F4 /* Ex+Array.swift */,
 				80780E502B2C9B6500F9758D /* Ex+Notification.swift */,
+				06ACA9732B5A32CA008DECA9 /* Ex+UIImage.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1877,6 +1880,7 @@
 				80380C182A98DD950077048D /* FeedHeaderView.swift in Sources */,
 				80380BFB2A989F850077048D /* LogInButtonStackView.swift in Sources */,
 				80380C022A98A0D10077048D /* SignUpDescriptionStackView.swift in Sources */,
+				06ACA9742B5A32CA008DECA9 /* Ex+UIImage.swift in Sources */,
 				80416DD92B46AFAF00A399DD /* UnblockResponse.swift in Sources */,
 				67E1B7BF2AF10A93000EFCE0 /* AccountManagementViewController.swift in Sources */,
 				80EB56952B23001A00029908 /* FindFeedImageRequest.swift in Sources */,
@@ -2178,7 +2182,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sosohappy.SoSoHappy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2218,7 +2222,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sosohappy.SoSoHappy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -58,6 +58,7 @@ class BaseDetailViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(sender:)))
         $0.slideShowView.addGestureRecognizer(tapGesture)
         $0.layer.cornerRadius = 16
+        $0.slideShowView.backgroundColor = UIColor.white
     }
     
     override func viewDidLoad() {
@@ -80,16 +81,15 @@ class BaseDetailViewController: UIViewController {
     func setImageSlideView(ids: [Int]) {
         if ids.isEmpty {
             imageSlideView.isHidden = true
-            imageSlideView.snp.updateConstraints { make in // updateConstraints or makeConstraints
-                make.height.equalTo(0)
+            imageSlideView.snp.updateConstraints {
+                $0.height.equalTo(0)
             }
             
         } else {
             imageSlideView.isHidden = false
-            imageSlideView.snp.updateConstraints { make in
-                make.height.equalTo(300)
+            imageSlideView.snp.updateConstraints {
+                $0.height.equalTo(300)
             }
-            
             imageSlideView.setImages(ids: ids)
             
         }
@@ -99,14 +99,14 @@ class BaseDetailViewController: UIViewController {
     func setImageSlideView(imageList: [UIImage]) {
         if imageList.isEmpty {
             imageSlideView.isHidden = true
-            imageSlideView.snp.updateConstraints { make in
-                make.height.equalTo(0)
+            imageSlideView.snp.updateConstraints {
+                $0.height.equalTo(0)
             }
             
         } else {
             imageSlideView.isHidden = false
-            imageSlideView.snp.updateConstraints { make in
-                make.height.equalTo(300)
+            imageSlideView.snp.updateConstraints {
+                $0.height.equalTo(300)
             }
             imageSlideView.setContentsWithImageList(imageList: imageList)
         }
@@ -125,24 +125,24 @@ extension BaseDetailViewController {
         scrollView.addSubview(contentView)
         contentView.addSubviews(categoryStackView, dateLabel, contentBackground, textView, imageSlideView, lockImageView)
         
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
-        contentView.snp.makeConstraints { make in
-            make.edges.equalTo(scrollView.contentLayoutGuide)
-            make.width.equalTo(scrollView.frameLayoutGuide)
-            make.bottom.equalTo(imageSlideView).offset(40)
+        contentView.snp.makeConstraints {
+            $0.edges.equalTo(scrollView.contentLayoutGuide)
+            $0.width.equalTo(scrollView.frameLayoutGuide)
+            $0.bottom.equalTo(imageSlideView).offset(40)
         }
         
-        categoryStackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().inset(112)
+        categoryStackView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(112)
         }
         
-        dateLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(categoryStackView.snp.bottom).offset(20)
+        dateLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(categoryStackView.snp.bottom).offset(20)
         }
         
         lockImageView.snp.makeConstraints {
@@ -151,20 +151,20 @@ extension BaseDetailViewController {
             $0.leading.equalTo(dateLabel.snp.trailing).offset(5)
         }
         
-        contentBackground.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.top.equalTo(dateLabel.snp.bottom).offset(21)
+        contentBackground.snp.makeConstraints {
+            $0.horizontalEdges.equalToSuperview().inset(20)
+            $0.top.equalTo(dateLabel.snp.bottom).offset(21)
         }
                 
-        textView.snp.makeConstraints { make in
-            make.verticalEdges.equalTo(contentBackground).inset(12)
-            make.horizontalEdges.equalToSuperview().inset(20)
+        textView.snp.makeConstraints {
+            $0.verticalEdges.equalTo(contentBackground).inset(12)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
         
         // MARK: 여기에 make.height.equalTo(0) 추가하지 마세요!
-        imageSlideView.snp.makeConstraints { make in
-            make.top.equalTo(contentBackground.snp.bottom)
-            make.horizontalEdges.equalToSuperview().inset(20)
+        imageSlideView.snp.makeConstraints {
+            $0.top.equalTo(contentBackground.snp.bottom)
+            $0.horizontalEdges.equalToSuperview().inset(20)
         }
     }
 }

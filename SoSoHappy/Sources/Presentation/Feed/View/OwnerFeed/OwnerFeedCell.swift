@@ -29,8 +29,15 @@ final class OwnerFeedCell: BaseCell {
     override func setFeedCell(_ feed: FeedType) {
         super.setFeedCell(feed)
         if let userFeed = feed as? UserFeed {
+            let nickName = KeychainService.getNickName()
+            if nickName == userFeed.nickName { heartButton.isHidden = true }
             heartButton.setHeartButton(userFeed.isLiked)
         }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        heartButton.isHidden = false
     }
 }
 
